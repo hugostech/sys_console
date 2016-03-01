@@ -7,6 +7,7 @@
     <script src="{{url('/',['js','jquery-2.2.0.min.js'])}}"></script>
     <script src="{{url('',['js','bootstrap.min.js'])}}"></script>
     <script src="{{url('',['js','special.js'])}}"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 
 </head>
 <body>
