@@ -13,7 +13,7 @@ class AddSaleDateColumn extends Migration
     public function up()
     {
         Schema::table('warrantys', function (Blueprint $table) {
-            //
+            $table->string("sale_date")->nullable();
         });
     }
 
@@ -25,7 +25,7 @@ class AddSaleDateColumn extends Migration
     public function down()
     {
         Schema::table('warrantys', function (Blueprint $table) {
-            //
+            $table->dropColumn("sale_date");
         });
     }
 }

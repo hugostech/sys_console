@@ -13,7 +13,7 @@ class AddSaleInvColumn extends Migration
     public function up()
     {
         Schema::table('warrantys', function (Blueprint $table) {
-            //
+            $table->string("sale_inv")->nullable();
         });
     }
 
@@ -25,7 +25,7 @@ class AddSaleInvColumn extends Migration
     public function down()
     {
         Schema::table('warrantys', function (Blueprint $table) {
-            //
+            $table->dropColumn("sale_inv");
         });
     }
 }

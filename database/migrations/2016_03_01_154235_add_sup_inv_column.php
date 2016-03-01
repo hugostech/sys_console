@@ -13,7 +13,7 @@ class AddSupInvColumn extends Migration
     public function up()
     {
         Schema::table('warrantys', function (Blueprint $table) {
-            //
+            $table->string("purchase_inv")->nullable();
         });
     }
 
@@ -25,7 +25,7 @@ class AddSupInvColumn extends Migration
     public function down()
     {
         Schema::table('warrantys', function (Blueprint $table) {
-            //
+            $table->dropColumn("purchase_inv");
         });
     }
 }

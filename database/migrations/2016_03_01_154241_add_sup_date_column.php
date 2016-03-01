@@ -13,7 +13,7 @@ class AddSupDateColumn extends Migration
     public function up()
     {
         Schema::table('warrantys', function (Blueprint $table) {
-            //
+            $table->string("pruchase_date")->nullable();
         });
     }
 
@@ -25,7 +25,7 @@ class AddSupDateColumn extends Migration
     public function down()
     {
         Schema::table('warrantys', function (Blueprint $table) {
-            //
+            $table->dropColumn("purchase_date");
         });
     }
 }
