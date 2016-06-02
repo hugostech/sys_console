@@ -1,7 +1,7 @@
 @extends('master')
 
 @section('mainContent')
-    <h3>Nomarl</h3>
+    <h3>Normal</h3>
     <hr>
     @foreach($usingSuppliers as $supplier)
         <a href="{{url('/',['supplier',$supplier->id])}}"><button type="button" class="btn btn-success">{{$supplier->name}}</button></a>

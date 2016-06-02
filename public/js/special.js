@@ -27,3 +27,16 @@ function selfStorage(){
 function print(){
 	window.print();
 }
+
+function step2(id){
+    var url = "step2/" + id;
+    $.get(url,function(data, status) {
+        location.reload();
+    });
+}
+
+function showLoading(){
+    $('#sync_loading').css('visibility','visible');
+    $('#sync_form').submit();
+    //alert('test');
+}

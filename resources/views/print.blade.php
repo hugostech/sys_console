@@ -71,6 +71,7 @@
                     <li> All courier charges and insurance costs will be borne by the customer</li>
                     <li> It is the customer’s responsibility to backup all data before presenting the device for repair. Laptop and desktop repair takes no responsibility for data stored within the device.</li>
                     <li> The customer’s information will be saved in our system for the service records.</li>
+                    <li> All products covered under manufacturer warranties will take at least a minimum of five weeks to apply through ROC TECH; time frame might be shorten if customers apply on own behalf.</li>
                     </ol>
                 </p>
             </div>

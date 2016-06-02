@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Warranty Management System</title>
+    <title>@yield('sync_percentage') Warranty Management System</title>
     <link rel="stylesheet" href="{{url('/',['css','bootstrap.min.css'])}}">
     <script src="{{url('/',['js','jquery-2.2.0.min.js'])}}"></script>
     <script src="{{url('',['js','bootstrap.min.js'])}}"></script>
     <script src="{{url('',['js','special.js'])}}"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="{{url('',['js','angular.min.js'])}}"></script>
 
 </head>
 <body>
@@ -32,6 +32,7 @@
                             <li><a href="{{url('/',['list'])}}">Home <span class="sr-only">(current)</span></a></li>
                             <li><a href="{{url('/',['warranty'])}}"><strong>New Warranty</strong></a></li>
                             <li><a href="#" onclick="goBack()">Go Back</a></li>
+                            <li><a href="{{url('/',['warrantyGuide'])}}">Warranty Guide</a></li>
 
                         </ul>
 
@@ -54,9 +55,15 @@
                                     <li><a href="{{url('/',['listFinish'])}}">Finish</a></li>
                                     {{--<li><a href="#">Something else here</a></li>--}}
                                     <li role="separator" class="divider"></li>
+                                    <li><a href="{{url('/',['killprice'])}}">Kill price</a></li>
+                                    <li><a href="{{url('/',['sync'])}}">Sync</a></li>
+                                    {{--<li><a href="{{url('/',['self_check'])}}">self_check</a></li>--}}
+                                    <li><a href="http://zdhomes.com/lunch">Lunch</a></li>
                                     <li><a href="{{url('/',['supplier'])}}">new Supplier</a></li>
 
                                     <li><a href="{{url('/',['suppliers'])}}">edit Supplier</a></li>
+                                    <li><a href="{{url('/',['addWarrantyGuide'])}}">edit warranty guide</a></li>
+
                                 </ul>
                             </li>
                         </ul>
@@ -68,6 +75,7 @@
             @yield('mainContent')
         </div>
         <div class="footer" id="footer">
+            @yield('footer')
             {{--@include('errors.error')--}}
         </div>
     </div>

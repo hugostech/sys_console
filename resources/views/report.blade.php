@@ -7,7 +7,7 @@
         <div class="panel panel-info">
 
             <div class="panel-heading">
-                <h3>Warranty Detail</h3>
+                <h3>#{{$item['warranty']->id}} Warranty Detail</h3>
 
             </div>
 
@@ -23,9 +23,13 @@
                         {!! Form::text('model_code',null,['class'=>'form-control']) !!}
 
                     </div>
-		    <div class="form-group">
+		            <div class="form-group">
                         {!! Form::label('sn','Sn',['class'=>'sr-only']) !!}
                         {!! Form::text('sn',Null,['class'=>'form-control','placeholder'=>'SN']) !!}
+                    </div>
+                    <div class="form-group">
+                        {!! Form::label('quantity','Quantity',['class'=>'sr-only']) !!}
+                        {!! Form::text('quantity',Null,['class'=>'form-control','placeholder'=>'quantity']) !!}
                     </div>
                     <div class="form-group">
 
@@ -33,7 +37,9 @@
                         {!! Form::text('staff',null,['class'=>'form-control']) !!}
                     </div>
                     <div class="form-group">
-                        <label>Supplier: &nbsp;&nbsp;&nbsp;{{$item['supplier']}}</label>
+                        <label for="supplier" class="sr-only">Supplier</label>
+
+                        {!! Form::select('supplier_id', $suppliers, null, ['placeholder' => 'Pick a Suppiler...','class'=>'form-control']) !!}
                     </div>
                         <label>Status:&nbsp;&nbsp;&nbsp; <strong style="color:red;font-size: 18px">{{end($item['status'])->status_content}}</strong></label>
                 <hr>
