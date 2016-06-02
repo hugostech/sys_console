@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Mockery\CountValidator\Exception;
 use Sunra\PhpSimple\HtmlDomParser;
 use App\Ex_speceal;
 
@@ -98,7 +99,14 @@ class unilityController extends Controller
 
         $url = env("SNPORT")."?action=sc&code=$code";
         $supplier_code = self::getContent($url);
-        $special = Ex_speceal::where('product_id',$product->product_id)->first();
+        try{
+            $special = Ex_speceal::where('product_id',$product->product_id)->first();
+            $special = $special->price;
+        }catch(Exception $e){
+            $special = null;
+        }
+
+
 /*
         $url = "http://www.extremepc.co.nz/index.php?main_page=advanced_search_result&keyword=$code";
         $extremepchtml = HtmlDomParser::file_get_html($url);
@@ -122,7 +130,7 @@ class unilityController extends Controller
         $data = array(
             'code'=>$code,
             'price'=>$pricedetail,
-            'special'=>$special->price,
+            'special'=>$special,
             'des'=>$des,
             'extremepcprice'=>$extremepc,
             'supplier_code'=>$supplier_code
