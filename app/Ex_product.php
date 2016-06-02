@@ -13,6 +13,6 @@ class Ex_product extends Model
 
     public function special()
     {
-        return $this->hasOne('App\Ex_product','product_id');
+        return $this->hasOne('App\Ex_speceal','product_id');
     }
 }
