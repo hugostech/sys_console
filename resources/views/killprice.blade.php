@@ -45,6 +45,9 @@
 					</span>
 					</div>
 				</div>
+                <div class="form-group">
+                    <input type="text" value="{{$data['special']}}">
+                </div>
 				
 					
 			{!! Form::close() !!}	
