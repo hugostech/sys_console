@@ -36,7 +36,7 @@ class unilityController extends Controller
 		$product->save();
 
         if(empty($request->input('special')*1.0)){
-            Ex_product::where('product_id',$product->product_id)->delete();
+            Ex_speceal::where('product_id',$product->product_id)->delete();
         }else{
             $special = new Ex_speceal();
             $special->product_id = $product->product_id;
