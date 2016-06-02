@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Sunra\PhpSimple\HtmlDomParser;
+use App\Ex_speceal;
 
 class unilityController extends Controller
 {
