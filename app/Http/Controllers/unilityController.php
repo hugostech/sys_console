@@ -34,8 +34,23 @@ class unilityController extends Controller
 		$product = Ex_product::where('model',$request->input('code'))->first();
 		$product->price = $request->price/1.15;
 		$product->save();
-            	$data = self::getData($request->input('code'));
-        	return view('killprice',compact('data'));
+
+        if(empty($request->input('special')*1.0)){
+            Ex_product::where('product_id',$product->product_id)->delete();
+        }else{
+            $special = new Ex_speceal();
+            $special->product_id = $product->product_id;
+            $special->customer_group_id = 1;
+            $special->priority = 0;
+            $special->price = round($request->input('special')/1.15,4);
+            $special->date_start = "0000-00-00";
+            $special->date_end = "0000-00-00";
+            $special->save();
+
+        }
+
+        $data = self::getData($request->input('code'));
+        return view('killprice',compact('data'));
 	}
     }
     public function addPricespyMap(Request $request){
