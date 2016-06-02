@@ -88,6 +88,7 @@ class unilityController extends Controller
         $url = env("SNPORT")."?action=c&code=$code";
         $des = self::getContent($url);
 	$product = Ex_product::where('model',$code)->first();
+        $special = 0;
 	if(isset($product->price)){
 
 		$extremepc=$product->price*1.15;
