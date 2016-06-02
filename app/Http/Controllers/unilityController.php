@@ -42,7 +42,7 @@ class unilityController extends Controller
             $special->product_id = $product->product_id;
             $special->customer_group_id = 1;
             $special->priority = 0;
-            $special->price = round($request->input('special')/1.15,4);
+            $special->price = $request->input('special')/1.15;
             $special->date_start = "0000-00-00";
             $special->date_end = "0000-00-00";
             $special->save();
@@ -146,7 +146,7 @@ class unilityController extends Controller
         $data = array(
             'code'=>$code,
             'price'=>$pricedetail,
-            'special'=>$special,
+            'special'=>round($special,2),
             'des'=>$des,
             'extremepcprice'=>$extremepc,
             'supplier_code'=>$supplier_code
