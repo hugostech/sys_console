@@ -84,6 +84,38 @@ return [
             'charset'  => 'utf8',
             'prefix'   => '',
         ],
+        'extremepc_mysql' => [
+            'driver'    => 'mysql',
+            'host'      => env('DB_HOST_Ex', 'extremepc.co.nz'),
+            'database'  => env('DB_DATABASE_Ex', 'forge'),
+            'username'  => env('DB_USERNAME_Ex', 'forge'),
+            'password'  => env('DB_PASSWORD_Ex', ''),
+            'charset'   => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix'    => '',
+            'strict'    => false,
+        ],
+        'roctech_sqlsrv' => [
+            'driver'   => 'sqlsrv',
+            'host'     => env('DB_HOST', '192.168.1.3'),
+            'database' => env('DB_DATABASE', 'db_roc'),
+            'username' => env('DB_USERNAME', 'eznz'),
+            'password' => env('DB_PASSWORD', '9seqxtf7'),
+            'charset'  => 'utf8',
+            'prefix'   => '',
+        ],
+	'old_extremepc_mysql' => [
+
+            'driver'    => 'mysql',
+            'host'      => env('DB_HOST_old', 'extremepc.co.nz'),
+            'database'  => env('DB_DATABASE_old', 'forge'),
+            'username'  => env('DB_USERNAME_old', 'forge'),
+            'password'  => env('DB_PASSWORD_old', ''),
+            'charset'   => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix'    => '',
+            'strict'    => false,
+        ],
 
     ],
 
