@@ -46,10 +46,12 @@
 					</div>
 				</div>
                 <div class="form-group">
+                    <div class="input-group">
                     <input type="text" class="form-control" name='special' value="{{$data['special']}}">
                     <span class="input-group-btn">
 						<button type="submit" class="btn btn-default">Edit Sepcial</button>
 					</span>
+                        </div>
                 </div>
 				
 					
