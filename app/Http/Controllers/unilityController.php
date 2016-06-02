@@ -97,6 +97,7 @@ class unilityController extends Controller
 
         $url = env("SNPORT")."?action=sc&code=$code";
         $supplier_code = self::getContent($url);
+        $special = $product->special->get();
 /*
         $url = "http://www.extremepc.co.nz/index.php?main_page=advanced_search_result&keyword=$code";
         $extremepchtml = HtmlDomParser::file_get_html($url);
@@ -120,6 +121,7 @@ class unilityController extends Controller
         $data = array(
             'code'=>$code,
             'price'=>$pricedetail,
+            'special'=>$special->price,
             'des'=>$des,
             'extremepcprice'=>$extremepc,
             'supplier_code'=>$supplier_code
