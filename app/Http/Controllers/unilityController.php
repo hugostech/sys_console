@@ -92,6 +92,11 @@ class unilityController extends Controller
 
 		$extremepc=$product->price*1.15;
 		$extremepc = round($extremepc,2);
+
+
+        $special = Ex_speceal::where('product_id',$product->product_id)->first();
+        $special = isset($special->price)?$special->price*1.15:0;
+
 	}else{
 		
             $extremepc = "Cannot find the product";
@@ -99,12 +104,7 @@ class unilityController extends Controller
 
         $url = env("SNPORT")."?action=sc&code=$code";
         $supplier_code = self::getContent($url);
-        try{
-            $special = Ex_speceal::where('product_id',$product->product_id)->first();
-            $special = $special->price;
-        }catch(Exception $e){
-            $special = null;
-        }
+
 
 
 /*
