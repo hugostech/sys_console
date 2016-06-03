@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Ex_product_description;
 use Mail;
 use App\Old_client;
 use App\Category;
@@ -101,7 +102,6 @@ class unilityController extends Controller
         );
         return $data;
     }
-
 
 
     public function killPrice_edit(Request $request)
@@ -257,6 +257,7 @@ class unilityController extends Controller
         return view('sync', compact('result'));
     }
 
+    /*daily sync quantity*/
     public function syncQuantity()
     {
         $products = Ex_product::where('status', 1)->get();
@@ -287,7 +288,6 @@ class unilityController extends Controller
     }
 
 
-
     public function self_check()
     {
         $products = Ex_product::where('status', 1)->get();
@@ -311,6 +311,21 @@ class unilityController extends Controller
         $percentage = $int * 1.0 / $total;
         $percentage = round($percentage, 2) * 100;
         return view('sync', compact('content', 'percentage'));
+    }
+
+    public function addNewProduct($code)
+    {
+        $url = env('SNPORT') . "?action=prosync&code=$code";
+        $data = \GuzzleHttp\json_decode(self::getContent($url));
+        $spec = $data->spec;
+        $data->spec = str_replace('{!@!}', '"', $spec);
+        dd($data);
+        $tem = array(
+            'model'=>$data->code,
+            ''
+        );
+        return ture;
+
     }
 
     /*
@@ -397,6 +412,44 @@ class unilityController extends Controller
         curl_close($ch);
 
         return $output;
+    }
+
+    private function save2Extremepc($data)
+    {
+        $product = new Ex_product();
+        foreach ($data as $key => $value) {
+            $product->$key = $value;
+        }
+        $product->save();
+        return $product;
+    }
+
+    private function save2Description($data)
+    {
+        $description = new Ex_product_description();
+        foreach ($data as $key => $value) {
+            $description->$key = $value;
+        }
+        $description->save();
+        return $description;
+    }
+
+    private function dataFactory($type, $data)
+    {
+        $variableGroup = array(
+            'product' => array('model', 'sku', 'upc', 'ean', 'jan', 'isbn',
+                'mpn', 'location', 'quantity', 'stock_status_id', 'image', 'manufacturer_id',
+                'shipping', 'price', 'points', 'tax_class_id', 'date_available', 'weight',
+                'weight_class_id', 'length', 'width', 'height', 'length_class_id', 'subtract',
+                'minimum', 'sort_order', 'status', 'viewed', 'date_added', 'date_modified'),
+            'description' => array('product_id', 'language_id', 'name', 'description', 'tag',
+                'meta_title', 'meta_description', 'meta_keyword'),
+        );
+        $newData = array();
+        foreach ($variableGroup[$type] as $varibale) {
+            $newData[$varibale] = isset($data[$varibale]) ? $data[$varibale] : null;
+        }
+        return $newData;
     }
     /*
      * Common functions end

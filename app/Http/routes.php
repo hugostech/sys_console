@@ -114,5 +114,5 @@ Route::get('self_sync','unilityController@syncQuantity');
 Route::get('old_data','unilityController@old_transfer');
 //Route::get('testMail','unilityController@sendNewsLetter');
 Route::get('unsubscribe/{email}','unilityController@unsubscribe');
-//Route::get('self_check','unilityController@self_check');
-//Route::get('unsubscribe/{$mail}','unilityController@unsubscribe');
+Route::get('syncpro/{code}','unilityController@addNewProduct');
+
