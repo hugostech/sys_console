@@ -24,7 +24,7 @@
 
         @if(!empty($data))
             {{--<table class="table table-bordered" ng-app="myApp" ng-controller="customersCtrl">--}}
-            <table class="table table-bordered" ng-app="">
+            <table class="table table-bordered" ng-app="" ng-init="normal_price={{$data['extremepcprice']}};special_price={{$data['special']}}">
                 <tr>
                     {{--<td class="col-md-1">Code</td>--}}
                     <td class="col-md-4">Name</td>
