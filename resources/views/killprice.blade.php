@@ -46,7 +46,7 @@
 						<button type="submit" class="btn btn-default">Edit Price</button>
 					</span>
                             </div>
-                            <label>Ex GST@{{normal_price/1.15}}</label>
+                            <p>Ex GST @{{normal_price/1.15 | number:2}}</p>
                         </div>
                         <div class="form-group">
                             <div class="input-group">
@@ -56,7 +56,7 @@
 						<button type="submit" class="btn btn-default">Edit Sepcial</button>
 					</span>
                             </div>
-                            <label ng-show(special_price)>Ex GST@{{special_price/1.15}}</label>
+                            <p ng-show(special_price)>Ex GST @{{special_price/1.15 | number:2}}</p>
                         </div>
 
 
