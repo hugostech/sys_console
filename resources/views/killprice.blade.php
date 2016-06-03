@@ -11,15 +11,15 @@
 
     <div class="col-sm-12">
         {!! Form::open(['url'=>'/killprice']) !!}
-            <div class="form-group">
-                <div class="input-group">
-                    {!! Form::text('code',empty($data['code'])?null:$data['code'],['class'=>'form-control','placeholder'=>'code']) !!}
-                    <span class="input-group-btn">
+        <div class="form-group">
+            <div class="input-group">
+                {!! Form::text('code',empty($data['code'])?null:$data['code'],['class'=>'form-control','placeholder'=>'code']) !!}
+                <span class="input-group-btn">
                         {!! Form::submit('check',['class'=>'btn btn-default']) !!}
                     </span>
-                </div>
-
             </div>
+
+        </div>
         {!! Form::close() !!}
 
         @if(!empty($data))
@@ -34,28 +34,32 @@
                 <tr>
                     {{--<td>{{$data['code']}}</td>--}}
                     <td>{{$data['des']}}</td>
-                    <td> 
-			{!! Form::open(['url'=>'/killprice','method'=>'put']) !!}
-				<div class="form-group">
-					<input type="hidden" name='code' value="{{$data['code'] }}">
-					<div class="input-group">
-					<input type='text' class="form-control" name='price' value='{{$data['extremepcprice']}}'>
+                    <td>
+                        {!! Form::open(['url'=>'/killprice','method'=>'put']) !!}
+                        <div class="form-group">
+                            <input type="hidden" name='code' value="{{$data['code'] }}">
+                            <div class="input-group">
+                                <input type='text' class="form-control" name='price' value='{{$data['extremepcprice']}}'
+                                       ng-model="normal_price">
 					<span class="input-group-btn">
 						<button type="submit" class="btn btn-default">Edit Price</button>
 					</span>
-					</div>
-				</div>
-                <div class="form-group">
-                    <div class="input-group">
-                    <input type="text" class="form-control" name='special' value="{{$data['special']}}">
+                            </div>
+                            <label>Ex GST{{normal_price/1.15}}</label>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input type="text" class="form-control" name='special' value="{{$data['special']}}"
+                                       ng-model="special_price">
                     <span class="input-group-btn">
 						<button type="submit" class="btn btn-default">Edit Sepcial</button>
 					</span>
+                            </div>
+                            <label ng-show(special_price)>Ex GST{{special_price/1.15}}</label>
                         </div>
-                </div>
-				
-					
-			{!! Form::close() !!}	
+
+
+                        {!! Form::close() !!}
                         <br></td>
 
                     {{--<td><a href="http://www.extremepc.co.nz/william/categories.php?search={{$data['code']}}" target="_blank">{{$data['extremepcprice']}}</a></td>--}}
@@ -64,7 +68,10 @@
                         {!! $data['price'] !!}</td>
                 </tr>
                 <tr>
-                    <td colspan="3"><iframe src="http://pricespy.co.nz/#rparams=ss={{substr($data['des'],0,25) }}" width="100%" height="600px;" frameborder="0"></iframe></td>
+                    <td colspan="3">
+                        <iframe src="http://pricespy.co.nz/#rparams=ss={{substr($data['des'],0,25) }}" width="100%"
+                                height="600px;" frameborder="0"></iframe>
+                    </td>
                 </tr>
             </table>
         @endif
