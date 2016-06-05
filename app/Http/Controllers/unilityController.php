@@ -130,7 +130,7 @@ class unilityController extends Controller
             }
 
             if($request->has('product_status')){
-                if($request->input('product_status')=='disable'){
+                if($request->input('product_status')=='Disable'){
                     $product->status=1;
                 }else{
                     $product->status=0;
