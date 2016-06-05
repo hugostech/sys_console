@@ -59,8 +59,13 @@
                             </div>
                             <p ng-show(special_price)>Ex GST @{{special_price/1.15 | number:2}}</p>
                         </div>
-                        <div class="form-group">
-                            <input type="submit" class="btn btn-success text-center" name="product_status" value="disable">
+                        <div class="form-group text-right">
+                            @if($data['status']==1)
+                                <input type="submit" class="btn btn-success" name="product_status" value="Enable">
+                            @else
+                                <input type="submit" class="btn btn-danger" name="product_status" value="Disable">
+                            @endif
+
                         </div>
 
 

@@ -75,6 +75,7 @@ class unilityController extends Controller
         $des = self::getContent($url);
         $product = Ex_product::where('model', $code)->first();
         $special = 0;
+        $status = 0;
         if (isset($product->price)) {
 
             $extremepc = $product->price * 1.15;
@@ -83,6 +84,8 @@ class unilityController extends Controller
 
             $special = Ex_speceal::where('product_id', $product->product_id)->first();
             $special = isset($special->price) ? $special->price * 1.15 : 0;
+
+            $status = $product->status;
 
         } else {
 
@@ -98,7 +101,8 @@ class unilityController extends Controller
             'special' => round($special, 2),
             'des' => $des,
             'extremepcprice' => $extremepc,
-            'supplier_code' => $supplier_code
+            'supplier_code' => $supplier_code,
+            'status' => $status
         );
         return $data;
     }
@@ -106,7 +110,6 @@ class unilityController extends Controller
 
     public function killPrice_edit(Request $request)
     {
-        dd($request->has('product_status'));
         if ($request->has('code')) {
             $product = Ex_product::where('model', $request->input('code'))->first();
             $product->price = $request->price / 1.15;
@@ -126,10 +129,20 @@ class unilityController extends Controller
 
             }
 
+            if($request->has('product_status')){
+                if($request->input('product_status')=='disable'){
+                    $product->status=1;
+                }else{
+                    $product->status=0;
+                }
+                $product->save();
+            }
+
+
             $data = self::getData($request->input('code'));
             return view('killprice', compact('data'));
 
-//            if($request->has('product_status'))
+
         }
     }
 
