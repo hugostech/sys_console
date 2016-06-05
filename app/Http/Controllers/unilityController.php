@@ -106,6 +106,7 @@ class unilityController extends Controller
 
     public function killPrice_edit(Request $request)
     {
+        dd($request->has('product_status'));
         if ($request->has('code')) {
             $product = Ex_product::where('model', $request->input('code'))->first();
             $product->price = $request->price / 1.15;
@@ -127,6 +128,8 @@ class unilityController extends Controller
 
             $data = self::getData($request->input('code'));
             return view('killprice', compact('data'));
+
+//            if($request->has('product_status'))
         }
     }
 

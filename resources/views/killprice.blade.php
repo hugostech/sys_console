@@ -24,7 +24,8 @@
 
         @if(!empty($data))
             {{--<table class="table table-bordered" ng-app="myApp" ng-controller="customersCtrl">--}}
-            <table class="table table-bordered" ng-app="" ng-init="normal_price={{$data['extremepcprice']}};special_price={{$data['special']}}">
+            <table class="table table-bordered" ng-app=""
+                   ng-init="normal_price={{$data['extremepcprice']}};special_price={{$data['special']}}">
                 <tr>
                     {{--<td class="col-md-1">Code</td>--}}
                     <td class="col-md-4">Name</td>
@@ -52,11 +53,14 @@
                             <div class="input-group">
                                 <input type="text" class="form-control" name='special' value="{{$data['special']}}"
                                        ng-model="special_price">
-                    <span class="input-group-btn">
-						<button type="submit" class="btn btn-default">Edit Sepcial</button>
-					</span>
+                                <span class="input-group-btn">
+                                    <button type="submit" class="btn btn-default">Edit Sepcial</button>
+                                </span>
                             </div>
                             <p ng-show(special_price)>Ex GST @{{special_price/1.15 | number:2}}</p>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-success text-center" name="product_status" value="disable">
                         </div>
 
 
