@@ -370,7 +370,7 @@ class unilityController extends Controller
 
     public function imageCopy(){
         $url = "http://roctech.co.nz/pi/142903.jpg";
-        copy($url,"/var/www/extremepc.co.nz/image/142903.jpg");
+        copy($url,"/var/www/extremepc.co.nz/public_html/142903.jpg");
     }
 
     /*
