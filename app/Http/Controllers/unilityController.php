@@ -10,6 +10,7 @@ use App\News_letter;
 use App\category_item;
 use App\Category_warranty;
 use App\Ex_product;
+use App\Ex_product_store;
 use App\Product;
 use Illuminate\Http\Request;
 
