@@ -353,6 +353,9 @@ class unilityController extends Controller
 
         );
         $product = Ex_product::create($tem);
+        self::imageCopy($data->code);
+        $product->image = 'catalog/autoEx/'.$data->code.'.jpg';
+        $product->save();
         $store = new Ex_product_store();
         $store->product_id = $product->product_id;
         $store->store_id = 0;
@@ -368,9 +371,9 @@ class unilityController extends Controller
 
     }
 
-    public function imageCopy(){
-        $url = "http://roctech.co.nz/pi/139717.jpg";
-        copy($url,"/var/www/extremepc.co.nz/public_html/142903.jpg");
+    private function imageCopy($code){
+        $url = env('IMGREMOTE').$code.'.jpg';
+        copy($url,"/var/www/extremepc.co.nz/public_html/$code.jpg");
     }
 
     /*
