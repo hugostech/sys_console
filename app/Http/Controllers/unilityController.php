@@ -338,9 +338,32 @@ class unilityController extends Controller
         dd($data);
         $tem = array(
             'model'=>$data->code,
-            ''
+            'quantity'=>0,
+            'stock_status_id'=>9,
+            'shipping'=>1,
+            'price'=>$data->price,
+            'tax_class_id'=>9,
+            'weight'=>$data->weight,
+            'weight_class_id'=>1,
+            'subtract'=>1,
+            'sort_order'=>1,
+            'status'=>1,
+
+
         );
-        return ture;
+        $product = Ex_product::create($tem);
+        $store = new Ex_product_store();
+        $store->product_id = $product->product_id;
+        $store->store_id = 0;
+        $store->save();
+        $description = New Ex_product_description();
+        $description->product_id = $product->product_id;
+        $description->language_id = 1;
+        $description->name = $data->name;
+        $description->description = str_replace('{!@!}','"',$data->spec);
+        $description->meta_title = $data->name;
+        $description->save();
+        return $product->product_id;
 
     }
 
