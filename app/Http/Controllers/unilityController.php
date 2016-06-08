@@ -372,8 +372,8 @@ class unilityController extends Controller
     }
 
     private function imageCopy($code){
-        $url = env('IMGREMOTE').$code.'.jpg';
-        copy($url,"/var/www/extremepc.co.nz/public_html/$code.jpg");
+        echo $url = env('IMGREMOTE').$code.'.jpg';
+        copy($url,"/var/www/extremepc.co.nz/public_html/image/catalog/autoEx/$code.jpg");
     }
 
     /*
