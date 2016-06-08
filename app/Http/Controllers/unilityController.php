@@ -335,7 +335,7 @@ class unilityController extends Controller
         $data = \GuzzleHttp\json_decode(self::getContent($url));
         $spec = $data->spec;
         $data->spec = str_replace('{!@!}', '"', $spec);
-        dd($data);
+//        dd($data);
         $tem = array(
             'model'=>$data->code,
             'quantity'=>0,
