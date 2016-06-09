@@ -131,11 +131,11 @@ class unilityController extends Controller
 
             }
 
-            if($request->has('product_status')){
-                if($request->input('product_status')=='Disable'){
-                    $product->status=1;
-                }else{
-                    $product->status=0;
+            if ($request->has('product_status')) {
+                if ($request->input('product_status') == 'Disable') {
+                    $product->status = 1;
+                } else {
+                    $product->status = 0;
                 }
                 $product->save();
             }
@@ -333,29 +333,30 @@ class unilityController extends Controller
 
     public function addNewProduct($code)
     {
+
         $url = env('SNPORT') . "?action=prosync&code=$code";
         $data = \GuzzleHttp\json_decode(self::getContent($url));
         $spec = $data->spec;
         $data->spec = str_replace('{!@!}', '"', $spec);
 //        dd($data);
         $tem = array(
-            'model'=>$data->code,
-            'quantity'=>0,
-            'stock_status_id'=>9,
-            'shipping'=>1,
-            'price'=>$data->price,
-            'tax_class_id'=>9,
-            'weight'=>$data->weight,
-            'weight_class_id'=>1,
-            'subtract'=>1,
-            'sort_order'=>1,
-            'status'=>1,
+            'model' => $data->code,
+            'quantity' => 0,
+            'stock_status_id' => 9,
+            'shipping' => 1,
+            'price' => $data->price,
+            'tax_class_id' => 9,
+            'weight' => $data->weight,
+            'weight_class_id' => 1,
+            'subtract' => 1,
+            'sort_order' => 1,
+            'status' => 1,
 
 
         );
         $product = Ex_product::create($tem);
         self::imageCopy($data->code);
-        $product->image = 'catalog/autoEx/'.$data->code.'.jpg';
+        $product->image = 'catalog/autoEx/' . $data->code . '.jpg';
         $product->save();
         $store = new Ex_product_store();
         $store->product_id = $product->product_id;
@@ -365,22 +366,44 @@ class unilityController extends Controller
         $description->product_id = $product->product_id;
         $description->language_id = 1;
         $description->name = $data->name;
-        $description->description = str_replace('{!@!}','"',$data->spec);
+        $description->description = str_replace('{!@!}', '"', $data->spec);
         $description->meta_title = $data->name;
         $description->save();
         $category = new Ex_product_category();
         $category->product_id = $product->product_id;
         $category->category_id = 263;
         $category->save();
-        return $product->product_id;
+        return true;
 
     }
 
-    private function imageCopy($code){
-        echo $url = env('IMGREMOTE').$code.'.jpg';
-        copy($url,"/var/www/extremepc.co.nz/public_html/image/catalog/autoEx/$code.jpg");
+    private function imageCopy($code)
+    {
+        $url = env('IMGREMOTE') . $code . '.jpg';
+        copy($url, "/var/www/extremepc.co.nz/public_html/image/catalog/autoEx/$code.jpg");
     }
 
+    public function grabProducts()
+    {
+        $url = env('SNPORT') . "?action=products";
+        $content = self::getContent($url);
+        $codes = json_decode($content);
+        foreach($codes as $code){
+            echo $code.' ';
+            if(self::checkCodeEx($code)){
+                echo '<font color="yellow">Check</font>';
+                echo '<br>';
+            }else{
+//                if(self::addNewProduct($code)){
+//                    echo '<font color="green">Sucessed</font>';
+//                }else{
+//                    echo '<font color="red">Fail</font>';
+//                }
+                echo 'test<br>';
+            }
+        }
+
+    }
     /*
      * sync data from roctech to extremepc functions end */
 
@@ -465,6 +488,14 @@ class unilityController extends Controller
         curl_close($ch);
 
         return $output;
+    }
+
+    private function checkCodeEx($code){
+        if(count(Ex_product::where('model',$code)->get())>0){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     private function save2Extremepc($data)
