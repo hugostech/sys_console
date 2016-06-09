@@ -387,6 +387,7 @@ class unilityController extends Controller
     {
         $url = env('SNPORT') . "?action=products";
         $content = self::getContent($url);
+        dd($content);
         $codes = json_decode($content);
         dd($codes);
         foreach($codes as $code){
