@@ -58,7 +58,7 @@
                                     <li><a href="{{url('/',['killprice'])}}">Kill price</a></li>
                                     <li><a href="{{url('/',['sync'])}}">Sync</a></li>
                                     {{--<li><a href="{{url('/',['self_check'])}}">self_check</a></li>--}}
-                                    <li><a href="http://zdhomes.com/lunch">Lunch</a></li>
+                                    <li><a href="http://italker.info/lunch">Lunch</a></li>
                                     <li><a href="{{url('/',['supplier'])}}">new Supplier</a></li>
 
                                     <li><a href="{{url('/',['suppliers'])}}">edit Supplier</a></li>
