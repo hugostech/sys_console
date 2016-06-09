@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Ex_product_category;
 use App\Ex_product_description;
 use Mail;
 use App\Old_client;
@@ -367,6 +368,10 @@ class unilityController extends Controller
         $description->description = str_replace('{!@!}','"',$data->spec);
         $description->meta_title = $data->name;
         $description->save();
+        $category = new Ex_product_category();
+        $category->product_id = $product->product_id;
+        $category->category_id = 263;
+        $category->save();
         return $product->product_id;
 
     }
