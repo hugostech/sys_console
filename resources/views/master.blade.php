@@ -82,6 +82,7 @@
                                     <li role="separator" class="divider"></li>
                                     <li><a href="{{url('/',['killprice'])}}">Kill price</a></li>
                                     <li><a href="{{url('/',['sync'])}}">Sync</a></li>
+                                    <li><a href="{{url('/',['syncproall'])}}">SyncAllProduct</a></li>
                                     {{--<li><a href="{{url('/',['self_check'])}}">self_check</a></li>--}}
                                     <li><a href="http://italker.info/lunch">Lunch</a></li>
                                     <li><a href="{{url('/',['supplier'])}}">new Supplier</a></li>
