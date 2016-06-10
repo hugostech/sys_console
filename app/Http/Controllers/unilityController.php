@@ -334,7 +334,7 @@ class unilityController extends Controller
     public function addNewProduct($code)
     {
         if(self::checkCodeEx($code)){
-            echo 'code exist';
+            echo $code.'<font color="yellow">code exist</font>';
         }else{
             $url = env('SNPORT') . "?action=prosync&code=$code";
 
@@ -378,7 +378,7 @@ class unilityController extends Controller
             $category->product_id = $product->product_id;
             $category->category_id = 263;
             $category->save();
-            return $product->model.' <font color="green">Sucessed</font>';
+            return $product->model.' <font color="green">Insert Sucessed</font>';
         }
 
 
@@ -398,28 +398,14 @@ class unilityController extends Controller
 
     public function grabProducts()
     {
-//        $test = "[123123,12313]";
-//        $data = \GuzzleHttp\json_decode($test);
-//        dd($data);
-
         $url = env('SNPORT') . "?action=products";
         $content = self::getContent($url);
-        dd($content);
-        $codes = \GuzzleHttp\json_decode($content,true);
-        dd($codes);
+        $content = str_replace(',]',']',$content);
+        $codes = \GuzzleHttp\json_decode($content);
         foreach($codes as $code){
             echo $code.' ';
-            if(self::checkCodeEx($code)){
-                echo '<font color="yellow">Check</font>';
-                echo '<br>';
-            }else{
-//                if(self::addNewProduct($code)){
-//                    echo '<font color="green">Sucessed</font>';
-//                }else{
-//                    echo '<font color="red">Fail</font>';
-//                }
-                echo 'test<br>';
-            }
+            self::addNewProduct($code);
+
         }
 
     }
