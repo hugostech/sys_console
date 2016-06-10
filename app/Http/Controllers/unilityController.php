@@ -357,7 +357,7 @@ class unilityController extends Controller
 
         );
         $product = Ex_product::create($tem);
-        dd($product);
+//        dd($product);
         self::imageCopy($data->code);
         $product->image = 'catalog/autoEx/' . $data->code . '.jpg';
         $product->save();
@@ -376,7 +376,7 @@ class unilityController extends Controller
         $category->product_id = $product->product_id;
         $category->category_id = 263;
         $category->save();
-        return true;
+        return $product->code;
 
     }
 
