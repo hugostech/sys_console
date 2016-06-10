@@ -335,7 +335,9 @@ class unilityController extends Controller
     {
 
         $url = env('SNPORT') . "?action=prosync&code=$code";
+
         $data = \GuzzleHttp\json_decode(self::getContent($url));
+        dd($data);
         $spec = $data->spec;
         $data->spec = str_replace('{!@!}', '"', $spec);
 //        dd($data);
