@@ -22,7 +22,7 @@
             width: 100%;
             height: 100%;
             z-index: 9999;
-            background: url("{{url('/',['iamge','Preloader.gif'])}}") center no-repeat #fff;
+            background: url("{{url('/',['image','Preloader.gif'])}}") center no-repeat #fff;
         }
     </style>
     <script>
