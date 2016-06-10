@@ -387,13 +387,10 @@ class unilityController extends Controller
 
     private function imageCopy($code)
     {
-        try{
-            $url = env('IMGREMOTE') . $code . '.jpg';
+        $url = env('IMGREMOTE') . $code . '.jpg';
+        if(self::imageExist($url)){
             copy($url, "/var/www/extremepc.co.nz/public_html/image/catalog/autoEx/$code.jpg");
-        }catch(Exception $e){
-            //no need doing anything
         }
-
     }
 
     public function grabProducts()
@@ -404,7 +401,7 @@ class unilityController extends Controller
         $codes = \GuzzleHttp\json_decode($content);
         foreach($codes as $code){
             echo $code.' ';
-            self::addNewProduct($code);
+            echo self::addNewProduct($code);
 
         }
 
@@ -539,6 +536,18 @@ class unilityController extends Controller
             $newData[$varibale] = isset($data[$varibale]) ? $data[$varibale] : null;
         }
         return $newData;
+    }
+
+    private function imageExist($url){
+
+        $file_headers = @get_headers($url);
+        if($file_headers[0] == 'HTTP/1.1 404 Not Found') {
+            $exists = false;
+        }
+        else {
+            $exists = true;
+        }
+        return $exists;
     }
     /*
      * Common functions end
