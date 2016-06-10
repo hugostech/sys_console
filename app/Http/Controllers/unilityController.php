@@ -334,7 +334,7 @@ class unilityController extends Controller
     public function addNewProduct($code)
     {
         if(self::checkCodeEx($code)){
-            echo $code.'<font color="red">code exist</font>';
+            echo $code.' <font color="red">code exist</font>';
         }else{
             $url = env('SNPORT') . "?action=prosync&code=$code";
 
