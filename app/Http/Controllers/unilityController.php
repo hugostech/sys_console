@@ -382,16 +382,25 @@ class unilityController extends Controller
 
     private function imageCopy($code)
     {
-        $url = env('IMGREMOTE') . $code . '.jpg';
-        copy($url, "/var/www/extremepc.co.nz/public_html/image/catalog/autoEx/$code.jpg");
+        try{
+            $url = env('IMGREMOTE') . $code . '.jpg';
+            copy($url, "/var/www/extremepc.co.nz/public_html/image/catalog/autoEx/$code.jpg");
+        }catch(Exception $e){
+
+        }
+
     }
 
     public function grabProducts()
     {
+//        $test = "[123123,12313]";
+//        $data = \GuzzleHttp\json_decode($test);
+//        dd($data);
+
         $url = env('SNPORT') . "?action=products";
         $content = self::getContent($url);
         dd($content);
-        $codes = json_decode($content);
+        $codes = \GuzzleHttp\json_decode($content,true);
         dd($codes);
         foreach($codes as $code){
             echo $code.' ';
