@@ -378,7 +378,7 @@ class unilityController extends Controller
                 $description->save();
                 $category = new Ex_product_category();
                 $category->product_id = $product->product_id;
-                $category->category_id = 266;
+                $category->category_id = 267;
                 $category->save();
                 return $product->model.' <font color="green">Insert Sucessed</font>';
             }else{
