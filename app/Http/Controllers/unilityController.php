@@ -339,46 +339,51 @@ class unilityController extends Controller
             $url = env('SNPORT') . "?action=prosync&code=$code";
 
             $data = \GuzzleHttp\json_decode(self::getContent($url));
-//        dd($data);
-            $spec = $data->spec;
-            $data->spec = str_replace('{!@!}', '"', $spec);
-
-            $tem = array(
-                'model' => $data->code,
-                'quantity' => 0,
-                'stock_status_id' => 9,
-                'shipping' => 1,
-                'price' => $data->price,
-                'tax_class_id' => 9,
-                'weight' => $data->weight,
-                'weight_class_id' => 1,
-                'subtract' => 1,
-                'sort_order' => 1,
-                'status' => 1,
+            if(!empty(trim($data->name))){
 
 
-            );
-            $product = Ex_product::create($tem);
-//        dd($product);
-            self::imageCopy($data->code);
-            $product->image = 'catalog/autoEx/' . $data->code . '.jpg';
-            $product->save();
-            $store = new Ex_product_store();
-            $store->product_id = $product->product_id;
-            $store->store_id = 0;
-            $store->save();
-            $description = New Ex_product_description();
-            $description->product_id = $product->product_id;
-            $description->language_id = 1;
-            $description->name = str_replace('{!@!}', '"', $data->name);
-            $description->description = str_replace('{!@!}', '"', $data->spec);
-            $description->meta_title = $data->name;
-            $description->save();
-            $category = new Ex_product_category();
-            $category->product_id = $product->product_id;
-            $category->category_id = 263;
-            $category->save();
-            return $product->model.' <font color="green">Insert Sucessed</font>';
+                $spec = $data->spec;
+                $data->spec = str_replace('{!@!}', '"', $spec);
+
+                $tem = array(
+                    'model' => $data->code,
+                    'quantity' => 0,
+                    'stock_status_id' => 9,
+                    'shipping' => 1,
+                    'price' => $data->price,
+                    'tax_class_id' => 9,
+                    'weight' => $data->weight,
+                    'weight_class_id' => 1,
+                    'subtract' => 1,
+                    'sort_order' => 1,
+                    'status' => 1,
+
+
+                );
+                $product = Ex_product::create($tem);
+    //        dd($product);
+                self::imageCopy($data->code);
+                $product->image = 'catalog/autoEx/' . $data->code . '.jpg';
+                $product->save();
+                $store = new Ex_product_store();
+                $store->product_id = $product->product_id;
+                $store->store_id = 0;
+                $store->save();
+                $description = New Ex_product_description();
+                $description->product_id = $product->product_id;
+                $description->language_id = 1;
+                $description->name = str_replace('{!@!}', '"', $data->name);
+                $description->description = str_replace('{!@!}', '"', $data->spec);
+                $description->meta_title = $data->name;
+                $description->save();
+                $category = new Ex_product_category();
+                $category->product_id = $product->product_id;
+                $category->category_id = 263;
+                $category->save();
+                return $product->model.' <font color="green">Insert Sucessed</font>';
+            }else{
+                return $data->model.' <font color="red">No Name</font>';
+            }
         }
 
 
