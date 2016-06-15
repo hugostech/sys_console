@@ -11,7 +11,7 @@ class Ex_product extends Model
     protected $primaryKey = 'product_id';
     protected $fillable = array(
         'model', 'quantity', 'stock_status_id', 'shipping', 'price',
-        'tax_class_id', 'weight', 'weight_class_id', 'subtract', 'sort_order', 'status'
+        'tax_class_id', 'weight', 'weight_class_id', 'subtract', 'sort_order', 'status','date_added'
     );
     public $timestamps = false;
 

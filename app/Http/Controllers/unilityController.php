@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Ex_product_category;
 use App\Ex_product_description;
+use Carbon\Carbon;
 use Mail;
 use App\Old_client;
 use App\Category;
@@ -357,6 +358,7 @@ class unilityController extends Controller
                     'subtract' => 1,
                     'sort_order' => 1,
                     'status' => 1,
+                    'date_added'=>Carbon::now()
 
 
                 );
