@@ -39,7 +39,7 @@
                     @if(empty($warranty->model_code))
                         <img src="{{url('/broken-image.gif')}}" width="80px" alt="{{$warranty->model_code}}">
                     @else
-                        <img src="{{env('IMG').$warranty->model_code.".jpg"}}" width="80px" alt="{{$warranty->model_code}}">
+                        <img src="{{$ip==env['LOCIALSERVER']?env('IMG').$warranty->model_code.".jpg":env('IMGREMOTE').$warranty->model_code.".jpg"}}" width="80px" alt="{{$warranty->model_code}}">
                     @endif
                 </td>
                 <td>{{$warranty->model_code }}</td>

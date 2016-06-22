@@ -15,9 +15,10 @@ use App\Http\Controllers\Controller;
 
 class warrantyController extends Controller
 {
+    private $ip;
     public function __construct()
     {
-        $ip = self::getIP();
+
         $safeIP = array(
             '103.250.119.7',
             '203.97.175.164'
@@ -194,30 +195,34 @@ class warrantyController extends Controller
 
     public function listAll()
     {
+        $ip = self::getIP();
         $warrantys = Warranty::simplePaginate(30);
         $rates = self::rateData(Warranty::all());
         $suppliers = self::supplierData(Warranty::all());
-        return view('list', compact('warrantys', 'rates', 'suppliers'));
+        return view('list', compact('warrantys', 'rates', 'suppliers','ip'));
     }
 
     public function listOnGoing()
     {
+        $ip = self::getIP();
         $warrantys = Warranty::where('disable', 'n')->orderBy('id', 'desc')->simplePaginate(30);
         $rates = self::rateData(Warranty::where('disable', 'n')->get());
         $suppliers = self::supplierData(Warranty::where('disable', 'n')->get());
-        return view('list', compact('warrantys', 'rates', 'suppliers'));
+        return view('list', compact('warrantys', 'rates', 'suppliers','ip'));
     }
 
     public function listFinish()
     {
+        $ip = self::getIP();
         $warrantys = Warranty::where('disable', 'y')->orderBy('id', 'desc')->simplePaginate(30);
         $rates = self::rateData(Warranty::where('disable', 'y')->get());
         $suppliers = self::supplierData(Warranty::where('disable', 'y')->get());
-        return view('list', compact('warrantys', 'rates', 'suppliers'));
+        return view('list', compact('warrantys', 'rates', 'suppliers','ip'));
     }
 
     public function detail($id)
     {
+        
         $item = self::sort($id);
         $suppliers = self::getSuppliers();
         return view('report', compact('item', 'suppliers'));
@@ -225,7 +230,7 @@ class warrantyController extends Controller
 
     public function search(Request $request)
     {
-
+        $ip = self::getIP();
         $condition = '%' . $request->input('condition') . '%';
 
         $warrantys = Warranty::where('model_name', 'like', $condition)
@@ -247,7 +252,7 @@ class warrantyController extends Controller
             ->orWhere('client_name', 'like', $condition)
             ->orWhere('sn', 'like', $condition)
             ->orWhere('client_phone', 'like', $condition)->get());
-        return view('list', compact('warrantys', 'rates', 'suppliers'));
+        return view('list', compact('warrantys', 'rates', 'suppliers','ip'));
     }
 
     public function checkShip($shipNo)
@@ -495,6 +500,7 @@ class warrantyController extends Controller
             $rate[$warranry->id]["note"] = count($noteNumber) == 0 ? "" : count($noteNumber);
             $rate[$warranry->id]["delivery"] = $deliveryinfo;
         }
+//        $rate['ip']=self::getIP();
 
         return $rate;
     }
