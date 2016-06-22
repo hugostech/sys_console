@@ -220,9 +220,9 @@ class unilityController extends Controller
         $feed = array();
         foreach($products as $product){
             $stock_status = 'Yes';
-
+            $special = Ex_speceal::where('product_id',$product->product_id)->first;
             $product_name = isset(Ex_product_description::find($product->product_id)->name)?Ex_product_description::find($product->product_id)->name:'';
-            
+
             if($product->quantity <= 0){
                 if($product->stock_status_id==5){
                     $stock_status = 'No';
@@ -243,6 +243,15 @@ class unilityController extends Controller
 
 
             );
+            if($special->date_end<>'0000-00-00'){
+                $enddate = Carbon::parse($special->date_end);
+                $startdate = Carbon::parse($special->date_start);
+                $now = Carbon::now();
+                if($now->between($startdate,$enddate)){
+                    $tem['Price']=round($special->price*1.15,2);
+                }
+
+            }
             $feed[$product->product_id]=$tem;
         }
         echo \GuzzleHttp\json_encode($feed);
