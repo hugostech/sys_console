@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Ex_manufacturer;
 use App\Ex_product_category;
 use App\Ex_product_description;
 use Carbon\Carbon;
@@ -207,6 +208,44 @@ class unilityController extends Controller
 
     /*
      * warranty guide functions end*/
+
+    /*=====================================================================================================================*/
+
+
+    /*
+     * pricespy product feed*/
+
+    public function productFeed(){
+        $products = Ex_product::all();
+        $feed = array();
+        foreach($products as $product){
+            $stock_status = 'Yes';
+            if($product->quantity<0){
+                if($product->stock_status_id==5){
+                    $stock_status = 'No';
+                }else{
+                    $stock_status = 'Incoming';
+                }
+            }
+            $tem = array(
+                'Product name'=>Ex_product_description::find($product->product_id)->name,
+                'Article number'=>$product->model,
+                'Manufacturer'=>$product->manufacturer_id==0?'null':Ex_manufacturer::find($product->manufacturer_id)->name,
+                'URL to the product page'=>"http://www.extremepc.co.nz/index.php?route=product/product&product_id=$product->product_id",
+                'Product category'=>'null',
+                'Price'=>round($product->price*1.15,2),
+                'Status'=>'Normal',
+                'Stock status'=>$stock_status
+
+
+            );
+            $feed[$product->product_id]=$tem;
+        }
+        echo \GuzzleHttp\json_encode($feed);
+    }
+    /*
+     * pricespy product feed end*/
+
 
     /*=====================================================================================================================*/
 

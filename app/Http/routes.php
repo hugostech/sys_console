@@ -116,6 +116,7 @@ Route::get('old_data','unilityController@old_transfer');
 Route::get('unsubscribe/{email}','unilityController@unsubscribe');
 Route::get('syncpro/{code}','unilityController@addNewProduct');
 Route::get('syncproall','unilityController@grabProducts');
+Route::get('feed','unilityController@productFeed');
 
 //Route::get('imagesave','unilityController@imageCopy');
 
