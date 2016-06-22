@@ -21,7 +21,8 @@ class warrantyController extends Controller
 
         $safeIP = array(
             '103.250.119.7',
-            '203.97.175.164'
+            '203.97.175.164',
+            '122.59.131.230'
         );
         $ip = self::getIP();
         if(!in_array($ip,$safeIP)){

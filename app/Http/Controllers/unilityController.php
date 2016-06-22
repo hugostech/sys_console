@@ -383,6 +383,7 @@ class unilityController extends Controller
     {
         $products = Ex_product::where('status', 1)->get();
         $roctech_array = self::syncqty();
+	$unsync = array();
         foreach ($products as $product) {
             if(isset($roctech_array[$product->model])){
                 if($roctech_array[$product->model]<-500){
@@ -391,7 +392,9 @@ class unilityController extends Controller
                     $product->quantity = $roctech_array[$product->model];
                 }
                 $product->save();
-            }
+            }else{
+		$unsync[] = $product->model;
+	     }
 
         }
 //        foreach ($products as $product) {
@@ -411,6 +414,9 @@ class unilityController extends Controller
 //                $product->save();
 //            }
 //        }
+	echo count($unsync);
+	echo "<br>";
+	var_dump($unsync);
         $content = 'Last sync is at' . date(' jS \of F Y h:i:s A');
         return view('self_sync', compact('content'));
     }
