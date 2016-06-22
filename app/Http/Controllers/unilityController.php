@@ -220,7 +220,7 @@ class unilityController extends Controller
         $feed = array();
         foreach($products as $product){
             $stock_status = 'Yes';
-            $special = Ex_speceal::where('product_id',$product->product_id)->first;
+            $special = Ex_speceal::where('product_id',$product->product_id)->first();
             $product_name = isset(Ex_product_description::find($product->product_id)->name)?Ex_product_description::find($product->product_id)->name:'';
 
             if($product->quantity <= 0){
