@@ -243,7 +243,7 @@ class unilityController extends Controller
 
 
             );
-            if($special->date_end<>'0000-00-00'){
+            if(isset($special->date_end)&$special->date_end<>'0000-00-00'){
                 $enddate = Carbon::parse($special->date_end);
                 $startdate = Carbon::parse($special->date_start);
                 $now = Carbon::now();
