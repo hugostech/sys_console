@@ -2,26 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Ex_manufacturer;
-use App\Ex_product_category;
-use App\Ex_product_description;
-use Carbon\Carbon;
-use Mail;
-use App\Old_client;
 use App\Category;
-use App\News_letter;
 use App\category_item;
 use App\Category_warranty;
+use App\Ex_manufacturer;
 use App\Ex_product;
+use App\Ex_product_category;
+use App\Ex_product_description;
 use App\Ex_product_store;
-use App\Product;
-use Illuminate\Http\Request;
-
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
-use Mockery\CountValidator\Exception;
-use Sunra\PhpSimple\HtmlDomParser;
 use App\Ex_speceal;
+use App\Http\Requests;
+use App\News_letter;
+use App\Product;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Mail;
 
 class unilityController extends Controller
 {
@@ -61,6 +56,27 @@ class unilityController extends Controller
         return json_decode($data);
     }
 
+    private function getContent($url)
+    {
+
+        // create curl resource
+        $ch = curl_init();
+
+        // set url
+        curl_setopt($ch, CURLOPT_URL, $url);
+
+        //return the transfer as a string
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+        // $output contains the output string
+        $output = curl_exec($ch);
+
+        // close curl resource to free up system resources
+        curl_close($ch);
+
+        return $output;
+    }
+
     public function killPrice(Request $request)
     {
         $data = array();
@@ -87,18 +103,18 @@ class unilityController extends Controller
 
 
             $special = Ex_speceal::where('product_id', $product->product_id)->first();
-            if(isset($special->price)){
-                if($special->date_end<>'0000-00-00'){
+            if (isset($special->price)) {
+                if ($special->date_end <> '0000-00-00') {
                     $enddate = Carbon::parse($special->date_end);
                     $startdate = Carbon::parse($special->date_start);
                     $now = Carbon::now();
-                    if($now->between($startdate,$enddate)){
+                    if ($now->between($startdate, $enddate)) {
                         $special = $special->price * 1.15;
-                    }else{
+                    } else {
                         $special = 0;
                     }
 
-                }else{
+                } else {
                     $special = $special->price * 1.15;
                 }
             }
@@ -127,6 +143,16 @@ class unilityController extends Controller
         return $data;
     }
 
+    /*kill price functions end*/
+
+    /*=====================================================================================================================*/
+
+    /*price sync with pricespy
+    unfinish*/
+
+    /*
+     * get category json data
+     * param: cat = category, string*/
 
     public function killPrice_edit(Request $request)
     {
@@ -166,16 +192,15 @@ class unilityController extends Controller
         }
     }
 
-    /*kill price functions end*/
+    /*price sync pricespy end*/
+
 
     /*=====================================================================================================================*/
 
-    /*price sync with pricespy
-    unfinish*/
 
     /*
-     * get category json data
-     * param: cat = category, string*/
+     * warranty guide functions
+     * */
 
     public function addPricespyMap(Request $request)
     {
@@ -188,15 +213,6 @@ class unilityController extends Controller
         }
     }
 
-    /*price sync pricespy end*/
-
-
-    /*=====================================================================================================================*/
-
-
-    /*
-     * warranty guide functions
-     * */
     public function showWarrantyGuide()
     {
         $categorys = Category::all();
@@ -216,12 +232,6 @@ class unilityController extends Controller
         return view('warranty_subcategory', compact('category', 'suppliers'));
     }
 
-    public function warrantydetail($id)
-    {
-        $supplier = Category_warranty::find($id);
-        return view('warrantydetail', compact('supplier'));
-    }
-
     /*
      * warranty guide functions end*/
 
@@ -231,51 +241,10 @@ class unilityController extends Controller
     /*
      * pricespy product feed*/
 
-    public function productFeed(){
-        $products = Ex_product::all();
-        $feed = array();
-        foreach($products as $product){
-            $stock_status = 'Yes';
-            $special = Ex_speceal::where('product_id',$product->product_id)->first();
-            $product_name = isset(Ex_product_description::find($product->product_id)->name)?Ex_product_description::find($product->product_id)->name:'';
-
-            if($product->quantity <= 0){
-                if($product->stock_status_id==5){
-                    $stock_status = 'No';
-                }else{
-                    $stock_status = 'Incoming';
-                }
-            }
-
-            $tem = array(
-                'Product name'=>$product_name,
-                'Article number'=>$product->model,
-                'Manufacturer'=>$product->manufacturer_id==0?'null':Ex_manufacturer::find($product->manufacturer_id)->name,
-                'URL to the product page'=>"http://www.extremepc.co.nz/index.php?route=product/product&product_id=$product->product_id",
-                'Product category'=>'null',
-                'Price'=>round($product->price*1.15,2),
-                'Status'=>'Normal',
-                'Stock status'=>$stock_status
-
-
-            );
-            if(isset($special->date_end)){
-                if($special->date_end<>'0000-00-00'){
-                    $enddate = Carbon::parse($special->date_end);
-                    $startdate = Carbon::parse($special->date_start);
-                    $now = Carbon::now();
-                    if($now->between($startdate,$enddate)){
-                        $tem['Price']=round($special->price*1.15,2);
-                    }
-
-                }else{
-                    $tem['Price']=round($special->price*1.15,2);
-                }
-            }
-
-            $feed[$product->product_id]=$tem;
-        }
-        echo \GuzzleHttp\json_encode($feed);
+    public function warrantydetail($id)
+    {
+        $supplier = Category_warranty::find($id);
+        return view('warrantydetail', compact('supplier'));
     }
     /*
      * pricespy product feed end*/
@@ -287,6 +256,67 @@ class unilityController extends Controller
     /*
      * sync the quantity from roctech to extremepc
      * */
+
+    public function productFeed()
+    {
+        $products = Ex_product::all();
+        $feed = array();
+        foreach ($products as $product) {
+            $stock_status = 'Yes';
+            $special = Ex_speceal::where('product_id', $product->product_id)->first();
+            $product_name = isset(Ex_product_description::find($product->product_id)->name) ? Ex_product_description::find($product->product_id)->name : '';
+
+            if ($product->quantity <= 0) {
+                if ($product->stock_status_id == 5) {
+                    $stock_status = 'No';
+                } else {
+                    $stock_status = 'Incoming';
+                }
+            }
+
+            $tem = array(
+                'Product name' => $product_name,
+                'Article number' => $product->model,
+                'Manufacturer' => $product->manufacturer_id == 0 ? 'null' : Ex_manufacturer::find($product->manufacturer_id)->name,
+                'URL to the product page' => "http://www.extremepc.co.nz/index.php?route=product/product&product_id=$product->product_id",
+                'Product category' => 'null',
+                'Price' => round($product->price * 1.15, 2),
+                'Status' => 'Normal',
+                'Stock status' => $stock_status
+
+
+            );
+            if (isset($special->date_end)) {
+                if ($special->date_end <> '0000-00-00') {
+                    $enddate = Carbon::parse($special->date_end);
+                    $startdate = Carbon::parse($special->date_start);
+                    $now = Carbon::now();
+                    if ($now->between($startdate, $enddate)) {
+                        $tem['Price'] = round($special->price * 1.15, 2);
+                    }
+
+                } else {
+                    $tem['Price'] = round($special->price * 1.15, 2);
+                }
+            }
+
+            $feed[$product->product_id] = $tem;
+        }
+        echo \GuzzleHttp\json_encode($feed);
+    }
+    /*
+     * grab sync qty arrary*/
+    public function syncqty(){
+        $url = env('SNPORT') . "?action=allqty";
+        $content = self::getContent($url);
+        $content = str_replace(':,', ':0,', $content);
+        $content = str_replace(',}', '}', $content);
+        $content = \GuzzleHttp\json_decode($content,true);
+
+        return $content;
+    }
+    /* grab sync qty array end*/
+    /*daily sync quantity*/
 
     public function sync(Request $request)
     {
@@ -349,27 +379,38 @@ class unilityController extends Controller
         return view('sync', compact('result'));
     }
 
-    /*daily sync quantity*/
     public function syncQuantity()
     {
         $products = Ex_product::where('status', 1)->get();
+        $roctech_array = self::syncqty();
         foreach ($products as $product) {
-            $code = intval($product->model);
-            if ($code != 0) {
-                $url = env('SNPORT') . "?action=sync&code=$code";
-                $quantity = $this->getContent($url);
-                $pos = strpos($quantity, 'Error');
-                if ($pos === false) {
-                    $product->quantity = $quantity;
-
-                } else {
-
-                    //	$product->status = 0;
+            if(isset($roctech_array[$product->model])){
+                if($roctech_array[$product->model]<-500){
+                    $product->status = 0;
+                }else{
+                    $product->quantity = $roctech_array[$product->model];
                 }
-
                 $product->save();
             }
+
         }
+//        foreach ($products as $product) {
+//            $code = intval($product->model);
+//            if ($code != 0) {
+//                $url = env('SNPORT') . "?action=sync&code=$code";
+//                $quantity = $this->getContent($url);
+//                $pos = strpos($quantity, 'Error');
+//                if ($pos === false) {
+//                    $product->quantity = $quantity;
+//
+//                } else {
+//
+//                    //	$product->status = 0;
+//                }
+//
+//                $product->save();
+//            }
+//        }
         $content = 'Last sync is at' . date(' jS \of F Y h:i:s A');
         return view('self_sync', compact('content'));
     }
@@ -378,7 +419,6 @@ class unilityController extends Controller
     {
         return view('sync');
     }
-
 
     public function self_check()
     {
@@ -405,15 +445,29 @@ class unilityController extends Controller
         return view('sync', compact('content', 'percentage'));
     }
 
+    public function grabProducts()
+    {
+        $url = env('SNPORT') . "?action=products";
+        $content = self::getContent($url);
+        $content = str_replace(',]', ']', $content);
+        $codes = \GuzzleHttp\json_decode($content);
+        foreach ($codes as $code) {
+            echo self::addNewProduct($code);
+            echo '<br>';
+
+        }
+
+    }
+
     public function addNewProduct($code)
     {
-        if(self::checkCodeEx($code)){
-            echo $code.' <font color="red">code exist</font>';
-        }else{
+        if (self::checkCodeEx($code)) {
+            echo $code . ' <font color="red">code exist</font>';
+        } else {
             $url = env('SNPORT') . "?action=prosync&code=$code";
 
             $data = \GuzzleHttp\json_decode(self::getContent($url));
-            if(!empty(trim($data->name))){
+            if (!empty(trim($data->name))) {
 
 
                 $spec = $data->spec;
@@ -431,12 +485,12 @@ class unilityController extends Controller
                     'subtract' => 1,
                     'sort_order' => 1,
                     'status' => 1,
-                    'date_added'=>Carbon::now()
+                    'date_added' => Carbon::now()
 
 
                 );
                 $product = Ex_product::create($tem);
-    //        dd($product);
+                //        dd($product);
                 self::imageCopy($data->code);
                 $product->image = 'catalog/autoEx/' . $data->code . '.jpg';
                 $product->save();
@@ -455,35 +509,12 @@ class unilityController extends Controller
                 $category->product_id = $product->product_id;
                 $category->category_id = 267;
                 $category->save();
-                return $product->model.' <font color="green">Insert Sucessed</font>';
-            }else{
-                return $data->model.' <font color="red">No Name</font>';
+                return $product->model . ' <font color="green">Insert Sucessed</font>';
+            } else {
+                return $data->model . ' <font color="red">No Name</font>';
             }
         }
 
-
-
-    }
-
-    private function imageCopy($code)
-    {
-        $url = env('IMGREMOTE') . $code . '.jpg';
-        if(self::imageExist($url)){
-            copy($url, "/var/www/extremepc.co.nz/public_html/image/catalog/autoEx/$code.jpg");
-        }
-    }
-
-    public function grabProducts()
-    {
-        $url = env('SNPORT') . "?action=products";
-        $content = self::getContent($url);
-        $content = str_replace(',]',']',$content);
-        $codes = \GuzzleHttp\json_decode($content);
-        foreach($codes as $code){
-            echo self::addNewProduct($code);
-            echo '<br>';
-
-        }
 
     }
     /*
@@ -517,6 +548,45 @@ class unilityController extends Controller
     /*
      * news letter functions
      * */
+
+    private function checkCodeEx($code)
+    {
+        if (count(Ex_product::where('model', $code)->get()) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private function imageCopy($code)
+    {
+        $url = env('IMGREMOTE') . $code . '.jpg';
+        if (self::imageExist($url)) {
+            copy($url, "/var/www/extremepc.co.nz/public_html/image/catalog/autoEx/$code.jpg");
+        }
+    }
+
+    /*
+     * news letter functions end*/
+
+
+    /*=====================================================================================================================*/
+
+    /*
+     * Common functions*/
+
+    private function imageExist($url)
+    {
+
+        $file_headers = @get_headers($url);
+        if ($file_headers[0] == 'HTTP/1.1 404 Not Found') {
+            $exists = false;
+        } else {
+            $exists = true;
+        }
+        return $exists;
+    }
+
     public function sendNewsLetter()
     {
         $newsletters = News_letter::All();
@@ -541,43 +611,6 @@ class unilityController extends Controller
             $unsubscribe->save();
         }
         echo 'Unsubscribe successful! Thanks';
-    }
-
-    /*
-     * news letter functions end*/
-
-
-    /*=====================================================================================================================*/
-
-    /*
-     * Common functions*/
-    private function getContent($url)
-    {
-
-        // create curl resource
-        $ch = curl_init();
-
-        // set url
-        curl_setopt($ch, CURLOPT_URL, $url);
-
-        //return the transfer as a string
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
-        // $output contains the output string
-        $output = curl_exec($ch);
-
-        // close curl resource to free up system resources
-        curl_close($ch);
-
-        return $output;
-    }
-
-    private function checkCodeEx($code){
-        if(count(Ex_product::where('model',$code)->get())>0){
-            return true;
-        }else{
-            return false;
-        }
     }
 
     private function save2Extremepc($data)
@@ -616,18 +649,6 @@ class unilityController extends Controller
             $newData[$varibale] = isset($data[$varibale]) ? $data[$varibale] : null;
         }
         return $newData;
-    }
-
-    private function imageExist($url){
-
-        $file_headers = @get_headers($url);
-        if($file_headers[0] == 'HTTP/1.1 404 Not Found') {
-            $exists = false;
-        }
-        else {
-            $exists = true;
-        }
-        return $exists;
     }
     /*
      * Common functions end
