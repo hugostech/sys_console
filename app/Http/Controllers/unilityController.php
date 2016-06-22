@@ -87,7 +87,23 @@ class unilityController extends Controller
 
 
             $special = Ex_speceal::where('product_id', $product->product_id)->first();
-            $special = isset($special->price) ? $special->price * 1.15 : 0;
+            if(isset($special->price)){
+                if($special->date_end<>'0000-00-00'){
+                    $enddate = Carbon::parse($special->date_end);
+                    $startdate = Carbon::parse($special->date_start);
+                    $now = Carbon::now();
+                    if($now->between($startdate,$enddate)){
+                        $special = $special->price * 1.15;
+                    }else{
+                        $special = 0;
+                    }
+
+                }else{
+                    $special = $special->price * 1.15;
+                }
+            }
+
+//            $special = isset($special->price) ? $special->price * 1.15 : 0;
 
             $status = $product->status;
 
@@ -252,6 +268,8 @@ class unilityController extends Controller
                         $tem['Price']=round($special->price*1.15,2);
                     }
 
+                }else{
+                    $tem['Price']=round($special->price*1.15,2);
                 }
             }
 
