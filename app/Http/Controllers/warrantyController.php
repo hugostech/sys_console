@@ -23,7 +23,7 @@ class warrantyController extends Controller
             '103.250.119.7',
             '203.97.175.164'
         );
-
+        $ip = self::getIP();
         if(!in_array($ip,$safeIP)){
             echo 'Permission denied';
             exit;
@@ -222,7 +222,7 @@ class warrantyController extends Controller
 
     public function detail($id)
     {
-        
+
         $item = self::sort($id);
         $suppliers = self::getSuppliers();
         return view('report', compact('item', 'suppliers'));
