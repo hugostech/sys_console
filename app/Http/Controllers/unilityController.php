@@ -222,7 +222,7 @@ class unilityController extends Controller
             $stock_status = 'Yes';
             echo $product->product_id;
             $product_description = Ex_product_description::find($product->product_id);
-
+            dd($product_description);
             if($product->quantity<0){
                 if($product->stock_status_id==5){
                     $stock_status = 'No';
