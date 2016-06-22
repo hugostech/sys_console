@@ -243,15 +243,18 @@ class unilityController extends Controller
 
 
             );
-            if(isset($special->date_end)&$special->date_end<>'0000-00-00'){
-                $enddate = Carbon::parse($special->date_end);
-                $startdate = Carbon::parse($special->date_start);
-                $now = Carbon::now();
-                if($now->between($startdate,$enddate)){
-                    $tem['Price']=round($special->price*1.15,2);
-                }
+            if(isset($special->date_end)){
+                if($special->date_end<>'0000-00-00'){
+                    $enddate = Carbon::parse($special->date_end);
+                    $startdate = Carbon::parse($special->date_start);
+                    $now = Carbon::now();
+                    if($now->between($startdate,$enddate)){
+                        $tem['Price']=round($special->price*1.15,2);
+                    }
 
+                }
             }
+
             $feed[$product->product_id]=$tem;
         }
         echo \GuzzleHttp\json_encode($feed);
