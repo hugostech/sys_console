@@ -220,9 +220,9 @@ class unilityController extends Controller
         $feed = array();
         foreach($products as $product){
             $stock_status = 'Yes';
-            echo $product->product_id;
-            $product_description = Ex_product_description::find($product->product_id);
-            dd($product_description);
+
+            $product_name = isset(Ex_product_description::find($product->product_id)->name)?Ex_product_description::find($product->product_id)->name:'';
+
             if($product->quantity<0){
                 if($product->stock_status_id==5){
                     $stock_status = 'No';
@@ -232,7 +232,7 @@ class unilityController extends Controller
             }
 
             $tem = array(
-                'Product name'=>$product_description->name,
+                'Product name'=>$product_name,
                 'Article number'=>$product->model,
                 'Manufacturer'=>$product->manufacturer_id==0?'null':Ex_manufacturer::find($product->manufacturer_id)->name,
                 'URL to the product page'=>"http://www.extremepc.co.nz/index.php?route=product/product&product_id=$product->product_id",
