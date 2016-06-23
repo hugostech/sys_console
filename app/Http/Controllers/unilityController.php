@@ -387,17 +387,17 @@ class unilityController extends Controller
     public function checkOrder(){
         $orders = Ex_order::all();
         $reminderStatus = array(
-            19
+            19,17
         );
         foreach($orders as $order){
             $historys = $order->historys->last();
-//            dd($historys);
+            $urgentlist = array();
+            if(isset($historys->order_status_id)){
+                $status = $historys->order_status_id;
 
-            $status = isset($historys->order_status_id)?$historys->order_status_id:0;
-
-            if(in_array($status,$reminderStatus)){
-                echo $order->order_id;
-                echo '<br>';
+                if(in_array($status,$reminderStatus)){
+                    $urgentlist[] = $order;
+                }
             }
         }
     }
@@ -406,17 +406,19 @@ class unilityController extends Controller
     {
         $products = Ex_product::where('status', 1)->get();
         $roctech_array = self::syncqty();
-	$unsync = array();
+	    $unsync = array();
+        $disable = array();
         foreach ($products as $product) {
             if(isset($roctech_array[trim($product->model)])){
                 if($roctech_array[$product->model]<-500){
                     $product->status = 0;
+                    $disable[] = $product->model;
                 }else{
                     $product->quantity = $roctech_array[$product->model];
                 }
                 $product->save();
             }else{
-		$unsync[] = $product->model;
+		    $unsync[] = $product->model;
 	     }
 
         }
@@ -437,12 +439,11 @@ class unilityController extends Controller
 //                $product->save();
 //            }
 //        }
-	var_dump($unsync);
-	echo "<br>";
-	echo "<br>";
-	echo "<br>";
+        $total_enable = count(Ex_product::where('status', 1)->get());
+        $total_disable = count(Ex_product::where('status', 0)->get());
+
         $content = 'Last sync is at' . date(' jS \of F Y h:i:s A');
-        return view('self_sync', compact('content'));
+        return view('self_sync', compact('content','unsync','disable','total_enable','total_disable'));
     }
 
     public function showSync()
