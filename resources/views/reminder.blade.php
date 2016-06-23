@@ -17,9 +17,9 @@
             <th>Status</th>
         </tr>
         <tr>
-            <td>{{$oder[0]->order_id}}</td>
-            <td>{{$oder[0]->date_added}}</td>
-            <td>{{$oder[2]}}</td>
+            <td>{{$order[0]->order_id}}</td>
+            <td>{{$order[0]->date_added}}</td>
+            <td>{{$order[2]}}</td>
         </tr>
         <tr>
             <th colspan="2">Product</th>
