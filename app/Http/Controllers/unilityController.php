@@ -405,7 +405,7 @@ class unilityController extends Controller
                         $tem = array(
                             0=>$order,
                             1=>$order->items,
-                            2=>$status
+                            2=>$status==19?'Back Order':'Payment Check'
                         );
                         $urgentlist[]=$tem;
                     }
