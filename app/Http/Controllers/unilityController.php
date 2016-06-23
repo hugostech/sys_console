@@ -396,10 +396,21 @@ class unilityController extends Controller
                 $status = $historys->order_status_id;
 
                 if(in_array($status,$reminderStatus)){
-                    $urgentlist[] = $order;
+                    $tem = array(
+                        0=>$order,
+                        1=>$order->items,
+                        2=>$status
+                    );
+                    $urgentlist[]=$tem;
+
                 }
             }
         }
+        Mail::send('reminder', compact('urgentlist'), function ($m) {
+            $m->from('no-reply@zdhomes.com', 'Extremepc Reminder');
+
+            $m->to('a366232446@gmail.com', 'Roctech')->subject('Your Reminder!');
+        });
     }
 
     public function syncQuantity()

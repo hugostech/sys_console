@@ -14,4 +14,7 @@ class Ex_order extends Model
     public function historys(){
         return $this->hasMany('App\Ex_order_history','order_id');
     }
+    public function items(){
+        return $this->hasMany('App\Ex_order_product','order_id');
+    }
 }

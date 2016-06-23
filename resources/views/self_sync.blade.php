@@ -7,22 +7,25 @@
     <script src="{{url('',['js','bootstrap.min.js'])}}"></script>
 </head>
 <body>
+<div class="container">
+
+
     <h2>Report</h2>
     <hr>
     <label>{{$content}}</label>
-    <table class="table">
+    <table class="table table-bordered">
         <thead>
         <tr>
-            <th>
+            <th class="col-md-3">
                 Enable Product(Total)
             </th>
-            <th>
+            <th class="col-md-3">
                 Disable Product(Total)
             </th>
-            <th>
+            <th class="col-md-3">
                 Skip Product(This time)
             </th>
-            <th>
+            <th class="col-md-3">
                 Disable Product(This time)
             </th>
         </tr>
@@ -46,7 +49,7 @@
         </tr>
         </thead>
     </table>
-
+</div>
 <script language="JavaScript">
 
     function myrefresh(){
