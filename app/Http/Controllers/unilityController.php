@@ -392,7 +392,8 @@ class unilityController extends Controller
         foreach($orders as $order){
             $historys = $order->historys->last();
 //            dd($historys);
-            $status = $historys->order_status_id;
+
+            $status = isset($historys->order_status_id)?$historys->order_status_id:0;
 
             if(in_array($status,$reminderStatus)){
                 echo $order->order_id;
