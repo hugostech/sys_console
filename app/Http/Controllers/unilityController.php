@@ -397,6 +397,7 @@ class unilityController extends Controller
 
             if(in_array($status,$reminderStatus)){
                 echo $order->order_id;
+                echo '<br>';
             }
         }
     }
