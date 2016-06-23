@@ -390,19 +390,25 @@ class unilityController extends Controller
         $reminderStatus = array(
             19,17
         );
+        $urgentlist = array();
         foreach($orders as $order){
             $historys = $order->historys->last();
-            $urgentlist = array();
+
             if(isset($historys->order_status_id)){
                 $status = $historys->order_status_id;
 
                 if(in_array($status,$reminderStatus)){
-                    $tem = array(
-                        0=>$order,
-                        1=>$order->items,
-                        2=>$status
-                    );
-                    $urgentlist[]=$tem;
+                    $date = Carbon::parse($historys->date_added);
+                    $date = $date->addDays(5);
+                    if($date->gt(Carbon::now())){
+                        $tem = array(
+                            0=>$order,
+                            1=>$order->items,
+                            2=>$status
+                        );
+                        $urgentlist[]=$tem;
+                    }
+
 
                 }
             }
