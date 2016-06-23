@@ -8,8 +8,13 @@
 </head>
 <body>
 <div class="container">
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+    </style>
     @foreach($urgentlist as $order)
-    <table class="table table-bordered" style="border: solid 1px">
+    <table class="table table-bordered">
         <thead>
         <tr>
             <th>Order ID</th>
