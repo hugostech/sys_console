@@ -382,7 +382,7 @@ class unilityController extends Controller
 
     public function dailySync(){
         self::checkOrder();
-//        return self::syncQuantity(); //sync quantity
+        return self::syncQuantity(); //sync quantity
     }
 
     public function checkOrder(){
@@ -414,12 +414,14 @@ class unilityController extends Controller
                 }
             }
         }
+        if(count($urgentlist)>0){
+            Mail::send('reminder', compact('urgentlist'), function ($m) {
+                $m->from('no-reply@zdhomes.com', 'Extremepc Reminder');
+                $m->cc('tony@roctech.co.nz', 'Tony Situ');
+                $m->to('sales@roctech.co.nz', 'Roctech')->subject('Online Order Reminder!');
+            });
+        }
 
-        Mail::send('reminder', compact('urgentlist'), function ($m) {
-            $m->from('no-reply@zdhomes.com', 'Extremepc Reminder');
-
-            $m->to('a366232446@gmail.com', 'Roctech')->subject('Your Reminder!');
-        });
     }
 
     public function syncQuantity()
