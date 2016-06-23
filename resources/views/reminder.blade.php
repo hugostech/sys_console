@@ -9,7 +9,7 @@
 <body>
 <div class="container">
     @foreach($urgentlist as $order)
-    <table class="table table-bordered">
+    <table class="table table-bordered" style="border: solid 1px">
         <thead>
         <tr>
             <th>Order ID</th>

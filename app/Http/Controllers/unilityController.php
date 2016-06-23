@@ -400,9 +400,8 @@ class unilityController extends Controller
                 if(in_array($status,$reminderStatus)){
                     $date = Carbon::parse($historys->date_added);
                     $date = $date->dayOfYear+5;
-                    echo Carbon::now()->dayOfYear;
-                    dd($date);
-                    if($date<(Carbon::now()->dayOfYear)){
+
+                    if($date<=(Carbon::now()->dayOfYear)){
                         $tem = array(
                             0=>$order,
                             1=>$order->items,
@@ -415,7 +414,7 @@ class unilityController extends Controller
                 }
             }
         }
-        dd($urgentlist);
+
         Mail::send('reminder', compact('urgentlist'), function ($m) {
             $m->from('no-reply@zdhomes.com', 'Extremepc Reminder');
 
