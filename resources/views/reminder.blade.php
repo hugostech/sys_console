@@ -30,6 +30,7 @@
             <td colspan="2">{{$product->name}}</td>
             <td>{{$product->model}}</td>
         </tr>
+        @endforeach
         </thead>
     </table>
     @endforeach
