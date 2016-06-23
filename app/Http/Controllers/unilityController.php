@@ -399,7 +399,7 @@ class unilityController extends Controller
 
                 if(in_array($status,$reminderStatus)){
                     $date = Carbon::parse($historys->date_added);
-                    $date = $date->dayOfYear+5;
+                    $date = $date->dayOfYear+2;
 
                     if($date<=(Carbon::now()->dayOfYear)){
                         $tem = array(
