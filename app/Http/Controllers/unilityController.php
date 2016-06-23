@@ -390,7 +390,7 @@ class unilityController extends Controller
             19
         );
         foreach($orders as $order){
-            $historys = end($order->historys);
+            $historys = $order->historys->last();
             dd($historys);
             $status = $historys->order_status_id;
 
