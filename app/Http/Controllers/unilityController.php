@@ -6,6 +6,7 @@ use App\Category;
 use App\category_item;
 use App\Category_warranty;
 use App\Ex_manufacturer;
+use App\Ex_order;
 use App\Ex_product;
 use App\Ex_product_category;
 use App\Ex_product_description;
@@ -377,6 +378,23 @@ class unilityController extends Controller
             'unfound' => $unfound
         );
         return view('sync', compact('result'));
+    }
+
+    public function dailySync(){
+        self::syncQuantity(); //sync quantity
+    }
+
+    public function checkOrder(){
+        $orders = Ex_order::all();
+        $reminderStatus = array(
+            19
+        );
+        foreach($orders as $order){
+            $status = end($order->historys)->order_status_id;
+            if(in_array($status,$reminderStatus)){
+                echo $order->order_id;
+            }
+        }
     }
 
     public function syncQuantity()
