@@ -289,7 +289,7 @@ class unilityController extends Controller
                 foreach($categorys as $category){
                     $desc = $category->description;
                     $categorytree.=$desc->name;
-                    $categorytree.=" ";
+                    $categorytree.="/";
                 }
             }
 
