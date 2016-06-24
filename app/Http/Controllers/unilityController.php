@@ -276,13 +276,20 @@ class unilityController extends Controller
                     $stock_status = 'Incoming';
                 }
             }
-
+            $categorys  = $product->categorys;
+            $categorytree = "";
+            if(count($categorys)>0){
+                foreach($categorys as $category){
+                    $categorytree.=$category->description->name;
+                    $categorytree.=" ";
+                }
+            }
             $tem = array(
                 'Product name' => $product_name,
                 'Article number' => $product->model,
                 'Manufacturer' => $product->manufacturer_id == 0 ? 'null' : Ex_manufacturer::find($product->manufacturer_id)->name,
                 'URL to the product page' => "http://www.extremepc.co.nz/index.php?route=product/product&product_id=$product->product_id",
-                'Product category' => 'null',
+                'Product category' => $categorytree,
                 'Price' => round($product->price * 1.15, 2),
                 'Status' => 'Normal',
                 'Stock status' => $stock_status
