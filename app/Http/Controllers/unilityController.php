@@ -286,7 +286,9 @@ class unilityController extends Controller
                     $categorytree.=" ";
                 }
             }
-            $categorytree =  htmlspecialchars_decode($categorytree);
+            echo $product->product_id;
+           echo  htmlspecialchars_decode($categorytree);
+            echo "<br>";
 
 
             $tem = array(
