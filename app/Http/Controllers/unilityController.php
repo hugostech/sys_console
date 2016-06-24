@@ -281,11 +281,12 @@ class unilityController extends Controller
             $categorytree = "";
             if(count($categorys)>0){
                 foreach($categorys as $category){
-                    dd($category->description);
-                    $categorytree.=$category->description->name;
+                    $desc = $category->description;
+                    $categorytree.=$desc->name;
                     $categorytree.=" ";
                 }
             }
+            dd($categorytree);
             $tem = array(
                 'Product name' => $product_name,
                 'Article number' => $product->model,
