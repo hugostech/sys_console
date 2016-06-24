@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\category_item;
 use App\Category_warranty;
+use App\Ex_category;
 use App\Ex_manufacturer;
 use App\Ex_order;
 use App\Ex_product;
@@ -510,6 +511,11 @@ class unilityController extends Controller
 
         }
 
+    }
+
+    public function relatedproduct(){
+        $category = Ex_category::find(8);
+        dd($category->products);
     }
 
     public function addNewProduct($code)

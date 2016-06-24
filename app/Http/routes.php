@@ -112,14 +112,14 @@ Route::get('sync','unilityController@showSync');
 Route::post('sync','unilityController@sync');
 Route::get('self_sync','unilityController@dailySync');
 Route::get('old_data','unilityController@old_transfer');
-//Route::get('testMail','unilityController@sendNewsLetter');
+
 Route::get('unsubscribe/{email}','unilityController@unsubscribe');
 Route::get('syncpro/{code}','unilityController@addNewProduct');
 Route::get('syncproall','unilityController@grabProducts');
 Route::get('feed','unilityController@productFeed');
 Route::get('syncqty','unilityController@syncqty');
 Route::get('checkorder','unilityController@checkOrder');
+Route::get('relatedproduct','unilityController@relatedproduct');
 
 
-//Route::get('imagesave','unilityController@imageCopy');
 

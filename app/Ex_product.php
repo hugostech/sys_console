@@ -20,4 +20,8 @@ class Ex_product extends Model
     {
         return $this->hasOne('App\Ex_speceal', 'product_id');
     }
+
+    public function categorys(){
+        return $this->belongsToMany('App\Ex_category','oc_ex_product_to_category','product_id','category_id');
+    }
 }
