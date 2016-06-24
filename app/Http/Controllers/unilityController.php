@@ -280,9 +280,10 @@ class unilityController extends Controller
                     $stock_status = 'Incoming';
                 }
             }
-            echo $product->product_id;
+            $categorys = null;
             $categorys  = $product->categorys;
-//            dd($categorys);
+
+            $categorytree = null;
             $categorytree = "";
             if(count($categorys)>0){
                 foreach($categorys as $category){
@@ -323,8 +324,7 @@ class unilityController extends Controller
             }
 
             $feed[$product->product_id] = $tem;
-            echo "pass";
-            echo "<br>";
+
 
         }
         }catch(Exception $e){
