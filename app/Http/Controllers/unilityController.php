@@ -11,6 +11,7 @@ use App\Ex_order;
 use App\Ex_product;
 use App\Ex_product_category;
 use App\Ex_product_description;
+use App\Ex_product_related;
 use App\Ex_product_store;
 use App\Ex_speceal;
 use App\Http\Requests;
@@ -515,7 +516,34 @@ class unilityController extends Controller
 
     public function relatedproduct(){
         $category = Ex_category::find(8);
-        dd($category->products);
+
+        $products = $category->products;
+
+        $productidgroup = array();
+
+        foreach($products as $product){
+            if($product->status<>0){
+                $productidgroup[]=$product->product_id;
+            }
+        }
+
+
+        $relatedProduct = array(439,1177,1844,363);
+
+        foreach($relatedProduct as $item){
+            foreach($productidgroup as $id){
+                if(count(Ex_product_related::where('product_id',$id)->where('category_id',$item)->get())>0){
+                    continue;
+                }else{
+                    $product_related = new Ex_product_related();
+                    $product_related->product_id = $id;
+                    $product_related->category_id = $item;
+                    $product_related->save();
+                }
+            }
+        }
+
+
     }
 
     public function addNewProduct($code)
