@@ -20,6 +20,7 @@ use App\Product;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Mail;
+use Mockery\CountValidator\Exception;
 
 class unilityController extends Controller
 {
@@ -262,6 +263,9 @@ class unilityController extends Controller
 
     public function productFeed()
     {
+        try{
+
+
         $products = Ex_product::all();
         $feed = array();
         foreach ($products as $product) {
@@ -318,6 +322,9 @@ class unilityController extends Controller
             }
 
             $feed[$product->product_id] = $tem;
+        }
+        }catch(Exception $e){
+            echo $e->getMessage();
         }
         echo \GuzzleHttp\json_encode($feed);
     }
