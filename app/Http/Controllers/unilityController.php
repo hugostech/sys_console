@@ -280,6 +280,7 @@ class unilityController extends Controller
                     $stock_status = 'Incoming';
                 }
             }
+            echo $product->product_id;
             $categorys  = $product->categorys;
 //            dd($categorys);
             $categorytree = "";
@@ -290,7 +291,7 @@ class unilityController extends Controller
                     $categorytree.=" ";
                 }
             }
-            echo $product->product_id;
+
            echo  htmlspecialchars_decode($categorytree);
 
 
