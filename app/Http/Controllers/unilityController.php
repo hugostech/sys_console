@@ -539,6 +539,7 @@ class unilityController extends Controller
 
     }
 
+
     public function relatedproduct(){
         $category = Ex_category::find(8);
 
@@ -547,6 +548,7 @@ class unilityController extends Controller
         $productidgroup = array();
 
         foreach($products as $product){
+            
             if($product->status<>0){
                 $productidgroup[]=$product->product_id;
             }
@@ -568,6 +570,11 @@ class unilityController extends Controller
             }
         }
 
+
+
+    }
+
+    public function categoryarrange(){
 
     }
 

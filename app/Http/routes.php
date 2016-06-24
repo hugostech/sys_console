@@ -120,6 +120,7 @@ Route::get('feed','unilityController@productFeed');
 Route::get('syncqty','unilityController@syncqty');
 Route::get('checkorder','unilityController@checkOrder');
 Route::get('relatedproduct','unilityController@relatedproduct');
+Route::get('categoryArrange','unilityController@categoryarrange');
 
 
 
