@@ -532,12 +532,12 @@ class unilityController extends Controller
 
         foreach($relatedProduct as $item){
             foreach($productidgroup as $id){
-                if(count(Ex_product_related::where('product_id',$id)->where('category_id',$item)->get())>0){
+                if(count(Ex_product_related::where('product_id',$id)->where('related_id',$item)->get())>0){
                     continue;
                 }else{
                     $product_related = new Ex_product_related();
                     $product_related->product_id = $id;
-                    $product_related->category_id = $item;
+                    $product_related->related_id = $item;
                     $product_related->save();
                 }
             }
