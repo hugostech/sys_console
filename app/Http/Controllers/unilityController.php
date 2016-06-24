@@ -292,7 +292,7 @@ class unilityController extends Controller
             }
             echo $product->product_id;
            echo  htmlspecialchars_decode($categorytree);
-            echo "<br>";
+
 
 
             $tem = array(
@@ -322,6 +322,9 @@ class unilityController extends Controller
             }
 
             $feed[$product->product_id] = $tem;
+            echo "pass";
+            echo "<br>";
+
         }
         }catch(Exception $e){
             echo $e->getMessage();
