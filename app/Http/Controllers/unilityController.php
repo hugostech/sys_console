@@ -587,7 +587,6 @@ class unilityController extends Controller
                         continue;
                     }
                     foreach($categorys as $other){
-//                        echo $category->equal($other);
                         if($parent->equal($other)){
                             $insert=1;
                             break;
