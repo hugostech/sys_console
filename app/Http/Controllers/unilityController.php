@@ -582,9 +582,10 @@ class unilityController extends Controller
             if(count($categorys)>0){
                 foreach($categorys as $category){
                     $insert = 0;
+                    $parent = $category->parentCategory();
                     foreach($categorys as $other){
 //                        echo $category->equal($other);
-                        if($category->equal($other)){
+                        if($parent->equal($other)){
                             $insert=1;
                             break;
                         }
