@@ -599,7 +599,7 @@ class unilityController extends Controller
                     }
                 }
             }else{
-                $uncategory[] = $product->model;
+                $uncategory[] = $product->product_id;
             }
         }
         var_dump($uncategory);
