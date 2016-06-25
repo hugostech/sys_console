@@ -591,8 +591,9 @@ class unilityController extends Controller
                             }
                         }
                         if($insert==0){
+
                             echo $product->product_id;
-                            echo " ".$category->category_id;
+                            echo " ".$parent->category_id;
                             echo "<br>";
                         }else{
                             $insert=0;
