@@ -583,20 +583,25 @@ class unilityController extends Controller
                 foreach($categorys as $category){
                     $insert = 0;
                     $parent = $category->parentCategory();
-                    if(empty($parent)){
-                        continue;
-                    }
-                    foreach($categorys as $other){
-                        if($parent->equal($other)){
-                            $insert=1;
-                            break;
+                    while(!empty($parent)){
+                        foreach($categorys as $other){
+                            if($parent->equal($other)){
+                                $insert=1;
+                                break;
+                            }
                         }
+                        if($insert==0){
+                            echo $product->product_id;
+                            echo " ".$category->category_id;
+                            echo "<br>";
+                        }else{
+                            $insert=0;
+                        }
+
+                        $parent = $parent->parentCategory();
                     }
-                    if($insert==0){
-                        echo $product->product_id;
-                        echo " ".$category->category_id;
-                        echo "<br>";
-                    }
+
+
                 }
             }else{
                 $uncategory[] = $product->product_id;
