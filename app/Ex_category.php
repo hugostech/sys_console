@@ -15,6 +15,8 @@ class Ex_category extends Model
     public function parentCategory(){
         if($this->parent_id<>0){
             return Ex_category::find($this->parent_id);
+        }else{
+            return null;
         }
     }
     public function description(){
