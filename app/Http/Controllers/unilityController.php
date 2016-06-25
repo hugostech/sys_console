@@ -575,7 +575,30 @@ class unilityController extends Controller
     }
 
     public function categoryarrange(){
-
+        $products = Ex_product::where('status',1)->get();
+        $uncategory = array();
+        foreach($products as $product){
+            $categorys = $product->categorys;
+            if(count($categorys)>0){
+                foreach($categorys as $category){
+                    $insert = 0;
+                    foreach($categorys as $other){
+                        if($category->equal($other)){
+                            $insert=1;
+                            break;
+                        }
+                    }
+                    if($insert==0){
+                        echo $product->product_id;
+                        echo " ".$category->category_id;
+                        echo "<br>";
+                    }
+                }
+            }else{
+                $uncategory[] = $product->model_id;
+            }
+        }
+        var_dump($uncategory);
     }
 
     public function addNewProduct($code)

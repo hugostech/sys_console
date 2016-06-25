@@ -24,5 +24,9 @@ class Ex_category extends Model
         return $this->belongsToMany('App\Ex_product','oc_ex_product_to_category','category_id','product_id');
     }
 
+    public function equal(Ex_category $other){
+       return $this->category_id == $other->category_id;
+    }
+
 
 }
