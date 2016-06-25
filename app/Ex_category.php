@@ -25,7 +25,7 @@ class Ex_category extends Model
     }
 
     public function equal(Ex_category $other){
-        echpo $this->category_id;
+        echo $this->category_id;
        if($this->category_id == $other->category_id){
             return true;
        }else{
