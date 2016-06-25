@@ -583,6 +583,7 @@ class unilityController extends Controller
                 foreach($categorys as $category){
                     $insert = 0;
                     foreach($categorys as $other){
+                        echo $category->equal($other);
                         if($category->equal($other)){
                             $insert=1;
                             break;
@@ -595,7 +596,7 @@ class unilityController extends Controller
                     }
                 }
             }else{
-                $uncategory[] = $product->model_id;
+                $uncategory[] = $product->model;
             }
         }
         var_dump($uncategory);
