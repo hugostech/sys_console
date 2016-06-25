@@ -583,7 +583,7 @@ class unilityController extends Controller
                 foreach($categorys as $category){
                     $insert = 0;
                     foreach($categorys as $other){
-                        echo $category->equal($other);
+//                        echo $category->equal($other);
                         if($category->equal($other)){
                             $insert=1;
                             break;
