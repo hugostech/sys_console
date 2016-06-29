@@ -106,7 +106,12 @@
             {{--@include('errors.error')--}}
         </div>
     </div>
-
+    <footer class="footer">
+        <div class="container">
+            <p class="text-muted">Powered by <a href="https://nz.linkedin.com/in/hankunwang
+">HugoW</a></p>
+        </div>
+    </footer>
 </body>
 <div class="se-pre-con"></div>
 </html>
