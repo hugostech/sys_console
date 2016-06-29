@@ -110,9 +110,14 @@
         </div>
     </div>
     <footer class="footer">
-        <div class="container">
-            <p class="muted credit">Powered by <a href="https://nz.linkedin.com/in/hankunwang
-">HugoW</a></p>
+        <div class="navbar navbar-fixed-bottom" style="background-color: #f5f5f5">
+
+        <div class="container" >
+            <div class="col-md-12 text-right" style="padding-top:8px ">
+            <label>Powered by <a href="https://nz.linkedin.com/in/hankunwang
+">HugoW</a></label>
+            </div>
+        </div>
         </div>
     </footer>
 </body>
