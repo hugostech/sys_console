@@ -102,13 +102,18 @@
                         {!! Form::text('client_phone',Null,['class'=>'form-control','placeholder'=>'Client phone','id'=>'client_phone']) !!}
 
                     </div>
+                    <div class="form-group">
 
                     <hr>
                     <textarea rows="8" class="form-control" placeholder="Description" name="note"></textarea>
-
+                    </div>
+                    <div class="form-group">
+                        {!! Form::submit('Submit',['class'=>'btn btn-block btn-primary form-control']) !!}
+                    </div>
                 </div>
+
+
             </div>
-            {!! Form::submit('Submit',['class'=>'btn btn-block btn-primary']) !!}
 
 
         {!! Form::close() !!}

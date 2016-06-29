@@ -109,16 +109,15 @@
             {{--@include('errors.error')--}}
         </div>
     </div>
-    <footer class="footer">
-        <div class="navbar navbar-fixed-bottom" style="background-color: #f5f5f5">
+    <footer class="container-fluid" style="background-color: #f5f5f5;margin-top: 20px;">
 
-        <div class="container" >
-            <div class="col-md-12 text-right" style="padding-top:8px ">
+        <div class="container">
+            <div class="col-md-10 text-right" style="padding-top:8px ">
             <label>Powered by <a href="https://nz.linkedin.com/in/hankunwang
 ">HugoW</a></label>
             </div>
         </div>
-        </div>
+
     </footer>
 </body>
 <div class="se-pre-con"></div>
