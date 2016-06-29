@@ -24,6 +24,9 @@
             z-index: 9999;
             background: url("{{url('/',['image','Preloader.gif'])}}") center no-repeat #fff;
         }
+        #footer {
+            background-color: #f5f5f5;
+        }
     </style>
     <script>
     //paste this code under the head tag or in a separate js file.
@@ -108,7 +111,7 @@
     </div>
     <footer class="footer">
         <div class="container">
-            <p class="text-muted">Powered by <a href="https://nz.linkedin.com/in/hankunwang
+            <p class="muted credit">Powered by <a href="https://nz.linkedin.com/in/hankunwang
 ">HugoW</a></p>
         </div>
     </footer>
