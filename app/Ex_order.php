@@ -17,4 +17,8 @@ class Ex_order extends Model
     public function items(){
         return $this->hasMany('App\Ex_order_product','order_id');
     }
+
+    public function customer(){
+        return $this->belongsTo('App\Ex_customer','customer_id');
+    }
 }

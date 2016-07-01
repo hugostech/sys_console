@@ -747,7 +747,14 @@ class unilityController extends Controller
         $customers = Ex_customer_address::where('zone_id','2344')->groupBy('customer_id')->get();
         echo count($customers).'<br>';
         foreach($customers as $customer){
-            echo $customer->firstname.' '.$customer->lastname.' ||| '.$customer->address_1.' '.$customer->address_2.'<br>';
+
+            echo $customer->firstname.' '.$customer->lastname.' ||| '.$customer->address_1.' '.$customer->address_2;
+
+            if(count(Ex_order::where('customer_id',$customer->customer_id)->get())>0){
+                echo ' <font color="red">No</font><br>';
+            }else{
+                echo ' <font color="green">Yes</font><br>';
+            }
         }
     }
     public function sendNewsLetter()

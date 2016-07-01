@@ -36,4 +36,5 @@ class Ex_category extends Model
     }
 
 
+
 }
