@@ -6,6 +6,8 @@ use App\Category;
 use App\category_item;
 use App\Category_warranty;
 use App\Ex_category;
+use App\Ex_customer;
+use App\Ex_customer_address;
 use App\Ex_manufacturer;
 use App\Ex_order;
 use App\Ex_product;
@@ -451,6 +453,7 @@ class unilityController extends Controller
 
     }
 
+
     public function syncQuantity()
     {
         $products = Ex_product::where('status', 1)->get();
@@ -611,6 +614,7 @@ class unilityController extends Controller
         var_dump($uncategory);
     }
 
+
     public function addNewProduct($code)
     {
         if (self::checkCodeEx($code)) {
@@ -739,6 +743,13 @@ class unilityController extends Controller
         return $exists;
     }
 
+    public function showAucklandCustomer(){
+        $customers = Ex_customer_address::where('zone_id','2344')->get();
+        echo count($customers).'<br>';
+        foreach($customers as $customer){
+            echo $customer->firstname.' '.$customer->lastname.' Address: '.$customer->address_1.' '.$customer->address_2.'<br>';
+        }
+    }
     public function sendNewsLetter()
     {
         $newsletters = News_letter::All();
