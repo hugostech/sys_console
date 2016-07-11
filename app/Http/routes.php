@@ -122,6 +122,7 @@ Route::get('checkorder','unilityController@checkOrder');
 Route::get('relatedproduct','unilityController@relatedproduct');
 Route::get('categoryArrange','unilityController@categoryarrange');
 Route::get('showauckland','unilityController@showAucklandCustomer');
+Route::get('saveClient','unilityController@addNewClient');
 
 
 

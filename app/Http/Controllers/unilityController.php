@@ -453,7 +453,15 @@ class unilityController extends Controller
 
     }
 
+    public function addNewClient(){
+        $url = env('SNPORT')."?action=newclient";
+        $data = array(
+            'name'=>'hugo',
+            'email'=>'hugowangchn@gmail.com'
 
+        );
+        echo self::sendData($url,$data);
+    }
     public function syncQuantity()
     {
         $products = Ex_product::where('status', 1)->get();
@@ -819,6 +827,22 @@ class unilityController extends Controller
             $newData[$varibale] = isset($data[$varibale]) ? $data[$varibale] : null;
         }
         return $newData;
+    }
+
+    private function sendData($url,$data){
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL,$url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS,http_build_query($data));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        $server_output = curl_exec ($ch);
+
+        curl_close ($ch);
+
+        return $server_output;
+
     }
     /*
      * Common functions end
