@@ -24,4 +24,12 @@ class Ex_product extends Model
     public function categorys(){
         return $this->belongsToMany('App\Ex_category','oc_ex_product_to_category','product_id','category_id');
     }
+
+    public function relates(){
+        return $this->belongsToMany('App\Ex_product','oc_ex_product_related','product_id','related_id');
+    }
+
+    public function master(){
+        return $this->belongsToMany('App\Ex_product','oc_ex_product_related','related_id','product_id');
+    }
 }
