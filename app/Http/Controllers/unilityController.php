@@ -58,7 +58,7 @@ class unilityController extends Controller
 
     private function getCat($cat)
     {
-        $url = env('SNPORT') . "?action=ds&cat=$cat";
+        echo $url = env('SNPORT') . "?action=ds&cat=$cat";
         $data = $this->getContent($url);
         return json_decode($data);
     }
