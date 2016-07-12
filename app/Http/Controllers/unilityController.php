@@ -23,6 +23,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Mail;
 use Mockery\CountValidator\Exception;
+use App\Ex_order_product;
 
 class unilityController extends Controller
 {
@@ -421,13 +422,11 @@ class unilityController extends Controller
         );
         $urgentlist = array();
         foreach($orders as $order){
-            $historys = $order->historys->last();
 
-            if(isset($historys->order_status_id)){
-                $status = $historys->order_status_id;
+                $status = $order->order_status_id;
 
                 if(in_array($status,$reminderStatus)){
-                    $date = Carbon::parse($historys->date_added);
+                    $date = Carbon::parse($order->date_modified);
                     $date = $date->dayOfYear+2;
 
                     if($date<=(Carbon::now()->dayOfYear)){
@@ -441,7 +440,7 @@ class unilityController extends Controller
 
 
                 }
-            }
+
         }
         if(count($urgentlist)>0){
             Mail::send('reminder', compact('urgentlist'), function ($m) {
@@ -455,12 +454,45 @@ class unilityController extends Controller
 
     public function addNewClient(){
         $url = env('SNPORT')."?action=newclient";
+
         $data = array(
             'name'=>'hugo',
             'email'=>'hugowangchn@gmail.com'
 
         );
         echo self::sendData($url,$data);
+    }
+    public function createRoctechOrder($id){
+        $url = env('SNPORT')."?action=newclient";
+        $order = Ex_order::find($id);
+        $name = $order->firstname .' '.$order->lastname;
+        $email = $order->email;
+        $phone = $order->telephone;
+        $company = $order->shipping_company;
+        $address1 =  $order->shipping_address_1;
+        $address2 =  $order->shipping_address_2;
+        $city = $order->shipping_city;
+        $province = $order->shipping_zone;
+        $orderid = $id;
+        $ship_status = $order->shipping_method=='Free Shipping'?1:0;
+        $items = $order->items;
+        $roc_items = array();
+        foreach($items as $item){
+            $product = array(
+                'model'=>$item->model,
+                'name'=>$item->name,
+                'price'=>$item->price,
+                'quantity'=>$item->quantity,
+                'total'=>$item->total,
+                'tax'=>$item->tax
+            );
+            $roc_items[] = $product;
+        }
+        $roc_items = \GuzzleHttp\json_encode($roc_items);
+        $data = compact('name','email','phone','company','address1','address2','city','province','orderid','ship_status','roc_items');
+
+        echo self::sendData($url,$data);
+
     }
     public function syncQuantity()
     {
