@@ -478,7 +478,7 @@ class unilityController extends Controller
         $address1 =  $order->shipping_address_1;
         $address2 =  $order->shipping_address_2;
         $city = $order->shipping_city.' '.$order->shipping_zone;
-        $orderid = '#'.$order->id;
+        $orderid = '#'.$id;
         $ship_status = $order->shipping_method=='Free Shipping'?1:0;
         $data = compact('phone','company','address1','address2','city','orderid','ship_status','clientId');
         return self::sendData($url,$data);
