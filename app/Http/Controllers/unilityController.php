@@ -499,19 +499,19 @@ class unilityController extends Controller
         }
     }
     public function createRoctechOrder($id){
-        $clientid = self::addNewClient($id);
+        echo $clientid = self::addNewClient($id);
         if(trim($clientid) == 'Error'){
             $clientid = 0;
         }
 
-        $roctech_order_id = self::addOrder($id,$clientid);
+        echo $roctech_order_id = self::addOrder($id,$clientid);
 
         if(trim($roctech_order_id)=='Error'){
             echo 'Error';
             return false;
         }
         self::insertOrderItem($id,$roctech_order_id);
-        return redirect("http://192.168.1.3/admin/olist.aspx?r=&id=$roctech_order_id");
+        //return redirect("http://192.168.1.3/admin/olist.aspx?r=&id=$roctech_order_id");
 
 //        $url = env('SNPORT')."?action=newclient";
 //        $order = Ex_order::find($id);
