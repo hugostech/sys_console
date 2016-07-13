@@ -465,10 +465,54 @@ class unilityController extends Controller
         $city = $order->shipping_city;
         $province = $order->shipping_zone;
         $data = compact('name','email','phone','company','address1','address2','city','province');
-        echo self::sendData($url,$data);
+        return self::sendData($url,$data);
+    }
+    public function addOrder($id,$clientId){
+        $url = env('SNPORT')."?action=createorder";
+
+        $order = Ex_order::find($id);
+
+
+        $phone = $order->telephone;
+        $company = $order->shipping_company;
+        $address1 =  $order->shipping_address_1;
+        $address2 =  $order->shipping_address_2;
+        $city = $order->shipping_city.' '.$order->shipping_zone;
+        $orderid = '#'.$order->id;
+        $ship_status = $order->shipping_method=='Free Shipping'?1:0;
+        $data = compact('phone','company','address1','address2','city','orderid','ship_status','clientId');
+        return self::sendData($url,$data);
+    }
+    public function insertOrderItem($id,$roctech_id){
+        $url = env('SNPORT')."?action=orderitem";
+
+        $order = Ex_order::find($id);
+        $order_id = $roctech_id;
+        $items = $order->items;
+        foreach($items as $item){
+            $model=$item->model;
+            $quantity=$item->quantity;
+            $name=$item->name;
+            $price_ex=$item->price;
+            $data =  compact('order_id','model','quantity','name','price_ex','data');
+            self::sendData($url,$data);
+        }
     }
     public function createRoctechOrder($id){
-        self::addNewClient($id);
+        $clientid = self::addNewClient($id);
+        if(trim($clientid) == 'Error'){
+            $clientid = 0;
+        }
+
+        $roctech_order_id = self::addOrder($id,$clientid);
+
+        if(trim($roctech_order_id)=='Error'){
+            echo 'Error';
+            return false;
+        }
+        self::insertOrderItem($id,$roctech_order_id);
+        return redirect("http://192.168.1.3/admin/olist.aspx?r=&id=$roctech_order_id");
+
 //        $url = env('SNPORT')."?action=newclient";
 //        $order = Ex_order::find($id);
 //        $name = $order->firstname .' '.$order->lastname;
