@@ -479,8 +479,9 @@ class unilityController extends Controller
         $address2 =  $order->shipping_address_2;
         $city = $order->shipping_city.' '.$order->shipping_zone;
         $orderid = '#'.$id;
+        $comment = $order->comment;
         $ship_status = $order->shipping_method=='Free Shipping'?1:0;
-        $data = compact('phone','company','address1','address2','city','orderid','ship_status','clientId');
+        $data = compact('phone','company','address1','address2','city','orderid','ship_status','clientId','comment');
         return self::sendData($url,$data);
     }
     public function insertOrderItem($id,$roctech_id){
