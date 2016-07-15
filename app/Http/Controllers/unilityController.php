@@ -459,9 +459,9 @@ class unilityController extends Controller
         $name = $order->firstname .' '.$order->lastname;
         $email = $order->email;
         $phone = $order->telephone;
-        $company = addcslashes($order->shipping_company);
-        $address1 =  addcslashes($order->shipping_address_1);
-        $address2 =  addcslashes($order->shipping_address_2);
+        $company = addslashes($order->shipping_company);
+        $address1 =  addslashes($order->shipping_address_1);
+        $address2 =  addslashes($order->shipping_address_2);
         $city = $order->shipping_city;
         $province = $order->shipping_zone;
         $data = compact('name','email','phone','company','address1','address2','city','province');
@@ -474,12 +474,12 @@ class unilityController extends Controller
 
 
         $phone = $order->telephone;
-        $company = addcslashes($order->shipping_company);
-        $address1 =  addcslashes($order->shipping_address_1);
-        $address2 =  addcslashes($order->shipping_address_2);
-        $city = addcslashes($order->shipping_city).' '.addcslashes($order->shipping_zone);
+        $company = addslashes($order->shipping_company);
+        $address1 =  addslashes($order->shipping_address_1);
+        $address2 =  addslashes($order->shipping_address_2);
+        $city = addslashes($order->shipping_city).' '.addslashes($order->shipping_zone);
         $orderid = '#'.$id;
-        $comment = addcslashes($order->comment);
+        $comment = addslashes($order->comment);
         $ship_status = $order->shipping_method=='Free Shipping'?1:0;
         $data = compact('phone','company','address1','address2','city','orderid','ship_status','clientId','comment');
         return self::sendData($url,$data);
@@ -493,7 +493,7 @@ class unilityController extends Controller
         foreach($items as $item){
             $model=$item->model;
             $quantity=$item->quantity;
-            $name=addcslashes($item->name);
+            $name=addslashes($item->name);
             $price_ex=$item->price;
             $data =  compact('order_id','model','quantity','name','price_ex','data');
             self::sendData($url,$data);
