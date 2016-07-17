@@ -553,7 +553,7 @@ class unilityController extends Controller
         $disable = array();
         foreach ($products as $product) {
             if(isset($roctech_array[$product->model])){
-                dd($roctech_array[$product->model]);
+//                dd($roctech_array[$product->model]);
                 if($roctech_array[$product->model][0] == 'True'){
                     $product->status = 0;
                     $disable[] = $product->model;
