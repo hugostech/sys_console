@@ -552,12 +552,13 @@ class unilityController extends Controller
 	    $unsync = array();
         $disable = array();
         foreach ($products as $product) {
-            if(isset($roctech_array[trim($product->model)])){
+            if(isset($roctech_array[$product->model])){
+                dd($roctech_array[$product->model]);
                 if($roctech_array[$product->model][0] == 'True'){
                     $product->status = 0;
                     $disable[] = $product->model;
                 }else{
-                    $product->quantity = $roctech_array[trim($product->model)][1];
+                    $product->quantity = $roctech_array[$product->model][1];
                     $product->status = 1;
                 }
                 $product->save();
