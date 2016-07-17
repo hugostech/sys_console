@@ -340,7 +340,7 @@ class unilityController extends Controller
     public function syncqty(){
         $url = env('SNPORT') . "?action=allqty";
         $content = self::getContent($url);
-        $content = str_replace(':,', ':0,', $content);
+//        $content = str_replace(':,', ':0,', $content);
         $content = str_replace(',}', '}', $content);
         $content = \GuzzleHttp\json_decode($content,true);
 
@@ -547,17 +547,18 @@ class unilityController extends Controller
     }
     public function syncQuantity()
     {
-        $products = Ex_product::where('status', 1)->get();
+        $products = Ex_product::all();
         $roctech_array = self::syncqty();
 	    $unsync = array();
         $disable = array();
         foreach ($products as $product) {
             if(isset($roctech_array[trim($product->model)])){
-                if($roctech_array[$product->model]<-500){
+                if($roctech_array[$product->model][0] == 'True'){
                     $product->status = 0;
                     $disable[] = $product->model;
                 }else{
-                    $product->quantity = $roctech_array[$product->model];
+                    $product->quantity = $roctech_array[trim($product->model)][1];
+                    $product->status = 1;
                 }
                 $product->save();
             }else{
