@@ -86,6 +86,9 @@ class warrantyController extends Controller
             $content .= '<br>';
             $content .= 'Reference No: ';
             $content .= $request->input('reference_no');
+            $warranty = Warranty::find($request->input('model_id'));
+            $warranty->ref_no = $request->input('reference_no');
+            $warranty->save();
         }
 
 
