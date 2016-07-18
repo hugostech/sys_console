@@ -345,7 +345,7 @@ class unilityController extends Controller
             $history->order_id = $order->order_id;
             $history->order_status_id = 5;
             $history->notify = 0;
-            $history->commnet = '';
+            $history->comment = '';
             $history->date_added = Carbon::now();
             $history->save();
             $order->order_status_id = 5;
@@ -353,7 +353,7 @@ class unilityController extends Controller
             $order->save();
             $list[$order->order_id] = $order;
         }
-        
+
     }
 
     /*
