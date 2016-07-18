@@ -246,6 +246,7 @@ class warrantyController extends Controller
             ->orWhere('client_name', 'like', $condition)
             ->orWhere('client_phone', 'like', $condition)
             ->orWhere('sn', 'like', $condition)
+            ->orWhere('ref_no', 'like', $condition)
             ->orderBy('id', 'desc')
             ->simplePaginate(30);
 
@@ -253,12 +254,14 @@ class warrantyController extends Controller
             ->orWhere('model_code', 'like', $condition)
             ->orWhere('client_name', 'like', $condition)
             ->orWhere('sn', 'like', $condition)
+            ->orWhere('ref_no', 'like', $condition)
             ->orWhere('client_phone', 'like', $condition)->get());
 
         $suppliers = self::supplierData(Warranty::where('model_name', 'like', $condition)
             ->orWhere('model_code', 'like', $condition)
             ->orWhere('client_name', 'like', $condition)
             ->orWhere('sn', 'like', $condition)
+            ->orWhere('ref_no', 'like', $condition)
             ->orWhere('client_phone', 'like', $condition)->get());
         return view('list', compact('warrantys', 'rates', 'suppliers','ip'));
     }
