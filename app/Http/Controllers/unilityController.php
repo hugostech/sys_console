@@ -6,10 +6,10 @@ use App\Category;
 use App\category_item;
 use App\Category_warranty;
 use App\Ex_category;
-use App\Ex_customer;
 use App\Ex_customer_address;
 use App\Ex_manufacturer;
 use App\Ex_order;
+use App\Ex_order_history;
 use App\Ex_product;
 use App\Ex_product_category;
 use App\Ex_product_description;
@@ -23,7 +23,6 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Mail;
 use Mockery\CountValidator\Exception;
-use App\Ex_order_product;
 
 class unilityController extends Controller
 {
@@ -266,71 +265,70 @@ class unilityController extends Controller
 
     public function productFeed()
     {
-        try{
+        try {
 
 
-        $products = Ex_product::all();
-        $feed = array();
-        foreach ($products as $product) {
-            $stock_status = 'Yes';
-            $special = Ex_speceal::where('product_id', $product->product_id)->first();
-            $product_name = isset(Ex_product_description::find($product->product_id)->name) ? Ex_product_description::find($product->product_id)->name : '';
+            $products = Ex_product::all();
+            $feed = array();
+            foreach ($products as $product) {
+                $stock_status = 'Yes';
+                $special = Ex_speceal::where('product_id', $product->product_id)->first();
+                $product_name = isset(Ex_product_description::find($product->product_id)->name) ? Ex_product_description::find($product->product_id)->name : '';
 
-            if ($product->quantity <= 0) {
-                if ($product->stock_status_id == 5) {
-                    $stock_status = 'No';
-                } else {
-                    $stock_status = 'Incoming';
+                if ($product->quantity <= 0) {
+                    if ($product->stock_status_id == 5) {
+                        $stock_status = 'No';
+                    } else {
+                        $stock_status = 'Incoming';
+                    }
                 }
-            }
-            $categorys = null;
-            $categorys  = $product->categorys;
+                $categorys = null;
+                $categorys = $product->categorys;
 
-            $categorytree = null;
-            $categorytree = "";
-            if(count($categorys)>0){
-                foreach($categorys as $category){
-                    $desc = $category->description;
-                    $categorytree.=$desc->name;
-                    $categorytree.="/";
+                $categorytree = null;
+                $categorytree = "";
+                if (count($categorys) > 0) {
+                    foreach ($categorys as $category) {
+                        $desc = $category->description;
+                        $categorytree .= $desc->name;
+                        $categorytree .= "/";
+                    }
                 }
-            }
 
 //           echo  htmlspecialchars_decode($categorytree);
 
 
+                $tem = array(
+                    'Product name' => $product_name,
+                    'Article number' => $product->model,
+                    'Manufacturer' => $product->manufacturer_id == 0 ? 'null' : Ex_manufacturer::find($product->manufacturer_id)->name,
+                    'URL to the product page' => "http://www.extremepc.co.nz/index.php?route=product/product&product_id=$product->product_id",
+                    'Product category' => $categorytree,
+                    'Price' => round($product->price * 1.15, 2),
+                    'Status' => 'Normal',
+                    'Stock status' => $stock_status
 
-            $tem = array(
-                'Product name' => $product_name,
-                'Article number' => $product->model,
-                'Manufacturer' => $product->manufacturer_id == 0 ? 'null' : Ex_manufacturer::find($product->manufacturer_id)->name,
-                'URL to the product page' => "http://www.extremepc.co.nz/index.php?route=product/product&product_id=$product->product_id",
-                'Product category' => $categorytree,
-                'Price' => round($product->price * 1.15, 2),
-                'Status' => 'Normal',
-                'Stock status' => $stock_status
 
+                );
+                if (isset($special->date_end)) {
+                    if ($special->date_end <> '0000-00-00') {
+                        $enddate = Carbon::parse($special->date_end);
+                        $startdate = Carbon::parse($special->date_start);
+                        $now = Carbon::now();
+                        if ($now->between($startdate, $enddate)) {
+                            $tem['Price'] = round($special->price * 1.15, 2);
+                        }
 
-            );
-            if (isset($special->date_end)) {
-                if ($special->date_end <> '0000-00-00') {
-                    $enddate = Carbon::parse($special->date_end);
-                    $startdate = Carbon::parse($special->date_start);
-                    $now = Carbon::now();
-                    if ($now->between($startdate, $enddate)) {
+                    } else {
                         $tem['Price'] = round($special->price * 1.15, 2);
                     }
-
-                } else {
-                    $tem['Price'] = round($special->price * 1.15, 2);
                 }
+
+                $feed[$product->product_id] = $tem;
+
+
             }
-
-            $feed[$product->product_id] = $tem;
-
-
-        }
-        }catch(Exception $e){
+        } catch (Exception $e) {
             echo $e->getMessage();
         }
         echo \GuzzleHttp\json_encode($feed);
@@ -338,28 +336,28 @@ class unilityController extends Controller
 
     /*
      * batch change order status*/
-    public function changeOrderStatus(){
-        $orders = Ex_order::where('order_status_id',15)->where('date_added','<','2016-07-01')->get();
+    public function changeOrderStatus()
+    {
+        $orders = Ex_order::where('order_status_id', 15)->where('date_added', '<', '2016-07-01')->get();
         $list = array();
-        foreach($orders as $order){
-            $list[$order->order_id]=$order;
+        foreach ($orders as $order) {
+            $history = new Ex_order_history();
+            $history->order_id = $order->order_id;
+            $history->order_status_id = 5;
+            $history->notify = 0;
+            $history->commnet = '';
+            $history->date_added = Carbon::now();
+            $history->save();
+            $order->order_status_id = 5;
+            $order->date_modified = Carbon::now();
+            $order->save();
+            $list[$order->order_id] = $order;
         }
-        dd($list);
+        
     }
 
     /*
      * grab sync qty arrary*/
-    public function syncqty(){
-        $url = env('SNPORT') . "?action=allqty";
-        $content = self::getContent($url);
-//        $content = str_replace(':,', ':0,', $content);
-        $content = str_replace(',}', '}', $content);
-        $content = \GuzzleHttp\json_decode($content,true);
-
-        return $content;
-    }
-    /* grab sync qty array end*/
-    /*daily sync quantity*/
 
     public function sync(Request $request)
     {
@@ -421,40 +419,44 @@ class unilityController extends Controller
         );
         return view('sync', compact('result'));
     }
+    /* grab sync qty array end*/
+    /*daily sync quantity*/
 
-    public function dailySync(){
+    public function dailySync()
+    {
         self::checkOrder();
         return self::syncQuantity(); //sync quantity
     }
 
-    public function checkOrder(){
+    public function checkOrder()
+    {
         $orders = Ex_order::all();
         $reminderStatus = array(
-            19,17
+            19, 17
         );
         $urgentlist = array();
-        foreach($orders as $order){
+        foreach ($orders as $order) {
 
-                $status = $order->order_status_id;
+            $status = $order->order_status_id;
 
-                if(in_array($status,$reminderStatus)){
-                    $date = Carbon::parse($order->date_modified);
-                    $date = $date->dayOfYear+2;
+            if (in_array($status, $reminderStatus)) {
+                $date = Carbon::parse($order->date_modified);
+                $date = $date->dayOfYear + 2;
 
-                    if($date<=(Carbon::now()->dayOfYear)){
-                        $tem = array(
-                            0=>$order,
-                            1=>$order->items,
-                            2=>$status==19?'Back Order':'Payment Check'
-                        );
-                        $urgentlist[]=$tem;
-                    }
-
-
+                if ($date <= (Carbon::now()->dayOfYear)) {
+                    $tem = array(
+                        0 => $order,
+                        1 => $order->items,
+                        2 => $status == 19 ? 'Back Order' : 'Payment Check'
+                    );
+                    $urgentlist[] = $tem;
                 }
 
+
+            }
+
         }
-        if(count($urgentlist)>0){
+        if (count($urgentlist) > 0) {
             Mail::send('reminder', compact('urgentlist'), function ($m) {
                 $m->from('no-reply@zdhomes.com', 'Extremepc Reminder');
                 $m->cc('tony@roctech.co.nz', 'Tony Situ');
@@ -464,66 +466,77 @@ class unilityController extends Controller
 
     }
 
-    public function addNewClient($id){
-        $url = env('SNPORT')."?action=newclient";
+    public function syncQuantity()
+    {
+        $products = Ex_product::all();
+        $roctech_array = self::syncqty();
+        $unsync = array();
+        $disable = array();
+        foreach ($products as $product) {
+            if (isset($roctech_array[$product->model])) {
+//                dd($roctech_array[$product->model]);
+                if ($roctech_array[$product->model][0] == 'True') {
+                    $product->status = 0;
+                    $disable[] = $product->model;
+                } else {
+                    $product->quantity = $roctech_array[$product->model][1];
+                    $product->status = 1;
+                }
+                $product->save();
+            } else {
+                $unsync[] = $product->model;
+            }
 
-        $order = Ex_order::find($id);
-        $name = $order->firstname .' '.$order->lastname;
-        $email = $order->email;
-        $phone = $order->telephone;
-        $company = addslashes($order->shipping_company);
-        $address1 =  addslashes($order->shipping_address_1);
-        $address2 =  addslashes($order->shipping_address_2);
-        $city = $order->shipping_city;
-        $province = $order->shipping_zone;
-        $data = compact('name','email','phone','company','address1','address2','city','province');
-        return self::sendData($url,$data);
-    }
-    public function addOrder($id,$clientId){
-        $url = env('SNPORT')."?action=createorder";
-
-        $order = Ex_order::find($id);
-
-
-        $phone = $order->telephone;
-        $company = addslashes($order->shipping_company);
-        $address1 =  addslashes($order->shipping_address_1);
-        $address2 =  addslashes($order->shipping_address_2);
-        $city = addslashes($order->shipping_city).' '.addslashes($order->shipping_zone);
-        $orderid = '#'.$id;
-        $comment = addslashes($order->comment);
-        $ship_status = $order->shipping_method=='Free Shipping'?1:0;
-        $data = compact('phone','company','address1','address2','city','orderid','ship_status','clientId','comment');
-        return self::sendData($url,$data);
-    }
-    public function insertOrderItem($id,$roctech_id){
-        $url = env('SNPORT')."?action=orderitem";
-
-        $order = Ex_order::find($id);
-        $order_id = $roctech_id;
-        $items = $order->items;
-        foreach($items as $item){
-            $model=$item->model;
-            $quantity=$item->quantity;
-            $name=addslashes($item->name);
-            $price_ex=$item->price;
-            $data =  compact('order_id','model','quantity','name','price_ex','data');
-            self::sendData($url,$data);
         }
+//        foreach ($products as $product) {
+//            $code = intval($product->model);
+//            if ($code != 0) {
+//                $url = env('SNPORT') . "?action=sync&code=$code";
+//                $quantity = $this->getContent($url);
+//                $pos = strpos($quantity, 'Error');
+//                if ($pos === false) {
+//                    $product->quantity = $quantity;
+//
+//                } else {
+//
+//                    //	$product->status = 0;
+//                }
+//
+//                $product->save();
+//            }
+//        }
+        $total_enable = count(Ex_product::where('status', 1)->get());
+        $total_disable = count(Ex_product::where('status', 0)->get());
+
+        $content = 'Last sync is at' . date(' jS \of F Y h:i:s A');
+        return view('self_sync', compact('content', 'unsync', 'disable', 'total_enable', 'total_disable'));
     }
-    public function createRoctechOrder($id){
+
+    public function syncqty()
+    {
+        $url = env('SNPORT') . "?action=allqty";
+        $content = self::getContent($url);
+//        $content = str_replace(':,', ':0,', $content);
+        $content = str_replace(',}', '}', $content);
+        $content = \GuzzleHttp\json_decode($content, true);
+
+        return $content;
+    }
+
+    public function createRoctechOrder($id)
+    {
         $clientid = self::addNewClient($id);
-        if(trim($clientid) == 'Error'){
+        if (trim($clientid) == 'Error') {
             $clientid = 0;
         }
 
-        $roctech_order_id = self::addOrder($id,$clientid);
+        $roctech_order_id = self::addOrder($id, $clientid);
 
-        if(trim($roctech_order_id)=='Error'){
+        if (trim($roctech_order_id) == 'Error') {
             echo 'Error';
             return false;
         }
-        self::insertOrderItem($id,$roctech_order_id);
+        self::insertOrderItem($id, $roctech_order_id);
         return redirect("http://192.168.1.3/admin/olist.aspx?r=&id=$roctech_order_id");
 
 //        $url = env('SNPORT')."?action=newclient";
@@ -557,50 +570,75 @@ class unilityController extends Controller
 //        echo self::sendData($url,$data);
 
     }
-    public function syncQuantity()
+
+    public function addNewClient($id)
     {
-        $products = Ex_product::all();
-        $roctech_array = self::syncqty();
-	    $unsync = array();
-        $disable = array();
-        foreach ($products as $product) {
-            if(isset($roctech_array[$product->model])){
-//                dd($roctech_array[$product->model]);
-                if($roctech_array[$product->model][0] == 'True'){
-                    $product->status = 0;
-                    $disable[] = $product->model;
-                }else{
-                    $product->quantity = $roctech_array[$product->model][1];
-                    $product->status = 1;
-                }
-                $product->save();
-            }else{
-		    $unsync[] = $product->model;
-	     }
+        $url = env('SNPORT') . "?action=newclient";
 
+        $order = Ex_order::find($id);
+        $name = $order->firstname . ' ' . $order->lastname;
+        $email = $order->email;
+        $phone = $order->telephone;
+        $company = addslashes($order->shipping_company);
+        $address1 = addslashes($order->shipping_address_1);
+        $address2 = addslashes($order->shipping_address_2);
+        $city = $order->shipping_city;
+        $province = $order->shipping_zone;
+        $data = compact('name', 'email', 'phone', 'company', 'address1', 'address2', 'city', 'province');
+        return self::sendData($url, $data);
+    }
+
+    private function sendData($url, $data)
+    {
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        $server_output = curl_exec($ch);
+
+        curl_close($ch);
+
+        return $server_output;
+
+    }
+
+    public function addOrder($id, $clientId)
+    {
+        $url = env('SNPORT') . "?action=createorder";
+
+        $order = Ex_order::find($id);
+
+
+        $phone = $order->telephone;
+        $company = addslashes($order->shipping_company);
+        $address1 = addslashes($order->shipping_address_1);
+        $address2 = addslashes($order->shipping_address_2);
+        $city = addslashes($order->shipping_city) . ' ' . addslashes($order->shipping_zone);
+        $orderid = '#' . $id;
+        $comment = addslashes($order->comment);
+        $ship_status = $order->shipping_method == 'Free Shipping' ? 1 : 0;
+        $data = compact('phone', 'company', 'address1', 'address2', 'city', 'orderid', 'ship_status', 'clientId', 'comment');
+        return self::sendData($url, $data);
+    }
+
+    public function insertOrderItem($id, $roctech_id)
+    {
+        $url = env('SNPORT') . "?action=orderitem";
+
+        $order = Ex_order::find($id);
+        $order_id = $roctech_id;
+        $items = $order->items;
+        foreach ($items as $item) {
+            $model = $item->model;
+            $quantity = $item->quantity;
+            $name = addslashes($item->name);
+            $price_ex = $item->price;
+            $data = compact('order_id', 'model', 'quantity', 'name', 'price_ex', 'data');
+            self::sendData($url, $data);
         }
-//        foreach ($products as $product) {
-//            $code = intval($product->model);
-//            if ($code != 0) {
-//                $url = env('SNPORT') . "?action=sync&code=$code";
-//                $quantity = $this->getContent($url);
-//                $pos = strpos($quantity, 'Error');
-//                if ($pos === false) {
-//                    $product->quantity = $quantity;
-//
-//                } else {
-//
-//                    //	$product->status = 0;
-//                }
-//
-//                $product->save();
-//            }
-//        }
-        $total_enable = count(Ex_product::where('status', 1)->get());
-        $total_disable = count(Ex_product::where('status', 0)->get());
-
-        $content = 'Last sync is at' . date(' jS \of F Y h:i:s A');
-        return view('self_sync', compact('content','unsync','disable','total_enable','total_disable'));
     }
 
     public function showSync()
@@ -646,79 +684,6 @@ class unilityController extends Controller
         }
 
     }
-
-
-    public function relatedproduct(){
-        $category = Ex_category::find(8);
-
-        $products = $category->products;
-
-        $productidgroup = array();
-
-        foreach($products as $product){
-            
-            if($product->status<>0){
-                $productidgroup[]=$product->product_id;
-            }
-        }
-
-
-        $relatedProduct = array(439,1177,1844,363);
-
-        foreach($relatedProduct as $item){
-            foreach($productidgroup as $id){
-                if(count(Ex_product_related::where('product_id',$id)->where('related_id',$item)->get())>0){
-                    continue;
-                }else{
-                    $product_related = new Ex_product_related();
-                    $product_related->product_id = $id;
-                    $product_related->related_id = $item;
-                    $product_related->save();
-                }
-            }
-        }
-
-
-
-    }
-
-    public function categoryarrange(){
-        $products = Ex_product::where('status',1)->get();
-        $uncategory = array();
-        foreach($products as $product){
-            $categorys = $product->categorys;
-            if(count($categorys)>0){
-                foreach($categorys as $category){
-                    $insert = 0;
-                    $parent = $category->parentCategory();
-                    while(!empty($parent)){
-                        foreach($categorys as $other){
-                            if($parent->equal($other)){
-                                $insert=1;
-                                break;
-                            }
-                        }
-                        if($insert==0){
-                            $product_category = new Ex_product_category();
-                            $product_category->product_id = $product->product_id;
-                            $product_category->category_id = $parent->category_id;
-                            $product_category->save();
-                        }else{
-                            $insert=0;
-                        }
-
-                        $parent = $parent->parentCategory();
-                    }
-
-
-                }
-            }else{
-                $uncategory[] = $product->product_id;
-            }
-        }
-        var_dump($uncategory);
-    }
-
 
     public function addNewProduct($code)
     {
@@ -778,6 +743,15 @@ class unilityController extends Controller
 
 
     }
+
+    private function checkCodeEx($code)
+    {
+        if (count(Ex_product::where('model', $code)->get()) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     /*
      * sync data from roctech to extremepc functions end */
 
@@ -810,15 +784,6 @@ class unilityController extends Controller
      * news letter functions
      * */
 
-    private function checkCodeEx($code)
-    {
-        if (count(Ex_product::where('model', $code)->get()) > 0) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     private function imageCopy($code)
     {
         $url = env('IMGREMOTE') . $code . '.jpg';
@@ -826,15 +791,6 @@ class unilityController extends Controller
             copy($url, "/var/www/extremepc.co.nz/public_html/image/catalog/autoEx/$code.jpg");
         }
     }
-
-    /*
-     * news letter functions end*/
-
-
-    /*=====================================================================================================================*/
-
-    /*
-     * Common functions*/
 
     private function imageExist($url)
     {
@@ -848,20 +804,103 @@ class unilityController extends Controller
         return $exists;
     }
 
-    public function showAucklandCustomer(){
-        $customers = Ex_customer_address::where('zone_id','2344')->groupBy('customer_id')->get();
-        echo count($customers).'<br>';
-        foreach($customers as $customer){
+    /*
+     * news letter functions end*/
 
-            echo $customer->firstname.' '.$customer->lastname.' ||| '.$customer->address_1.' '.$customer->address_2;
 
-            if(count(Ex_order::where('customer_id',$customer->customer_id)->get())>0){
+    /*=====================================================================================================================*/
+
+    /*
+     * Common functions*/
+
+    public function relatedproduct()
+    {
+        $category = Ex_category::find(8);
+
+        $products = $category->products;
+
+        $productidgroup = array();
+
+        foreach ($products as $product) {
+
+            if ($product->status <> 0) {
+                $productidgroup[] = $product->product_id;
+            }
+        }
+
+
+        $relatedProduct = array(439, 1177, 1844, 363);
+
+        foreach ($relatedProduct as $item) {
+            foreach ($productidgroup as $id) {
+                if (count(Ex_product_related::where('product_id', $id)->where('related_id', $item)->get()) > 0) {
+                    continue;
+                } else {
+                    $product_related = new Ex_product_related();
+                    $product_related->product_id = $id;
+                    $product_related->related_id = $item;
+                    $product_related->save();
+                }
+            }
+        }
+
+
+    }
+
+    public function categoryarrange()
+    {
+        $products = Ex_product::where('status', 1)->get();
+        $uncategory = array();
+        foreach ($products as $product) {
+            $categorys = $product->categorys;
+            if (count($categorys) > 0) {
+                foreach ($categorys as $category) {
+                    $insert = 0;
+                    $parent = $category->parentCategory();
+                    while (!empty($parent)) {
+                        foreach ($categorys as $other) {
+                            if ($parent->equal($other)) {
+                                $insert = 1;
+                                break;
+                            }
+                        }
+                        if ($insert == 0) {
+                            $product_category = new Ex_product_category();
+                            $product_category->product_id = $product->product_id;
+                            $product_category->category_id = $parent->category_id;
+                            $product_category->save();
+                        } else {
+                            $insert = 0;
+                        }
+
+                        $parent = $parent->parentCategory();
+                    }
+
+
+                }
+            } else {
+                $uncategory[] = $product->product_id;
+            }
+        }
+        var_dump($uncategory);
+    }
+
+    public function showAucklandCustomer()
+    {
+        $customers = Ex_customer_address::where('zone_id', '2344')->groupBy('customer_id')->get();
+        echo count($customers) . '<br>';
+        foreach ($customers as $customer) {
+
+            echo $customer->firstname . ' ' . $customer->lastname . ' ||| ' . $customer->address_1 . ' ' . $customer->address_2;
+
+            if (count(Ex_order::where('customer_id', $customer->customer_id)->get()) > 0) {
                 echo ' <font color="red">Yes</font><br>';
-            }else{
+            } else {
                 echo ' <font color="green">No</font><br>';
             }
         }
     }
+
     public function sendNewsLetter()
     {
         $newsletters = News_letter::All();
@@ -924,22 +963,6 @@ class unilityController extends Controller
             $newData[$varibale] = isset($data[$varibale]) ? $data[$varibale] : null;
         }
         return $newData;
-    }
-
-    private function sendData($url,$data){
-        $ch = curl_init();
-
-        curl_setopt($ch, CURLOPT_URL,$url);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS,http_build_query($data));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-        $server_output = curl_exec ($ch);
-
-        curl_close ($ch);
-
-        return $server_output;
-
     }
     /*
      * Common functions end
