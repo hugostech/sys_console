@@ -335,6 +335,14 @@ class unilityController extends Controller
         }
         echo \GuzzleHttp\json_encode($feed);
     }
+
+    /*
+     * batch change order status*/
+    public function changeOrderStatus(){
+        $order = Ex_order::where('order_status_id',15)->where('date_added','<','2016-07-01')->get();
+        dd($order);
+    }
+
     /*
      * grab sync qty arrary*/
     public function syncqty(){
