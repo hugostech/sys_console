@@ -865,10 +865,13 @@ class unilityController extends Controller
                             }
                         }
                         if ($insert == 0) {
-                            $product_category = new Ex_product_category();
-                            $product_category->product_id = $product->product_id;
-                            $product_category->category_id = $parent->category_id;
-                            $product_category->save();
+                            if(count(Ex_product_category::where('product_id',$product->product_id)->where('category_id',$parent->category_id)->get())>0){
+                                $product_category = new Ex_product_category();
+                                $product_category->product_id = $product->product_id;
+                                $product_category->category_id = $parent->category_id;
+                                $product_category->save();
+                            }
+
                         } else {
                             $insert = 0;
                         }
