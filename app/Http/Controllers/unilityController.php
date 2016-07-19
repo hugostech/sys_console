@@ -865,7 +865,7 @@ class unilityController extends Controller
                             }
                         }
                         if ($insert == 0) {
-                            if(count(Ex_product_category::where('product_id',$product->product_id)->where('category_id',$parent->category_id)->get())>0){
+                            if(count(Ex_product_category::where('product_id',$product->product_id)->where('category_id',$parent->category_id)->get())<1){
                                 $product_category = new Ex_product_category();
                                 $product_category->product_id = $product->product_id;
                                 $product_category->category_id = $parent->category_id;
