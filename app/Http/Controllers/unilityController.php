@@ -425,6 +425,7 @@ class unilityController extends Controller
     public function dailySync()
     {
         self::checkOrder();
+        self::categoryarrange();
         return self::syncQuantity(); //sync quantity
     }
 
