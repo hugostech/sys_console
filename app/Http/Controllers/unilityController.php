@@ -460,12 +460,21 @@ class unilityController extends Controller
         }
         if (count($urgentlist) > 0) {
             Mail::send('reminder', compact('urgentlist'), function ($m) {
-                $m->from('no-reply@zdhomes.com', 'Extremepc Reminder');
+                $m->from('no-reply@extremepc.co.nz', 'Extremepc Reminder');
                 $m->cc('tony@roctech.co.nz', 'Tony Situ');
                 $m->to('sales@roctech.co.nz', 'Roctech')->subject('Online Order Reminder!');
             });
         }
 
+    }
+
+    public function sendPaymentReminder($code){
+        $order = Ex_order::find($code);
+        Mail::send('email.paymentreminder', compact('order'), function ($m) use ($order){
+            $m->from('no-reply@extremepc.co.nz', 'Extremepc Payment Reminder');
+//            $m->cc('tony@roctech.co.nz', 'Tony Situ');
+            $m->to($order->email,$order->firstname.' '.$order->lastname)->subject('ExtremePC Online Order Reminder!');
+        });
     }
 
     public function syncQuantity()

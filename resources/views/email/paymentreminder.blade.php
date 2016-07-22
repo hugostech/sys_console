@@ -14,7 +14,7 @@
 </span>
 </p>
 <p class="p1">
-    <span class="s1">Thanks for your order recently though our ExtremePC Website which Order number is {{$order}}, {{$total}} on {{$date}}.</span>
+    <span class="s1">Thanks for your order recently though our ExtremePC Website which Order number is {{$order->order_id}}, {{$order->total}} on {{$order->date_added}}.</span>
 </p>
 <p class="p1">
     <span class="s1">&nbsp;</span>
