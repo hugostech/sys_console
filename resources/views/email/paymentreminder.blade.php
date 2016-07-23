@@ -5,54 +5,48 @@
     <title>ExtremePC</title>
 </head>
 <body>
-<p>
-<p class="p1">
-    <span class="s1"><strong>Dear Customer,</strong>&nbsp;</span>
+
+<p class="p2">
+    <span class="s1"></span>
 </p>
 <p class="p1">
-		<span class="s1"><br />
-</span>
+    <span class="s1" style="font-size:16px;">Thanks for your order recently though our ExtremePC
+        Website which Order number is {{$order->order_id}}, {{$order->total}} on {{$order->date_added}}.</span>
 </p>
 <p class="p1">
-    <span class="s1">Thanks for your order recently though our ExtremePC Website which Order number is {{$order->order_id}}, {{$order->total}} on {{$order->date_added}}.</span>
+    <span class="s1" style="font-size:16px;">&nbsp;</span>
 </p>
 <p class="p1">
-    <span class="s1">&nbsp;</span>
+    <span class="s1" style="font-size:16px;">Unfortunately, we have not yet received your payment for the order.&nbsp;</span>
 </p>
 <p class="p1">
-    <span class="s1">Unfortunately, we have not yet received your payment for the order.&nbsp;</span>
+    <span class="s1" style="font-size:16px;">&nbsp;</span>
 </p>
 <p class="p1">
-    <span class="s1">&nbsp;</span>
+    <span class="s1" style="font-size:16px;">The order will be processed once the payment has been received.&nbsp;</span>
 </p>
 <p class="p1">
-    <span class="s1">The order will be processed once the payment has been received.&nbsp;</span>
+    <span class="s1" style="font-size:16px;">&nbsp;</span>
 </p>
 <p class="p1">
-    <span class="s1">&nbsp;</span>
-</p>
-<p class="p1">
-    <span class="s1">Please free to contact us for any further questions.</span>
+    <span class="s1" style="font-size:16px;">Please free to contact us for any further questions.</span>
 </p>
 <p class="p1">
     <span class="s1">&nbsp;</span>
 </p>
-<p class="p1">
-    <span class="s1"><strong>ExtremePC Team</strong></span>
+<h3>
+    <span class="s1" style="font-size:18px;"><b>ExtremePC Team</b></span>
+</h3>
+<p class="p3">
+    <span class="s2"><span style="font-size:14px;">Email: </span><a href="mailto:sales@roctech.co.nz"><span class="s3" style="font-size:14px;">sales@roctech.co.nz</span></a></span>
 </p>
-<p class="p1">
-    <span class="s1">Email: sales@roctech.co.nz</span>
+<p class="p4">
+    <span class="s4" style="font-size:14px;">Phone:&nbsp;</span><span class="s1" style="font-size:14px;">09 849 4888</span>
 </p>
-<p class="p1">
-    <span class="s1">Phone:&nbsp;<span style="color:#333333;font-family:Poppins;font-size:13px;line-height:20.8px;">09 849 4888</span><span style="background-color:;"></span></span>
+<p class="p4">
+    <span class="s1" style="font-size:14px;">Address: Shop A2, St Lukes Mega Centre</span><span class="s4"><br />
+</span><span class="s1" style="font-size:14px;">1 Wagner Place, St Lukes, Auckland</span>
 </p>
-<p class="p1">
-		<span class="s1"><span style="color:#333333;font-family:Poppins;font-size:13px;line-height:18.5714px;">Address: Shop A2, St Lukes Mega Centre</span><br />
-<span style="color:#333333;font-family:Poppins;font-size:13px;line-height:18.5714px;">1 Wagner Place, St Lukes, Auckland</span></span>
-</p>
-</p>
-<p>
-    <br />
-</p>
+
 </body>
 </html>
