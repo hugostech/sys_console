@@ -11,7 +11,7 @@
 </p>
 <p class="p1">
     <span class="s1" style="font-size:16px;">Thanks for your order recently though our ExtremePC
-        Website which Order number is {{$order->order_id}}, {{$order->total}} on {{$order->date_added}}.</span>
+        Website which Order number is {{$order->order_id}}, ${{round($order->total,2)}} on {{$order->date_added}}.</span>
 </p>
 <p class="p1">
     <span class="s1" style="font-size:16px;">&nbsp;</span>
