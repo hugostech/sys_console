@@ -474,7 +474,7 @@ class unilityController extends Controller
 //        dd($order);
         Mail::send('email.paymentreminder', compact('order'), function ($m) use ($order){
             $m->from('no-reply@extremepc.co.nz', 'Extremepc Payment Reminder');
-//            $m->cc('tony@roctech.co.nz', 'Tony Situ');
+            $m->cc('a366232446@gmail.com', 'Hugo Wang');
             echo $email = $order->email;
             echo $name = $order->firstname.' '.$order->lastname;
             $m->to($email,$name)->subject('ExtremePC Online Order Reminder!');
