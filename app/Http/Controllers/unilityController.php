@@ -471,7 +471,7 @@ class unilityController extends Controller
     public function sendPaymentReminder($code){
         echo $code;
         $order = Ex_order::find($code);
-        dd($order);
+//        dd($order);
         Mail::send('email.paymentreminder', compact('order'), function ($m) use ($order){
             $m->from('no-reply@extremepc.co.nz', 'Extremepc Payment Reminder');
 //            $m->cc('tony@roctech.co.nz', 'Tony Situ');
