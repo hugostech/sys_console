@@ -5,9 +5,15 @@
     <title>ExtremePC</title>
 </head>
 <body>
+<p>
+    <br />
+</p>
+<h3>
+    <span class="s1"><b><span style="font-size:18px;">Dear Customer,</span></b><span style="font-size:18px;">&nbsp;</span></span>
+</h3>
 
-<p class="p2">
-    <span class="s1"></span>
+<p class="p1">
+    <span class="s1" style="font-size:16px;">&nbsp;</span>
 </p>
 <p class="p1">
     <span class="s1" style="font-size:16px;">Thanks for your order recently though our ExtremePC

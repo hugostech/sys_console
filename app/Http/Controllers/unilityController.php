@@ -454,6 +454,14 @@ class unilityController extends Controller
                     $urgentlist[] = $tem;
                 }
 
+                if($status == 17){
+                    $add_date = Carbon::parse($order->date_added);
+                    $add_date = $add_date->dayOfYear;
+                    if(($add_date+4)==(Carbon::now()->dayOfYear) && ($add_date+10)==(Carbon::now()->dayOfYear)){
+                        self::sendPaymentReminder($order);
+                    }
+                }
+
 
             }
 
@@ -462,21 +470,22 @@ class unilityController extends Controller
             Mail::send('reminder', compact('urgentlist'), function ($m) {
                 $m->from('no-reply@extremepc.co.nz', 'Extremepc Reminder');
                 $m->cc('tony@roctech.co.nz', 'Tony Situ');
+                $m->bcc('hugo@roctech.co.nz', 'Hugo Wang');
                 $m->to('sales@roctech.co.nz', 'Roctech')->subject('Online Order Reminder!');
             });
         }
 
     }
 
-    public function sendPaymentReminder($code){
-        echo $code;
-        $order = Ex_order::find($code);
+    public function sendPaymentReminder($order){
+
+//        $order = Ex_order::find($code);
 //        dd($order);
         Mail::send('email.paymentreminder', compact('order'), function ($m) use ($order){
             $m->from('no-reply@extremepc.co.nz', 'Extremepc Payment Reminder');
-            $m->cc('a366232446@gmail.com', 'Hugo Wang');
-            echo $email = $order->email;
-            echo $name = $order->firstname.' '.$order->lastname;
+            $m->bcc('tony@roctech.co.nz', 'Tony Situ');
+            $email = $order->email;
+            $name = $order->firstname.' '.$order->lastname;
             $m->to($email,$name)->subject('ExtremePC Online Order Reminder!');
         });
     }
