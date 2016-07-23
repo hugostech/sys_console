@@ -125,7 +125,7 @@ Route::get('showauckland','unilityController@showAucklandCustomer');
 Route::get('saveClient','unilityController@addNewClient');
 Route::get('createorder/{id}','unilityController@createRoctechOrder');
 Route::get('changeOrderStatus','unilityController@changeOrderStatus');
-Route::get('testEmail/{id}','unilityController@changeOrderStatus');
+Route::get('testEmail/{id}','unilityController@sendPaymentReminder');
 
 
 
