@@ -87,6 +87,7 @@ class unilityController extends Controller
     {
         $data = array();
         if ($request->has('code')) {
+            self::addNewProduct($request->input('code'));
             $data = self::getData($request->input('code'));
         }
 
