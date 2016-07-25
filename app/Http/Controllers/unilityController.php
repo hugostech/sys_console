@@ -470,7 +470,7 @@ class unilityController extends Controller
         if (count($urgentlist) > 0) {
             Mail::send('reminder', compact('urgentlist'), function ($m) {
                 $m->from('no-reply@extremepc.co.nz', 'Extremepc Reminder');
-                $m->cc('tony@roctech.co.nz', 'Tony Situ');
+                $m->bcc('tony@roctech.co.nz', 'Tony Situ');
                 $m->bcc('hugo@roctech.co.nz', 'Hugo Wang');
                 $m->to('sales@roctech.co.nz', 'Roctech')->subject('Online Order Reminder!');
             });
