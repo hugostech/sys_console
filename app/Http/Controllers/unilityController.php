@@ -458,7 +458,7 @@ class unilityController extends Controller
                 if($status == 17){
                     $add_date = Carbon::parse($order->date_added);
                     $add_date = $add_date->dayOfYear;
-                    if(($add_date+4)==(Carbon::now()->dayOfYear) && ($add_date+10)==(Carbon::now()->dayOfYear)){
+                    if(($add_date+4)==(Carbon::now()->dayOfYear) || ($add_date+10)==(Carbon::now()->dayOfYear)){
                         self::sendPaymentReminder($order);
                     }
                 }
@@ -485,6 +485,7 @@ class unilityController extends Controller
         Mail::send('email.paymentreminder', compact('order'), function ($m) use ($order){
             $m->from('no-reply@extremepc.co.nz', 'Extremepc Payment Reminder');
             $m->bcc('tony@roctech.co.nz', 'Tony Situ');
+            $m->bcc('hugo@roctech.co.nz', 'Hugo Wang');
             $email = $order->email;
             $name = $order->firstname.' '.$order->lastname;
             $m->to($email,$name)->subject('ExtremePC Online Order Reminder!');
