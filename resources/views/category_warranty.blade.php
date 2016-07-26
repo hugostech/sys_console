@@ -64,7 +64,10 @@
                     <div class="form-group">
                         <textarea name="detail" rows="5" class="form-control" placeholder="Details..." id="warranty_detail"></textarea>
                         <script>
-                            $('#warranty_detail').wymeditor();
+                         
+                            KindEditor.ready(function(K) {
+                                window.editor = K.create('#warranty_detail');
+                            });
                         </script>
                     </div>
                 </div>
