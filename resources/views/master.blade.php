@@ -8,6 +8,8 @@
     <script src="{{url('',['js','bootstrap.min.js'])}}"></script>
     <script src="{{url('',['js','special.js'])}}"></script>
     <script src="{{url('',['js','angular.min.js'])}}"></script>
+    <script src="{{url('',['js','wymeditor','jquery.wymeditor.min.js'])}}"></script>
+
     <style>
 
         /* Paste this css to your style sheet file or under head tag */
