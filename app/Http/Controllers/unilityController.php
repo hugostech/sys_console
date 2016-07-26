@@ -458,7 +458,7 @@ class unilityController extends Controller
                 if($status == 17){
                     $add_date = Carbon::parse($order->date_added);
                     $add_date = $add_date->dayOfYear;
-                    if(($add_date+6)==(Carbon::now()->dayOfYear) || ($add_date+10)==(Carbon::now()->dayOfYear)){
+                    if(($add_date+4)==(Carbon::now()->dayOfYear) || ($add_date+10)==(Carbon::now()->dayOfYear)){
                         self::sendPaymentReminder($order);
                     }
                 }
