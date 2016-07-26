@@ -8,8 +8,8 @@
     <script src="{{url('',['js','bootstrap.min.js'])}}"></script>
     <script src="{{url('',['js','special.js'])}}"></script>
     <script src="{{url('',['js','angular.min.js'])}}"></script>
-    <script charset="utf-8" src="{{url('',['js','kindeditor','editor','kindeditor.js'])}}"></script>
-    <script charset="utf-8" src="{{url('',['js','kindeditor','editor','lang','zh-CN.js'])}}"></script>
+    <script charset="utf-8" src="{{url('',['js','kindeditor','kindeditor-all-min.js'])}}"></script>
+    <script charset="utf-8" src="{{url('',['js','kindeditor','lang','zh-CN.js'])}}"></script>
     {{--<script src="{{url('',['js','wymeditor','wymeditor','jquery.wymeditor.min.js'])}}"></script>--}}
 
     <style>
