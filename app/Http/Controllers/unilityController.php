@@ -434,7 +434,19 @@ class unilityController extends Controller
     public function producttosales(){
         Ex_product_category::where('category_id',272)->delete();
         $products = Ex_speceal::where('date_end','>',Carbon::now())->orwhere('date_end','0000-00-00')->get();
-        dd($products);
+        $num = count($products);
+        $keys = array();
+        while(count($keys)<14){
+            $key = random_int(0,$num);
+            if(!in_array($key,$keys))
+                $keys[] = $key;
+        }
+        foreach($keys as $value){
+            $category = new Ex_product_category();
+            $category->product_id = $products[$value]->product_id;
+            $category->category_id = 272;
+            $category->save();
+        }
     }
 
     public function checkOrder()
