@@ -63,7 +63,11 @@
                     </div>
                     <div class="form-group">
                         <textarea name="detail" rows="5" class="form-control" placeholder="Details..." id="warranty_detail"></textarea>
-
+                        <script>
+                            // Replace the <textarea id="editor1"> with a CKEditor
+                            // instance, using default configuration.
+                            CKEDITOR.replace( 'warranty_detail' );
+                        </script>
                     </div>
                 </div>
 
