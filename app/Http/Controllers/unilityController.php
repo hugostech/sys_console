@@ -437,7 +437,7 @@ class unilityController extends Controller
         $num = count($products);
         $keys = array();
         while(count($keys)<14){
-            $key = random_int(0,$num);
+            $key = random_int(0,$num-1);
             if(!in_array($key,$keys))
                 $keys[] = $key;
         }
