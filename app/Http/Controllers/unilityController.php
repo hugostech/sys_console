@@ -436,16 +436,27 @@ class unilityController extends Controller
         $products = Ex_speceal::where('date_end','>',Carbon::now())->orwhere('date_end','0000-00-00')->get();
         $num = count($products);
         $keys = array();
-        while(count($keys)<14){
-            $key = random_int(0,$num-1);
-            if(!in_array($key,$keys))
-                $keys[] = $key;
+        if($num > 18){
+            while(count($keys)<18){
+                $key = random_int(0,$num-1);
+                if(!in_array($key,$keys))
+                    $keys[] = $key;
+            }
+        }else{
+            for($i = 0;$i < $num;$i++){
+                $keys[] = $i;
+            }
         }
+
         foreach($keys as $value){
-            $category = new Ex_product_category();
-            $category->product_id = $products[$value]->product_id;
-            $category->category_id = 272;
-            $category->save();
+            $product = Ex_product::find($products[$value]->product_id);
+            if($product->quantity>0){
+                $category = new Ex_product_category();
+                $category->product_id = $products[$value]->product_id;
+                $category->category_id = 272;
+                $category->save();
+            }
+
         }
     }
 
