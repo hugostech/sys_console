@@ -428,6 +428,7 @@ class unilityController extends Controller
     {
         self::checkOrder();
         self::categoryarrange();
+        self::producttosales();
         return self::syncQuantity(); //sync quantity
     }
 
