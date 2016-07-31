@@ -487,9 +487,22 @@ class unilityController extends Controller
 
                 if($status == 17){
                     $add_date = Carbon::parse($order->date_added);
-                    $add_date = $add_date->dayOfYear;
-                    if(($add_date+4)==(Carbon::now()->dayOfYear) || ($add_date+10)==(Carbon::now()->dayOfYear)){
+                    $diffDay = $add_date->diffInDays(Carbon::now());
+                    if($diffDay == 4 || $diffDay == 10){
                         self::sendPaymentReminder($order);
+                    }
+                    if($diffDay == 30){
+                        $history = new Ex_order_history();
+                        $history->order_id = $order->order_id;
+                        $history->order_status_id = 7;
+                        $history->notify = 0;
+                        $history->comment = '';
+                        $history->date_added = Carbon::now();
+                        $history->save();
+                        $order->order_status_id = 7;
+                        $order->date_modified = Carbon::now();
+                        $order->save();
+                      
                     }
                 }
 
