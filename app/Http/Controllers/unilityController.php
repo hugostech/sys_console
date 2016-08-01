@@ -928,9 +928,9 @@ class unilityController extends Controller
     public function eta_add(Request $request){
         $products = Ex_product::where('model',$request->input('model'))->get();
         if(count($products)>0){
-            echo $name = 'Pre-Order, Releases '.$request->input('available_time');
+            $name = 'Pre-Order, Releases '.$request->input('available_time');
             $stock_status = Ex_stock_status::where('name','like',"%$name%")->first();
-            dd($stock_status);
+//            dd($stock_status);
             if(empty($stock_status->name)){
                 $stock_status = new Ex_stock_status();
                 $stock_status->language_id=1;
