@@ -941,7 +941,7 @@ class unilityController extends Controller
             $stock_status->save();
         }
         foreach($models as $model){
-            if(empty(model))
+            if(empty($model))
                 continue;
             $products = Ex_product::where('model',$model)->get();
             if(count($products)>0){
