@@ -18,11 +18,16 @@
         @endforeach
         {!! Form::open(['url'=>'eta_list']) !!}
             <tr>
-                <td><input type="string" name="model" class="form-control" required placeholder="Model"></td>
+                <td id="models"><input type="string" name="model[]" class="form-control" required placeholder="Model"></td>
                 <td><input type="date" name="available_time" class="form-control" required></td>
-                <td><input type="submit" value="Add" class="btn btn-primary"></td>
+                <td><input type="submit" value="submit" class="btn btn-primary"><button type="button" onclick="addone()" class="btn btn-default">more</button></td>
             </tr>
         {!! Form::close() !!}
     </table>
-
+    <script>
+        function addone(){
+            var content = '<input type="string" name="model[]" class="form-control" placeholder="Model">';
+            $(content).appendTo('#models');
+        }
+    </script>
 @endsection

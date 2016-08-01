@@ -926,30 +926,41 @@ class unilityController extends Controller
     }
 
     public function eta_add(Request $request){
-        $products = Ex_product::where('model',$request->input('model'))->get();
+        $models = $request->input('model');
         $date = Carbon::parse($request->input('available_time'));
         $date =  $date->format('d-m-Y');
-        if(count($products)>0){
-            $name = 'Pre-Order<span>Releases:</span> '.$date;
-            $stock_status = Ex_stock_status::where('name','like',"%$name%")->first();
-//            dd($stock_status);
-            if(empty($stock_status->name)){
-                $stock_status = new Ex_stock_status();
-                $stock_status->language_id=1;
-                $stock_status->name = $name;
-                $stock_status->save();
-            }
 
-            foreach($products as $product){
-                $product->stock_status_id = $stock_status->stock_status_id;
-                $product->save();
-            }
-            Eta::create($request->all());
-
-            return redirect('eta_list');
-        }else{
-            throwException('Can find model');
+        $name = 'Pre-Order<span>Releases:</span> '.$date;
+        $stock_status = Ex_stock_status::where('name','like',"%$name%")->first();
+        if(empty($stock_status->name)){
+            $stock_status = new Ex_stock_status();
+            $stock_status->language_id=1;
+            $stock_status->name = $name;
+            $stock_status->save();
         }
+        foreach($models as $model){
+            $products = Ex_product::where('model',$model)->get();
+            if(count($products)>0){
+
+
+                foreach($products as $product){
+                    $product->stock_status_id = $stock_status->stock_status_id;
+                    $product->save();
+                }
+//                Eta::create($request->all());
+                $eta = new Eta();
+                $eta->model = $model;
+                $eta->available_time = $date;
+                $eta->save();
+
+
+            }else{
+                throwException('Can find model');
+            }
+        }
+        return redirect('eta_list');
+
+
 
     }
     public function eta_remove($id){
