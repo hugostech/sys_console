@@ -928,7 +928,7 @@ class unilityController extends Controller
     public function eta_add(Request $request){
         $products = Ex_product::where('model',$request->input('model'))->get();
         if(count($products)>0){
-            echo $name = 'Pre-Order, Releases On '.$request->input('available_time');
+            echo $name = 'Pre-Order, Releases '.$request->input('available_time');
             $stock_status = Ex_stock_status::where('name','like',"%$name%")->first();
             dd($stock_status);
             if(empty($stock_status->name)){
@@ -957,7 +957,7 @@ class unilityController extends Controller
             $product->stock_status_id = 9;
             $product->save();
         }
-        $name = 'Pre-Order, Releases On '.$eta->available_time;
+        $name = 'Pre-Order, Releases '.$eta->available_time;
         $stock_status = Ex_stock_status::where('name',$name)->first();
         if(count($stock_status->products)<1){
             $stock_status->delete();
