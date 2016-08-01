@@ -930,7 +930,7 @@ class unilityController extends Controller
         if(count($products)>0){
             $name = 'Pre-Order, Releases On '.$request->input('available_time');
             $stock_status = Ex_stock_status::where('name',$name)->first();
-            if(!isset($stock_status->name)){
+            if(empty($stock_status->name)){
                 $stock_status = new Ex_stock_status();
                 $stock_status->language_id=1;
                 $stock_status->name = $name;
@@ -938,7 +938,7 @@ class unilityController extends Controller
             }
 
             foreach($products as $product){
-                $product->stock_status_id = $stock_status->id;
+                $product->stock_status_id = $stock_status->stock_status_id;
                 $product->save();
             }
             Eta::create($request->all());
