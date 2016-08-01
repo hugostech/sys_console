@@ -926,7 +926,9 @@ class unilityController extends Controller
     }
 
     public function eta_add(Request $request){
-        $models = $request->input('model');
+//        dd($request);
+        $models = $request->input('modelnum');
+//        dd($models);
         $date = Carbon::parse($request->input('available_time'));
         $date =  $date->format('d-m-Y');
 
