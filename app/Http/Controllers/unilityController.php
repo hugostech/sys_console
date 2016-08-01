@@ -930,7 +930,7 @@ class unilityController extends Controller
         $date = Carbon::parse($request->input('available_time'));
         $date =  $date->format('d-m-Y');
         if(count($products)>0){
-            $name = 'Pre-Order, Releases '.$date;
+            $name = 'Pre-Order<br>Releases '.$date;
             $stock_status = Ex_stock_status::where('name','like',"%$name%")->first();
 //            dd($stock_status);
             if(empty($stock_status->name)){
@@ -959,7 +959,7 @@ class unilityController extends Controller
             $product->stock_status_id = 9;
             $product->save();
         }
-        $name = 'Pre-Order, Releases '.$eta->available_time;
+        $name = 'Pre-Order<br>Releases '.$eta->available_time;
         $stock_status = Ex_stock_status::where('name',$name)->first();
         if(count($stock_status->products)<1){
             $stock_status->delete();
