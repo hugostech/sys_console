@@ -930,6 +930,7 @@ class unilityController extends Controller
         if(count($products)>0){
             $name = 'Pre-Order, Releases On '.$request->input('available_time');
             $stock_status = Ex_stock_status::where('name',$name)->first();
+            dd($stock_status);
             if(empty($stock_status->name)){
                 $stock_status = new Ex_stock_status();
                 $stock_status->language_id=1;
