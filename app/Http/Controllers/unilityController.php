@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\category_item;
 use App\Category_warranty;
+use App\Eta;
 use App\Ex_category;
 use App\Ex_customer_address;
 use App\Ex_manufacturer;
@@ -16,6 +17,7 @@ use App\Ex_product_description;
 use App\Ex_product_related;
 use App\Ex_product_store;
 use App\Ex_speceal;
+use App\Ex_stock_status;
 use App\Http\Requests;
 use App\News_letter;
 use App\Product;
@@ -502,7 +504,7 @@ class unilityController extends Controller
                         $order->order_status_id = 7;
                         $order->date_modified = Carbon::now();
                         $order->save();
-                      
+
                     }
                 }
 
@@ -520,6 +522,8 @@ class unilityController extends Controller
         }
 
     }
+
+
 
     public function sendPaymentReminder($order){
 
@@ -916,6 +920,54 @@ class unilityController extends Controller
 
     }
 
+    public function eta_list(){
+        $etas = Eta::all();
+        return view('eta_list',compact('etas'));
+    }
+
+    public function eta_add(Request $request){
+        $products = Ex_product::where('model',$request->input('model'))->get();
+        if(count($products)>0){
+            $name = 'Pre-Order, Releases On '.$request->input('available_time');
+            $stock_status = Ex_stock_status::where('name',$name)->get();
+            if(count($stock_status)>0){
+                $stock_status = $stock_status[0];
+            }else{
+                $stock_status = new Ex_stock_status();
+                $stock_status->language_id=1;
+                $stock_status->name = $name;
+                $stock_status->save();
+            }
+
+            foreach($products as $product){
+                $product->stock_status_id = $stock_status->id;
+                $product->save();
+            }
+            Eta::create($request->all());
+
+            return redirect('eta_list');
+        }else{
+            throwException('Can find model');
+        }
+
+    }
+    public function eta_remove($id){
+        $eta = Eta::find($id);
+        $products = Ex_product::where('model',$eta->model)->get();
+        foreach($products as $product){
+            $product->stock_status_id = 9;
+            $product->save();
+        }
+        $name = 'Pre-Order, Releases On '.$eta->available_time;
+        $stock_status = Ex_stock_status::where('name',$name)->first();
+        if(count($stock_status->products)<1){
+            $stock_status->delete();
+        }
+
+        Eta::destroy($id);
+        return redirect('eta_list');
+
+    }
     public function categoryarrange()
     {
         $products = Ex_product::where('status', 1)->get();

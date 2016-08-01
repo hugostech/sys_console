@@ -125,6 +125,9 @@ Route::get('showauckland','unilityController@showAucklandCustomer');
 Route::get('saveClient','unilityController@addNewClient');
 Route::get('createorder/{id}','unilityController@createRoctechOrder');
 Route::get('changeOrderStatus','unilityController@changeOrderStatus');
+Route::get('eta_list','unilityController@eta_list');
+Route::post('eta_list','unilityController@eta_add');
+Route::get('eta_remove/{id}','unilityController@eta_remove');
 Route::get('testEmail','unilityController@producttosales');
 
 

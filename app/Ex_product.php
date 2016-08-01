@@ -32,4 +32,8 @@ class Ex_product extends Model
     public function master(){
         return $this->belongsToMany('App\Ex_product','oc_ex_product_related','related_id','product_id');
     }
+
+    public function stock_status(){
+        return $this->belongsTo('App\Ex_stock_status','stock_status_id');
+    }
 }
