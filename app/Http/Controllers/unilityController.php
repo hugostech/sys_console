@@ -927,8 +927,10 @@ class unilityController extends Controller
 
     public function eta_add(Request $request){
         $products = Ex_product::where('model',$request->input('model'))->get();
+        $date = Carbon::parse($request->input('available_time'));
+        $date =  $date->format('d-m-Y');
         if(count($products)>0){
-            $name = 'Pre-Order, Releases '.$request->input('available_time');
+            $name = 'Pre-Order, Releases '.$date;
             $stock_status = Ex_stock_status::where('name','like',"%$name%")->first();
 //            dd($stock_status);
             if(empty($stock_status->name)){
