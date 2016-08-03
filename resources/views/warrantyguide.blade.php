@@ -5,7 +5,7 @@
             <div class="col-md-3"><a class="btn btn-block btn-default" href="{{url('/warrantyGuide',[$category->id])}}">{{$category->name}}</a></div>
         @endforeach
     </div>
-    <div class="col-md-12" style="padding-top: 20px">
+    <div class="col-md-12" style="padding-top: 20px;border-bottom: solid 1px lightgray;">
         <div class="jumbotron">
 
             <p>
@@ -15,6 +15,9 @@
 
         </div>
 
+    </div>
+    <div class="col-md-12">
+        <iframe src="http://www.askvic.co.nz/login.php?prm1=tony@roctech.co.nz&prm2=dave" frameborder="0" width="100%" height="600px" scrolling="no"></iframe>
     </div>
 @endsection
 
