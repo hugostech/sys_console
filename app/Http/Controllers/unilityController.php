@@ -573,15 +573,16 @@ class unilityController extends Controller
 
     private function checkEta($products){
         $etas = Eta::all();
+
         foreach($etas as $eta){
-            if(isset($products[$eta->model])){
-                if($products[$eta->model][1]>0){
-                    self::eta_remove($eta->id);
-                    continue;
-                }
+
+            if($products[$eta->model][1]>0){
+                self::eta_remove($eta->id);
+                continue;
             }
+
             $date = Carbon::parse($eta->available_time);
-            if($date->gt(Carbon::now())){
+            if($date->lte(Carbon::now())){
 
                 $date = $date->addWeek(2)->format('d-m-Y');
 
