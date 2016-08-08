@@ -575,11 +575,13 @@ class unilityController extends Controller
         $etas = Eta::all();
 
         foreach($etas as $eta){
-
-            if($products[$eta->model][1]>0){
-                self::eta_remove($eta->id);
-                continue;
+            if(isset($products[$eta->model])){
+                if($products[$eta->model][1]>0){
+                    self::eta_remove($eta->id);
+                    continue;
+                }
             }
+
 
             $date = Carbon::parse($eta->available_time);
             if($date->lte(Carbon::now())){
