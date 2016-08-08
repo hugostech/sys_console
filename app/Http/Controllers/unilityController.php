@@ -561,28 +561,66 @@ class unilityController extends Controller
             }
 
         }
-//        foreach ($products as $product) {
-//            $code = intval($product->model);
-//            if ($code != 0) {
-//                $url = env('SNPORT') . "?action=sync&code=$code";
-//                $quantity = $this->getContent($url);
-//                $pos = strpos($quantity, 'Error');
-//                if ($pos === false) {
-//                    $product->quantity = $quantity;
-//
-//                } else {
-//
-//                    //	$product->status = 0;
-//                }
-//
-//                $product->save();
-//            }
-//        }
+
+        self::checkEta($roctech_array);
+
         $total_enable = count(Ex_product::where('status', 1)->get());
         $total_disable = count(Ex_product::where('status', 0)->get());
 
         $content = 'Last sync is at' . date(' jS \of F Y h:i:s A');
         return view('self_sync', compact('content', 'unsync', 'disable', 'total_enable', 'total_disable'));
+    }
+
+    private function checkEta($products){
+        $etas = Eta::all();
+        foreach($etas as $eta){
+            if(isset($products[$eta->model])){
+                if($products[$eta->model][1]>0){
+                    self::eta_remove($eta->id);
+                    continue;
+                }
+            }
+            $date = Carbon::parse($eta->available_time);
+            if($date->gt(Carbon::now())){
+
+                $date = $date->addWeek(2)->format('d-m-Y');
+
+                $name = 'Pre-Order<span>Releases:</span> '.$date;
+                $stock_status = Ex_stock_status::where('name','like',"%$name%")->first();
+                if(empty($stock_status->name)){
+                    $stock_status = new Ex_stock_status();
+                    $stock_status->language_id=1;
+                    $stock_status->name = $name;
+                    $stock_status->save();
+                }
+
+                $products = Ex_product::where('model',$eta->model)->get();
+                if(count($products)>0){
+
+
+                    foreach($products as $product){
+                        $product->stock_status_id = $stock_status->stock_status_id;
+                        $product->save();
+                    }
+
+
+                    $eta->available_time = $date;
+                    $eta->save();
+
+                    Mail::raw($eta->model.' eta over due', function ($m) {
+                        $m->from('no-reply@extremepc.co.nz', 'Extremepc Reminder');
+                        $m->bcc('tony@roctech.co.nz', 'Tony Situ');
+                        $m->bcc('hugo@roctech.co.nz', 'Hugo Wang');
+                        $m->to('sales@roctech.co.nz', 'Roctech')->subject('ETA Reminder!');
+                    });
+
+
+                }
+
+            }
+
+
+        }
     }
 
     public function syncqty()
