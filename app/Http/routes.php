@@ -129,6 +129,7 @@ Route::get('eta_list','unilityController@eta_list');
 Route::post('eta_list','unilityController@eta_add');
 Route::get('eta_remove/{id}','unilityController@eta_remove');
 Route::get('testEmail','unilityController@producttosales');
+Route::get('categoryaddaoc','unilityController@addtoaoc');
 
 
 

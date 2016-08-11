@@ -961,10 +961,23 @@ class unilityController extends Controller
 
     }
 
+    public function addtoaoc(){
+        $products = Ex_product::where('manufacturer_id',28)->get();
+        foreach($products as $product){
+            $product_category = new Ex_product_category();
+            $product_category->category_id = 277;
+            $product_category->product_id = $product->product_id;
+            $product_category->save();
+        }
+    }
+
+
     public function eta_list(){
         $etas = Eta::all();
         return view('eta_list',compact('etas'));
     }
+
+
 
     public function eta_add(Request $request){
 //        dd($request);
@@ -1127,6 +1140,7 @@ class unilityController extends Controller
         $description->save();
         return $description;
     }
+
 
     private function dataFactory($type, $data)
     {
