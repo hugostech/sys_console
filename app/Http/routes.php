@@ -128,6 +128,10 @@ Route::get('changeOrderStatus','unilityController@changeOrderStatus');
 Route::get('eta_list','unilityController@eta_list');
 Route::post('eta_list','unilityController@eta_add');
 Route::get('eta_remove/{id}','unilityController@eta_remove');
+Route::get('sales_list','unilityController@sales_list');
+Route::post('sales_list','unilityController@sales_add');
+Route::get('sales_remove/{id}','unilityController@eta_remove');
+
 Route::get('testEmail','unilityController@producttosales');
 Route::get('categoryaddaoc','unilityController@addtoaoc');
 

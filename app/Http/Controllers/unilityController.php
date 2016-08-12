@@ -970,13 +970,52 @@ class unilityController extends Controller
             $product_category->save();
         }
     }
+    public function sales_list(){
+        $sales = Ex_product_category::where('category_id',272);
+        $result = array();
+        foreach($sales as $sale){
+            $product = Ex_product::find($sale->product_id);
+            $special = Ex_speceal::where('product_id',$sale->product_id)->get();
+            $result[] = compact('product','special');
+        }
+        return view('sales_list',compact('result'));
 
+    }
+    public function sales_add(Request $request){
+        $models = $request->input('modelnum');
+        foreach($models as $model){
+            if(empty($model))
+                continue;
+            $product = Ex_product::where('model',$model)->first();
+            if(isset($product)){
+
+
+
+                $category_product  = new Ex_product_category();
+                $category_product->category_id = 272;
+                $category_product->product_id = $product->product_id;
+                $category_product->save();
+
+
+
+            }else{
+                throwException('Can find model');
+            }
+        }
+        return redirect('sales_list');
+
+    }
+    public function sales_remove($id){
+
+        $category = Ex_category::where('category_id',272)->where('product_id',$id)->delete();
+        return redirect('sales_list');
+
+    }
 
     public function eta_list(){
         $etas = Eta::all();
         return view('eta_list',compact('etas'));
     }
-
 
 
     public function eta_add(Request $request){
