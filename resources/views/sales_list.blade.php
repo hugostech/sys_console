@@ -13,7 +13,8 @@
         @foreach($result as $single)
             <tr>
                 <td>{{$single['product']->model}}</td>
-                <td>{{round($single['special']->price*1.15,2)}}</td>
+                <td></td>
+                {{--<td>{{round($single['special']->price*1.15,2)}}</td>--}}
                 <td><a href="{{url('/sales_remove',[$single['product']->product_id])}}" class="btn btn-danger">Del</a></td>
             </tr>
         @endforeach
