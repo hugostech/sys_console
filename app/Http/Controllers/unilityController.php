@@ -971,14 +971,14 @@ class unilityController extends Controller
         }
     }
     public function sales_list(){
-        $sales = Ex_product_category::where('category_id',272);
+        $sales = Ex_product_category::where('category_id',272)->get();
         $result = array();
         foreach($sales as $sale){
             $product = Ex_product::find($sale->product_id);
             $special = Ex_speceal::where('product_id',$sale->product_id)->get();
             $result[] = compact('product','special');
         }
-        dd($result);
+//        dd($result);
         return view('sales_list',compact('result'));
 
     }
