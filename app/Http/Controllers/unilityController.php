@@ -1008,7 +1008,7 @@ class unilityController extends Controller
     }
     public function sales_remove($id){
 
-        $category = Ex_category::where('category_id',272)->where('product_id',$id)->delete();
+        $category = Ex_product_category::where('category_id',272)->where('product_id',$id)->delete();
         return redirect('sales_list');
 
     }
