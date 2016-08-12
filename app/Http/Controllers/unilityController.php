@@ -975,8 +975,8 @@ class unilityController extends Controller
         $result = array();
         foreach($sales as $sale){
             $product = Ex_product::find($sale->product_id);
-            $special = Ex_speceal::where('product_id',$sale->product_id)->get();
-            $result[] = compact('product','special');
+            $product_detail = Ex_product_description::where('product_id',$sale->product_id)->get();
+            $result[] = compact('product','product_detail');
         }
 //        dd($result);
         return view('sales_list',compact('result'));
