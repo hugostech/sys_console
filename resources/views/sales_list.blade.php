@@ -5,9 +5,9 @@
     <table class="table table-striped">
         <thead>
         <tr>
-            <th>Model</th>
-            <th>title</th>
-            <th>Action</th>
+            <th class="col-md-2">Model</th>
+            <th class="col-md-8">title</th>
+            <th class="col-md-2">Action</th>
         </tr>
         </thead>
         @foreach($result as $single)
