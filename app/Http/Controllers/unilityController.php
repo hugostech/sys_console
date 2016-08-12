@@ -978,6 +978,7 @@ class unilityController extends Controller
             $special = Ex_speceal::where('product_id',$sale->product_id)->get();
             $result[] = compact('product','special');
         }
+        dd($result);
         return view('sales_list',compact('result'));
 
     }
