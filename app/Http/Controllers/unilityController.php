@@ -975,7 +975,7 @@ class unilityController extends Controller
         $result = array();
         foreach($sales as $sale){
             $product = Ex_product::find($sale->product_id);
-            $product_detail = Ex_product_description::where('product_id',$sale->product_id)->get();
+            $product_detail = Ex_product_description::where('product_id',$sale->product_id)->first();
             $result[] = compact('product','product_detail');
         }
 //        dd($result);
