@@ -431,6 +431,7 @@ class unilityController extends Controller
         self::checkOrder();
         self::categoryarrange();
 //        self::producttosales();
+        self::categoryarrange();
         return self::syncQuantity(); //sync quantity
     }
 
@@ -1116,7 +1117,7 @@ class unilityController extends Controller
                 $uncategory[] = $product->product_id;
             }
         }
-        var_dump($uncategory);
+//        var_dump($uncategory);
     }
 
     public function showAucklandCustomer()

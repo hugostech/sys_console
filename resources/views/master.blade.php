@@ -98,6 +98,7 @@
                                     <li><a href="{{url('/',['killprice'])}}">Kill price</a></li>
                                     <li><a href="{{url('/',['eta_list'])}}">ETA</a></li>
                                     <li><a href="{{url('/',['sales_list'])}}">Sales</a></li>
+                                    <li><a href="{{url('/',['categoryArrange'])}}">categoryArrange</a></li>
                                     <li><a href="{{url('/',['sync'])}}">Sync</a></li>
                                     <li><a href="{{url('/',['syncproall'])}}">SyncAllProduct</a></li>
                                     <li><a href="{{url('/',['syncpro'])}}">SyncSingleProduct</a></li>
