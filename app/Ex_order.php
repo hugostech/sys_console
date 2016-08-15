@@ -21,4 +21,14 @@ class Ex_order extends Model
     public function customer(){
         return $this->belongsTo('App\Ex_customer','customer_id');
     }
+
+    public function shipfee(){
+        $items = $this->items;
+        $total = $this->total * 1.0;
+        foreach($items as $item){
+            $total = $total-$item->total-($item->tax*$item->quantity);
+        }
+        return round($total,2);
+
+    }
 }

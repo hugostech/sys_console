@@ -716,6 +716,8 @@ class unilityController extends Controller
 
         curl_close($ch);
 
+
+
         return $server_output;
 
     }
@@ -735,9 +737,12 @@ class unilityController extends Controller
         $orderid = '#' . $id;
         $comment = addslashes($order->comment);
         $ship_status = $order->shipping_method == 'Free Shipping' ? 1 : 0;
-        $data = compact('phone', 'company', 'address1', 'address2', 'city', 'orderid', 'ship_status', 'clientId', 'comment');
+        $ship_fee = $order->shipfee;
+        $data = compact('phone', 'company', 'address1', 'address2', 'city', 'orderid', 'ship_status', 'clientId', 'comment','ship_fee');
         return self::sendData($url, $data);
     }
+
+
 
     public function insertOrderItem($id, $roctech_id)
     {
