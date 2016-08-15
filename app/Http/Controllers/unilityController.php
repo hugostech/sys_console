@@ -737,7 +737,7 @@ class unilityController extends Controller
         $orderid = '#' . $id;
         $comment = addslashes($order->comment);
         $ship_status = $order->shipping_method == 'Free Shipping' ? 1 : 0;
-        $ship_fee = $order->shipfee;
+        $ship_fee = $order->shipfee();
         $data = compact('phone', 'company', 'address1', 'address2', 'city', 'orderid', 'ship_status', 'clientId', 'comment','ship_fee');
         return self::sendData($url, $data);
     }
