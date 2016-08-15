@@ -28,6 +28,7 @@ class Ex_order extends Model
         foreach($items as $item){
             $total = $total-$item->total-($item->tax*$item->quantity);
         }
+        $total = $total/1.15;
         return round($total,2);
 
     }
