@@ -1127,7 +1127,7 @@ class unilityController extends Controller
 
     public function showAucklandCustomer()
     {
-        $customers = Ex_customer_address::where('zone_id', '2344')->groupBy('customer_id')->get();
+        $customers = Ex_customer_address::groupBy('customer_id')->get();
         echo count($customers) . '<br>';
         foreach ($customers as $customer) {
 
