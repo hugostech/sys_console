@@ -1134,9 +1134,7 @@ class unilityController extends Controller
             echo $customer->firstname . ' ' . $customer->lastname . ' ||| ' . $customer->address_1 . ' ' . $customer->address_2;
 
             if (count(Ex_order::where('customer_id', $customer->customer_id)->get()) > 0) {
-                echo ' <font color="red">Yes</font><br>';
-            } else {
-                echo ' <font color="green">No</font><br>';
+                echo ' <font color="red">Yes</font> '.Ex_order::where('customer_id', $customer->customer_id)->sum('total').'<br>';
             }
         }
     }
