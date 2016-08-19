@@ -346,7 +346,7 @@ class unilityController extends Controller
         try {
 
 
-            $products = Ex_product::all();
+            $products = Ex_product::where('status',1)->get();
             $feed = array();
             foreach ($products as $product) {
                 $stock_status = 'Yes';
@@ -380,6 +380,8 @@ class unilityController extends Controller
 
                 $image_array = array();
 
+                $image_array[] = 'http://www.extremepc.co.nz/image/'.$product->image;
+                
                 foreach($images as $image){
                     $image_array[] = 'http://www.extremepc.co.nz/image/'.$image->image;
                 }
