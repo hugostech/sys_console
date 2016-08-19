@@ -5,13 +5,15 @@
     <table class="table table-striped">
         <thead>
         <tr>
+            <th class="col-md-1"></th>
             <th class="col-md-2">Model</th>
-            <th class="col-md-8">title</th>
+            <th class="col-md-7">title</th>
             <th class="col-md-2">Action</th>
         </tr>
         </thead>
-        @foreach($result as $single)
+        @foreach($result as $key=>$single)
             <tr>
+                <td>{{$key}}</td>
                 <td>{{$single['product']->model}}</td>
                 <td>{{$single['product_detail']->name}}</td>
                 {{--<td>{{round($single['special']->price*1.15,2)}}</td>--}}
