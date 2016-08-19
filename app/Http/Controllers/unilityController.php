@@ -1130,14 +1130,14 @@ class unilityController extends Controller
         $customers = Ex_customer_address::groupBy('customer_id')->get();
         echo count($customers) . '<br>';
         echo '<table style="border: solid 1px">';
-        echo '<tr><th>Name</th><th>Address</th><th>Phone</th>Price<tr>';
+        echo '<tr><th>Name</th><th>Address</th><th>Price</th><tr>';
         foreach ($customers as $customer) {
 
 
             if (count(Ex_order::where('customer_id', $customer->customer_id)->get()) > 0) {
-                echo '<tr><td>'.$customer->firstname . ' ' . $customer->lastname . ' </td><td>> ' . $customer->address_1 . ' ' . $customer->address_2.'</td><td>'.$customer->telephone.'</td>';
+                echo '<tr><td>'.$customer->firstname . ' ' . $customer->lastname . ' </td><td> ' . $customer->address_1 . ' ' . $customer->address_2.'</td>';
 
-                echo ' <td>>'.Ex_order::where('customer_id', $customer->customer_id)->sum('total').'</td><tr>';
+                echo ' <td>'.Ex_order::where('customer_id', $customer->customer_id)->sum('total').'</td><tr>';
             }
         }
         echo '</table>';
