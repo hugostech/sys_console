@@ -1129,14 +1129,18 @@ class unilityController extends Controller
     {
         $customers = Ex_customer_address::groupBy('customer_id')->get();
         echo count($customers) . '<br>';
+        echo '<table style="border: solid 1px">';
+        echo '<tr><th>Name</th><th>Address</th><th>Phone</th>Price<tr>';
         foreach ($customers as $customer) {
 
-            echo $customer->firstname . ' ' . $customer->lastname . ' ||| ' . $customer->address_1 . ' ' . $customer->address_2;
 
             if (count(Ex_order::where('customer_id', $customer->customer_id)->get()) > 0) {
-                echo ' <font color="red">Yes</font> '.Ex_order::where('customer_id', $customer->customer_id)->sum('total').'<br>';
+                echo '<tr><td>'.$customer->firstname . ' ' . $customer->lastname . ' </td><td>> ' . $customer->address_1 . ' ' . $customer->address_2.'</td><td>'.$customer->telephone.'</td>';
+
+                echo ' <td>>'.Ex_order::where('customer_id', $customer->customer_id)->sum('total').'</td><tr>';
             }
         }
+        echo '</table>';
     }
 
     public function sendNewsLetter()
