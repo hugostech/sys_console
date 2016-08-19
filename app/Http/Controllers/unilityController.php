@@ -372,7 +372,7 @@ class unilityController extends Controller
                     foreach ($categorys as $category) {
                         $desc = $category->description;
                         $categorytree .= $desc->name;
-                        $categorytree .= "/";
+                        $categorytree .= ",";
                     }
                 }
 
@@ -381,7 +381,7 @@ class unilityController extends Controller
                 $image_array = array();
 
                 $image_array[] = 'http://www.extremepc.co.nz/image/'.$product->image;
-                
+
                 foreach($images as $image){
                     $image_array[] = 'http://www.extremepc.co.nz/image/'.$image->image;
                 }
