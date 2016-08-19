@@ -13,7 +13,7 @@
         </thead>
         @foreach($result as $key=>$single)
             <tr>
-                <td>{{$key}}</td>
+                <td>{{$key+1}}</td>
                 <td>{{$single['product']->model}}</td>
                 <td>{{$single['product_detail']->name}}</td>
                 {{--<td>{{round($single['special']->price*1.15,2)}}</td>--}}
