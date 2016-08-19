@@ -36,4 +36,8 @@ class Ex_product extends Model
     public function stock_status(){
         return $this->belongsTo('App\Ex_stock_status','stock_status_id');
     }
+
+    public function images(){
+        return $this->hasMany('App\Ex_product_image','product_id');
+    }
 }

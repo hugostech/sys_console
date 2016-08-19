@@ -339,6 +339,92 @@ class unilityController extends Controller
     }
 
     /*
+     * TSA Product Feed*/
+
+    public function tsaFeed()
+    {
+        try {
+
+
+            $products = Ex_product::all();
+            $feed = array();
+            foreach ($products as $product) {
+                $stock_status = 'Yes';
+                $special = Ex_speceal::where('product_id', $product->product_id)->first();
+                $product_description = Ex_product_description::find($product->product_id);
+                $product_name = isset($product_description->name) ? $product_description->name : '';
+                $product_desc = isset($product_description->description) ? $product_description->description : '';
+                $product_quantity = $product->quantity;
+
+                if ($product->quantity <= 0) {
+                    if ($product->stock_status_id == 5) {
+                        $stock_status = 'No';
+                    } else {
+                        $stock_status = 'Incoming';
+                    }
+                }
+                $categorys = null;
+                $categorys = $product->categorys;
+
+                $categorytree = null;
+                $categorytree = "";
+                if (count($categorys) > 0) {
+                    foreach ($categorys as $category) {
+                        $desc = $category->description;
+                        $categorytree .= $desc->name;
+                        $categorytree .= "/";
+                    }
+                }
+
+                $images = $product->images;
+
+                $image_array = array();
+
+                foreach($images as $image){
+                    $image_array[] = 'http://www.extremepc.co.nz/image/'.$image->image;
+                }
+
+//           echo  htmlspecialchars_decode($categorytree);
+
+
+                $tem = array(
+                    'Product name' => $product_name,
+                    'Product description' => addslashes($product_desc),
+                    'Quantity' => $product_quantity,
+                    'Article number' => $product->model,
+                    'Manufacturer' => $product->manufacturer_id == 0 ? 'null' : Ex_manufacturer::find($product->manufacturer_id)->name,
+                    'URL to the product page' => "http://www.extremepc.co.nz/index.php?route=product/product&product_id=$product->product_id",
+                    'Product category' => $categorytree,
+                    'Price' => round($product->price * 1.15, 2),
+                    'Stock status' => $stock_status,
+                    'Images' => $image_array
+
+
+                );
+                if (isset($special->date_end)) {
+                    if ($special->date_end <> '0000-00-00') {
+                        $enddate = Carbon::parse($special->date_end);
+                        $startdate = Carbon::parse($special->date_start);
+                        $now = Carbon::now();
+                        if ($now->between($startdate, $enddate)) {
+                            $tem['Price'] = round($special->price * 1.15, 2);
+                        }
+
+                    } else {
+                        $tem['Price'] = round($special->price * 1.15, 2);
+                    }
+                }
+
+                $feed[$product->product_id] = $tem;
+
+
+            }
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+        echo \GuzzleHttp\json_encode($feed);
+    }
+    /*
      * batch change order status*/
     public function changeOrderStatus()
     {
