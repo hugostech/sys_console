@@ -1273,7 +1273,7 @@ class unilityController extends Controller
         $products = $categoryA->products;
 //        dd($c2);
         foreach($products as $product){
-            $product->categorys->attach($c2);
+            $product->categorys()->attach($c2);
         }
     }
     /*
