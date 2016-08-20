@@ -519,7 +519,7 @@ class unilityController extends Controller
         self::checkOrder();
         self::categoryarrange();
 //        self::producttosales();
-        self::categoryarrange();
+//        self::categoryarrange();
         return self::syncQuantity(); //sync quantity
     }
 
@@ -742,35 +742,6 @@ class unilityController extends Controller
         self::insertOrderItem($id, $roctech_order_id);
         return redirect("http://192.168.1.3/admin/olist.aspx?r=&id=$roctech_order_id");
 
-//        $url = env('SNPORT')."?action=newclient";
-//        $order = Ex_order::find($id);
-//        $name = $order->firstname .' '.$order->lastname;
-//        $email = $order->email;
-//        $phone = $order->telephone;
-//        $company = $order->shipping_company;
-//        $address1 =  $order->shipping_address_1;
-//        $address2 =  $order->shipping_address_2;
-//        $city = $order->shipping_city;
-//        $province = $order->shipping_zone;
-//        $orderid = $id;
-//        $ship_status = $order->shipping_method=='Free Shipping'?1:0;
-//        $items = $order->items;
-//        $roc_items = array();
-//        foreach($items as $item){
-//            $product = array(
-//                'model'=>$item->model,
-//                'name'=>$item->name,
-//                'price'=>$item->price,
-//                'quantity'=>$item->quantity,
-//                'total'=>$item->total,
-//                'tax'=>$item->tax
-//            );
-//            $roc_items[] = $product;
-//        }
-//        $roc_items = \GuzzleHttp\json_encode($roc_items);
-//        $data = compact('name','email','phone','company','address1','address2','city','province','orderid','ship_status','roc_items');
-//
-//        echo self::sendData($url,$data);
 
     }
 
@@ -1294,6 +1265,15 @@ class unilityController extends Controller
             $newData[$varibale] = isset($data[$varibale]) ? $data[$varibale] : null;
         }
         return $newData;
+    }
+
+    //clone products from category1 to category2
+    public function cloneCategoryA2CategoryB($c1,$c2){
+        $categoryA = Ex_category::find($c1);
+        $products = $categoryA->products;
+        foreach($products as $product){
+            $product->categorys->attach($c2);
+        }
     }
     /*
      * Common functions end
