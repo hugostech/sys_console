@@ -1271,6 +1271,7 @@ class unilityController extends Controller
     public function cloneCategoryA2CategoryB($c1,$c2){
         $categoryA = Ex_category::find($c1);
         $products = $categoryA->products;
+        dd($c2);
         foreach($products as $product){
             $product->categorys->attach($c2);
         }
