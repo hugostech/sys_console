@@ -135,7 +135,7 @@ Route::get('sales_remove/{id}','unilityController@sales_remove');
 
 Route::get('testEmail','unilityController@producttosales');
 Route::get('categoryaddaoc','unilityController@addtoaoc');
-Route::get('cloneCategory/{c1}/{c2}','unilityController@addtoaoc');
+Route::get('cloneCategory/{c1}/{c2}','unilityController@cloneCategoryA2CategoryB');
 
 
 
