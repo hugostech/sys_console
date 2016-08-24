@@ -409,7 +409,7 @@ class unilityController extends Controller
                     'Manufacturer' => $product->manufacturer_id == 0 ? 'null' : Ex_manufacturer::find($product->manufacturer_id)->name,
                     'URL to the product page' => "http://www.extremepc.co.nz/index.php?route=product/product&product_id=$product->product_id",
                     'Product category' => $categorytree,
-                    'Price' => round($content[$product->model] * 1.15, 2),
+                    'Price' => round($content[$product->model] * 1.05, 2),
                     'Stock status' => $stock_status,
                     'Images' => $image_array
 
