@@ -345,10 +345,22 @@ class unilityController extends Controller
     {
         try {
 
+            $url = $url = env('SNPORT') . "?action=tsa";
+
+            $content = self::getContent($url);
+
+            $content = str_replace(',}', '}', $content);
+            $content = \GuzzleHttp\json_decode($content, true);
+
+
 
             $products = Ex_product::where('status',1)->get();
             $feed = array();
             foreach ($products as $product) {
+                if($product->manufacturer_id == 23 || !isset($content[$product->model])){
+                    continue;
+                }
+
                 $stock_status = 'Yes';
                 $special = Ex_speceal::where('product_id', $product->product_id)->first();
                 $product_description = Ex_product_description::find($product->product_id);
@@ -397,7 +409,7 @@ class unilityController extends Controller
                     'Manufacturer' => $product->manufacturer_id == 0 ? 'null' : Ex_manufacturer::find($product->manufacturer_id)->name,
                     'URL to the product page' => "http://www.extremepc.co.nz/index.php?route=product/product&product_id=$product->product_id",
                     'Product category' => $categorytree,
-                    'Price' => round($product->price * 1.15, 2),
+                    'Price' => round($content[$product->model] * 1.15, 2),
                     'Stock status' => $stock_status,
                     'Images' => $image_array
 
@@ -1248,7 +1260,6 @@ class unilityController extends Controller
         return $description;
     }
 
-
     private function dataFactory($type, $data)
     {
         $variableGroup = array(
@@ -1271,7 +1282,6 @@ class unilityController extends Controller
     public function cloneCategoryA2CategoryB($c1,$c2){
         $categoryA = Ex_category::find($c1);
         $products = $categoryA->products;
-//        dd($c2);
         foreach($products as $product){
             $product->categorys()->attach($c2);
         }
