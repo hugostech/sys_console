@@ -1089,10 +1089,10 @@ class unilityController extends Controller
         $clients = Ex_customer::where('date_added','like',$adddate.'%')->get();
         Mail::send('email.newClientReminder', compact('clients'), function ($m) {
             $m->from('no-reply@extremepc.co.nz', 'Extremepc Reminder');
-       
+
             $m->bcc('hugo@roctech.co.nz', 'Hugo Wang');
 
-            $m->to('tony@roctech.co.nz', 'Tony Situ')->subject('New Registered Client!');
+            $m->to('tony@roctech.co.nz', 'Tony Situ')->subject('Client_list_Reminder!');
 
         });
 
