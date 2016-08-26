@@ -1092,7 +1092,7 @@ class unilityController extends Controller
 
 //            $m->bcc('hugo@roctech.co.nz', 'Hugo Wang');
 
-            $m->to('stmssky@homtmail.com', 'Tony Situ')->subject('Extremepc Reminder!');
+            $m->to('stmssky@hotmail.com', 'Tony Situ')->subject('Extremepc Reminder!');
 
         });
 
