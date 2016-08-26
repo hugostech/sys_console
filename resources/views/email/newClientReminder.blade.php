@@ -13,29 +13,23 @@
             border: 1px solid black;
         }
     </style>
-    @foreach($urgentlist as $order)
+    @foreach($clients as $client)
     <table class="table table-bordered">
         <thead>
         <tr>
-            <th>Order ID</th>
-            <th>Order Time</th>
-            <th>Status</th>
+            <th>Client Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Add time</th>
         </tr>
         <tr>
-            <td>{{$order[0]->order_id}}</td>
-            <td>{{$order[0]->date_added}}</td>
-            <td>{{$order[2]}}</td>
+            <td>{{$client->firstname.' '.$client->lastname}}</td>
+            <td>{{$client->email}}</td>
+            <td>{{$client->telephone}}</td>
+            <td>{{$client->date_added}}</td>
+
         </tr>
-        <tr>
-            <th colspan="2">Product</th>
-            <th>Model</th>
-        </tr>
-        @foreach($order[1] as $product)
-        <tr>
-            <td colspan="2">{{$product->name}}</td>
-            <td>{{$product->model}}</td>
-        </tr>
-        @endforeach
+
         </thead>
     </table>
     @endforeach

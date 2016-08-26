@@ -1092,9 +1092,7 @@ class unilityController extends Controller
             $m->to('tony@roctech.co.nz', 'Tony Situ')->subject('New Registered Client!');
 
         });
-        foreach($clients as $client){
-            echo $client->firstname.' '.$client->lastname.' Email:'.$client->email.' Phone'.$client->phone;
-        }
+
     }
 
     public function eta_add(Request $request){
