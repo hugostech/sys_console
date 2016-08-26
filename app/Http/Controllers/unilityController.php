@@ -1084,8 +1084,14 @@ class unilityController extends Controller
         return view('eta_list',compact('etas'));
     }
     public function listnewclient(){
-        echo $adddate = Carbon::now()->day(-1)->format('Y-m-d');
+        $adddate = Carbon::now()->day(-1)->format('Y-m-d');
         $clients = Ex_customer::where('date_added','like',$adddate.'%')->get();
+        Mail::send('email.newClientReminder', compact('clients'), function ($m) {
+            $m->from('no-reply@extremepc.co.nz', 'Extremepc Reminder');
+            $m->bcc('hugo@roctech.co.nz', 'Extremepc Reminder');
+            $m->to('tony@roctech.co.nz', 'Tony Situ')->subject('New Registered Client!');
+
+        });
         foreach($clients as $client){
             echo $client->firstname.' '.$client->lastname.' Email:'.$client->email.' Phone'.$client->phone;
         }
