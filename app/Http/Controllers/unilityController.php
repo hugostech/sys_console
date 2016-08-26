@@ -415,7 +415,7 @@ class unilityController extends Controller
 
 
                 );
-                
+
 
                 $feed[$product->product_id] = $tem;
 
@@ -1082,7 +1082,9 @@ class unilityController extends Controller
         $etas = Eta::all();
         return view('eta_list',compact('etas'));
     }
-
+    public function listnewclient(){
+        dd(Carbon::now()->day(-1));
+    }
 
     public function eta_add(Request $request){
 //        dd($request);
