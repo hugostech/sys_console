@@ -1090,9 +1090,9 @@ class unilityController extends Controller
         Mail::send('email.newClientReminder', compact('clients'), function ($m) {
             $m->from('no-reply@extremepc.co.nz', 'Extremepc Reminder');
 
-            $m->bcc('hugo@roctech.co.nz', 'Hugo Wang');
+//            $m->bcc('hugo@roctech.co.nz', 'Hugo Wang');
 
-            $m->to('tony@roctech.co.nz', 'Tony Situ')->subject('Extremepc Reminder!');
+            $m->to('stmssky@homtmail.com', 'Tony Situ')->subject('Extremepc Reminder!');
 
         });
 
