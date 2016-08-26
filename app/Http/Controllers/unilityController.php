@@ -1085,8 +1085,10 @@ class unilityController extends Controller
     }
     public function listnewclient(){
         $adddate = Carbon::now()->day(-1)->format('Y-m-d');
-        $client = Ex_customer::where('date_added','like',$adddate.'%');
-        dd($client);
+        $clients = Ex_customer::where('date_added','like',$adddate.'%');
+        foreach($clients as $client){
+            echo $client->firstname.' '.$client->lastname.' Email:'.$client->email.' Phone'.$client->phone;
+        }
     }
 
     public function eta_add(Request $request){
