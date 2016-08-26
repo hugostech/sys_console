@@ -7,6 +7,7 @@ use App\category_item;
 use App\Category_warranty;
 use App\Eta;
 use App\Ex_category;
+use App\Ex_customer;
 use App\Ex_customer_address;
 use App\Ex_manufacturer;
 use App\Ex_order;
@@ -1083,7 +1084,9 @@ class unilityController extends Controller
         return view('eta_list',compact('etas'));
     }
     public function listnewclient(){
-        dd(Carbon::now()->day(-1));
+        $adddate = Carbon::now()->day(-1)->format('Y-m-d');
+        $client = Ex_customer::where('date_added','like',$adddate.'%');
+        dd($client);
     }
 
     public function eta_add(Request $request){
