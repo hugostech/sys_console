@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Urgent mail</title>
+    <title>Client List</title>
     <script src="{{url('/',['js','jquery-2.2.0.min.js'])}}"></script>
     <script src="{{url('',['js','bootstrap.min.js'])}}"></script>
 </head>

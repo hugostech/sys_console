@@ -431,7 +431,8 @@ class unilityController extends Controller
      * batch change order status*/
     public function changeOrderStatus()
     {
-        $orders = Ex_order::where('order_status_id', 15)->where('date_added', '<', '2016-07-01')->get();
+//        $orders = Ex_order::where('order_status_id', 21)->get();
+        $orders = Ex_order::where('order_status_id', 21)->where('date_added', '<', '2016-09-01')->get();
         $list = array();
         foreach ($orders as $order) {
             $history = new Ex_order_history();
