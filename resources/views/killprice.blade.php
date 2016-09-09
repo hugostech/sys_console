@@ -60,6 +60,7 @@
                             <p ng-show(special_price)>Ex GST @{{special_price/1.15 | number:2}}</p>
                         </div>
                         <div class="form-group text-right">
+                            Viewed:<label>{{$data['view']}}</label>
                             @if($data['status']==1)
                                 <input type="submit" class="btn btn-success" name="product_status" value="Enable">
                             @else

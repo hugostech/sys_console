@@ -104,6 +104,7 @@ class unilityController extends Controller
         $url = env("SNPORT") . "?action=c&code=$code";
         $des = self::getContent($url);
         $product = Ex_product::where('model', $code)->first();
+        $viewed = $product->viewed;
         $special = 0;
         $status = 0;
         if (isset($product->price)) {
@@ -148,7 +149,8 @@ class unilityController extends Controller
             'des' => $des,
             'extremepcprice' => $extremepc,
             'supplier_code' => $supplier_code,
-            'status' => $status
+            'status' => $status,
+            'view'=>$viewed
         );
         return $data;
     }
