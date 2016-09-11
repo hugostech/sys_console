@@ -459,17 +459,17 @@ class unilityController extends Controller
         for($i = 30; $i < 37; $i++){
             if(empty($request->input($i))) continue;
             if(count(Ex_product_attribute::where('product_id',$request->input('product_id'))->where('attribute_id',$i)->get())>0){
-                $attribute = Ex_product_attribute::where('product_id',$request->input('product_id'))->where('attribute_id',$i)->first();
-                $attribute->text = $request->input($i);
-                $attribute->save();
-            }else{
+              Ex_product_attribute::where('product_id',$request->input('product_id'))->where('attribute_id',$i)->delete();
+
+            }
+
                 $attribute = new Ex_product_attribute();
                 $attribute->product_id = $request->input('product_id');
                 $attribute->attribute_id = $i;
                 $attribute->text = $request->input($i);
                 $attribute->language_id = 1;
                 $attribute->save();
-            }
+            
 
 
         }
