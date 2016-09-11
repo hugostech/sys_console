@@ -473,6 +473,9 @@ class unilityController extends Controller
 
 
         }
+        $code = Ex_product::find($request->input('product_id'))->model;
+        $data = self::getData($code);
+        return view('killprice', compact('data'));
     }
     /*
      * sign laptop attribute*/
