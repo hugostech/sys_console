@@ -13,6 +13,7 @@ use App\Ex_manufacturer;
 use App\Ex_order;
 use App\Ex_order_history;
 use App\Ex_product;
+use App\Ex_product_attribute;
 use App\Ex_product_category;
 use App\Ex_product_description;
 use App\Ex_product_related;
@@ -451,11 +452,74 @@ class unilityController extends Controller
         }
 
     }
+    public function insert_laptop_attribute(Request $request){
+//        dd($request);
+        for($i = 30; $i < 37; $i++){
+            if(empty($request->input($i))) continue;
+            if(count(Ex_product_attribute::where('product_id',$request->input('product_id'))->where('attribute_id',$i)->get())>0){
+                $attribute = Ex_product_attribute::where('product_id',$request->input('product_id'))->where('attribute_id',$i)->first();
+                $attribute->text = $request->input($i);
+                $attribute->save();
+            }else{
+                $attribute = new Ex_product_attribute();
+                $attribute->product_id = $request->input('product_id');
+                $attribute->attribute_id = $i;
+                $attribute->text = $request->input($i);
+                $attribute->language_id = 1;
+                $attribute->save();
+            }
 
+
+        }
+    }
     /*
      * sign laptop attribute*/
     public function laptop_attribute($id){
-        return view('laptop');
+        $graphics_card = array(
+            "GT720M"=>"GT720M",
+            "GTX860M"=>"GTX860M",
+            "GTX920M"=>"GTX920M",
+            "GTX930M"=>"GTX930M",
+            "GTX940M"=>"GTX940M",
+            "GTX950M"=>"GTX950M",
+            "GTX960M"=>"GTX960M",
+            "GTX965M"=>"GTX965M",
+            "GTX980M"=>"GTX980M",
+            "GTX1060M"=>"GTX1060M",
+            "GTX1070M"=>"GTX1070M",
+            "GTX1080M"=>"GTX1080M",
+            "Integrated"=>"Integrated"
+        );
+        $resolution = array(
+            "1366 X 768"=>"1366 X 768",
+            "1440 X 900"=>"1440 X 900",
+            "1600 X 900"=>"1600 X 900",
+            "1920 X 1080"=>"1920 X 1080",
+            "1920 X 1200"=>"1920 X 1200",
+            "2304 X 1440"=>"2304 X 1440",
+            "2560 X 1440"=>"2560 X 1440",
+            "2560 X 1600"=>"2560 X 1600",
+            "2880 X 1620"=>"2880 X 1620",
+            "3200 X 1800"=>"3200 X 1800",
+            "3840 X 2160"=>"3840 X 2160"
+        );
+
+        $cpus = array(
+            "Intel Atom"=>'Intel Atom',
+            "Intel Celeron"=>'Intel Celeron',
+            "Intel Core i3"=>'Intel Core i3',
+            "Intel Core i5"=>'Intel Core i5',
+            "Intel Core i7"=>'Intel Core i7',
+            "Intel Core M"=>'Intel Core M',
+            "Intel Pentium"=>'Intel Pentium',
+            "Intel Xeon E3"=>'Intel Xeon E3',
+            "AMD A4"=>'AMD A4',
+            "AMD A6"=>'AMD A6',
+            "AMD A8"=>'AMD A8',
+            "AMD A10"=>'AMD A10',
+            "AMD E1"=>'AMD E1'
+        );
+        return view('laptop',compact('cpus','resolution','graphics_card','id'));
     }
 
     /*

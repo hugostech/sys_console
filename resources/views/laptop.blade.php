@@ -1,7 +1,8 @@
 @extends('master')
 
 @section('mainContent')
-    {!! Form::open(['url'=>'']) !!}
+    {!! Form::open(['url'=>'laptop_attribute']) !!}
+    <input type="hidden" name="product_id" value="{{$id}}">
     <div class="col-md-6 col-md-offset-3">
         <table class="table table-strip">
 
@@ -10,23 +11,8 @@
                 <td>
                     <div class="form-group has-feedback">
                         <label class="control-label" for="inputSuccess2">CPU Family</label>
-                        <select class="form-control" aria-describedby="inputSuccess2Status" name="30">
-                            <option value="">--select CPU model--</option>
-                            <option value="Intel Atom">Intel Atom</option>
-                            <option value="Intel Celeron">Intel Celeron</option>
-                            <option value="Intel Core i3">Intel Core i3</option>
-                            <option value="Intel Core i5">Intel Core i5</option>
-                            <option value="Intel Core i7">Intel Core i7</option>
-                            <option value="Intel Core M">Intel Core M</option>
-                            <option value="Intel Pentium">Intel Pentium</option>
-                            <option value="Intel Xeon E3">Intel Xeon E3</option>
-                            <option value="AMD A4">AMD A4</option>
-                            <option value="AMD A6">AMD A6</option>
-                            <option value="AMD A8">AMD A8</option>
-                            <option value="AMD A10">AMD A10</option>
-                            <option value="AMD E1">AMD E1</option>
 
-                        </select>
+                        {!! Form::select('30',$cpus,null,['class'=>'form-control','placeholder' => 'Pick a CPU...']) !!}
 
                         {{--<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>--}}
                         {{--<span id="inputSuccess2Status" class="sr-only">(success)</span>--}}
@@ -37,13 +23,8 @@
                 <td>
                 <div class="form-group has-feedback">
                     <label class="control-label" for="inputSuccess2">RAM size</label>
-                    <select class="form-control" aria-describedby="inputSuccess2Status" name="31">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                    </select>
+                    {!! Form::input('number','31',null,['class'=>'form-control']) !!}
+
 
                     {{--<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>--}}
                     {{--<span id="inputSuccess2Status" class="sr-only">(success)</span>--}}
@@ -54,16 +35,10 @@
                 <td>
                 <div class="form-group has-feedback">
                     <label class="control-label" for="inputSuccess2">Screen size</label>
-                    <select class="form-control" aria-describedby="inputSuccess2Status" name="32">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                    </select>
 
-                    {{--<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>--}}
-                    {{--<span id="inputSuccess2Status" class="sr-only">(success)</span>--}}
+                    {!! Form::input('number','32',null,['class'=>'form-control','placeholder' => 'Entry Screen size','step'=>'0.1']) !!}
+
+
                 </div>
                 </td>
             </tr>
@@ -71,16 +46,9 @@
                 <td>
                 <div class="form-group has-feedback">
                     <label class="control-label" for="inputSuccess2">HDD size</label>
-                    <select class="form-control" aria-describedby="inputSuccess2Status" name="33">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                    </select>
+                    {!! Form::input('number','33',null,['class'=>'form-control']) !!}
 
-                    {{--<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>--}}
-                    {{--<span id="inputSuccess2Status" class="sr-only">(success)</span>--}}
+
                 </div>
                 </td>
             </tr>
@@ -88,10 +56,9 @@
                 <td>
                 <div class="form-group has-feedback">
                     <label class="control-label" for="inputSuccess2">SSD size</label>
-                    <input type="number" name="ssd" class="form-control">
+                    <input type="number" name="34" class="form-control">
 
-                    {{--<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>--}}
-                    {{--<span id="inputSuccess2Status" class="sr-only">(success)</span>--}}
+
                 </div>
                 </td>
             </tr>
@@ -99,24 +66,10 @@
                 <td>
                 <div class="form-group has-feedback">
                     <label class="control-label" for="inputSuccess2">Graphics card</label>
-                    <select class="form-control" aria-describedby="inputSuccess2Status" name="35">
-                        <option>GT720M</option>
-                        <option>GTX860M</option>
-                        <option>GTX920M</option>
-                        <option>GTX930M</option>
-                        <option>GTX940M</option>
-                        <option>GTX950M</option>
-                        <option>GTX960M</option>
-                        <option>GTX965M</option>
-                        <option>GTX980M</option>
-                        <option>GTX1060M</option>
-                        <option>GTX1070M</option>
-                        <option>GTX1080M</option>
-                        <option>Integrated</option>
-                    </select>
 
-                    {{--<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>--}}
-                    {{--<span id="inputSuccess2Status" class="sr-only">(success)</span>--}}
+                    {!! Form::select('35',$graphics_card,null,['class'=>'form-control','placeholder' => 'Pick a graphic_card...']) !!}
+
+
                 </div>
                 </td>
             </tr>
@@ -124,27 +77,20 @@
                 <td>
                     <div class="form-group has-feedback">
                         <label class="control-label" for="inputSuccess2">Screen Resolution</label>
-                        <select class="form-control" aria-describedby="inputSuccess2Status" name="36">
-                            <option>1366 X 768</option>
-                            <option>1440 X 900</option>
-                            <option>1600 X 900</option>
-                            <option>1920 X 1080</option>
-                            <option>1920 X 1200</option>
-                            <option>2304 X 1440</option>
-                            <option>2560 X 1440</option>
-                            <option>2560 X 1600</option>
-                            <option>2880 X 1620</option>
-                            <option>3200 X 1800</option>
-                            <option>3840 X 2160</option>
-                        </select>
 
-                        {{--<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>--}}
-                        {{--<span id="inputSuccess2Status" class="sr-only">(success)</span>--}}
+                        {!! Form::select('36',$resolution,null,['class'=>'form-control','placeholder' => 'Pick a Resolution...']) !!}
+
+
                     </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    {!! Form::submit('Save') !!}
                 </td>
             </tr>
 
         </table>
     </div>
-
+{!! Form::close() !!}
 @endsection

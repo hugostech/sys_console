@@ -133,6 +133,7 @@ Route::get('sales_list','unilityController@sales_list');
 Route::post('sales_list','unilityController@sales_add');
 Route::get('sales_remove/{id}','unilityController@sales_remove');
 Route::get('laptop_attribute/{id}','unilityController@laptop_attribute');
+Route::post('laptop_attribute','unilityController@insert_laptop_attribute');
 
 Route::get('testEmail','unilityController@producttosales');
 Route::get('listClient','unilityController@listnewclient');
