@@ -35,7 +35,7 @@
                 </tr>
                 <tr>
                     {{--<td>{{$data['code']}}</td>--}}
-                    <td>{{$data['des']}}</td>
+                    <td>{{str_limit($data['des'],2000)}}</td>
                     <td>
                         {!! Form::open(['url'=>'/killprice','method'=>'put']) !!}
                         <div class="form-group">
@@ -77,7 +77,7 @@
                     {{--<td><a href="http://www.extremepc.co.nz/william/categories.php?search={{$data['code']}}" target="_blank">{{$data['extremepcprice']}}</a></td>--}}
                     <td>
 
-                        {!! $data['price'] !!}</td>
+                        {!! str_limit($data['price'],2000) !!}</td>
                 </tr>
                 <tr>
                     <td colspan="3">
