@@ -106,6 +106,7 @@ class unilityController extends Controller
         $des = self::getContent($url);
         $product = Ex_product::where('model', $code)->first();
         $viewed = $product->viewed;
+        $product_id = $product->product_id;
         $special = 0;
         $status = 0;
         if (isset($product->price)) {
@@ -151,7 +152,8 @@ class unilityController extends Controller
             'extremepcprice' => $extremepc,
             'supplier_code' => $supplier_code,
             'status' => $status,
-            'view'=>$viewed
+            'view'=>$viewed,
+            'product_id'=>$product_id
         );
         return $data;
     }

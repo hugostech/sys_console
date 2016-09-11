@@ -61,6 +61,7 @@
                         </div>
                         <div class="form-group text-right">
                             Viewed:<label>{{$data['view']}}</label>
+                            <a href="{{url('laptop_attribute',[$data['product_id']])}}" class="btn btn-warning">Add Laptop Attributes</a>
                             @if($data['status']==1)
                                 <input type="submit" class="btn btn-success" name="product_status" value="Enable">
                             @else
