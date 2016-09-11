@@ -521,7 +521,8 @@ class unilityController extends Controller
             "AMD A10"=>'AMD A10',
             "AMD E1"=>'AMD E1'
         );
-        return view('laptop',compact('cpus','resolution','graphics_card','id'));
+        $product = Ex_product_description::where('product_id',$id)->first();
+        return view('laptop',compact('cpus','resolution','graphics_card','id','product'));
     }
 
     /*
