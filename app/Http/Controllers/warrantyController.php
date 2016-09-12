@@ -40,7 +40,7 @@ class warrantyController extends Controller
         }
     }
     public function adminLogin(Request $request){
-//        dd($request->all());
+        dd($request->all());
         if(count(adminLogin::where('username',$request->input('username'))->where('password',encrypt($request->input('password')))->get())>0){
 //            dd(self::getIP());
             $admin = adminLogin::where('username',$request->input('username'))->where('password',$request->input('password'))->first();
