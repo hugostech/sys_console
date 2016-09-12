@@ -110,14 +110,14 @@
 <div class="login-page">
     <div class="form">
 
-        <form class="login-form">
-            {!! Form::open(['url'=>'adminLogin']) !!}
-            <input type="text" name="username" placeholder="username"/>
-            <input type="password"  name="password" placeholder="password"/>
-            {!! Form::submit('let me in') !!}
-            {!! Form::close() !!}
 
-        </form>
+        {!! Form::open(['url'=>'adminLogin','class'=>'login-form']) !!}
+        <input type="text" name="username" placeholder="username"/>
+        <input type="password"  name="password" placeholder="password"/>
+        {!! Form::submit('let me in') !!}
+        {!! Form::close() !!}
+
+
     </div>
 </div>
 
