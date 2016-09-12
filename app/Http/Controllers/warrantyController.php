@@ -35,7 +35,8 @@ class warrantyController extends Controller
         }
         $ip = self::getIP();
         if(!in_array($ip,$safeIP)){
-            return view('adminLogin');
+            echo view('adminLogin');
+            exit;
         }
     }
     public function adminLogin(Request $request){
