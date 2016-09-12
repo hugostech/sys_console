@@ -21,7 +21,7 @@ class warrantyController extends Controller
     {
 
         $safeIP = array(
-            
+
             '203.97.175.164',
             '122.59.131.230',
             '203.96.195.219',
@@ -41,6 +41,7 @@ class warrantyController extends Controller
     }
     public function adminLogin(Request $request){
         if(count(adminLogin::where('username',$request->input('username'))->where('password',encrypt($request->input('password')))->get())>0){
+            dd(self::getIP());
             $admin = adminLogin::where('username',$request->input('username'))->where('password',$request->input('password'))->first();
             $admin->ip = self::getIP();
             $admin->save();
