@@ -21,7 +21,7 @@ class warrantyController extends Controller
     {
 
         $safeIP = array(
-            '103.250.119.7',
+            
             '203.97.175.164',
             '122.59.131.230',
             '203.96.195.219',
