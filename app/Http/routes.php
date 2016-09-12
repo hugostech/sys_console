@@ -50,7 +50,7 @@ Route::put('supplier/{id}','adminController@updateSupplier');
 Route::get('suppliers','adminController@listSuppliers');
 Route::get('print/{id}','warrantyController@printWarranty');
 Route::put('warranty/{id}','warrantyController@updateWarranty');
-Route::post('adminLogin','warrantyController@adminLogin');
+
 
 Route::get('getsn/{sn}','warrantyController@getSn');
 Route::get('getDesc/{code}','warrantyController@getDesc');
@@ -135,6 +135,7 @@ Route::post('sales_list','unilityController@sales_add');
 Route::get('sales_remove/{id}','unilityController@sales_remove');
 Route::get('laptop_attribute/{id}','unilityController@laptop_attribute');
 Route::post('laptop_attribute','unilityController@insert_laptop_attribute');
+Route::post('adminLogin','unilityController@adminLogin');
 
 
 Route::get('testEmail','unilityController@producttosales');
