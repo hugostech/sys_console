@@ -23,6 +23,7 @@ use App\Ex_stock_status;
 use App\Http\Requests;
 use App\News_letter;
 use App\Product;
+use App\adminLogin;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Mail;
@@ -485,8 +486,22 @@ class unilityController extends Controller
             $admin = adminLogin::where('username',$request->input('username'))->where('password',$request->input('password'))->first();
             $admin->ip = self::getIP();
             $admin->save();
+
         }
         return redirect('list');
+    }
+    private function getIP()
+    {
+        if (getenv("HTTP_CLIENT_IP")) {
+            $ip = getenv("HTTP_CLIENT_IP");
+        } elseif (getenv("HTTP_X_FORWARDED_FOR")) {
+            $ip = getenv("HTTP_X_FORWARDED_FOR");
+        } elseif (getenv("REMOTE_ADDR")) {
+            $ip = getenv("REMOTE_ADDR");
+        } else {
+            $ip = "unknow";
+        }
+        return $ip;
     }
     /*
      * sign laptop attribute*/
