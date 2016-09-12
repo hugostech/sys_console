@@ -469,7 +469,7 @@ class unilityController extends Controller
                 $attribute->text = $request->input($i);
                 $attribute->language_id = 1;
                 $attribute->save();
-            
+
 
 
         }

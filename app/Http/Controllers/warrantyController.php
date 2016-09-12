@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\adminLogin;
 use App\Delivery;
 use App\Note;
 use App\SN_mapping;
@@ -28,13 +29,23 @@ class warrantyController extends Controller
             '192.168.10.1',
 
         );
+        $ips = adminLogin::all();
+        foreach($ips as $item){
+            $safeIP[] = $item->ip;
+        }
         $ip = self::getIP();
         if(!in_array($ip,$safeIP)){
-            echo 'Permission denied';
-            exit;
+            return view('adminLogin');
         }
     }
-
+    public function adminLogin(Request $request){
+        if(count(adminLogin::where('username',$request->input('username'))->where('password',encrypt($request->input('password')))->get())>0){
+            $admin = adminLogin::where('username',$request->input('username'))->where('password',$request->input('password'))->first();
+            $admin->ip = self::getIP();
+            $admin->save();
+        }
+        return redirect('list');
+    }
     public function store(Request $request)
     {
         $warranty = Warranty::create($request->all());
