@@ -515,10 +515,12 @@ class unilityController extends Controller
             "GTX950M"=>"GTX950M",
             "GTX960M"=>"GTX960M",
             "GTX965M"=>"GTX965M",
+            "GTX970M"=>"GTX970M",
             "GTX980M"=>"GTX980M",
             "GTX1060M"=>"GTX1060M",
             "GTX1070M"=>"GTX1070M",
             "GTX1080M"=>"GTX1080M",
+            "Radeon R5 M230"=>"Radeon R5 M230",
             "Integrated"=>"Integrated"
         );
         $resolution = array(
@@ -550,8 +552,13 @@ class unilityController extends Controller
             "AMD A10"=>'AMD A10',
             "AMD E1"=>'AMD E1'
         );
+        $data = array();
+        for($i = 30; $i < 37; $i++){
+            $attribute = Ex_product_attribute::where('product_id',$id)->where('attribute_id',$i)->first();
+            $data[$i] = empty($attribute)?null:$attribute->text;
+        }
         $product = Ex_product_description::where('product_id',$id)->first();
-        return view('laptop',compact('cpus','resolution','graphics_card','id','product'));
+        return view('laptop',compact('cpus','resolution','graphics_card','id','product','data'));
     }
 
     /*
