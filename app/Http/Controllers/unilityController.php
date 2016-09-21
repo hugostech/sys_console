@@ -458,7 +458,7 @@ class unilityController extends Controller
     }
     public function insert_laptop_attribute(Request $request){
 //        dd($request);
-        for($i = 30; $i < 37; $i++){
+        for($i = 30; $i < 38; $i++){
 
             if(count(Ex_product_attribute::where('product_id',$request->input('product_id'))->where('attribute_id',$i)->get())>0){
               Ex_product_attribute::where('product_id',$request->input('product_id'))->where('attribute_id',$i)->delete();
@@ -554,7 +554,7 @@ class unilityController extends Controller
             "AMD E1"=>'AMD E1'
         );
         $data = array();
-        for($i = 30; $i < 37; $i++){
+        for($i = 30; $i < 38; $i++){
             $attribute = Ex_product_attribute::where('product_id',$id)->where('attribute_id',$i)->first();
             $data[$i] = empty($attribute)?null:$attribute->text;
         }
