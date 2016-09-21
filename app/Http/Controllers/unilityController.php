@@ -92,8 +92,9 @@ class unilityController extends Controller
     {
         $data = array();
         if ($request->has('code')) {
-            self::addNewProduct($request->input('code'));
-            $data = self::getData($request->input('code'));
+            $code = trim($request->input('code'));
+            self::addNewProduct($code);
+            $data = self::getData($code);
         }
 
         return view('killprice', compact('data'));
