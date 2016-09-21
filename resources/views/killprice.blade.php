@@ -9,7 +9,7 @@
         @endif
     </div>
 
-    <div class="col-sm-12">
+    <div class="col-md-12">
         {!! Form::open(['url'=>'/killprice']) !!}
         <div class="form-group">
             <div class="input-group">
