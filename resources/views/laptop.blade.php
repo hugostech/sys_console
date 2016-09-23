@@ -93,7 +93,7 @@
             <tr>
                 <td>
                     <div class="form-group has-feedback">
-                        <label class="control-label" for="inputSuccess2">Screen Resolution</label>
+                        <label class="control-label" for="inputSuccess2">Touch Screen</label>
 
                         {!! Form::select('37',['No'=>'No','Yes'=>'Yes'],$data[37],['class'=>'form-control','placeholder' => 'Pick a Touch Screen...']) !!}
 
