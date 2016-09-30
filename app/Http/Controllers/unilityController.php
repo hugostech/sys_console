@@ -133,6 +133,8 @@ class unilityController extends Controller
                     $special = $special->price * 1.15;
                 }
             }
+            $special_start = $special->date_start;
+            $special_end = $special->date_end;
 
 //            $special = isset($special->price) ? $special->price * 1.15 : 0;
 
@@ -155,7 +157,9 @@ class unilityController extends Controller
             'supplier_code' => $supplier_code,
             'status' => $status,
             'view'=>$viewed,
-            'product_id'=>$product_id
+            'product_id'=>$product_id,
+            'special_start'=>$special_start,
+            'special_end'=>$special_end
         );
         return $data;
     }
@@ -173,6 +177,7 @@ class unilityController extends Controller
 
     public function killPrice_edit(Request $request)
     {
+
         if ($request->has('code')) {
             $product = Ex_product::where('model', $request->input('code'))->first();
             $product->price = $request->price / 1.15;
@@ -188,7 +193,16 @@ class unilityController extends Controller
                 $special->priority = 0;
                 $special->price = $request->input('special') / 1.15;
                 $special->date_start = "0000-00-00";
-                $special->date_end = "0000-00-00";
+                if(!empty($request->input('starttime'))){
+                    $special->date_start = Carbon::parse($request->input('starttime'));
+                }
+                    $special->date_end = "0000-00-00";
+                if(!empty($request->input('endtime'))){
+                    $special->date_end = $request->input('endtime');
+                    $product->jan = $product->stock_status_id;
+                    $product->stock_status_id = 31;
+                    $product->save();
+                }
                 $special->save();
 
             }
@@ -633,11 +647,31 @@ class unilityController extends Controller
         self::checkOrder();
         self::categoryarrange();
         self::listnewclient();
+        self::specialCheck();
 //        self::producttosales();
 //        self::categoryarrange();
         return self::syncQuantity(); //sync quantity
     }
+    private function specialCheck(){
+        $specials = Ex_speceal::all();
+        foreach($specials as $item){
+            if($item->date_end!='0000-00-00'){
+                $date_end = Carbon::parse($item->date_end);
+                $diff = $date_end->diffInDays(Carbon::now());
+                if($diff<0){
+                    $product = $item->product;
+                    if(!empty($product->jan)){
+                        $product->stock_status_id = $product->jan;
+                        $product->jan = '';
+                        $product->save();
+                    }
+                    $item->delete();
+                }
 
+            }
+        }
+
+    }
     public function producttosales(){
         Ex_product_category::where('category_id',272)->delete();
         $products = Ex_speceal::where('date_end','>',Carbon::now())->orwhere('date_end','0000-00-00')->get();

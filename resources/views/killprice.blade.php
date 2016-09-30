@@ -60,9 +60,19 @@
                             <p ng-show(special_price)>Ex GST @{{special_price/1.15 | number:2}}</p>
                         </div>
                         <div class="form-group">
-
+                            <label for="starttime">Start Time:</label>
                             <div class="input-group">
-                                {!! Form::date('endtime', null,['class'=>'form-control']) !!}
+                                {!! Form::date('starttime', $data['special_start'],['class'=>'form-control']) !!}
+
+                                <span class="input-group-btn">
+                                    <button type="submit" name='setStartDate' class="btn btn-default">Set</button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="endtime">End Time:</label>
+                            <div class="input-group">
+                                {!! Form::date('endtime', $data['special_end'],['class'=>'form-control']) !!}
 
                                 <span class="input-group-btn">
                                     <button type="submit" name='setEndDate' class="btn btn-default">Set</button>
@@ -95,7 +105,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="3">
+                    <td colspan="4">
                         <iframe src="http://pricespy.co.nz/#rparams=ss={{substr($data['des'],0,25) }}" width="100%"
                                 height="600px;" frameborder="0"></iframe>
                     </td>
