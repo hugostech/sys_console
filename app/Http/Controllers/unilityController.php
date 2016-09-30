@@ -118,6 +118,8 @@ class unilityController extends Controller
 
 
             $special = Ex_speceal::where('product_id', $product->product_id)->first();
+            $special_start = isset($special->date_start)?$special->date_start:'';
+            $special_end = isset($special->date_end)?$special->date_end:'';
             if (isset($special->price)) {
                 if ($special->date_end <> '0000-00-00') {
                     $enddate = Carbon::parse($special->date_end);
@@ -133,8 +135,7 @@ class unilityController extends Controller
                     $special = $special->price * 1.15;
                 }
             }
-            $special_start = $special->date_start;
-            $special_end = $special->date_end;
+
 
 //            $special = isset($special->price) ? $special->price * 1.15 : 0;
 
