@@ -195,11 +195,11 @@ class unilityController extends Controller
                 $special->price = $request->input('special') / 1.15;
                 $special->date_start = "0000-00-00";
                 if(!empty($request->input('starttime'))){
-                    $special->date_start = Carbon::parse($request->input('starttime'));
+                    $special->date_start = Carbon::parse($request->input('starttime'))->format('Y-m-d');
                 }
                     $special->date_end = "0000-00-00";
                 if(!empty($request->input('endtime'))){
-                    $special->date_end = $request->input('endtime');
+                    $special->date_end = Carbon::parse($request->input('endtime'))->format('Y-m-d');
                     $product->jan = $product->stock_status_id;
                     $product->stock_status_id = 31;
                     $product->save();
