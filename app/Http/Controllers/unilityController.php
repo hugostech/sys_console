@@ -186,6 +186,11 @@ class unilityController extends Controller
 
             if (empty($request->input('special') * 1.0)) {
                 Ex_speceal::where('product_id', $product->product_id)->delete();
+                if(!empty($product->jan)){
+                    $product->stock_status_id = $product->jan;
+                    $product->jan = '';
+                    $product->save();
+                }
             } else {
                 Ex_speceal::where('product_id', $product->product_id)->delete();
                 $special = new Ex_speceal();
