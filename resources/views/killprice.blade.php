@@ -29,8 +29,8 @@
                 <tr>
                     {{--<td class="col-md-1">Code</td>--}}
                     <td class="col-md-3">Name</td>
-                    <td class="col-md-6" colspan="2">Extemepc Price(inc GST)</td>
-                    <td class="col-md-3">Detail:</td>
+                    <td class="col-md-5" colspan="2">Extemepc Price(inc GST)</td>
+                    <td class="col-md-4">Detail:</td>
                     {{--<td class="col-md-8"></td>--}}
                 </tr>
                 <tr>
@@ -59,11 +59,22 @@
                             </div>
                             <p ng-show(special_price)>Ex GST @{{special_price/1.15 | number:2}}</p>
                         </div>
+                        <div class="form-group">
+
+                            <div class="input-group">
+                                {!! Form::date('endtime', null,['class'=>'form-control']) !!}
+
+                                <span class="input-group-btn">
+                                    <button type="submit" name='setEndDate' class="btn btn-default">Set</button>
+                                </span>
+                            </div>
+                        </div>
                     </td>
                     <td>
                         <div class="form-group text-right">
-                            Viewed:<label>{{$data['view']}}</label>
+
                             <a href="{{url('laptop_attribute',[$data['product_id']])}}" class="btn btn-warning">Add Laptop Attributes</a>
+
                             @if($data['status']==1)
                                 <input type="submit" class="btn btn-success" name="product_status" value="Enable">
                             @else
@@ -79,7 +90,8 @@
 
                     {{--<td><a href="http://www.extremepc.co.nz/william/categories.php?search={{$data['code']}}" target="_blank">{{$data['extremepcprice']}}</a></td>--}}
                     <td>
-                        {!! str_limit($data['price'],2000) !!}
+                        {!! str_limit($data['price'],2000) !!}<br>
+                        Viewed:<label>{{$data['view']}}</label>
                     </td>
                 </tr>
                 <tr>
