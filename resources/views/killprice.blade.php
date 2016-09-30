@@ -28,9 +28,9 @@
                    ng-init="normal_price={{$data['extremepcprice']}};special_price={{$data['special']}}">
                 <tr>
                     {{--<td class="col-md-1">Code</td>--}}
-                    <td class="col-md-4">Name</td>
-                    <td class="col-md-4">Extemepc Price(inc GST)</td>
-                    <td class="col-md-4">Detail:</td>
+                    <td class="col-md-3">Name</td>
+                    <td class="col-md-6" colspan="2">Extemepc Price(inc GST)</td>
+                    <td class="col-md-3">Detail:</td>
                     {{--<td class="col-md-8"></td>--}}
                 </tr>
                 <tr>
@@ -43,9 +43,9 @@
                             <div class="input-group">
                                 <input type='text' class="form-control" name='price' value='{{$data['extremepcprice']}}'
                                        ng-model="normal_price">
-					<span class="input-group-btn">
-						<button type="submit" class="btn btn-default">Edit Price</button>
-					</span>
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn btn-default">Edit Price</button>
+                        </span>
                             </div>
                             <p>Ex GST @{{normal_price/1.15 | number:2}}</p>
                         </div>
@@ -59,6 +59,8 @@
                             </div>
                             <p ng-show(special_price)>Ex GST @{{special_price/1.15 | number:2}}</p>
                         </div>
+                    </td>
+                    <td>
                         <div class="form-group text-right">
                             Viewed:<label>{{$data['view']}}</label>
                             <a href="{{url('laptop_attribute',[$data['product_id']])}}" class="btn btn-warning">Add Laptop Attributes</a>
@@ -72,12 +74,13 @@
 
 
                         {!! Form::close() !!}
-                        <br></td>
+                        <br>
+                    </td>
 
                     {{--<td><a href="http://www.extremepc.co.nz/william/categories.php?search={{$data['code']}}" target="_blank">{{$data['extremepcprice']}}</a></td>--}}
                     <td>
-
-                        {!! str_limit($data['price'],2000) !!}</td>
+                        {!! str_limit($data['price'],2000) !!}
+                    </td>
                 </tr>
                 <tr>
                     <td colspan="3">
