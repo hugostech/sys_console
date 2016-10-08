@@ -905,6 +905,7 @@ class unilityController extends Controller
 
         $order = Ex_order::find($id);
         $name = $order->firstname . ' ' . $order->lastname;
+        $name = addslashes($name);
         $email = $order->email;
         $phone = $order->telephone;
         $company = addslashes($order->shipping_company);
