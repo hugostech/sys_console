@@ -905,12 +905,12 @@ class unilityController extends Controller
 
         $order = Ex_order::find($id);
         $name = $order->firstname . ' ' . $order->lastname;
-        $name = addslashes($name);
+        $name = str_replace('\'','\'\'',$name);
         $email = $order->email;
         $phone = $order->telephone;
-        $company = addslashes($order->shipping_company);
-        $address1 = addslashes($order->shipping_address_1);
-        $address2 = addslashes($order->shipping_address_2);
+        $company = str_replace('\'','\'\'',$order->shipping_company);
+        $address1 = str_replace('\'','\'\'',$order->shipping_address_1);
+        $address2 = str_replace('\'','\'\'',$order->shipping_address_2);
         $city = $order->shipping_city;
         $province = $order->shipping_zone;
         $data = compact('name', 'email', 'phone', 'company', 'address1', 'address2', 'city', 'province');
