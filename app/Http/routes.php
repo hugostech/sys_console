@@ -118,6 +118,7 @@ Route::get('unsubscribe/{email}','unilityController@unsubscribe');
 Route::get('syncpro/{code}','unilityController@addNewProduct');
 Route::get('syncproall','unilityController@grabProducts');
 Route::get('feed','unilityController@productFeed');
+Route::get('ktechfeed','unilityController@ktechProductFeed');
 Route::get('tsafeed','unilityController@tsaFeed');
 Route::get('syncqty','unilityController@syncqty');
 Route::get('checkorder','unilityController@checkOrder');

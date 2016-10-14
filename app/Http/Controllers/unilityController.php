@@ -453,6 +453,35 @@ class unilityController extends Controller
         }
         echo \GuzzleHttp\json_encode($feed);
     }
+
+    public function ktechProductFeed(){
+        try {
+
+
+            $products = Ex_product::where('quantity','<>',0)->get();
+            $feed = array();
+            foreach ($products as $product) {
+
+                $product_name = isset(Ex_product_description::find($product->product_id)->name) ? Ex_product_description::find($product->product_id)->name : '';
+
+
+
+                $tem = array(
+                    'Product name' => addslashes($product_name),
+                    'Article number' => $product->model,
+                    'quantity'=>$product->quantity
+                );
+
+
+                $feed[$product->product_id] = $tem;
+
+
+            }
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+        echo \GuzzleHttp\json_encode($feed);
+    }
     /*
      * batch change order status*/
     public function changeOrderStatus()
