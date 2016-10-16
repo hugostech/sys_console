@@ -609,8 +609,8 @@ class unilityController extends Controller
             'Windows 8.1'=>'Windows 8.1',
             'Windows 7 home'=>'Windows 7 home',
             'Windows 7 pro'=>'Windows 7 pro',
-            'Chrome os'=>'Chrome Os',
-            'Mac os'=>'Mac )s',
+            'Chrome Os'=>'Chrome Os',
+            'Mac Os'=>'Mac Os',
         );
         $data = array();
         for($i = 30; $i <= 38; $i++){
