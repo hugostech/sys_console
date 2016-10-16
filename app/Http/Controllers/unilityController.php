@@ -613,7 +613,7 @@ class unilityController extends Controller
             'Mac os'=>'Mac )s',
         );
         $data = array();
-        for($i = 30; $i < 38; $i++){
+        for($i = 30; $i <= 38; $i++){
             $attribute = Ex_product_attribute::where('product_id',$id)->where('attribute_id',$i)->first();
             $data[$i] = empty($attribute)?null:$attribute->text;
         }
