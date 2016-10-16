@@ -506,7 +506,7 @@ class unilityController extends Controller
     }
     public function insert_laptop_attribute(Request $request){
 //        dd($request);
-        for($i = 30; $i < 38; $i++){
+        for($i = 30; $i <= 38; $i++){
 
             if(count(Ex_product_attribute::where('product_id',$request->input('product_id'))->where('attribute_id',$i)->get())>0){
               Ex_product_attribute::where('product_id',$request->input('product_id'))->where('attribute_id',$i)->delete();
@@ -601,13 +601,24 @@ class unilityController extends Controller
             "AMD A10"=>'AMD A10',
             "AMD E1"=>'AMD E1'
         );
+        $os = array(
+            'Windows 10 home'=>'Windows 10 home',
+            'Windows 10 pro'=>'Windows 10 pro',
+            'Windows 8 home'=>'Windows 8 home',
+            'Windows 8 pro'=>'Windows 8 pro',
+            'Windows 8.1'=>'Windows 8.1',
+            'Windows 7 home'=>'Windows 7 home',
+            'Windows 7 pro'=>'Windows 7 pro',
+            'Chrome os'=>'Chrome Os',
+            'Mac os'=>'Mac )s',
+        );
         $data = array();
         for($i = 30; $i < 38; $i++){
             $attribute = Ex_product_attribute::where('product_id',$id)->where('attribute_id',$i)->first();
             $data[$i] = empty($attribute)?null:$attribute->text;
         }
         $product = Ex_product_description::where('product_id',$id)->first();
-        return view('laptop',compact('cpus','resolution','graphics_card','id','product','data'));
+        return view('laptop',compact('cpus','resolution','graphics_card','id','product','data','os'));
     }
 
     /*
