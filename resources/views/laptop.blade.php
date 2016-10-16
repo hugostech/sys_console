@@ -106,7 +106,7 @@
                     <div class="form-group has-feedback">
                         <label class="control-label" for="inputSuccess2">Operating system</label>
 
-                        {!! Form::select('38',$os,$data[38],['class'=>'form-control','placeholder' => 'Pick a Resolution...']) !!}
+                        {!! Form::select('38',$os,$data[38],['class'=>'form-control','placeholder' => 'Pick a OS...']) !!}
 
 
                     </div>
