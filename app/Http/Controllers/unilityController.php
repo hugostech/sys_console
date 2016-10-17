@@ -487,7 +487,7 @@ class unilityController extends Controller
     public function changeOrderStatus()
     {
 //        $orders = Ex_order::where('order_status_id', 21)->get();
-        $orders = Ex_order::where('order_status_id', 21)->where('date_added', '<', '2016-09-03')->get();
+        $orders = Ex_order::where('order_status_id', 21)->where('date_added', '<', '2016-10-16')->get();
         $list = array();
         foreach ($orders as $order) {
             $history = new Ex_order_history();
