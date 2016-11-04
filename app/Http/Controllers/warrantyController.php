@@ -27,6 +27,7 @@ class warrantyController extends Controller
             '203.96.195.219',
             '203.173.132.159',
             '192.168.10.1',
+            '43.225.201.233',
 
         );
         $ips = adminLogin::all();
