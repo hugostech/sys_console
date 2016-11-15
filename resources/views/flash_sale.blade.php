@@ -6,6 +6,8 @@
         <div class="panel panel-info">
             <div class="panel-heading">
                 <h3>Flash sale product list</h3>
+                <a class="btn btn-primary" href="{{url('publishFlash')}}">Publish</a>
+                <a class="btn btn-danger" href="{{url('offlineFlash')}}">Offline</a>
             </div>
             <div class="panel-body">
                 <table class="table table-bordered ">
