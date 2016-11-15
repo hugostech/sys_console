@@ -1508,12 +1508,12 @@ class unilityController extends Controller
         if($request->has('code')){
             $code = trim($request->input('code'));
             $ex_product = Ex_product::where('model',$code)->first();
-            $desciption = $ex_product->description;
+
 
             if(is_null($ex_product)){
                 return redirect("flash_sale");
             }
-
+            $desciption = $ex_product->description;
 
             $product = new Flash_sale_products();
             $product->price = $ex_product->price;
