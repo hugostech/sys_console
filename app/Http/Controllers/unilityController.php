@@ -1540,6 +1540,7 @@ class unilityController extends Controller
         $data = array();
         foreach ($products as $product){
             $data[] = $product->product_id;
+            self::signProduct2Flash($product->product_id,$product->price);
         }
         $category->products()->sync($data);
 
@@ -1561,11 +1562,41 @@ class unilityController extends Controller
 //        }
 //        $special->save();
     }
+    private function signProduct2Flash($product_id,$price){
+        Ex_speceal::where('product_id',$product_id)->delete();
+        $ex_product = Ex_product::find($product_id);
+        $special = new Ex_speceal();
+        $special->product_id = $ex_product->product_id;
+        $special->customer_group_id = 1;
+        $special->priority = 0;
+        $special->price = $price;
+        $special->date_end = Carbon::now()->format('Y-m-d');
+        $ex_product->jan = $ex_product->stock_status_id;
+        $ex_product->stock_status_id = 31;
+        $ex_product->save();
+        $special->save();
+    }
+
+    private function unsignProductFromFlash($product_id){
+        Ex_speceal::where('product_id',$product_id)->delete();
+        $ex_product = Ex_product::find($product_id);
+        $ex_product->stock_status_id = $ex_product->jan;
+        $ex_product->jan = '';
+        $ex_product->save();
+
+    }
+
 
     public function offlineFlash(){
         $category = Ex_category::find(307);
+        $products = $category->products;
+        foreach ($products as $product){
+            self::unsignProductFromFlash($product->product_id);
+        }
 
         $category->products()->sync([]);
+
+
     }
     /*
      * Flash sale end*/
