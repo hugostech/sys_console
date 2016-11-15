@@ -1570,7 +1570,7 @@ class unilityController extends Controller
         $special->customer_group_id = 1;
         $special->priority = 0;
         $special->price = $price;
-        $special->date_end = Carbon::now()->format('Y-m-d');
+        $special->date_end = Carbon::now()->addDay(1)->format('Y-m-d');
         $ex_product->jan = $ex_product->stock_status_id;
         $ex_product->stock_status_id = 31;
         $ex_product->save();
