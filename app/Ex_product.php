@@ -40,4 +40,8 @@ class Ex_product extends Model
     public function images(){
         return $this->hasMany('App\Ex_product_image','product_id');
     }
+
+    public function description(){
+        return $this->hasOne('App\Ex_product_description','product_id');
+    }
 }

@@ -12,4 +12,5 @@ class Ex_product_description extends Model
     protected $primaryKey = 'product_id';
     public $timestamps = false;
 
+
 }

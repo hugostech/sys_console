@@ -132,6 +132,12 @@ Route::get('eta_list','unilityController@eta_list');
 Route::post('eta_list','unilityController@eta_add');
 Route::get('eta_remove/{id}','unilityController@eta_remove');
 Route::get('sales_list','unilityController@sales_list');
+Route::get('flash_sale','unilityController@show_flash_sale');
+Route::get('flash_sale_price_edit/{code}/{price}','unilityController@flash_sale_price_edit');
+Route::get('flash_sale_product_del/{id}','unilityController@flash_sale_product_del');
+Route::post('add_flash_sale_product','unilityController@add_flash_sale_product');
+
+
 Route::post('sales_list','unilityController@sales_add');
 Route::get('sales_remove/{id}','unilityController@sales_remove');
 Route::get('laptop_attribute/{id}','unilityController@laptop_attribute');

@@ -20,14 +20,17 @@ use App\Ex_product_related;
 use App\Ex_product_store;
 use App\Ex_speceal;
 use App\Ex_stock_status;
+use App\Flash_sale_products;
 use App\Http\Requests;
 use App\News_letter;
 use App\Product;
 use App\adminLogin;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Mail;
 use Mockery\CountValidator\Exception;
+use PhpParser\Error;
 
 class unilityController extends Controller
 {
@@ -976,6 +979,7 @@ class unilityController extends Controller
 
     }
 
+
     public function addOrder($id, $clientId)
     {
         $url = env('SNPORT') . "?action=createorder";
@@ -1484,4 +1488,72 @@ class unilityController extends Controller
     /*
      * Common functions end
      */
+
+    /*
+     * Flash sale*/
+    public function show_flash_sale(){
+        $products = Flash_sale_products::all();
+        return view('flash_sale',compact('products'));
+    }
+
+    public function flash_sale_price_edit($code,$price){
+        $product = Flash_sale_products::where('code',$code)->first();
+        $product->price = $price/1.15;
+        $product->save();
+
+    }
+
+    public function add_flash_sale_product(Request $request){
+
+        if($request->has('code')){
+            $code = trim($request->input('code'));
+            $ex_product = Ex_product::where('model',$code)->first();
+            $desciption = $ex_product->description;
+
+            if(is_null($ex_product)){
+                return redirect("flash_sale");
+            }
+
+
+            $product = new Flash_sale_products();
+            $product->price = $ex_product->price*1.15;
+            $product->starttime = Carbon::now();
+            $product->code = $code;
+            $product->content = $desciption->name;
+            $product->save();
+
+
+        }
+    }
+
+    public function flash_sale_product_del($id){
+        Flash_sale_products::destroy($id);
+    }
+
+    public function publishFlash(){
+
+//        $special = new Ex_speceal();
+//        $special->product_id = $ex_product->product_id;
+//        $special->customer_group_id = 1;
+//        $special->priority = 0;
+//        $special->price = Carbon::now();
+//        $special->date_start = "0000-00-00";
+//        if(!empty($request->input('starttime'))){
+//            $special->date_start = Carbon::parse($request->input('starttime'))->format('Y-m-d');
+//        }
+//        $special->date_end = "0000-00-00";
+//        if(!empty($request->input('endtime'))){
+//            $special->date_end = Carbon::parse($request->input('endtime'))->format('Y-m-d');
+//            $product->jan = $product->stock_status_id;
+//            $product->stock_status_id = 31;
+//            $product->save();
+//        }
+//        $special->save();
+    }
+
+    public function offlineFlash(){
+
+    }
+    /*
+     * Flash sale end*/
 }
