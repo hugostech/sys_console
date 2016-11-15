@@ -1520,6 +1520,7 @@ class unilityController extends Controller
             $product->starttime = Carbon::now();
             $product->code = $code;
             $product->content = $desciption->name;
+            $product->product_id = $ex_product->product_id;
             $product->save();
 
             return redirect("flash_sale");
@@ -1533,6 +1534,14 @@ class unilityController extends Controller
     }
 
     public function publishFlash(){
+
+        $category = Ex_category::find(307);
+        $products = Flash_sale_products::all();
+        $data = array();
+        foreach ($products as $product){
+            $data[] = $product->product_id;
+        }
+        $category->products()->sync($data);
 
 //        $special = new Ex_speceal();
 //        $special->product_id = $ex_product->product_id;
@@ -1554,7 +1563,9 @@ class unilityController extends Controller
     }
 
     public function offlineFlash(){
+        $category = Ex_category::find(307);
 
+        $category->products()->sync([]);
     }
     /*
      * Flash sale end*/
