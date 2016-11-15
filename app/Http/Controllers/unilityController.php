@@ -1543,6 +1543,7 @@ class unilityController extends Controller
             self::signProduct2Flash($product->product_id,$product->price);
         }
         $category->products()->sync($data);
+        return redirect("flash_sale");
 
 //        $special = new Ex_speceal();
 //        $special->product_id = $ex_product->product_id;
@@ -1595,6 +1596,7 @@ class unilityController extends Controller
         }
 
         $category->products()->sync([]);
+        return redirect("flash_sale");
 
 
     }
