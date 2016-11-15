@@ -1516,11 +1516,13 @@ class unilityController extends Controller
 
 
             $product = new Flash_sale_products();
-            $product->price = $ex_product->price*1.15;
+            $product->price = $ex_product->price;
             $product->starttime = Carbon::now();
             $product->code = $code;
             $product->content = $desciption->name;
             $product->save();
+
+            return redirect("flash_sale");
 
 
         }
