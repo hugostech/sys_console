@@ -1069,7 +1069,7 @@ class unilityController extends Controller
             echo $code . ' <font color="red">code exist</font>';
         } else {
             $url = env('SNPORT') . "?action=prosync&code=$code";
-
+            echo json_last_error_msg();
             $data = \GuzzleHttp\json_decode(self::getContent($url));
             if (!empty(trim($data->name))) {
 
@@ -1545,23 +1545,6 @@ class unilityController extends Controller
         $category->products()->sync($data);
         return redirect("flash_sale");
 
-//        $special = new Ex_speceal();
-//        $special->product_id = $ex_product->product_id;
-//        $special->customer_group_id = 1;
-//        $special->priority = 0;
-//        $special->price = Carbon::now();
-//        $special->date_start = "0000-00-00";
-//        if(!empty($request->input('starttime'))){
-//            $special->date_start = Carbon::parse($request->input('starttime'))->format('Y-m-d');
-//        }
-//        $special->date_end = "0000-00-00";
-//        if(!empty($request->input('endtime'))){
-//            $special->date_end = Carbon::parse($request->input('endtime'))->format('Y-m-d');
-//            $product->jan = $product->stock_status_id;
-//            $product->stock_status_id = 31;
-//            $product->save();
-//        }
-//        $special->save();
     }
     private function signProduct2Flash($product_id,$price){
         Ex_speceal::where('product_id',$product_id)->delete();
