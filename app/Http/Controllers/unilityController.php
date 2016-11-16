@@ -1074,6 +1074,7 @@ class unilityController extends Controller
 
             }catch (\League\Flysystem\Exception $e){
                 echo json_last_error_msg();
+                exit;
 
             }
 
