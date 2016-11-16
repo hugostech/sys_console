@@ -1069,8 +1069,9 @@ class unilityController extends Controller
             echo $code . ' <font color="red">code exist</font>';
         } else {
             $url = env('SNPORT') . "?action=prosync&code=$code";
-            echo json_last_error_msg();
             $data = \GuzzleHttp\json_decode(self::getContent($url));
+            echo json_last_error_msg();
+
             if (!empty(trim($data->name))) {
 
 
