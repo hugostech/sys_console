@@ -1070,10 +1070,22 @@ class unilityController extends Controller
         } else {
             $url = env('SNPORT') . "?action=prosync&code=$code";
             try{
-                $data = \GuzzleHttp\json_decode(stripslashes(self::getContent($url)));
+                $data = self::getContent($url);
+                    for ($i = 0; $i <= 31; ++$i) {
+                        $data = str_replace(chr($i), "", $data);
+                    }
+                $data = str_replace(chr(127), "", $data);
+
+// This is the most common part
+// Some file begins with 'efbbbf' to mark the beginning of the file. (binary level)
+// here we detect it and we remove it, basically it's the first 3 characters
+if (0 === strpos(bin2hex($data), 'efbbbf')) {
+    $data = substr($data, 3);
+}
+                $data = \GuzzleHttp\json_decode($data);
 
             }catch (\League\Flysystem\Exception $e){
-                echo json_last_error_msg();
+                echo $e->getMessage();
                 exit;
 
             }
