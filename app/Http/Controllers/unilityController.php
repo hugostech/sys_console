@@ -1070,7 +1070,7 @@ class unilityController extends Controller
         } else {
             $url = env('SNPORT') . "?action=prosync&code=$code";
             try{
-                $data = \GuzzleHttp\json_decode(self::getContent($url));
+                $data = \GuzzleHttp\json_decode(stripslashes(self::getContent($url)));
 
             }catch (\League\Flysystem\Exception $e){
                 echo json_last_error_msg();
