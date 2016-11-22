@@ -1545,6 +1545,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
             $product->code = $code;
             $product->content = $desciption->name;
             $product->product_id = $ex_product->product_id;
+            $product->qty = $ex_product->quantity;
             $product->save();
 
             return redirect("flash_sale");
