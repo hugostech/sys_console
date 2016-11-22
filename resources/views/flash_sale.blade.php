@@ -64,8 +64,8 @@
         }
         function changeqty(item){
             var code = $(item).parents('tr').children(0).html();
-            var price = $(item).val();
-            var url = "{{url('flash_sale_price_edit')}}/"+code+"/"+price;
+            var qty = $(item).val();
+            var url = "{{url('flash_sale_qty_edit')}}/"+code+"/"+qty;
 
             $.ajax({
                 url: url,
