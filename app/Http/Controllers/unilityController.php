@@ -1521,6 +1521,11 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
         $product->save();
 
     }
+    public function flash_sale_qty_edit($code,$qty){
+        $product = Flash_sale_products::where('code',$code)->first();
+        $product->qty = $qty;
+        $product->save();
+    }
 
     public function add_flash_sale_product(Request $request){
 
@@ -1559,13 +1564,13 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
         $data = array();
         foreach ($products as $product){
             $data[] = $product->product_id;
-            self::signProduct2Flash($product->product_id,$product->price);
+            self::signProduct2Flash($product->product_id,$product->price,$product->qty);
         }
         $category->products()->sync($data);
         return redirect("flash_sale");
 
     }
-    private function signProduct2Flash($product_id,$price){
+    private function signProduct2Flash($product_id,$price,$qty){
         Ex_speceal::where('product_id',$product_id)->delete();
         $ex_product = Ex_product::find($product_id);
         $special = new Ex_speceal();
@@ -1576,6 +1581,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
         $special->date_end = Carbon::now()->addDay(1)->format('Y-m-d');
         $ex_product->jan = $ex_product->stock_status_id;
         $ex_product->stock_status_id = 31;
+        $ex_product->quantity = $qty;
         $ex_product->save();
         $special->save();
     }
