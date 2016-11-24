@@ -83,14 +83,14 @@
             var code = $(item).parents('tr').children(0).html();
             var rrp = $(item).val();
             var url = "{{url('flash_sale_rrp_edit')}}/"+code+"/"+rrp;
-
-            $.ajax({
-                url: url,
-            }).done(function() {
-
-                location.reload();
-
-            });
+            alert(url);
+//            $.ajax({
+//                url: url,
+//            }).done(function() {
+//
+//                location.reload();
+//
+//            });
 
         }
         function flash_del(id){
