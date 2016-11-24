@@ -16,7 +16,8 @@
                         <th class="col-sm-1">Code</th>
                         <th class="col-sm-6">Content</th>
                         <th class="col-sm-2">price</th>
-                        <th class="col-sm-2">Quantity</th>
+                        <th class="col-sm-1">RRP</th>
+                        <th class="col-sm-1">Quantity</th>
                         <th class="col-sm-1"></th>
                     </tr>
 
@@ -27,6 +28,7 @@
                         <td>{{$product->code}}</td>
                         <td>{{$product->content}}</td>
                         <td>{!! Form::input('number','price[]',round($product->price*1.15,2),["class"=>"form-control","step"=>"0.01","onchange"=>"changeprice(this)"]) !!}</td>
+                        <td>{!! Form::input('number','rrp[]',null,["class"=>"form-control","step"=>"0.01","onchange"=>"changerrp(this)"]) !!}</td>
                         <td>{!! Form::input('number','quantity',$product->qty,['class'=>'form-control','onchange'=>'changeqty(this)']) !!}</td>
                         <td><button type="button" class="btn btn-danger" onclick="flash_del({{$product->id}})">Del</button></td>
                     </tr>
@@ -66,6 +68,21 @@
             var code = $(item).parents('tr').children(0).html();
             var qty = $(item).val();
             var url = "{{url('flash_sale_qty_edit')}}/"+code+"/"+qty;
+
+            $.ajax({
+                url: url,
+            }).done(function() {
+
+                location.reload();
+
+            });
+
+        }
+
+        function changerrp(item){
+            var code = $(item).parents('tr').children(0).html();
+            var rrp = $(item).val();
+            var url = "{{url('flash_sale_rrp_edit')}}/"+code+"/"+rrp;
 
             $.ajax({
                 url: url,
