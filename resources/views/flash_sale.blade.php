@@ -28,7 +28,7 @@
                         <td>{{$product->code}}</td>
                         <td>{{$product->content}}</td>
                         <td>{!! Form::input('number','price[]',round($product->price*1.15,2),["class"=>"form-control","step"=>"0.01","onchange"=>"changeprice(this)"]) !!}</td>
-                        <td>{!! Form::input('number','rrp[]',null,["class"=>"form-control","step"=>"0.01","onchange"=>"changerrp(this)"]) !!}</td>
+                        <td>{!! Form::input('number','rrp[]',$product->rrp,["class"=>"form-control","step"=>"0.01","onchange"=>"changerrp(this)"]) !!}</td>
                         <td>{!! Form::input('number','quantity',$product->qty,['class'=>'form-control','onchange'=>'changeqty(this)']) !!}</td>
                         <td><button type="button" class="btn btn-danger" onclick="flash_del({{$product->id}})">Del</button></td>
                     </tr>
@@ -83,14 +83,14 @@
             var code = $(item).parents('tr').children(0).html();
             var rrp = $(item).val();
             var url = "{{url('flash_sale_rrp_edit')}}/"+code+"/"+rrp;
-            alert(url);
-//            $.ajax({
-//                url: url,
-//            }).done(function() {
-//
-//                location.reload();
-//
-//            });
+
+            $.ajax({
+                url: url,
+            }).done(function() {
+
+                location.reload();
+
+            });
 
         }
         function flash_del(id){
