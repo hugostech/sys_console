@@ -14,9 +14,9 @@
                     <thead>
                     <tr>
                         <th class="col-sm-1">Code</th>
-                        <th class="col-sm-6">Content</th>
+                        <th class="col-sm-5">Content</th>
                         <th class="col-sm-2">price</th>
-                        <th class="col-sm-1">RRP</th>
+                        <th class="col-sm-2">RRP</th>
                         <th class="col-sm-1">Quantity</th>
                         <th class="col-sm-1"></th>
                     </tr>
