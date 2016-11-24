@@ -1528,8 +1528,9 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
     }
 
     public function flash_sale_rrp_edit($code,$rrp){
-        dd($rrp);
+
         $product = Flash_sale_products::where('code',$code)->first();
+        dd($product);
         $product->rrp = $rrp;
         $product->save();
 
