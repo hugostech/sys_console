@@ -692,10 +692,10 @@ class unilityController extends Controller
 
     public function dailySync()
     {
-//        self::checkOrder();
-//        self::categoryarrange();
+        self::checkOrder();
+        self::categoryarrange();
 //        self::listnewclient();
-//        self::specialCheck();
+        self::specialCheck();
 //        self::producttosales();
 //        self::categoryarrange();
         return self::syncQuantity(); //sync quantity
@@ -831,7 +831,7 @@ class unilityController extends Controller
         $roctech_array = self::syncqty();
         $unsync = array();
         $disable = array();
-        dd($roctech_array);
+//        dd($roctech_array);
         foreach ($products as $product) {
             if (isset($roctech_array[$product->model])) {
 //                dd($roctech_array[$product->model]);
