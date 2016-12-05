@@ -692,10 +692,10 @@ class unilityController extends Controller
 
     public function dailySync()
     {
-        self::checkOrder();
-        self::categoryarrange();
-        self::listnewclient();
-        self::specialCheck();
+//        self::checkOrder();
+//        self::categoryarrange();
+//        self::listnewclient();
+//        self::specialCheck();
 //        self::producttosales();
 //        self::categoryarrange();
         return self::syncQuantity(); //sync quantity
