@@ -21,17 +21,18 @@
 
         </div>
         {!! Form::close() !!}
-        <div class="form-group"  ng-controller="autoComplete">
-            <input type="text" name="category" class="form-control" ng-model="categoryFilter" placeholder="Category name">
-            <ul class="list-group" ng-if="categoryFilter" ng-repeat="x in categorys | filter : categoryFilter">
-                <a href="{{url('signProduct2Category',[$data['product_id']])}}?id=@{{ x.id }}" class="list-group-item @{{ x.status }}">@{{x.name}}</a>
 
-
-
-            </ul>
-        </div>
 
         @if(!empty($data))
+            <div class="form-group"  ng-controller="autoComplete">
+                <input type="text" name="category" class="form-control" ng-model="categoryFilter" placeholder="Category name">
+                <ul class="list-group" ng-if="categoryFilter" ng-repeat="x in categorys | filter : categoryFilter">
+                    <a href="{{url('signProduct2Category',[$data['product_id']])}}?id=@{{ x.id }}" class="list-group-item @{{ x.status }}">@{{x.name}}</a>
+
+
+
+                </ul>
+            </div>
             {{--<table class="table table-bordered" ng-app="myApp" ng-controller="customersCtrl">--}}
             <table class="table table-bordered"
                    ng-init="normal_price={{$data['extremepcprice']}};special_price={{$data['special']}}">
