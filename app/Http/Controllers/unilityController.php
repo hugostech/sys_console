@@ -1517,7 +1517,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
         }
 
 //        dd($request->input('modelnum'));
-        $category = Category::find($request->input('category_id'));
+        $category = Ex_category::find($request->input('category_id'));
         $product = Ex_product::where('model',trim($request->input('modelnum')))->first();
         $category->products()->attach($product->product_id);
         return redirect($_SERVER['HTTP_REFERER']);
@@ -1564,7 +1564,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
     /*
      * delete product from category*/
     public function deleteProductFromCategory($category_id,$product_id){
-        $category = Category::find($category_id);
+        $category = Ex_category::find($category_id);
         $category->products()->detach($product_id);
         return redirect($_SERVER['HTTP_REFERER']);
     }
