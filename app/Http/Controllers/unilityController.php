@@ -1524,8 +1524,8 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
             $categorys[] = $string;
         }
         $categorys = \GuzzleHttp\json_encode($categorys);
-//        echo $categorys;
-        return view('listProductFromCategory',compact('categorys'));
+        echo $categorys;
+//        return view('listProductFromCategory',compact('categorys'));
     }
     /*
      * Flash sale*/
