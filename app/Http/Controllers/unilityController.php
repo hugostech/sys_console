@@ -1513,6 +1513,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
      * List product form specific category*/
     public function listProductFromCategory(){
         $result = null;
+        $category_id = 0;
         if(Input::has('id')){
             $categorySpecific = Ex_category::find(Input::get('id'));
             $products = $categorySpecific->products;
@@ -1521,6 +1522,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
                 $product_detail = $product->description;
                 $result[] = compact('product','product_detail');
             }
+            $category_id = Input::has('id');
         }
         $categorys = array();
         $categorylist = Ex_category::all();
@@ -1542,7 +1544,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
 
 
 //        echo $categorys;
-        return view('listProductFromCategory',compact('categorys','result'));
+        return view('listProductFromCategory',compact('categorys','result','category_id'));
     }
     /*
      * delete product from category*/
