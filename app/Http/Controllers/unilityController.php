@@ -40,6 +40,7 @@ class unilityController extends Controller
 
     public function killshow()
     {
+        $categorys = null;
         $cats = array(
             'Mobile%20/%20Tablet%20Accessories',
             'Accessories',
@@ -61,7 +62,7 @@ class unilityController extends Controller
 //            $content[$cat] = $this->getCat($cat)->total;
 //        }
 
-        return view('killprice', compact('content'));
+        return view('killprice', compact('content','category'));
     }
 
     private function getCat($cat)
