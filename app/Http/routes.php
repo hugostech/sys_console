@@ -156,6 +156,7 @@ Route::get('cloneCategory/{c1}/{c2}','unilityController@cloneCategoryA2CategoryB
 
 Route::get('listProductFromCategory','unilityController@listProductFromCategory');
 Route::get('deleteProductFromCategory/{category}/{product_id}','unilityController@deleteProductFromCategory');
+Route::post('saveProduct2Category','unilityController@saveProduct2Category');
 
 
 

@@ -1509,6 +1509,19 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
     /*
      * Common functions end
      */
+
+    /*Save product from category*/
+    public function saveProduct2Category(Request $request){
+        if($request->has('category_id')){
+            return redirect($_SERVER['HTTP_REFERER']);
+        }
+
+        dd($request->input('modelnum'));
+        $category = Category::find($request->input('category_id'));
+        $category->products()->attach($request->input('modelnum'));
+        return redirect($_SERVER['HTTP_REFERER']);
+    }
+
     /*
      * List product form specific category*/
     public function listProductFromCategory(){
@@ -1522,7 +1535,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
                 $product_detail = $product->description;
                 $result[] = compact('product','product_detail');
             }
-            $category_id = Input::has('id');
+            $category_id = Input::input('id');
         }
         $categorys = array();
         $categorylist = Ex_category::all();
@@ -1546,6 +1559,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
 //        echo $categorys;
         return view('listProductFromCategory',compact('categorys','result','category_id'));
     }
+
     /*
      * delete product from category*/
     public function deleteProductFromCategory($category_id,$product_id){
