@@ -1523,8 +1523,9 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
             }
             $categorys[] = $string;
         }
-        echo $categorys;
-//        return view('listProductFromCategory',compact('categorys'));
+        $categorys = \GuzzleHttp\json_encode($categorys);
+//        echo $categorys;
+        return view('listProductFromCategory',compact('categorys'));
     }
     /*
      * Flash sale*/
