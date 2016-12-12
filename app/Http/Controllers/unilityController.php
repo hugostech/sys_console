@@ -62,7 +62,7 @@ class unilityController extends Controller
 //            $content[$cat] = $this->getCat($cat)->total;
 //        }
 
-        return view('killprice', compact('content','category'));
+        return view('killprice', compact('content','categorys'));
     }
 
     private function getCat($cat)
