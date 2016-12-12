@@ -57,9 +57,9 @@ class unilityController extends Controller
             'Tablet',
         );
         $content = array();
-        foreach ($cats as $cat) {
-            $content[$cat] = $this->getCat($cat)->total;
-        }
+//        foreach ($cats as $cat) {
+//            $content[$cat] = $this->getCat($cat)->total;
+//        }
 
         return view('killprice', compact('content'));
     }
@@ -94,14 +94,16 @@ class unilityController extends Controller
 
     public function killPrice(Request $request)
     {
+        $categorys = null;
         $data = array();
         if ($request->has('code')) {
             $code = trim($request->input('code'));
             self::addNewProduct($code);
             $data = self::getData($code);
+            $categorys = \GuzzleHttp\json_encode(self::categorysFullPath());
         }
 
-        return view('killprice', compact('data'));
+        return view('killprice', compact('data','categorys'));
     }
 
     private function getData($code)
@@ -1130,10 +1132,10 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
                 $description->description = str_replace('{!@!}', '"', $data->spec);
                 $description->meta_title = $data->name;
                 $description->save();
-                $category = new Ex_product_category();
-                $category->product_id = $product->product_id;
-                $category->category_id = 267;
-                $category->save();
+//                $category = new Ex_product_category();
+//                $category->product_id = $product->product_id;
+//                $category->category_id = 267;
+//                $category->save();
                 return $product->model . ' <font color="green">Insert Sucessed</font>';
             } else {
                 return $data->model . ' <font color="red">No Name</font>';
@@ -1541,6 +1543,16 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
             $category_name = self::categoryFullPath($categorySpecific);
 
         }
+        $categorys = self::categorysFullPath();
+        $categorys = \GuzzleHttp\json_encode($categorys);
+
+
+//        echo $categorys;
+        return view('listProductFromCategory',compact('categorys','result','category_id','category_name'));
+    }
+    /*
+     * return array with all category full path*/
+    public function categorysFullPath(){
         $categorys = array();
         $categorylist = Ex_category::all();
         foreach ($categorylist as $item){
@@ -1551,13 +1563,8 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
             $tem['status'] = $item->status==0?'text-danger':'';
             $categorys[] = $tem;
         }
-        $categorys = \GuzzleHttp\json_encode($categorys);
-
-
-//        echo $categorys;
-        return view('listProductFromCategory',compact('categorys','result','category_id','category_name'));
+        return $categorys;
     }
-
     /*
      * return full category path*/
     private function categoryFullPath(Ex_category $category){

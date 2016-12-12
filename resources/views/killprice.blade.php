@@ -21,6 +21,15 @@
 
         </div>
         {!! Form::close() !!}
+        <div class="form-group" ng-app="myApp" ng-controller="autoComplete">
+            <input type="text" name="category" class="form-control" ng-model="categoryFilter">
+            <ul class="list-group" ng-if="categoryFilter" ng-repeat="x in categorys | filter : categoryFilter">
+                <a href="?id=@{{ x.id }}" class="list-group-item @{{ x.status }}">@{{x.name}}</a>
+
+
+
+            </ul>
+        </div>
 
         @if(!empty($data))
             {{--<table class="table table-bordered" ng-app="myApp" ng-controller="customersCtrl">--}}
@@ -113,6 +122,15 @@
             </table>
         @endif
     </div>
+    <script>
+
+
+
+        var myapp = angular.module('myApp', []);
+        myapp.controller('autoComplete',function($scope){
+            $scope.categorys = {!! $categorys !!};
+        });
+    </script>
 
 
 @endsection
