@@ -106,6 +106,18 @@ class unilityController extends Controller
         return view('killprice', compact('data','categorys'));
     }
 
+    public function signProduct2Category($product_id){
+        if(Input::has('id')){
+            $category = Ex_category::find(Input::get('id'));
+            $category->products()->attach($product_id);
+            $code = Ex_product::find($product_id)->model;
+            $data = self::getData($code);
+            $categorys = \GuzzleHttp\json_encode(self::categorysFullPath());
+            return view('killprice', compact('data','categorys'));
+        }
+
+    }
+
     private function getData($code)
     {
         $url = env('SNPORT') . "?action=test&code=$code";
