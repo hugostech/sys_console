@@ -1518,7 +1518,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
 
 //        dd($request->input('modelnum'));
         $category = Category::find($request->input('category_id'));
-        $product = Ex_category::where('model',$request->input('modelnum'))->first();
+        $product = Ex_product::where('model',trim($request->input('modelnum')))->first();
         $category->products()->attach($product->product_id);
         return redirect($_SERVER['HTTP_REFERER']);
     }
