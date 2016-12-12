@@ -1538,7 +1538,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
                 $result[] = compact('product','product_detail');
             }
             $category_id = Input::get('id');
-            $category_name = $categorySpecific->description->name;
+            $category_name = self::categoryFullPath($categorySpecific);
 
         }
         $categorys = array();
@@ -1546,14 +1546,8 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
         foreach ($categorylist as $item){
             $tem = array();
             $tem['id'] = $item->category_id;
-            $string = $item->description->name;
-            $parent = $item->parentCategory();
-            while (!empty($parent)) {
-                $string = $parent->description->name.'->'.$string;
 
-                $parent = $parent->parentCategory();
-            }
-            $tem['name']=$string;
+            $tem['name']=self::categoryFullPath($item);
             $tem['status'] = $item->status==0?'text-danger':'';
             $categorys[] = $tem;
         }
@@ -1562,6 +1556,19 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
 
 //        echo $categorys;
         return view('listProductFromCategory',compact('categorys','result','category_id','category_name'));
+    }
+
+    /*
+     * return full category path*/
+    private function categoryFullPath(Ex_category $category){
+        $string = $category->description->name;
+        $parent = $category->parentCategory();
+        while (!empty($parent)) {
+            $string = $parent->description->name.'->'.$string;
+
+            $parent = $parent->parentCategory();
+        }
+        return $string;
     }
 
     /*
