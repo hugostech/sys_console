@@ -1508,7 +1508,23 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
     /*
      * Common functions end
      */
+    /*
+     * List product form specific category*/
+    public function listProductFromCategory(){
+        $categorys = array();
+        $categorylist = Ex_category::all();
+        foreach ($categorylist as $item){
+            $string = $item->description->name.' : '.$item->status;
+            $parent = $item->parentCategory();
+            while (!empty($parent)) {
+                $string = $parent->description->name.'->'.$string;
 
+                $parent = $parent->parentCategory();
+            }
+            $categorys[] = $string;
+        }
+        return view('listProductFromCategory',compact('categorys'));
+    }
     /*
      * Flash sale*/
     public function show_flash_sale(){

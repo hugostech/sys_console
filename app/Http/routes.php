@@ -154,6 +154,8 @@ Route::get('listClient','unilityController@listnewclient');
 Route::get('categoryaddaoc','unilityController@addtoaoc');
 Route::get('cloneCategory/{c1}/{c2}','unilityController@cloneCategoryA2CategoryB');
 
+Route::get('listProductFromCategory','unilityController@listProductFromCategory');
+
 
 
 

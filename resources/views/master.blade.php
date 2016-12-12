@@ -109,6 +109,7 @@
 
                                     <li><a href="{{url('/',['suppliers'])}}">edit Supplier</a></li>
                                     <li><a href="{{url('/',['addWarrantyGuide'])}}">edit warranty guide</a></li>
+                                    <li><a href="{{url('/',['listProductFromCategory'])}}">listProductFromCategory</a></li>
 
                                 </ul>
                             </li>
