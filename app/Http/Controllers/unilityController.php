@@ -1514,7 +1514,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
         $categorys = array();
         $categorylist = Ex_category::all();
         foreach ($categorylist as $item){
-            $string = $item->description->name.' : '.$item->status;
+            $string = $item->description->name.'_'.$item->status;
             $parent = $item->parentCategory();
             while (!empty($parent)) {
                 $string = $parent->description->name.'->'.$string;
@@ -1524,8 +1524,9 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
             $categorys[] = $string;
         }
         $categorys = \GuzzleHttp\json_encode($categorys);
-        echo $categorys;
-//        return view('listProductFromCategory',compact('categorys'));
+
+//        echo $categorys;
+        return view('listProductFromCategory',compact('categorys'));
     }
     /*
      * Flash sale*/

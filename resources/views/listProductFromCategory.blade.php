@@ -31,7 +31,7 @@
     <script>
         var myapp = angular.module('myApp', []);
         myapp.controller('autoComplete',function($scope){
-           $scope.categorys = {{$categorys}};
+           $scope.categorys = {!! $categorys !!};
         });
     </script>
 
