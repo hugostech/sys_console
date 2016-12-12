@@ -28,6 +28,7 @@ use App\adminLogin;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Input;
 use Mail;
 use Mockery\CountValidator\Exception;
 use PhpParser\Error;
@@ -1511,6 +1512,16 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
     /*
      * List product form specific category*/
     public function listProductFromCategory(){
+        $result = null;
+        if(Input::has('id')){
+            $categorySpecific = Ex_category::find(Input::get('id'));
+            $products = $categorySpecific->products;
+            foreach($products as $product){
+
+                $product_detail = $product->description;
+                $result[] = compact('product','product_detail');
+            }
+        }
         $categorys = array();
         $categorylist = Ex_category::all();
         foreach ($categorylist as $item){
@@ -1531,7 +1542,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
 
 
 //        echo $categorys;
-        return view('listProductFromCategory',compact('categorys'));
+        return view('listProductFromCategory',compact('categorys','result'));
     }
     /*
      * Flash sale*/
