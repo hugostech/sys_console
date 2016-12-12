@@ -1514,16 +1514,21 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
         $categorys = array();
         $categorylist = Ex_category::all();
         foreach ($categorylist as $item){
-            $string = $item->description->name.'_'.$item->status;
+            $tem = array();
+            $tem['id'] = $item->category_id;
+            $string = $item->description->name;
             $parent = $item->parentCategory();
             while (!empty($parent)) {
                 $string = $parent->description->name.'->'.$string;
 
                 $parent = $parent->parentCategory();
             }
-            $categorys[] = $string;
+            $tem['name']=$string;
+            $tem['status'] = $item->status==0?'text-danger':'';
+            $categorys[] = $tem;
         }
         $categorys = \GuzzleHttp\json_encode($categorys);
+
 
 //        echo $categorys;
         return view('listProductFromCategory',compact('categorys'));

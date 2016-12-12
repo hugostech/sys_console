@@ -14,8 +14,8 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                             <input type="text" name="category" class="form-control" ng-model="categoryFilter">
-                            <ul class="list-group" ng-repeat="x in categorys | categoryFilter">
-                                <a href="#" class="list-group-item">@{{x}}</a>
+                            <ul class="list-group" ng-if="categoryFilter" ng-repeat="x in categorys | filter : categoryFilter">
+                                <a href="@{{ x.id }}" class="list-group-item @{{ x.status }}">@{{x.name}}</a>
 
 
 
