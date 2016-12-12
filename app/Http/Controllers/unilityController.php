@@ -1545,6 +1545,13 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
         return view('listProductFromCategory',compact('categorys','result'));
     }
     /*
+     * delete product from category*/
+    public function deleteProductFromCategory($category_id,$product_id){
+        $category = Category::find($category_id);
+        $category->products()->detach($product_id);
+        return redirect($_SERVER['HTTP_REFERER']);
+    }
+    /*
      * Flash sale*/
     public function show_flash_sale(){
         $products = Flash_sale_products::all();
