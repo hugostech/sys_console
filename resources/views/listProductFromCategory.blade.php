@@ -5,7 +5,10 @@
 
         <div class="panel panel-info">
             <div class="panel-heading">
-                <h3>Product List</h3>
+                <h3>Product List </h3>
+                @if(!is_null($category_name))
+                    <label>{{$category_name}}</label>
+                @endif
                 {{--<a class="btn btn-primary" href="{{url('publishFlash')}}">Publish</a>--}}
                 {{--<a class="btn btn-danger" href="{{url('offlineFlash')}}">Offline</a>--}}
             </div>
@@ -45,7 +48,7 @@
                             @endforeach
                             {!! Form::open(['url'=>'saveProduct2Category']) !!}
                             <tr>
-
+                                {{Form::input('hidden','category_id',$category_id)}}
                                 <td id="models"><input type="text" name="modelnum" class="form-control" placeholder="Model" required>
                                 </td>
                                 <td></td>

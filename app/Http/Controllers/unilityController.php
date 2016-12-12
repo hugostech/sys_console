@@ -1512,9 +1512,9 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
 
     /*Save product from category*/
     public function saveProduct2Category(Request $request){
-        if($request->has('category_id')){
-            return redirect($_SERVER['HTTP_REFERER']);
-        }
+        $this->validate($request,[
+            'category_id'=>'required'
+        ]);
 
 //        dd($request->input('modelnum'));
         $category = Ex_category::find($request->input('category_id'));
@@ -1528,6 +1528,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
     public function listProductFromCategory(){
         $result = null;
         $category_id = 0;
+        $category_name = '';
         if(Input::has('id')){
             $categorySpecific = Ex_category::find(Input::get('id'));
             $products = $categorySpecific->products;
@@ -1536,7 +1537,9 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
                 $product_detail = $product->description;
                 $result[] = compact('product','product_detail');
             }
-            $category_id = Input::input('id');
+            $category_id = Input::get('id');
+            $category_name = $categorySpecific->description->name;
+
         }
         $categorys = array();
         $categorylist = Ex_category::all();
@@ -1558,7 +1561,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
 
 
 //        echo $categorys;
-        return view('listProductFromCategory',compact('categorys','result','category_id'));
+        return view('listProductFromCategory',compact('categorys','result','category_id','category_name'));
     }
 
     /*
