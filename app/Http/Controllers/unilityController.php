@@ -1142,7 +1142,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
                 $description = New Ex_product_description();
                 $description->product_id = $product->product_id;
                 $description->language_id = 1;
-                $description->name = str_replace('{!@!}', '"', $data->name);
+                $description->name = str_replace('{!@!}', '/"', $data->name);
                 $description->description = str_replace('{!@!}', '"', $data->spec);
                 $description->meta_title = $data->name;
                 $description->save();
