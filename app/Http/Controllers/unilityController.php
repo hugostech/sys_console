@@ -1574,7 +1574,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
             $tem['id'] = $item->category_id;
 
             $tem['name']=self::categoryFullPath($item);
-            $tem['status'] = $item->status==0?'text-danger':'';
+            $tem['status'] = $item->status==0?'list-group-item-danger':'';
             $categorys[] = $tem;
         }
         return $categorys;
