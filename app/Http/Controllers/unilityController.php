@@ -240,7 +240,8 @@ class unilityController extends Controller
                 $product->save();
             }
 
-
+            $categorys = null;
+            $categorys = \GuzzleHttp\json_encode(self::categorysFullPath());
             $data = self::getData($request->input('code'));
             return view('killprice', compact('data'));
 
