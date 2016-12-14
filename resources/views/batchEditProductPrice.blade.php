@@ -15,12 +15,12 @@
             <div class="panel-body">
 
                 <div class="row" ng-app="myApp" ng-controller="autoComplete">
-                <div class="page-header">
+
                     <div class="col-sm-6">
                         <div class="form-group">
                             <input type="text" name="category" class="form-control" ng-model="categoryFilter">
                             <ul class="list-group" ng-if="categoryFilter" ng-repeat="x in categorys | filter : categoryFilter">
-                                <a href="?id=@{{ x.id }}" class="list-group-item @{{ x.status }}">@{{x.name}}</a>
+                                <a href="{{url('listProductFromCategory')}}?id=@{{ x.id }}" class="list-group-item @{{ x.status }}">@{{x.name}}</a>
 
 
 
@@ -41,7 +41,7 @@
                         </div>
 
                     </div>
-                </div>
+
                     @if(!is_null($result))
                     <div class="col-sm-12">
                         {!! Form::open(['url'=>'batchPriceEdit']) !!}
