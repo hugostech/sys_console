@@ -1623,6 +1623,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
         $quantity = 0;
         $average_cost = 0;
 
+
         $categorySpecific = Ex_category::find($category_id);
         $products = $categorySpecific->products;
         $url = env('SNPORT') . "?action=proprice";
@@ -1630,10 +1631,11 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
         $content = str_replace(',}', '}', $content);
         $content = \GuzzleHttp\json_decode($content, true);
         foreach($products as $product){
-
+            $code = $product->model;
             $product_detail = $product->description;
+            $name = $product_detail->name;
             $special = Ex_speceal::where('product_id', $product->product_id)->first();
-
+            $price = $product->price;
             if (isset($special->price)) {
                 $quantity = 0;
                 $average_cost = 0;
@@ -1656,7 +1658,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
                 $quantity = $content[$product->model][1];
                 $average_cost = $content[$product->model][0];
             }
-            $result[] = compact('product','product_detail','special','quantity','average_cost');
+            $result[] = compact('special','quantity','average_cost','code','name','price');
         }
 
         $category_name = self::categoryFullPath($categorySpecific);
@@ -1665,7 +1667,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
 
         $categorys = self::categorysFullPath();
         $categorys = \GuzzleHttp\json_encode($categorys);
-
+        $result = \GuzzleHttp\json_encode($result);
 
 
 

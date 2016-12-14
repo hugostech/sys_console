@@ -43,32 +43,44 @@
                         <table class="table table-striped">
                             <thead>
                             <tr>
-                                <th class="col-md-1"></th>
+
                                 <th class="col-md-1">Model</th>
-                                <th class="col-md-3">title</th>
+                                <th class="col-md-5">title</th>
                                 <th class="col-md-1">Quantity</th>
                                 <th class="col-md-1">AverageCost</th>
                                 <th class="col-md-1">(Cr)Price</th>
                                 <th class="col-md-1">(Cr)Special</th>
                                 <th class="col-md-1">Base</th>
                                 <th class="col-md-1">New Special</th>
-                                <th class="col-md-1">Action</th>
+
                             </tr>
                             </thead>
-                            @foreach($result as $key=>$single)
-                                <tr>
-                                    <td>{{$key+1}}</td>
-                                    <td>{{$single['product']->model}}</td>
-                                    <td>{{$single['product_detail']->name}}</td>
-                                    <td>{{$single['quantity']}}</td>
-                                    <td>{{$single['average_cost']*1.15}}</td>
-                                    <td>{{round($single['product']->price*1.15,2)}}</td>
-                                    <td>{{round($single['special'],2)}}</td>
-                                    <td>{!! Form::number('base_price','{{'. $single['average_cost']*1.15.' * base_rate }}',['class'=>'form-control','step'=>'0.01']) !!}</td>
-                                    <td>{!! Form::number('special','{{'. $single['average_cost']*1.15.' * special_rate }}',['class'=>'form-control','step'=>'0.01']) !!}</td>
-                                    <td><a href="{{url('/deleteProductFromCategory',[$category_id,$single['product']->product_id])}}" class="btn btn-danger">Del</a></td>
-                                </tr>
-                            @endforeach
+                            <tbody ng-repeat="y in result">
+                                <td>@{{y.code}}</td>
+                                <td>@{{y.name}}</td>
+                                <td>@{{y.quantity}}</td>
+                                <td>@{{y.average_cost * 1.15}}</td>
+                                <td>@{{y.price}}</td>
+                                <td>@{{y.special}}</td>
+                                <td>@{{y.average_code * base_rate}}</td>
+                                <td>@{{y.average_code * special_rate}}</td>
+
+                            </tbody>
+                            {{--@foreach($result as $key=>$single)--}}
+                                {{--<tr>--}}
+                                    {{--<td>{{$key+1}}</td>--}}
+                                    {{--<td>{{$single['product']->model}}</td>--}}
+                                    {{--<td>{{$single['product_detail']->name}}</td>--}}
+                                    {{--<td>{{$single['quantity']}}</td>--}}
+                                    {{--<td>{{$single['average_cost']*1.15}}</td>--}}
+                                    {{--<td>{{round($single['product']->price*1.15,2)}}</td>--}}
+                                    {{--<td>{{round($single['special'],2)}}</td>--}}
+                                    {{--<td>{!! Form::number('base_price','{{'. $single['average_cost']*1.15.' * base_rate }}',['class'=>'form-control','step'=>'0.01']) !!}</td>--}}
+                                    {{--<td>{!! Form::number('special','{{'. $single['average_cost']*1.15.' * special_rate }}',['class'=>'form-control','step'=>'0.01']) !!}</td>--}}
+                                    {{--<td><input type="number" step="0.01" name="base_price" value="@{{  }}"  "}}"></td>--}}
+                                    {{--<td><a href="{{url('/deleteProductFromCategory',[$category_id,$single['product']->product_id])}}" class="btn btn-danger">Del</a></td>--}}
+                                {{--</tr>--}}
+                            {{--@endforeach--}}
                             {!! Form::open(['url'=>'saveProduct2Category']) !!}
                             <tr>
                                 {{Form::input('hidden','category_id',$category_id)}}
@@ -97,6 +109,9 @@
         var myapp = angular.module('myApp', []);
         myapp.controller('autoComplete',function($scope){
            $scope.categorys = {!! $categorys !!};
+            $scope.base_rate = 1.5;
+            $scope.special_rate = 1.1;
+            $scope.result = {!! $result !!};
         });
     </script>
 
