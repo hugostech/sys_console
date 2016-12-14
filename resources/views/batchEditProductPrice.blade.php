@@ -68,8 +68,23 @@
                                 <td>@{{y.average_cost * 1.15 | number:2}}</td>
                                 <td>@{{y.price * 1.15 | number:2}}</td>
                                 <td>@{{y.special | number:2}}</td>
-                                <td><input type="number" name="base_price[]" step="0.01" value="@{{y.average_cost * base_rate * 1.15 | c9}}" class="form-control"></td>
-                                <td><input type="number" name="special_price[]" step="0.01" value="@{{y.average_cost * special_rate * 1.15 | c9}}" class="form-control"></td>
+                                <td>
+                                    <div class="input-group">
+                                        <input type="number" name="base_price[]" step="0.01" value="@{{y.average_cost * base_rate * 1.15 | c9}}" class="form-control">
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" onclick="clearVar(this)"><span class="glyphicon glyphicon-trash text-danger"></span></button>
+                                        </span>
+                                    </div>
+
+                                </td>
+                                <td>
+                                    <div class="input-group">
+                                        <input type="number" name="special_price[]" step="0.01" value="@{{y.average_cost * special_rate * 1.15 | c9}}" class="form-control">
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" onclick="clearVar(this)"><span class="glyphicon glyphicon-trash text-danger"></span></button>
+                                        </span>
+                                    </div>
+                                    </td>
 
                             </tbody>
                             {{--@foreach($result as $key=>$single)--}}
@@ -125,6 +140,9 @@
             $scope.special_rate = 1.1;
             $scope.result = {!! $result !!};
         });
+        function clearVar(btn_self){
+            $(btn_self).prev().val('');
+        }
 
     </script>
 
