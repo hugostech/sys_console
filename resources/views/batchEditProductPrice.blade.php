@@ -107,12 +107,18 @@
 
 
         var myapp = angular.module('myApp', []);
+        myapp.filter('num', function() {
+            return function(input) {
+                return parseInt(input, 10);
+            };
+        });
         myapp.controller('autoComplete',function($scope){
            $scope.categorys = {!! $categorys !!};
-            $scope.base_rate = 1.5;
-            $scope.special_rate = 1.1;
+            $scope.base_rate = parseInt(1.5,2);
+            $scope.special_rate = parseInt(1.1,2);
             $scope.result = {!! $result !!};
         });
+
     </script>
 
 @endsection
