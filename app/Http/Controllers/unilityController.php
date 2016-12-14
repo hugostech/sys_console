@@ -524,6 +524,7 @@ class unilityController extends Controller
         }
 
     }
+
     public function insert_laptop_attribute(Request $request){
 //        dd($request);
         for($i = 30; $i <= 38; $i++){
@@ -1634,6 +1635,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
             $code = $product->model;
             $product_detail = $product->description;
             $name = $product_detail->name;
+            $product_id = $product->product_id;
             $special = Ex_speceal::where('product_id', $product->product_id)->first();
             $price = $product->price;
             if (isset($special->price)) {
@@ -1658,7 +1660,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
                 $quantity = $content[$product->model][1];
                 $average_cost = $content[$product->model][0];
             }
-            $result[] = compact('special','quantity','average_cost','code','name','price');
+            $result[] = compact('special','quantity','average_cost','code','name','price','product_id');
         }
 
         $category_name = self::categoryFullPath($categorySpecific);
@@ -1673,6 +1675,12 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
 
 
         return view('batchEditProductPrice',compact('categorys','result','category_id','category_name','content'));
+    }
+
+    /*
+     * accept batch product price */
+    public function batchPriceEdit(Request $request){
+        dd($request->all());
     }
     /*
      * Flash sale*/
