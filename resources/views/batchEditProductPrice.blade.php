@@ -81,7 +81,7 @@
                                     <div class="input-group">
                                         <input type="number" name="special_price[]" step="0.01" value="@{{y.average_cost * special_rate * 1.15 | c9}}" class="form-control">
                                         <span class="input-group-btn">
-                                            <button type="button" class="btn btn-default" onclick="clearVar(this)"><span class="glyphicon glyphicon-trash text-danger"></span></button>
+                                            <button type="button" class="btn btn-default btn-danger" onclick="clearVar(this)"><span class="glyphicon glyphicon-trash"></span></button>
                                         </span>
                                     </div>
                                     </td>
@@ -141,7 +141,7 @@
             $scope.result = {!! $result !!};
         });
         function clearVar(btn_self){
-            $(btn_self).prev().prev().val('');
+            $(btn_self).parents('.input-group').children('input.form-control').val('');
         }
 
     </script>
