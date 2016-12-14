@@ -31,10 +31,10 @@
                     </div>
                     <div class="col-sm-12">
                         <div class="form-group">
-                            {!! Form::number('base_rate',1.5,['class'=>'form-control','ng-model'=>'base_rate','step'=>'0.01']) !!}
+                            {!! Form::number('base_rate',null,['class'=>'form-control','ng-model'=>'base_rate','step'=>'0.01']) !!}
                         </div>
                         <div class="form-group">
-                            {!! Form::number('base_rate',1.1,['class'=>'form-control','ng-model'=>'special_rate','step'=>'0.01']) !!}
+                            {!! Form::number('base_rate',null,['class'=>'form-control','ng-model'=>'special_rate','step'=>'0.01']) !!}
                         </div>
 
                     </div>
@@ -59,9 +59,9 @@
                                 <td>@{{y.code}}</td>
                                 <td>@{{y.name}}</td>
                                 <td>@{{y.quantity}}</td>
-                                <td>@{{y.average_cost * 1.15}}</td>
-                                <td>@{{y.price}}</td>
-                                <td>@{{y.special}}</td>
+                                <td>@{{y.average_cost * 1.15 | number:2}}</td>
+                                <td>@{{y.price | number:2}}</td>
+                                <td>@{{y.special | number:2}}</td>
                                 <td>@{{y.average_code * base_rate}}</td>
                                 <td>@{{y.average_code * special_rate}}</td>
 
