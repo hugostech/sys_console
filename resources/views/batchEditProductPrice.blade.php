@@ -62,8 +62,8 @@
                                 <td>@{{y.average_cost * 1.15 | number:2}}</td>
                                 <td>@{{y.price | number:2}}</td>
                                 <td>@{{y.special | number:2}}</td>
-                                <td>@{{1 * base}}</td>
-                                <td>@{{y.average_code}}</td>
+                                <td><input type="number" name="base_price[]" step="0.01" value="@{{y.average_cost * base_rate * 1.15 | num}}" ></td>
+                                <td><input type="number" name="special_price[]" step="0.01" value="@{{y.average_cost * special_rate * 1.15 | num}}"></td>
 
                             </tbody>
                             {{--@foreach($result as $key=>$single)--}}
@@ -109,13 +109,14 @@
         var myapp = angular.module('myApp', []);
         myapp.filter('num', function() {
             return function(input) {
-                return parseInt(input, 10);
+                input = floor(input / 10)*10+9;
+                return input;
             };
         });
         myapp.controller('autoComplete',function($scope){
            $scope.categorys = {!! $categorys !!};
-            $scope.base = 1.5;
-            $scope.special_rate = parseInt(1.1,2);
+            $scope.base_rate = 1.5;
+            $scope.special_rate = 1.1;
             $scope.result = {!! $result !!};
         });
 
