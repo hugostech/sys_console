@@ -62,8 +62,8 @@
                                 <td>@{{y.average_cost * 1.15 | number:2}}</td>
                                 <td>@{{y.price | number:2}}</td>
                                 <td>@{{y.special | number:2}}</td>
-                                <td><input type="number" name="base_price[]" step="0.01" value="@{{y.average_cost * base_rate * 1.15 | num}}" ></td>
-                                <td><input type="number" name="special_price[]" step="0.01" value="@{{y.average_cost * special_rate * 1.15 | num}}"></td>
+                                <td><input type="number" name="base_price[]" step="0.01" value="@{{y.average_cost * base_rate * 1.15 }}" ></td>
+                                <td><input type="number" name="special_price[]" step="0.01" value="@{{y.average_cost * special_rate * 1.15 }}"></td>
 
                             </tbody>
                             {{--@foreach($result as $key=>$single)--}}
