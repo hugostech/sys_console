@@ -1617,6 +1617,62 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
         return redirect($_SERVER['HTTP_REFERER']);
     }
     /*
+     * Batch edit product price by category*/
+    public function batchEditPrice($category_id){
+        $result = null;
+        $quantity = 0;
+        $average_cost = 0;
+
+        $categorySpecific = Ex_category::find($category_id);
+        $products = $categorySpecific->products;
+        $url = env('SNPORT') . "?action=proprice";
+        $content = self::getContent($url);
+        $content = str_replace(',}', '}', $content);
+        $content = \GuzzleHttp\json_decode($content, true);
+        foreach($products as $product){
+
+            $product_detail = $product->description;
+            $special = Ex_speceal::where('product_id', $product->product_id)->first();
+
+            if (isset($special->price)) {
+                $quantity = 0;
+                $average_cost = 0;
+                if ($special->date_end <> '0000-00-00') {
+                    $enddate = Carbon::parse($special->date_end);
+                    $startdate = Carbon::parse($special->date_start);
+                    $now = Carbon::now();
+                    if ($now->between($startdate, $enddate)) {
+                        $special = $special->price * 1.15;
+                    } else {
+                        $special = 0;
+                    }
+
+                } else {
+                    $special = $special->price * 1.15;
+                }
+            }
+
+            if(isset($content[$product->model])){
+                $quantity = $content[$product->model][1];
+                $average_cost = $content[$product->model][0];
+            }
+            $result[] = compact('product','product_detail','special','quantity','average_cost');
+        }
+
+        $category_name = self::categoryFullPath($categorySpecific);
+
+
+
+        $categorys = self::categorysFullPath();
+        $categorys = \GuzzleHttp\json_encode($categorys);
+
+
+
+
+
+        return view('batchEditProductPrice',compact('categorys','result','category_id','category_name','content'));
+    }
+    /*
      * Flash sale*/
     public function show_flash_sale(){
         $products = Flash_sale_products::all();

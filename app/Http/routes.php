@@ -158,6 +158,7 @@ Route::get('listProductFromCategory','unilityController@listProductFromCategory'
 Route::get('signProduct2Category/{product_id}','unilityController@signProduct2Category');
 Route::get('deleteProductFromCategory/{category}/{product_id}','unilityController@deleteProductFromCategory');
 Route::post('saveProduct2Category','unilityController@saveProduct2Category');
+Route::get('batchEditPrice/{category_id}','unilityController@batchEditPrice');
 
 
 
