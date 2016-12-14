@@ -1551,7 +1551,24 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
             foreach($products as $product){
 
                 $product_detail = $product->description;
-                $result[] = compact('product','product_detail');
+                $special = Ex_speceal::where('product_id', $product->product_id)->first();
+
+                if (isset($special->price)) {
+                    if ($special->date_end <> '0000-00-00') {
+                        $enddate = Carbon::parse($special->date_end);
+                        $startdate = Carbon::parse($special->date_start);
+                        $now = Carbon::now();
+                        if ($now->between($startdate, $enddate)) {
+                            $special = $special->price * 1.15;
+                        } else {
+                            $special = 0;
+                        }
+
+                    } else {
+                        $special = $special->price * 1.15;
+                    }
+                }
+                $result[] = compact('product','product_detail','special');
             }
             $category_id = Input::get('id');
             $category_name = self::categoryFullPath($categorySpecific);
