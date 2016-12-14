@@ -17,7 +17,7 @@
                 <div class="row" ng-app="myApp" ng-controller="autoComplete">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <input type="text" name="category" class="form-control" ng-model="categoryFilter">
+                            <input type="text" name="category" class="form-control" ng-model="categoryFilter" placeholder="category name">
                             <ul class="list-group" ng-if="categoryFilter" ng-repeat="x in categorys | filter : categoryFilter">
                                 <a href="?id=@{{ x.id }}" class="list-group-item @{{ x.status }}">@{{x.name}}</a>
 
