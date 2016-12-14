@@ -50,13 +50,13 @@
                             <tr>
                                 {{--<th class="col-md-1">Model</th>--}}
                                 <th class="col-md-1">Model</th>
-                                <th class="col-md-5">Title</th>
+                                <th class="col-md-3">Title</th>
                                 <th class="col-md-1">Quantity</th>
                                 <th class="col-md-1">AverageCost</th>
                                 <th class="col-md-1">(Cr)Price</th>
                                 <th class="col-md-1">(Cr)Special</th>
-                                <th class="col-md-1">Base</th>
-                                <th class="col-md-1">New Special</th>
+                                <th class="col-md-2">Base</th>
+                                <th class="col-md-2">New Special</th>
 
                             </tr>
                             </thead>
@@ -72,7 +72,7 @@
                                     <div class="input-group">
                                         <input type="number" name="base_price[]" step="0.01" value="@{{y.average_cost * base_rate * 1.15 | c9}}" class="form-control">
                                         <span class="input-group-btn">
-                                            <button type="button" class="btn btn-default" onclick="clearVar(this)"><span class="glyphicon glyphicon-trash text-danger"></span></button>
+                                            <button type="button" class="btn btn-danger btn-default" onclick="clearVar(this)"><span class="glyphicon glyphicon-trash"></span></button>
                                         </span>
                                     </div>
 
@@ -141,7 +141,7 @@
             $scope.result = {!! $result !!};
         });
         function clearVar(btn_self){
-            $(btn_self).prev().val('');
+            $(btn_self).prev().prev().val('');
         }
 
     </script>
