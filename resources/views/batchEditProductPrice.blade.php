@@ -141,7 +141,7 @@
             $scope.result = {!! $result !!};
         });
         function clearVar(btn_self){
-            $(btn_self).parents('.input-group').children('input.form-control').val('');
+            $(btn_self).parents('.input-group').children('input.form-control').val(0);
         }
 
     </script>

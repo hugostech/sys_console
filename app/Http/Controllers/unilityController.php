@@ -1680,6 +1680,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
     /*
      * accept batch product price */
     public function batchPriceEdit(Request $request){
+        dd($request->all());
         if($request->has('product_id') && count($request->input('product_id'))>0){
             $product_id_array = $request->input('product_id');
             $product_base_price_array = $request->input('base_price');
