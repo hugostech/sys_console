@@ -1680,7 +1680,37 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
     /*
      * accept batch product price */
     public function batchPriceEdit(Request $request){
-        dd($request->all());
+        if($request->has('product_id') && count($request->input('product_id'))>0){
+            $product_id_array = $request->input('product_id');
+            $product_base_price_array = $request->input('base_price');
+            $product_special_price_array = $request->input('special_price');
+            $num = count($request->input('product_id'));
+            for($i = 0;$i<$num;$i++){
+                $product = Ex_product::find($product_id_array[$i]);
+                if(!empty($product_base_price_array[$i])){
+                    $product->price = $product_base_price_array[$i] / 1.15;
+                    $product->save();
+                }
+
+                if(!empty($product_special_price_array[$i])){
+                    Ex_speceal::where('product_id', $product_id_array[$i])->delete();
+
+                        $special = new Ex_speceal();
+                        $special->product_id = $product_id_array[$i];
+                        $special->customer_group_id = 1;
+                        $special->priority = 0;
+                        $special->price = $product_special_price_array[$i] / 1.15;
+                        $special->date_start = "0000-00-00";
+
+                        $special->date_end = "0000-00-00";
+
+                        $special->save();
+
+
+                }
+            }
+        }
+        return redirect(url('batchEditPrice',[$request->input('category_id')]));
     }
     /*
      * Flash sale*/

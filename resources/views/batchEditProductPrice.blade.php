@@ -15,6 +15,7 @@
             <div class="panel-body">
 
                 <div class="row" ng-app="myApp" ng-controller="autoComplete">
+                <div class="page-header">
                     <div class="col-sm-6">
                         <div class="form-group">
                             <input type="text" name="category" class="form-control" ng-model="categoryFilter">
@@ -29,15 +30,18 @@
                     <div class="col-sm-4">
                         <a href="{{url('/batchEditPrice',[$category_id])}}" class="btn btn-default">批量改价</a>
                     </div>
-                    <div class="col-sm-12">
+                    <div class="col-sm-8">
                         <div class="form-group">
+                            <label for="base_rate">Base Rate</label>
                             {!! Form::number('base_rate',null,['class'=>'form-control','ng-model'=>'base_rate','step'=>'0.01']) !!}
                         </div>
                         <div class="form-group">
-                            {!! Form::number('base_rate',null,['class'=>'form-control','ng-model'=>'special_rate','step'=>'0.01']) !!}
+                            <label for="special_rate">Special Rate</label>
+                            {!! Form::number('special_rate',null,['class'=>'form-control','ng-model'=>'special_rate','step'=>'0.01']) !!}
                         </div>
 
                     </div>
+                </div>
                     @if(!is_null($result))
                     <div class="col-sm-12">
                         {!! Form::open(['url'=>'batchPriceEdit']) !!}
@@ -46,7 +50,7 @@
                             <tr>
                                 {{--<th class="col-md-1">Model</th>--}}
                                 <th class="col-md-1">Model</th>
-                                <th class="col-md-5">title</th>
+                                <th class="col-md-5">Title</th>
                                 <th class="col-md-1">Quantity</th>
                                 <th class="col-md-1">AverageCost</th>
                                 <th class="col-md-1">(Cr)Price</th>
@@ -85,7 +89,7 @@
                             {{--@endforeach--}}
                             {{--{!! Form::open(['url'=>'saveProduct2Category']) !!}--}}
                             <tr>
-                                {{--{{Form::input('hidden','category_id',$category_id)}}--}}
+                                {{Form::input('hidden','category_id',$category_id)}}
                                 {{--<td id="models"><input type="text" name="modelnum" class="form-control" placeholder="Model" required>--}}
                                 {{--</td>--}}
                                 {{--<td></td>--}}
