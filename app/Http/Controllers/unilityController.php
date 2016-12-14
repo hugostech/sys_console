@@ -1691,9 +1691,9 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
                     $product->price = $product_base_price_array[$i] / 1.15;
                     $product->save();
                 }
-
+                Ex_speceal::where('product_id', $product_id_array[$i])->delete();
                 if(!empty($product_special_price_array[$i])){
-                    Ex_speceal::where('product_id', $product_id_array[$i])->delete();
+
 
                         $special = new Ex_speceal();
                         $special->product_id = $product_id_array[$i];
