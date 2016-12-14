@@ -45,7 +45,7 @@
                                     <td>{{$single['product']->model}}</td>
                                     <td>{{$single['product_detail']->name}}</td>
                                     <td>{{round($single['product']->price*1.15,2)}}</td>
-                                    <td>{{round($single['special']->price*1.15,2)}}</td>
+                                    <td>{{round($single['special']*1.15,2)}}</td>
                                     <td><a href="{{url('/deleteProductFromCategory',[$category_id,$single['product']->product_id])}}" class="btn btn-danger">Del</a></td>
                                 </tr>
                             @endforeach
