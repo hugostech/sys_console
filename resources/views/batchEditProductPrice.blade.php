@@ -44,9 +44,9 @@
                         <table class="table table-striped">
                             <thead>
                             <tr>
+                                {{--<th class="col-md-1">Model</th>--}}
                                 <th class="col-md-1">Model</th>
-                                <th class="col-md-1">Model</th>
-                                <th class="col-md-4">title</th>
+                                <th class="col-md-5">title</th>
                                 <th class="col-md-1">Quantity</th>
                                 <th class="col-md-1">AverageCost</th>
                                 <th class="col-md-1">(Cr)Price</th>
@@ -57,15 +57,15 @@
                             </tr>
                             </thead>
                             <tbody ng-repeat="y in result">
-                                <td><input type="checkbox" name="product_id[]" value="@{{ y.product_id }}"></td>
+                                <input type="hidden" name="product_id[]" value="@{{ y.product_id }}">
                                 <td>@{{y.code}}</td>
                                 <td>@{{y.name}}</td>
                                 <td>@{{y.quantity}}</td>
                                 <td>@{{y.average_cost * 1.15 | number:2}}</td>
                                 <td>@{{y.price * 1.15 | number:2}}</td>
                                 <td>@{{y.special | number:2}}</td>
-                                <td><input type="number" name="base_price[]" step="0.01" value="@{{y.average_cost * base_rate * 1.15 | c9}}" ></td>
-                                <td><input type="number" name="special_price[]" step="0.01" value="@{{y.average_cost * special_rate * 1.15 | c9}}"></td>
+                                <td><input type="number" name="base_price[]" step="0.01" value="@{{y.average_cost * base_rate * 1.15 | c9}}" class="form-control"></td>
+                                <td><input type="number" name="special_price[]" step="0.01" value="@{{y.average_cost * special_rate * 1.15 | c9}}" class="form-control"></td>
 
                             </tbody>
                             {{--@foreach($result as $key=>$single)--}}
@@ -85,11 +85,11 @@
                             {{--@endforeach--}}
                             {{--{!! Form::open(['url'=>'saveProduct2Category']) !!}--}}
                             <tr>
-                                {{Form::input('hidden','category_id',$category_id)}}
-                                <td id="models"><input type="text" name="modelnum" class="form-control" placeholder="Model" required>
-                                </td>
-                                <td></td>
-                                <td><input type="submit" value="submit" class="btn btn-primary"></td>
+                                {{--{{Form::input('hidden','category_id',$category_id)}}--}}
+                                {{--<td id="models"><input type="text" name="modelnum" class="form-control" placeholder="Model" required>--}}
+                                {{--</td>--}}
+                                {{--<td></td>--}}
+                                <td colspan="8"><input type="submit" value="submit" class="btn btn-primary btn-block"></td>
                             </tr>
                             {!! Form::close() !!}
 
