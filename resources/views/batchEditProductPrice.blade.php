@@ -62,8 +62,8 @@
                                 <td>@{{y.average_cost * 1.15 | number:2}}</td>
                                 <td>@{{y.price | number:2}}</td>
                                 <td>@{{y.special | number:2}}</td>
-                                <td><input type="number" name="base_price[]" step="0.01" value="@{{y.average_cost * base_rate * 1.15 }}" ></td>
-                                <td><input type="number" name="special_price[]" step="0.01" value="@{{y.average_cost * special_rate * 1.15 }}"></td>
+                                <td><input type="number" name="base_price[]" step="0.01" value="@{{y.average_cost * base_rate * 1.15 | c9}}" ></td>
+                                <td><input type="number" name="special_price[]" step="0.01" value="@{{y.average_cost * special_rate * 1.15 | c9}}"></td>
 
                             </tbody>
                             {{--@foreach($result as $key=>$single)--}}
@@ -107,9 +107,9 @@
 
 
         var myapp = angular.module('myApp', []);
-        myapp.filter('num', function() {
+        myapp.filter('c9', function() {
             return function(input) {
-                input = floor(input / 10)*10+9;
+                input = Math.floor(input / 10)*10+9;
                 return input;
             };
         });
