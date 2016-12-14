@@ -62,7 +62,7 @@
                                 <td>@{{y.average_cost * 1.15 | number:2}}</td>
                                 <td>@{{y.price | number:2}}</td>
                                 <td>@{{y.special | number:2}}</td>
-                                <td>@{{1 * base_rate}}</td>
+                                <td>@{{1 * base}}</td>
                                 <td>@{{y.average_code}}</td>
 
                             </tbody>
@@ -114,7 +114,7 @@
         });
         myapp.controller('autoComplete',function($scope){
            $scope.categorys = {!! $categorys !!};
-            $scope.base_rate = parseInt(1.5,2);
+            $scope.base = 1.5;
             $scope.special_rate = parseInt(1.1,2);
             $scope.result = {!! $result !!};
         });
