@@ -62,8 +62,8 @@
                                 <td>@{{y.average_cost * 1.15 | number:2}}</td>
                                 <td>@{{y.price | number:2}}</td>
                                 <td>@{{y.special | number:2}}</td>
-                                <td>@{{y.average_code * base_rate}}</td>
-                                <td>@{{y.average_code * special_rate}}</td>
+                                <td>@{{1 * base_rate}}</td>
+                                <td>@{{y.average_code}}</td>
 
                             </tbody>
                             {{--@foreach($result as $key=>$single)--}}
