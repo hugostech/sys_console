@@ -130,7 +130,10 @@
         var myapp = angular.module('myApp', []);
         myapp.filter('c9', function() {
             return function(input) {
-                input = Math.floor(input / 10)*10+9;
+                if(input != 0){
+                    input = Math.floor(input / 10)*10+9;
+                }
+
                 return input;
             };
         });
