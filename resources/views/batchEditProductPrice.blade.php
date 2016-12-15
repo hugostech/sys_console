@@ -15,34 +15,38 @@
             <div class="panel-body">
 
                 <div class="row" ng-app="myApp" ng-controller="autoComplete">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <input type="text" name="category" class="form-control" ng-model="categoryFilter" placeholder="category name">
+                                <ul class="list-group" ng-if="categoryFilter" ng-repeat="x in categorys | filter : categoryFilter">
+                                    <a href="{{url('listProductFromCategory')}}?id=@{{ x.id }}" class="list-group-item @{{ x.status }}">@{{x.name}}</a>
 
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <input type="text" name="category" class="form-control" ng-model="categoryFilter" placeholder="category name">
-                            <ul class="list-group" ng-if="categoryFilter" ng-repeat="x in categorys | filter : categoryFilter">
-                                <a href="{{url('listProductFromCategory')}}?id=@{{ x.id }}" class="list-group-item @{{ x.status }}">@{{x.name}}</a>
 
 
-
-                            </ul>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <a href="{{url('/batchEditPrice',[$category_id])}}" class="btn btn-default text-capitalize">Batch edit price</a>
                         </div>
                     </div>
-                    <div class="col-sm-4">
-                        <a href="{{url('/batchEditPrice',[$category_id])}}" class="btn btn-default text-capitalize">Batch edit price</a>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label for="base_rate">Base Rate</label>
-                            {!! Form::number('base_rate',null,['class'=>'form-control','ng-model'=>'base_rate','step'=>'0.01']) !!}
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="base_rate">Base Rate</label>
+                                {!! Form::number('base_rate',null,['class'=>'form-control','ng-model'=>'base_rate','step'=>'0.01']) !!}
+                            </div>
+                            <div class="form-group">
+                                <label for="special_rate">Special Rate</label>
+                                {!! Form::number('special_rate',null,['class'=>'form-control','ng-model'=>'special_rate','step'=>'0.01']) !!}
+                            </div>
+
                         </div>
-                        <div class="form-group">
-                            <label for="special_rate">Special Rate</label>
-                            {!! Form::number('special_rate',null,['class'=>'form-control','ng-model'=>'special_rate','step'=>'0.01']) !!}
+                        <div class="col-sm-4">
+                            <a href="?stock=true" class="btn btn-default text-capitalize">Display product with quantity</a>
                         </div>
 
-                    </div>
-                    <div class="col-sm-4">
-                        <a href="?stock=true" class="btn btn-default text-capitalize">Display product with quantity</a>
                     </div>
 
                     @if(!is_null($result))

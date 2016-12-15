@@ -1553,6 +1553,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
 
                 $product_detail = $product->description;
                 $special = Ex_speceal::where('product_id', $product->product_id)->first();
+                $status = '';
 
                 if (isset($special->price)) {
                     if ($special->date_end <> '0000-00-00') {
@@ -1569,7 +1570,10 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
                         $special = $special->price * 1.15;
                     }
                 }
-                $result[] = compact('product','product_detail','special');
+                if($product->status==0){
+                    $status = 'danger';
+                }
+                $result[] = compact('product','product_detail','special','status');
             }
             $category_id = Input::get('id');
             $category_name = self::categoryFullPath($categorySpecific);

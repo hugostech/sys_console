@@ -33,7 +33,7 @@
                     <div class="col-sm-12">
                         <table class="table table-striped">
                             <thead>
-                            <tr>
+                            <tr >
                                 <th class="col-md-1"></th>
                                 <th class="col-md-2">Model</th>
                                 <th class="col-md-5">title</th>
@@ -43,7 +43,7 @@
                             </tr>
                             </thead>
                             @foreach($result as $key=>$single)
-                                <tr>
+                                <tr class="{{$single['status']}}">
                                     <td>{{$key+1}}</td>
                                     <td>{{$single['product']->model}}</td>
                                     <td>{{$single['product_detail']->name}}</td>
