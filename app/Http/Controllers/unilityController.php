@@ -1691,7 +1691,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
             $num = count($request->input('product_id'));
 
             for($i = 0;$i<$num;$i++){
-                if(is_null($product_special_price_array[$i])){
+                if(($product_special_price_array[$i])<>0){
                     dd($product_special_price_array[$i]);
                 }
                 $product = Ex_product::find($product_id_array[$i]);
