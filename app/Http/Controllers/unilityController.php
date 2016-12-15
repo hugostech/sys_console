@@ -1691,9 +1691,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
             $num = count($request->input('product_id'));
 
             for($i = 0;$i<$num;$i++){
-                if(($product_special_price_array[$i])==''){
-                    dd($product_special_price_array[$i]);
-                }
+
                 $product = Ex_product::find($product_id_array[$i]);
                 if(!empty($product_base_price_array[$i])){
                     $product->price = $product_base_price_array[$i] / 1.15;
@@ -1701,7 +1699,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
                 }
 
                 if(!empty($product_special_price_array[$i])){
-                    Ex_speceal::where('product_id', $product_id_array[$i])->delete();
+                        Ex_speceal::where('product_id', $product_id_array[$i])->delete();
 
                         $special = new Ex_speceal();
                         $special->product_id = $product_id_array[$i];
@@ -1715,6 +1713,8 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
                         $special->save();
 
 
+                }else if(($product_special_price_array[$i]=='')){
+                    Ex_speceal::where('product_id', $product_id_array[$i])->delete();
                 }
             }
         }
