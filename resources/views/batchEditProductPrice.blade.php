@@ -28,9 +28,9 @@
                         </div>
                     </div>
                     <div class="col-sm-4">
-                        <a href="{{url('/batchEditPrice',[$category_id])}}" class="btn btn-default">批量改价</a>
+                        <a href="{{url('/batchEditPrice',[$category_id])}}" class="btn btn-default text-capitalize">Batch edit price</a>
                     </div>
-                    <div class="col-sm-8">
+                    <div class="col-sm-6">
                         <div class="form-group">
                             <label for="base_rate">Base Rate</label>
                             {!! Form::number('base_rate',null,['class'=>'form-control','ng-model'=>'base_rate','step'=>'0.01']) !!}
@@ -40,6 +40,9 @@
                             {!! Form::number('special_rate',null,['class'=>'form-control','ng-model'=>'special_rate','step'=>'0.01']) !!}
                         </div>
 
+                    </div>
+                    <div class="col-sm-4">
+                        <a href="?stock=true" class="btn btn-default text-capitalize">Display product with quantity</a>
                     </div>
 
                     @if(!is_null($result))

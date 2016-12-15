@@ -1626,12 +1626,17 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
 
 
         $categorySpecific = Ex_category::find($category_id);
-        $products = $categorySpecific->products;
+        $products = $categorySpecific->products()->where('status',1)->get();
         $url = env('SNPORT') . "?action=proprice";
         $content = self::getContent($url);
         $content = str_replace(',}', '}', $content);
         $content = \GuzzleHttp\json_decode($content, true);
         foreach($products as $product){
+            if(Input::has('stock')){
+                if($product->quantity<1){
+                    continue;
+                }
+            }
             $code = $product->model;
             $product_detail = $product->description;
             $name = $product_detail->name;

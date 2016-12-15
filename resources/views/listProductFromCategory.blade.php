@@ -27,7 +27,7 @@
                         </div>
                     </div>
                     <div class="col-sm-4">
-                        <a href="{{url('/batchEditPrice',[$category_id])}}" class="btn btn-default">批量改价</a>
+                        <a href="{{url('/batchEditPrice',[$category_id])}}" class="btn btn-default text-capitalize">Batch edit price</a>
                     </div>
                     @if(!is_null($result))
                     <div class="col-sm-12">
