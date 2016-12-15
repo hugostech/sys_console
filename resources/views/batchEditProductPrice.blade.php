@@ -44,7 +44,7 @@
 
                     @if(!is_null($result))
                     <div class="col-sm-12">
-                        {!! Form::open(['url'=>'batchPriceEdit']) !!}
+                        {!! Form::open(['url'=>'batchPriceEdit','onkeydown'=>'if(event.keyCode==13){return false;}']) !!}
                         <table class="table table-striped">
                             <thead>
                             <tr>
@@ -108,7 +108,7 @@
                                 {{--<td id="models"><input type="text" name="modelnum" class="form-control" placeholder="Model" required>--}}
                                 {{--</td>--}}
                                 {{--<td></td>--}}
-                                <td colspan="8"><input type="submit" value="submit" class="btn btn-primary btn-block"></td>
+                                <td colspan="8"><input name="confirm-edit" type="submit" value="submit" class="btn btn-primary btn-block"></td>
                             </tr>
                             {!! Form::close() !!}
 
