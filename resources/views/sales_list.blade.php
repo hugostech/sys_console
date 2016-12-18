@@ -22,7 +22,7 @@
         @endforeach
 
             <tr>
-                {!! Form::input('hidden','category_id',$category_id) !!}
+                {{--{!! Form::input('hidden','category_id',$category_id) !!}--}}
                 <td id="models"><input type="text" name="modelnum[]" class="form-control" placeholder="Model" required>
                     </td>
                 <td></td>
