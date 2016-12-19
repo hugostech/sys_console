@@ -1868,19 +1868,32 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
 //        }
 //        $category->products()->sync($product_ids);
 //        <<<<put all products into up70 category
-        $category_id = 310;
+//        $category_id = 310;
+//        $category = Ex_category::find($category_id);
+//        $product_ids = array();
+//        $specials = Ex_speceal::all();
+//        foreach ($specials as $item){
+//            $product = Ex_product::find($item->product_id);
+//            $percentage = ($product->price-$item->price)/$product->price;
+//            if($percentage>0.4 && $percentage < 0.6){
+//                $product_ids[] = $item->product_id;
+//            }
+//
+//        }
+//        $category->products()->sync($product_ids);
+//        <<<<put all products into up50 category
+        $category_id = 311;
         $category = Ex_category::find($category_id);
         $product_ids = array();
         $specials = Ex_speceal::all();
         foreach ($specials as $item){
             $product = Ex_product::find($item->product_id);
             $percentage = ($product->price-$item->price)/$product->price;
-            if($percentage>0.4 && $percentage < 0.6){
+            if($percentage>0.3 && $percentage <= 0.4){
                 $product_ids[] = $item->product_id;
             }
 
         }
         $category->products()->sync($product_ids);
-//        <<<<put all products into up50 category
     }
 }
