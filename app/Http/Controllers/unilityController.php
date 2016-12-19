@@ -1842,4 +1842,16 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
     }
     /*
      * Flash sale end*/
+
+    /*Christmas sale setting: put special products in different category*/
+    public function christmas_sale_setting(){
+        $category_id = 298;
+        $category = Ex_category::find($category_id);
+        $product_ids = array();
+        $specials = Ex_speceal::all();
+        foreach ($specials as $item){
+            $product_ids[] = $item->product_id;
+        }
+        $category->products()->sync($product_ids);
+    }
 }

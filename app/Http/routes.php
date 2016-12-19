@@ -160,6 +160,7 @@ Route::get('deleteProductFromCategory/{category}/{product_id}','unilityControlle
 Route::post('saveProduct2Category','unilityController@saveProduct2Category');
 Route::post('batchPriceEdit','unilityController@batchPriceEdit');
 Route::get('batchEditPrice/{category_id}','unilityController@batchEditPrice');
+Route::get('christmas_sale_setting','unilityController@christmas_sale_setting');
 
 
 
