@@ -1868,18 +1868,19 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
 //        }
 //        $category->products()->sync($product_ids);
 //        <<<<put all products into up70 category
-//        $category_id = 310;
-//        $category = Ex_category::find($category_id);
-//        $product_ids = array();
-//        $specials = Ex_speceal::all();
-//        foreach ($specials as $item){
-//            $product = Ex_product::find($item->product_id);
-//            $percentage = ($product->price-$item->price)/$product->price;
-//            if($percentage>0.4 && $percentage < 0.6){
-//                $product_ids[] = $item->product_id;
-//            }
-//
-//        }
+        $category_id = 310;
+        $category = Ex_category::find($category_id);
+        $product_ids = array();
+        $specials = Ex_speceal::all();
+        foreach ($specials as $item){
+            $product = Ex_product::find($item->product_id);
+            $percentage = ($product->price-$item->price)/$product->price;
+            $percentage = round($percentage,2);
+            if($percentage>0.40 && $percentage < 0.60){
+                $product_ids[] = $item->product_id;
+            }
+
+        }
 //        $category->products()->sync($product_ids);
 //        <<<<put all products into up50 category
         $category_id = 311;
@@ -1889,11 +1890,43 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
         foreach ($specials as $item){
             $product = Ex_product::find($item->product_id);
             $percentage = ($product->price-$item->price)/$product->price;
-            if($percentage>0.3 && $percentage <= 0.4){
+            $percentage = round($percentage,2);
+            if($percentage>0.30 && $percentage <= 0.40){
                 $product_ids[] = $item->product_id;
             }
 
         }
         $category->products()->sync($product_ids);
+//        <<<<put all products into up40 category
+        $category_id = 312;
+        $category = Ex_category::find($category_id);
+        $product_ids = array();
+        $specials = Ex_speceal::all();
+        foreach ($specials as $item){
+            $product = Ex_product::find($item->product_id);
+            $percentage = ($product->price-$item->price)/$product->price;
+            $percentage = round($percentage,2);
+            if($percentage>0.20 && $percentage <= 0.30){
+                $product_ids[] = $item->product_id;
+            }
+
+        }
+        $category->products()->sync($product_ids);
+//        <<<<put all products into up40 category
+        $category_id = 313;
+        $category = Ex_category::find($category_id);
+        $product_ids = array();
+        $specials = Ex_speceal::all();
+        foreach ($specials as $item){
+            $product = Ex_product::find($item->product_id);
+            $percentage = ($product->price-$item->price)/$product->price;
+            $percentage = round($percentage,2);
+            if($percentage <= 0.20){
+                $product_ids[] = $item->product_id;
+            }
+
+        }
+        $category->products()->sync($product_ids);
+
     }
 }
