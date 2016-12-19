@@ -1912,7 +1912,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
 
         }
         $category->products()->sync($product_ids);
-//        <<<<put all products into up40 category
+//        <<<<put all products into up30 category
         $category_id = 313;
         $category = Ex_category::find($category_id);
         $product_ids = array();
@@ -1922,6 +1922,56 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
             $percentage = ($product->price-$item->price)/$product->price;
             $percentage = round($percentage,2);
             if($percentage <= 0.20){
+                $product_ids[] = $item->product_id;
+            }
+
+        }
+        $category->products()->sync($product_ids);
+//        <<<<put all products into up20 category
+        $category_id = 314;
+        $category = Ex_category::find($category_id);
+        $product_ids = array();
+        $specials = Ex_speceal::all();
+        foreach ($specials as $item){
+            $price = $item->price*1.15;
+            if($price<=1000 && $price>500){
+                $product_ids[] = $item->product_id;
+            }
+
+        }
+        $category->products()->sync($product_ids);
+//        <<<product under 1000
+        $category_id = 315;
+        $category = Ex_category::find($category_id);
+        $product_ids = array();
+        $specials = Ex_speceal::all();
+        foreach ($specials as $item){
+            $price = $item->price*1.15;
+            if($price<=500 && $price>100){
+                $product_ids[] = $item->product_id;
+            }
+
+        }
+        $category->products()->sync($product_ids);
+        $category_id = 316;
+        $category = Ex_category::find($category_id);
+        $product_ids = array();
+        $specials = Ex_speceal::all();
+        foreach ($specials as $item){
+            $price = $item->price*1.15;
+            if($price<=100 && $price>50){
+                $product_ids[] = $item->product_id;
+            }
+
+        }
+        $category->products()->sync($product_ids);
+        $category_id = 317;
+        $category = Ex_category::find($category_id);
+        $product_ids = array();
+        $specials = Ex_speceal::all();
+        foreach ($specials as $item){
+            $price = $item->price*1.15;
+            if($price<=50){
                 $product_ids[] = $item->product_id;
             }
 
