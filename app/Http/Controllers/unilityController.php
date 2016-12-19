@@ -1845,13 +1845,28 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
 
     /*Christmas sale setting: put special products in different category*/
     public function christmas_sale_setting(){
-        $category_id = 298;
+//        $category_id = 298;
+//        $category = Ex_category::find($category_id);
+//        $product_ids = array();
+//        $specials = Ex_speceal::all();
+//        foreach ($specials as $item){
+//            $product_ids[] = $item->product_id;
+//        }
+//        $category->products()->sync($product_ids);
+//        <<<<put all products into newsletter category
+        $category_id = 309;
         $category = Ex_category::find($category_id);
         $product_ids = array();
         $specials = Ex_speceal::all();
         foreach ($specials as $item){
-            $product_ids[] = $item->product_id;
+            $product = Ex_product::find($item->product_id);
+            $percentage = ($product->price-$item->price)/$product->price;
+            if($percentage>0.6){
+                $product_ids[] = $item->product_id;
+            }
+
         }
         $category->products()->sync($product_ids);
+//        <<<<put all products into up70 category
     }
 }
