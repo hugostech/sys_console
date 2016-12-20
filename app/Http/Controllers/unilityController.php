@@ -1845,14 +1845,18 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
 
     /*Christmas sale setting: put special products in different category*/
     public function christmas_sale_setting(){
-//        $category_id = 298;
-//        $category = Ex_category::find($category_id);
-//        $product_ids = array();
-//        $specials = Ex_speceal::all();
-//        foreach ($specials as $item){
-//            $product_ids[] = $item->product_id;
-//        }
-//        $category->products()->sync($product_ids);
+        $category_id = 298;
+        $category = Ex_category::find($category_id);
+        $product_ids = array();
+        $specials = Ex_speceal::all();
+        foreach ($specials as $item){
+            $product = Ex_product::find($item->product_id);
+            if($product->quantity<1){
+                continue;
+            }
+            $product_ids[] = $item->product_id;
+        }
+        $category->products()->sync($product_ids);
 //        <<<<put all products into newsletter category
         $category_id = 309;
         $category = Ex_category::find($category_id);
@@ -1860,6 +1864,9 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
         $specials = Ex_speceal::all();
         foreach ($specials as $item){
             $product = Ex_product::find($item->product_id);
+            if($product->quantity<1){
+                continue;
+            }
             $percentage = ($product->price-$item->price)/$product->price;
             $percentage = round($percentage,2);
 
@@ -1876,6 +1883,9 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
         $specials = Ex_speceal::all();
         foreach ($specials as $item){
             $product = Ex_product::find($item->product_id);
+            if($product->quantity<1){
+                continue;
+            }
             $percentage = ($product->price-$item->price)/$product->price;
             $percentage = round($percentage,2);
             if($percentage>=0.41 && $percentage < 0.51){
@@ -1891,6 +1901,9 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
         $specials = Ex_speceal::all();
         foreach ($specials as $item){
             $product = Ex_product::find($item->product_id);
+            if($product->quantity<1){
+                continue;
+            }
             $percentage = ($product->price-$item->price)/$product->price;
             $percentage = round($percentage,2);
             if($percentage>=0.31 && $percentage < 0.41){
@@ -1906,6 +1919,9 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
         $specials = Ex_speceal::all();
         foreach ($specials as $item){
             $product = Ex_product::find($item->product_id);
+            if($product->quantity<1){
+                continue;
+            }
             $percentage = ($product->price-$item->price)/$product->price;
             $percentage = round($percentage,2);
             if($percentage>=0.21 && $percentage < 0.31){
@@ -1921,6 +1937,9 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
         $specials = Ex_speceal::all();
         foreach ($specials as $item){
             $product = Ex_product::find($item->product_id);
+            if($product->quantity<1){
+                continue;
+            }
             $percentage = ($product->price-$item->price)/$product->price;
             $percentage = round($percentage,2);
             if($percentage < 0.21){
@@ -1935,6 +1954,10 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
         $product_ids = array();
         $specials = Ex_speceal::all();
         foreach ($specials as $item){
+            $product = Ex_product::find($item->product_id);
+            if($product->quantity<1){
+                continue;
+            }
             $price = $item->price*1.15;
             if($price<=1000 && $price>500){
                 $product_ids[] = $item->product_id;
@@ -1948,6 +1971,10 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
         $product_ids = array();
         $specials = Ex_speceal::all();
         foreach ($specials as $item){
+            $product = Ex_product::find($item->product_id);
+            if($product->quantity<1){
+                continue;
+            }
             $price = $item->price*1.15;
             if($price<=500 && $price>100){
                 $product_ids[] = $item->product_id;
@@ -1960,6 +1987,10 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
         $product_ids = array();
         $specials = Ex_speceal::all();
         foreach ($specials as $item){
+            $product = Ex_product::find($item->product_id);
+            if($product->quantity<1){
+                continue;
+            }
             $price = $item->price*1.15;
             if($price<=100 && $price>50){
                 $product_ids[] = $item->product_id;
@@ -1972,6 +2003,10 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
         $product_ids = array();
         $specials = Ex_speceal::all();
         foreach ($specials as $item){
+            $product = Ex_product::find($item->product_id);
+            if($product->quantity<1){
+                continue;
+            }
             $price = $item->price*1.15;
             if($price<=50){
                 $product_ids[] = $item->product_id;
