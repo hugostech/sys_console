@@ -179,7 +179,8 @@ class unilityController extends Controller
             'view'=>$viewed,
             'product_id'=>$product_id,
             'special_start'=>$special_start,
-            'special_end'=>$special_end
+            'special_end'=>$special_end,
+            'img'=>$product->image
         );
         return $data;
     }
