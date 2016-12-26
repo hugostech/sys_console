@@ -1844,8 +1844,21 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
     /*
      * Flash sale end*/
 
+    /*
+     * quantity 0 products delete special price*/
+    private function selfClearSpecial(){
+        $specials = Ex_speceal::all();
+        foreach ($specials as $item){
+            $product = Ex_product::find($item->product_id);
+            if($product->quantity<1){
+                $item->delete();
+            }
+        }
+    }
+
     /*Christmas sale setting: put special products in different category*/
     public function christmas_sale_setting(){
+        self::selfClearSpecial();
         $category_id = 298;
         $category = Ex_category::find($category_id);
         $product_ids = array();
