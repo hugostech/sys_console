@@ -1016,7 +1016,10 @@ class unilityController extends Controller
         $comment = str_replace("'","^",$order->comment);
         $ship_status = $order->shipping_method == 'Free Shipping' ? 1 : 0;
         $ship_fee = $order->shipfee();
-        $data = compact('phone', 'company', 'address1', 'address2', 'city', 'orderid', 'ship_status', 'clientId', 'comment','ship_fee');
+        $ship_postcode = $order->shipping_postcode;
+        $ship_name = addslashes($order->shipping_firstname.' '.$order->shipping_lastname);
+        $data = compact('phone', 'company', 'address1', 'address2', 'city', 'orderid', 'ship_status', 'clientId', 'comment','ship_fee','ship_postcode','ship_name');
+//        dd($data);
         return self::sendData($url, $data);
     }
 
