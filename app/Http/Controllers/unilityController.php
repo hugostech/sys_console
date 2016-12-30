@@ -1008,7 +1008,7 @@ class unilityController extends Controller
 
 
         $phone = $order->telephone;
-        $company = addslashes($order->shipping_company);
+        $company = isset($order->shipping_company)?addslashes($order->shipping_company):" ";
         $address1 = addslashes($order->shipping_address_1);
         $address2 = addslashes($order->shipping_address_2);
         $city = addslashes($order->shipping_city) . ' ' . addslashes($order->shipping_zone);
