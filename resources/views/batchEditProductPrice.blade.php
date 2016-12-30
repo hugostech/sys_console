@@ -146,7 +146,7 @@
         });
         myapp.controller('autoComplete',function($scope){
            $scope.categorys = {!! $categorys !!};
-            $scope.base_rate = 1.5;
+            $scope.base_rate = 0;
             $scope.special_rate = 1.1;
             $scope.result = {!! $result !!};
         });
