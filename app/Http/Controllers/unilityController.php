@@ -547,7 +547,9 @@ class unilityController extends Controller
         }
         $code = Ex_product::find($request->input('product_id'))->model;
         $data = self::getData($code);
-        return view('killprice', compact('data'));
+        $categorys = null;
+        $categorys = \GuzzleHttp\json_encode(self::categorysFullPath());
+        return view('killprice', compact('data','categorys'));
     }
 
     public function adminLogin(Request $request){
