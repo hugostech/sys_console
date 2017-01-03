@@ -719,6 +719,7 @@ class unilityController extends Controller
         self::categoryarrange();
 //        self::listnewclient();
         self::specialCheck();
+        self::selfClearSpecial();
 //        self::producttosales();
 //        self::categoryarrange();
         return self::syncQuantity(); //sync quantity
