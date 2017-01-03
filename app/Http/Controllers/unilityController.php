@@ -590,9 +590,9 @@ class unilityController extends Controller
             "GTX965M"=>"GTX965M",
             "GTX970M"=>"GTX970M",
             "GTX980M"=>"GTX980M",
-            "GTX1060M"=>"GTX1060M",
-            "GTX1070M"=>"GTX1070M",
-            "GTX1080M"=>"GTX1080M",
+            "GTX1060"=>"GTX1060",
+            "GTX1070"=>"GTX1070",
+            "GTX1080"=>"GTX1080",
             "Radeon R5 M230"=>"Radeon R5 M230",
             "Integrated"=>"Integrated"
         );
@@ -605,7 +605,9 @@ class unilityController extends Controller
             "2304 X 1440"=>"2304 X 1440",
             "2560 X 1440"=>"2560 X 1440",
             "2560 X 1600"=>"2560 X 1600",
+            "2736 X 1824"=>"2736 X 1824",
             "2880 X 1620"=>"2880 X 1620",
+            "3000 X 2000"=>"3000 X 2000",
             "3200 X 1800"=>"3200 X 1800",
             "3840 X 2160"=>"3840 X 2160"
         );
