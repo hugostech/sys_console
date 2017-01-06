@@ -38,7 +38,7 @@
             {!! Form::submit('Edit',['class'=>'btn btn-primary']) !!}
         </div>
 
-    {!! From::close() !!}
+    {!! Form::close() !!}
 
 
     </div>
