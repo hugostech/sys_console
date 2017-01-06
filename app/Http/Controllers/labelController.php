@@ -24,7 +24,7 @@ class labelController extends Controller
 
                 $label = new Label();
                 $label->code = $request->input('code');
-                $label->description = $ex_description->description;
+                $label->description = $ex_description->name;
                 $label->price = round(count($product->special)>0?$product->sepcial->price*1.15:$product->price*1.15,2);
                 $label->save();
 

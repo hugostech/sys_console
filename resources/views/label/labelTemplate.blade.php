@@ -121,7 +121,7 @@
                 <td>
                     <div class="tape-top">
                 <span class="tape-top-left">
-                    {{ $label->description }}
+                    {!! $label->description !!}
                 </span>
                         <span class="tape-top-right">
                     <h3><sup>$</sup>{{$label->price}}</h3>
