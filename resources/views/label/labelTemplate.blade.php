@@ -16,8 +16,8 @@
 </div>
 <div class="col-sm-12" ng-app="">
     <div class="col-sm-12">
-
-@if(isset($label) & !is_null($label))
+@if(isset($label))
+@if( !is_null($label))
     {!! Form::open(['url'=>'editLabel']) !!}
         <div class="form-group">
             <label>Price</label>
@@ -40,6 +40,7 @@
     {!! From::close() !!}
 
 @endif
+    @endif
     </div>
 <style>
     table{
