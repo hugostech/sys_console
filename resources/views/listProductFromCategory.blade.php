@@ -29,7 +29,7 @@
                     <div class="col-sm-4">
                         <a href="{{url('/batchEditPrice',[$category_id])}}" class="btn btn-default text-capitalize">Batch edit price</a>
                     </div>
-                    @if(!is_null($result))
+
                     <div class="col-sm-12">
                         <table class="table table-striped">
                             <thead>
@@ -42,6 +42,7 @@
                                 <th class="col-md-2">Action</th>
                             </tr>
                             </thead>
+                            @if(!is_null($result))
                             @foreach($result as $key=>$single)
                                 <tr class="{{$single['status']}}">
                                     <td>{{$key+1}}</td>
@@ -52,6 +53,7 @@
                                     <td><a href="{{url('/deleteProductFromCategory',[$category_id,$single['product']->product_id])}}" class="btn btn-danger">Del</a></td>
                                 </tr>
                             @endforeach
+                            @endif
                             {!! Form::open(['url'=>'saveProduct2Category']) !!}
                             <tr>
                                 {{Form::input('hidden','category_id',$category_id)}}
@@ -65,7 +67,7 @@
                         </table>
 
                     </div>
-                @endif
+
 
                 </div>
 

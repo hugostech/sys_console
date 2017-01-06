@@ -162,6 +162,9 @@ Route::post('batchPriceEdit','unilityController@batchPriceEdit');
 Route::get('batchEditPrice/{category_id}','unilityController@batchEditPrice');
 Route::get('christmas_sale_setting','unilityController@christmas_sale_setting');
 
+/*Label*/
+Route::get('createLabel','labelController@show_label_tool');
+Route::get('findLabel','labelController@findLabel');
 
 
 
