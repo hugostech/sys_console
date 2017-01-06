@@ -14,7 +14,7 @@
     {!! Form::close() !!}
 
 </div>
-<div class="col-sm-12" ng-app="">
+<div class="col-sm-12">
     @if(isset($label))
         @if( !is_null($label))
     <div class="col-sm-12">
@@ -22,11 +22,11 @@
     {!! Form::open(['url'=>'editLabel']) !!}
         <div class="form-group">
             <label>Price</label>
-            {{Form::input('number','price',$label->price,['class'=>'form-control','ng-model'=>'price'])}}
+            {{Form::input('number','price',$label->price,['class'=>'form-control'])}}
         </div>
         <div class="form-group">
             <label for='description'>Desciption</label>
-            <textarea name="description" rows="5" class="form-control" placeholder="Details..." id="warranty_detail" ng-model="description">
+            <textarea name="description" rows="5" class="form-control" placeholder="Details..." id="warranty_detail">
                 {!! $label->description !!}
             </textarea>
             <script>
@@ -121,10 +121,10 @@
                 <td>
                     <div class="tape-top">
                 <span class="tape-top-left">
-                    @{{ description }}
+                    {{ $label->description }}
                 </span>
                         <span class="tape-top-right">
-                    <h3><sup>$</sup>@{{ price }}</h3>
+                    <h3><sup>$</sup>{{$label->price}}</h3>
                 </span>
 
 
