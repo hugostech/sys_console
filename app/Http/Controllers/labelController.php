@@ -18,7 +18,7 @@ class labelController extends Controller
         $label = null;
         if($request->has('code')){
             $label = Label::where('code',$request->input('code'))->first();
-            $product = Ex_product::where('model',$request->input('code'))->input();
+            $product = Ex_product::where('model',$request->input('code'))->first();
             if(is_null($label)){
                 $ex_description = $product->description;
 
