@@ -37,8 +37,8 @@
                                 <th class="col-md-1"></th>
                                 {{--<th class="col-md-2">Model</th>--}}
                                 {{--<th class="col-md-5">title</th>--}}
-                                <th class="col-md-1">Price</th>
-                                <th class="col-md-1">Special</th>
+                                {{--<th class="col-md-1">Price</th>--}}
+                                {{--<th class="col-md-1">Special</th>--}}
                                 <th class="col-md-2">Action</th>
                             </tr>
                             </thead>
@@ -48,8 +48,8 @@
                                     <td>{{$key+1}}</td>
                                     {{--<td>{{$single['product']->model}}</td>--}}
                                     {{--<td>{{$single['product_detail']->name}}</td>--}}
-                                    <td>{{round($single['product']->price*1.15,2)}}</td>
-                                    <td>{{round($single['special'],2)}}</td>
+                                    {{--<td>{{round($single['product']->price*1.15,2)}}</td>--}}
+                                    {{--<td>{{round($single['special'],2)}}</td>--}}
                                     <td><a href="{{url('/deleteProductFromCategory',[$category_id,$single['product']->product_id])}}" class="btn btn-danger">Del</a></td>
                                 </tr>
                             @endforeach
