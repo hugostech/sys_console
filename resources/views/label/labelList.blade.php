@@ -1,7 +1,7 @@
 @extends('master')
 
 @section('mainContent')
-    @if($print == true)
+
 
 
     <div class="col-sm-12">
