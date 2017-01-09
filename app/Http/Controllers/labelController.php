@@ -108,7 +108,7 @@ class labelController extends Controller
         $products = $categorySpecific->products()->where('status',1)->where('quantity','>',0)->get();
         foreach ($products as $product){
             $label = Label::where('code',$product->model)->first();
-            if(isset($label)){
+            if(!isset($label)){
                 $ex_description = $product->description;
 
                 $label = new Label();
