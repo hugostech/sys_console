@@ -10,6 +10,7 @@ use App\Ex_speceal;
 
 use App\Http\Requests;
 use Illuminate\Support\Facades\Input;
+use App\Ex_category;
 
 class labelController extends Controller
 {
