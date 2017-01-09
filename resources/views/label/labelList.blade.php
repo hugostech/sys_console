@@ -174,7 +174,7 @@
                     {!! $label->description !!}
                 </span>
                             <span class="tape-top-right">
-                    <h3><sup>$</sup>{{$label->price}}</h3>
+                    <h3><sup>$</sup>{{number_format($label->price)}}</h3>
                 </span>
 
 
@@ -198,7 +198,7 @@
             @foreach($labels as $label)
                 <tr>
                     <td>{{$label->code}}</td>
-                    <td>{{$label->description}}</td>
+                    <td>{!! $label->description !!}</td>
                     <td>{{$label->price}}</td>
                     <td><a href="{{url('editLabel',[$label->id])}}" class="btn btn-primary">Edit</a>
                         <a class="btn btn-danger" href="{{url('removeLabelFromPrintList',[$label->id])}}">Remove from print list</a>
