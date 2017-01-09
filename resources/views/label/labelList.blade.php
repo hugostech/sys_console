@@ -25,7 +25,7 @@
             @endforeach
             <tr>
                 <td colspan="4">
-                    <a class="btn btn-warning" href="{{url('startPrint')}}">Print</a>
+                    <a class="btn btn-warning" href="?print=true">Print</a>
                 </td>
             </tr>
         </table>
