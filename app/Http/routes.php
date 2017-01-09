@@ -165,6 +165,10 @@ Route::get('christmas_sale_setting','unilityController@christmas_sale_setting');
 /*Label*/
 Route::get('createLabel','labelController@show_label_tool');
 Route::post('findLabel','labelController@findLabel');
+Route::get('addLabel2PrintList/{id}','labelController@addLabel2PrintList');
+Route::get('removeLabelFromPrintList/{id}','labelController@removeLabelFromPrintList');
+Route::get('labelList','labelController@labelList');
+Route::get('editLabel/{id}','labelController@editLabel2');
 
 
 

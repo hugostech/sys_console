@@ -7,6 +7,7 @@ use App\Label;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Illuminate\Support\Facades\Input;
 
 class labelController extends Controller
 {
@@ -33,6 +34,46 @@ class labelController extends Controller
                 $label->save();
             }
         }
+        return view('label.labelTemplate',compact('label'));
+    }
+
+    public function editLabel(Request $request){
+        $this->validate($request,[
+            'label_id'=>'required'
+        ]);
+        $label = Label::find($request->input('label_id'));
+        $label->update($request->all());
+        return view('label.labelTemplate',compact('label'));
+
+    }
+
+    public function addLabel2PrintList($id){
+        $label = Label::find($id);
+        $label->prepare2print = 1;
+        $label->save();
+        return view('label.labelTemplate',compact('label'));
+
+    }
+
+    public function labelList(){
+        $print = false;
+        $labels = Label::where('prepare2print',1)->paginate(10);
+        if (Input::has('print')){
+            $print = Input::input('print');
+        }
+        return view('label.labelList',compact('labels','print'));
+
+    }
+
+    public function removeLabelFromPrintList($id){
+        $label = Label::find($id);
+        $label->prepare2print = 0;
+        $label->save();
+        return view('label.labelTemplate',compact('label'));
+    }
+
+    public function editLabel2($id){
+        $label = Label::find($id);
         return view('label.labelTemplate',compact('label'));
     }
 }

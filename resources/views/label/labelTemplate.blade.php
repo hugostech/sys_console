@@ -11,6 +11,10 @@
                 </span>
             </div>
         </div>
+
+        <div class="form-group">
+            <a class="btn btn-info" href="{{url('labelList')}}">Print list</a>
+        </div>
     {!! Form::close() !!}
 
 </div>
@@ -20,8 +24,13 @@
     <div class="col-sm-12">
 
     {!! Form::open(['url'=>'editLabel']) !!}
+        {!! Form::input('hidden','label_id',$label->id) !!}
         <div class="form-group">
-            <label>Price</label>
+            <label>Price
+            @if($label->prepare2print == 1)
+                <small class="text-info">Prepare to print</small>
+            @endif
+            </label>
             {{Form::input('number','price',$label->price,['class'=>'form-control'])}}
         </div>
         <div class="form-group">
@@ -36,6 +45,12 @@
         </div>
         <div class="form-group">
             {!! Form::submit('Edit',['class'=>'btn btn-primary']) !!}
+            @if($label->prepare2print == 1)
+                <a class="btn btn-success" href="{{url('addLabel2PrintList',[$label->id])}}">Add to print list</a>
+            @else
+                <a class="btn btn-danger" href="{{url('removeLabelFromPrintList',[$label->id])}}">Remove from print list</a>
+            @endif
+
         </div>
 
     {!! Form::close() !!}
