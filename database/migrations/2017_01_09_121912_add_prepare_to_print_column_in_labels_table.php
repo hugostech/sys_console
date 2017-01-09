@@ -13,7 +13,7 @@ class AddPrepareToPrintColumnInLabelsTable extends Migration
     public function up()
     {
         Schema::table('labels', function (Blueprint $table) {
-            $table->enum('prepare2print')->default(0);
+            $table->enum('prepare2print',[0,1])->default(0);
         });
     }
 
