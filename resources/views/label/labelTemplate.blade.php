@@ -40,9 +40,7 @@
             @if($label->prepare2print == 1)
                 <small class="text-danger">Product in print list</small>
             @endif
-            <textarea name="description" rows="5" class="form-control" placeholder="Details..." id="warranty_detail">
-                {{$label->description}}
-            </textarea>
+            <textarea name="description" rows="5" class="form-control" placeholder="Details..." id="warranty_detail">{{$label->description}}</textarea>
             {{--<script>--}}
 
                 {{--CKEDITOR.replace( 'warranty_detail' );--}}
