@@ -160,7 +160,7 @@
                     {!! $label->description !!}
                 </span>
                         <span class="tape-top-right">
-                    <h3><sup>$</sup>{{$label->price}}</h3>
+                    <h3><sup>$</sup>{{number_format($label->price)}}</h3>
                 </span>
 
 
