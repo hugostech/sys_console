@@ -43,10 +43,10 @@
             <textarea name="description" rows="5" class="form-control" placeholder="Details..." id="warranty_detail">
                 {!! $label->description !!}
             </textarea>
-            <script>
+            {{--<script>--}}
 
-                CKEDITOR.replace( 'warranty_detail' );
-            </script>
+                {{--CKEDITOR.replace( 'warranty_detail' );--}}
+            {{--</script>--}}
         </div>
         <div class="form-group">
             {!! Form::submit('Edit',['class'=>'btn btn-primary']) !!}
