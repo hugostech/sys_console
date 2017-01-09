@@ -66,7 +66,7 @@ class labelController extends Controller
 
     public function labelList(){
 
-        $labels = Label::where('prepare2print',1)->paginate(10);
+        $labels = Label::where('prepare2print',1)->paginate(20);
         if(Input::has('print')){
             return view('label.print',compact('labels'));
         }
