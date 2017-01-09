@@ -81,6 +81,7 @@ class labelController extends Controller
         $this->validate($request,[
             'labels'=>'required'
         ]);
+        $labels = \GuzzleHttp\json_decode($request->input('labels'),true);
         foreach ($request->input('labels') as $id){
             $label = Label::find($id);
             $label->prepare2print = 0;

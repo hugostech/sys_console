@@ -189,7 +189,7 @@
 </table>
 {!! Form::open(['url'=>'cleanLabelList']) !!}
 
-    {!! Form::input('hidden','labels',$labels->pluck('id')->all()) !!}
+    {!! Form::input('hidden','labels',json_encode($labels->pluck('id')->all())) !!}
 {!! Form::submit('Clean',['class'=>'btn btn-danger']) !!}
 {!! Form::close() !!}
 </body>
