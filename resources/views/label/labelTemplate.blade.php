@@ -27,18 +27,19 @@
         {!! Form::input('hidden','label_id',$label->id) !!}
         <div class="form-group">
             <label>Price
-            @if($label->prepare2print == 1)
-                <small class="text-info">Prepare to print</small>
-            @endif
+
             </label>
             {{Form::input('number','price',$label->price,['class'=>'form-control'])}}
         </div>
         <div class="form-group">
-            <label>Origin price {{round($product->price*1.15,2)}}</label>
-            <label>Special price {{round($special->price*1.15,2)}}</label>
+            Origin price:<label class="text-info"> {{round($product->price*1.15,2)}}</label><br>
+            Special price:<label class="text-danger"> {{round($special->price*1.15,2)}}</label>
         </div>
         <div class="form-group">
             <label for='description'>Desciption</label>
+            @if($label->prepare2print == 1)
+                <small class="text-danger">Product in print list</small>
+            @endif
             <textarea name="description" rows="5" class="form-control" placeholder="Details..." id="warranty_detail">
                 {!! $label->description !!}
             </textarea>
