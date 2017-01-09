@@ -41,7 +41,7 @@
                 <small class="text-danger">Product in print list</small>
             @endif
             <textarea name="description" rows="5" class="form-control" placeholder="Details..." id="warranty_detail">
-                {!! $label->description !!}
+                {{$label->description}}
             </textarea>
             {{--<script>--}}
 
