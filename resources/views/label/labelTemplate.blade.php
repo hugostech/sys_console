@@ -34,6 +34,10 @@
             {{Form::input('number','price',$label->price,['class'=>'form-control'])}}
         </div>
         <div class="form-group">
+            <label>Origin price {{round($product->price*1.15,2)}}</label>
+            <label>Special price {{round($special->price*1.15,2)}}</label>
+        </div>
+        <div class="form-group">
             <label for='description'>Desciption</label>
             <textarea name="description" rows="5" class="form-control" placeholder="Details..." id="warranty_detail">
                 {!! $label->description !!}

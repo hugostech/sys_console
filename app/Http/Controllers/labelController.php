@@ -20,21 +20,22 @@ class labelController extends Controller
         if($request->has('code')){
             $label = Label::where('code',$request->input('code'))->first();
             $product = Ex_product::where('model',$request->input('code'))->first();
+            $special = Ex_speceal::where('product_id', $product->product_id)->first();
             if(is_null($label)){
                 $ex_description = $product->description;
 
                 $label = new Label();
                 $label->code = $request->input('code');
                 $label->description = $ex_description->name;
-                $label->price = round(isset($product->special)?$product->sepcial()->price*1.15:$product->price*1.15,2);
+                $label->price = round(isset($special->price)?$special->price*1.15:$product->price*1.15,2);
                 $label->save();
 
             }else{
-                $label->price = round(count($product->special)>0?$product->sepcial()->price*1.15:$product->price*1.15,2);
+                $label->price = round(isset($special->price)?$special->price*1.15:$product->price*1.15,2);
                 $label->save();
             }
         }
-        return view('label.labelTemplate',compact('label'));
+        return view('label.labelTemplate',compact('label','product','special'));
     }
 
     public function editLabel(Request $request){
@@ -43,7 +44,9 @@ class labelController extends Controller
         ]);
         $label = Label::find($request->input('label_id'));
         $label->update($request->all());
-        return view('label.labelTemplate',compact('label'));
+        $product = Ex_product::where('model',$label->code)->first();
+        $special = Ex_speceal::where('product_id', $product->product_id)->first();
+        return view('label.labelTemplate',compact('label','product','special'));
 
     }
 
@@ -51,7 +54,9 @@ class labelController extends Controller
         $label = Label::find($id);
         $label->prepare2print = 1;
         $label->save();
-        return view('label.labelTemplate',compact('label'));
+        $product = Ex_product::where('model',$label->code)->first();
+        $special = Ex_speceal::where('product_id', $product->product_id)->first();
+        return view('label.labelTemplate',compact('label','product','special'));
 
     }
 
@@ -69,12 +74,16 @@ class labelController extends Controller
         $label = Label::find($id);
         $label->prepare2print = 0;
         $label->save();
-        return view('label.labelTemplate',compact('label'));
+        $product = Ex_product::where('model',$label->code)->first();
+        $special = Ex_speceal::where('product_id', $product->product_id)->first();
+        return view('label.labelTemplate',compact('label','product','special'));
     }
 
     public function editLabel2($id){
         $label = Label::find($id);
-        return view('label.labelTemplate',compact('label'));
+        $product = Ex_product::where('model',$label->code)->first();
+        $special = Ex_speceal::where('product_id', $product->product_id)->first();
+        return view('label.labelTemplate',compact('label','product','special'));
     }
 
     public function cleanLabelList(Request $request){
