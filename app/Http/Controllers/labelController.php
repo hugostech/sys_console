@@ -6,6 +6,8 @@ use App\Ex_product;
 use App\Label;
 use Illuminate\Http\Request;
 
+use App\Ex_speceal;
+
 use App\Http\Requests;
 use Illuminate\Support\Facades\Input;
 
