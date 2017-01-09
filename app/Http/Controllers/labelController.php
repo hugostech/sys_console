@@ -56,12 +56,9 @@ class labelController extends Controller
     }
 
     public function labelList(){
-        $print = false;
+
         $labels = Label::where('prepare2print',1)->paginate(10);
-        if (Input::has('print')){
-            $print = Input::input('print');
-        }
-        return view('label.labelList',compact('labels','print'));
+        return view('label.print',compact('labels'));
 
     }
 
@@ -75,5 +72,17 @@ class labelController extends Controller
     public function editLabel2($id){
         $label = Label::find($id);
         return view('label.labelTemplate',compact('label'));
+    }
+
+    public function cleanLabelList(Request $request){
+        $this->validate($request,[
+            'labels'=>'required'
+        ]);
+        foreach ($request->input('labels') as $id){
+            $label = Label::find($id);
+            $label->prepare2print = 0;
+            $label->save();
+        }
+        return redirect('labelList');
     }
 }
