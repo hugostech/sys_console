@@ -28,6 +28,7 @@
                     </div>
                     <div class="col-sm-4">
                         <a href="{{url('/batchEditPrice',[$category_id])}}" class="btn btn-default text-capitalize">Batch edit price</a>
+                        <a href="{{url('/addProductinLabel',[$category_id])}}" class="btn btn-default text-capitalize">Print label</a>
                     </div>
 
                     <div class="col-sm-12">

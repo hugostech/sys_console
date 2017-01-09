@@ -172,6 +172,7 @@ Route::get('removeLabelFromPrintList/{id}','labelController@removeLabelFromPrint
 Route::get('labelList','labelController@labelList');
 Route::get('editLabel/{id}','labelController@editLabel2');
 Route::get('startPrint','labelController@labelList');
+Route::get('addProductinLabel/{id}','labelController@addProductinLabel');
 
 
 

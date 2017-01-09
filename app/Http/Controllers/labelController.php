@@ -62,6 +62,7 @@ class labelController extends Controller
 
     }
 
+
     public function labelList(){
 
         $labels = Label::where('prepare2print',1)->paginate(10);
@@ -99,5 +100,24 @@ class labelController extends Controller
             $label->save();
         }
         return redirect('labelList');
+    }
+
+    public function addProductinLabel($id){
+        $categorySpecific = Ex_category::find($id);
+        $products = $categorySpecific->products()->where('status',1)->where('quantity','>',0)->get();
+        foreach ($products as $product){
+            $label = Label::where('code',$product->model)->first();
+            if(isset($label)){
+                $ex_description = $product->description;
+
+                $label = new Label();
+                $label->code = $product->model;
+                $label->description = $ex_description->name;
+                $label->price = round($product->price*1.15,2);
+                $label->prepare2print = 1;
+                $label->save();
+            }
+        }
+        return redirect($_SERVER['HTTP_REFERER']);
     }
 }

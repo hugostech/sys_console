@@ -22,6 +22,7 @@ use App\Ex_speceal;
 use App\Ex_stock_status;
 use App\Flash_sale_products;
 use App\Http\Requests;
+use App\Label;
 use App\News_letter;
 use App\Product;
 use App\adminLogin;
@@ -1160,6 +1161,14 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
 //                $category->product_id = $product->product_id;
 //                $category->category_id = 267;
 //                $category->save();
+
+                $label = new Label();
+                $label->code = $product->model;
+                $label->description = $description->name;
+                $label->price = round($product->price*1.15,2);
+                $label->prepare2print = 1;
+                $label->save();
+
                 return $product->model . ' <font color="green">Insert Sucessed</font>';
             } else {
                 return $data->model . ' <font color="red">No Name</font>';
