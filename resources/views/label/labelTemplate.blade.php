@@ -45,7 +45,7 @@
         </div>
         <div class="form-group">
             {!! Form::submit('Edit',['class'=>'btn btn-primary']) !!}
-            @if($label->prepare2print == 1)
+            @if($label->prepare2print == 0)
                 <a class="btn btn-success" href="{{url('addLabel2PrintList',[$label->id])}}">Add to print list</a>
             @else
                 <a class="btn btn-danger" href="{{url('removeLabelFromPrintList',[$label->id])}}">Remove from print list</a>
@@ -139,7 +139,7 @@
                     {!! $label->description !!}
                 </span>
                         <span class="tape-top-right">
-                    <h3><sup>$</sup>{{$label->price}}</h3>
+                    <h3><sup>$</sup>{{number_format($label->price)}}</h3>
                 </span>
 
 
