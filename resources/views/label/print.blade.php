@@ -39,6 +39,12 @@
                 font-size: 15px;
                 font-weight: 600;
             }
+            .tape-top-left p{
+                font-family: "Microsoft YaHei";
+                line-height: 17px;
+                font-size: 15px;
+                font-weight: 600;
+            }
             .tape-top-right{
                 width: 100px;
 
@@ -186,7 +192,9 @@
             </tr>
         @endif
     @endforeach
+
 </table>
+<br>
 {!! Form::open(['url'=>'cleanLabelList']) !!}
 
     {!! Form::input('hidden','labels',json_encode($labels->pluck('id')->all())) !!}
