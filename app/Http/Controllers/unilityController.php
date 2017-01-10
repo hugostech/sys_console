@@ -1316,26 +1316,33 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
 
     }
     public function sales_add(Request $request){
-        $models = $request->input('modelnum');
-        foreach($models as $model){
-            if(empty($model))
-                continue;
-            $product = Ex_product::where('model',$model)->first();
-            if(isset($product)){
-
-
-
-                $category_product  = new Ex_product_category();
-                $category_product->category_id = 272;
-                $category_product->product_id = $product->product_id;
-                $category_product->save();
-
-
-
-            }else{
-                throwException('Can find model');
-            }
+        $this->validate($request,[
+            'code'=>'required'
+        ]);
+        $product = Ex_product::where('model',trim($request->input('code')))->first();
+        if(!is_null($product)){
+            $category = Ex_category::find($request->input('category_id'));
+            $category->products()->attach($product->id);
         }
+//        foreach($models as $model){
+//            if(empty($model))
+//                continue;
+//            $product = Ex_product::where('model',$model)->first();
+//            if(isset($product)){
+//
+//
+//
+//                $category_product  = new Ex_product_category();
+//                $category_product->category_id = 272;
+//                $category_product->product_id = $product->product_id;
+//                $category_product->save();
+//
+//
+//
+//            }else{
+//                throwException('Can find model');
+//            }
+//        }
         return redirect('sales_list');
 
     }

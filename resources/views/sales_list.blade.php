@@ -104,7 +104,9 @@
                                             </tr>
                                         @endforeach
                                         <tr>
-                                            {!! Form::open(['url'=>'add_flash_sale_product']) !!}
+                                            {!! Form::open(['url'=>'sales_list']) !!}
+                                            {!! Form::input('hidden','category_id',$value) !!}
+
                                             <td colspan="3">
                                                 {!! Form::text('code',null,['class'=>'form-control']) !!}
                                             </td>
