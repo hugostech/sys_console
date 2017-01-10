@@ -1291,15 +1291,28 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
         }
     }
     public function sales_list(){
-        $sales = Ex_product_category::where('category_id',272)->get();
-        $result = array();
-        foreach($sales as $sale){
-            $product = Ex_product::find($sale->product_id);
-            $product_detail = Ex_product_description::where('product_id',$sale->product_id)->first();
-            $result[] = compact('product','product_detail');
+
+        $categotys = [
+            321,322,323
+        ];
+        $category_names = array();
+        $category_products = array();
+        foreach ($categotys as $id){
+            $category = Ex_category::find($id);
+            $products = $category->products();
+            $category_products[$id] = $products;
+            $category_names[$id] = $category->description->name;
         }
+//        $sales = Ex_product_category::where('category_id',272)->get();
+//        $result = array();
+//        foreach($sales as $sale){
+//            $product = Ex_product::find($sale->product_id);
+//            $product_detail = Ex_product_description::where('product_id',$sale->product_id)->first();
+//            $result[] = compact('product','product_detail');
+//        }
 //        dd($result);
-        return view('sales_list',compact('result'));
+//        return view('sales_list',compact('result'));
+        return view('sales_list',compact('category_names','categotys','category_products'));
 
     }
     public function sales_add(Request $request){
