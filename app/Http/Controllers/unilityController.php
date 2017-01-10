@@ -2048,4 +2048,17 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
         $category->products()->sync($product_ids);
 
     }
+    public function sunTotal(){
+        $start = Carbon::parse('2016-01-03');
+        $end = Carbon::parse('2017-01-01');
+        $total = 0;
+        while($start->lt($end)){
+            $url = env('SNPORT') . "?action=invtotal&start=$start&end=".$start->addDay();
+            $total += $this->getContent($url);
+//            echo $start->format('Y-m-d');
+//            echo '<br>';
+            $start = $start->addDays(7);
+        }
+        echo round(total,2);
+    }
 }

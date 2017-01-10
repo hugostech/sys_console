@@ -174,6 +174,9 @@ Route::get('editLabel/{id}','labelController@editLabel2');
 Route::get('startPrint','labelController@labelList');
 Route::get('addProductinLabel/{id}','labelController@addProductinLabel');
 
+/*Print sunday total sale*/
+Route::get('sunTotal','unilityController@sunTotal');
+
 
 
 
