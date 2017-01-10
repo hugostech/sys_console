@@ -33,7 +33,9 @@
         </div>
         <div class="form-group">
             Origin price:<label class="text-info"> {{round($product->price*1.15,2)}}</label><br>
-            {{--Special price:<label class="text-danger"> {{round($special->price*1.15,2)}}</label>--}}
+            @if(!is_null($special))
+            Special price:<label class="text-danger"> {{round($special->price*1.15,2)}}</label>
+            @endif
         </div>
         <div class="form-group">
             <label for='description'>Desciption</label>

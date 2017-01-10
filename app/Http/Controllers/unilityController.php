@@ -2049,16 +2049,21 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
 
     }
     public function sunTotal(){
-        $start = Carbon::parse('2016-01-03');
+        $start = Carbon::parse('2014-01-05');
         $end = Carbon::parse('2017-01-01');
         $total = 0;
         while($start->lt($end)){
-            $url = env('SNPORT') . "?action=invtotal&start=$start&end=".$start->addDay();
-            $total += $this->getContent($url);
-//            echo $start->format('Y-m-d');
+            $url = env('SNPORT') . "?action=invtotal&start=".$start->format('Y-m-d')."&end=".$start->addDay()->format('Y-m-d');
+
+            $subtotal = floatval($this->getContent($url));
+
+//
+            $total += $subtotal;
+            $start->format('Y-m-d');
+
 //            echo '<br>';
-            $start = $start->addDays(7);
+            $start = $start->addDays(6);
         }
-        echo round(total,2);
+        echo round($total,2);
     }
 }
