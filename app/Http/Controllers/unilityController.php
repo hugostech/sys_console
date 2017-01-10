@@ -1343,7 +1343,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
 //                throwException('Can find model');
 //            }
 //        }
-        return redirect('sales_list');
+//        return redirect('sales_list');
 
     }
     public function sales_remove($id){
