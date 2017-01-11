@@ -14,7 +14,7 @@
                     <thead>
                     <tr>
                         <th class="col-sm-1"></th>
-                        <th class="col-sm-1">Code</th>
+                        <th class="col-sm-1 code_price">Code</th>
                         <th class="col-sm-4">Content</th>
                         <th class="col-sm-2">price</th>
                         <th class="col-sm-2">RRP</th>
@@ -53,7 +53,7 @@
     </div>
     <script>
         function changeprice(item){
-            var code = $(item).parents('tr').children(1).html();
+            var code = $(item).parents('tr').children(".code_price").html();
             var price = $(item).val();
             var url = "{{url('flash_sale_price_edit')}}/"+code+"/"+price;
             alert(url);
@@ -67,7 +67,7 @@
 
         }
         function changeqty(item){
-            var code = $(item).parents('tr').children(1).html();
+            var code = $(item).parents('tr').children(".code_price").html();
             var qty = $(item).val();
             var url = "{{url('flash_sale_qty_edit')}}/"+code+"/"+qty;
 
@@ -82,7 +82,7 @@
         }
 
         function changerrp(item){
-            var code = $(item).parents('tr').children(1).html();
+            var code = $(item).parents('tr').children(".code_price").html();
             var rrp = $(item).val();
             var url = "{{url('flash_sale_rrp_edit')}}/"+code+"/"+rrp;
 
