@@ -56,7 +56,7 @@
             var code = $(item).parents('tr').children(".code_price").html();
             var price = $(item).val();
             var url = "{{url('flash_sale_price_edit')}}/"+code+"/"+price;
-            alert(url);
+//            alert(url);
             $.ajax({
                 url: url,
             }).done(function() {
