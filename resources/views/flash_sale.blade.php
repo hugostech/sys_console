@@ -14,7 +14,7 @@
                     <thead>
                     <tr>
                         <th class="col-sm-1"></th>
-                        <th class="col-sm-1 code_price">Code</th>
+                        <th class="col-sm-1">Code</th>
                         <th class="col-sm-4">Content</th>
                         <th class="col-sm-2">price</th>
                         <th class="col-sm-2">RRP</th>
@@ -27,7 +27,7 @@
                     @foreach($products as $key=>$product)
                     <tr>
                         <td>{{$key+1}}</td>
-                        <td>{{$product->code}}</td>
+                        <td class="code_price">{{$product->code}}</td>
                         <td>{{$product->content}}</td>
                         <td>{!! Form::input('number','price[]',round($product->price*1.15,2),["class"=>"form-control","step"=>"0.01","onchange"=>"changeprice(this)"]) !!}</td>
                         <td>{!! Form::input('number','rrp[]',$product->rrp,["class"=>"form-control","step"=>"0.01","onchange"=>"changerrp(this)"]) !!}</td>
@@ -56,7 +56,7 @@
             var code = $(item).parents('tr').children(".code_price").html();
             var price = $(item).val();
             var url = "{{url('flash_sale_price_edit')}}/"+code+"/"+price;
-            alert(url);
+//            alert(url);
             $.ajax({
                 url: url,
             }).done(function() {
