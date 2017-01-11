@@ -53,7 +53,7 @@
     </div>
     <script>
         function changeprice(item){
-            var code = $(item).parents('tr').children(0).html();
+            var code = $(item).parents('tr').children(1).html();
             var price = $(item).val();
             var url = "{{url('flash_sale_price_edit')}}/"+code+"/"+price;
             alert(url);
@@ -67,7 +67,7 @@
 
         }
         function changeqty(item){
-            var code = $(item).parents('tr').children(0).html();
+            var code = $(item).parents('tr').children(1).html();
             var qty = $(item).val();
             var url = "{{url('flash_sale_qty_edit')}}/"+code+"/"+qty;
 
@@ -82,7 +82,7 @@
         }
 
         function changerrp(item){
-            var code = $(item).parents('tr').children(0).html();
+            var code = $(item).parents('tr').children(1).html();
             var rrp = $(item).val();
             var url = "{{url('flash_sale_rrp_edit')}}/"+code+"/"+rrp;
 
