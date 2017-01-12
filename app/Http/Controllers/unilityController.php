@@ -1848,8 +1848,8 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
         $special->customer_group_id = 1;
         $special->priority = 0;
         $special->price = $price;
-//        $special->date_end = Carbon::now()->addDay(4)->format('Y-m-d');
-        $special->date_end = "2017-01-02";
+        $special->date_end = Carbon::now()->addDay(4)->format('Y-m-d');
+//        $special->date_end = "2017-01-02";
         $ex_product->jan = $ex_product->stock_status_id;
         $ex_product->stock_status_id = 31;
         $ex_product->quantity = $qty;
