@@ -2104,7 +2104,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
         $category = Ex_category::find(263);
         $products = $category->products;
         foreach ($products as $item){
-            if ($item->quantity<1 && is_null($item->image)){
+            if ($item->quantity<1){
                 $item->status=0;
                 $item->save();
             }
