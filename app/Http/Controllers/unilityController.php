@@ -2097,7 +2097,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
             }
         }
         $category = Ex_category::find(327);
-        $category->sync($productList);
+        $category->products->sync($productList);
     }
 
     private function clearMoreCaregory(){
