@@ -2093,7 +2093,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
         $productList = array();
         foreach ($products as $product){
             if (is_null($product->special)){
-                $productList[] = $product->id;
+                $productList[] = $product->product_id;
             }
         }
         $category = Ex_category::find(327);
