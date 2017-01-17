@@ -96,23 +96,27 @@
                                     {{--<li><a href="#">Something else here</a></li>--}}
                                     <li role="separator" class="divider"></li>
                                     <li><a href="{{url('/',['killprice'])}}">Kill price</a></li>
-                                    <li><a href="{{url('/',['createLabel'])}}">Create Label</a></li>
+
                                     <li><a href="{{url('/',['eta_list'])}}">ETA</a></li>
                                     <li><a href="{{url('/',['sales_list'])}}">Sales</a></li>
                                     <li><a href="{{url('/',['flash_sale'])}}">Flash Sale</a></li>
                                     <li><a href="{{url('/',['categoryArrange'])}}">categoryArrange</a></li>
-                                    <li><a href="{{url('/',['sync'])}}">Sync</a></li>
-
-
-                                    <li><a href="{{url('/',['syncproall'])}}">SyncAllProduct</a></li>
-                                    <li><a href="{{url('/',['syncpro'])}}">SyncSingleProduct</a></li>
-                                    {{--<li><a href="{{url('/',['self_check'])}}">self_check</a></li>--}}
+                                    {{--<li><a href="{{url('/',['sync'])}}">Sync</a></li>--}}
+                                    <li><a href="{{url('/',['putProducts2Base'])}}">putProducts2Base</a></li>
+                                    <li><a href="{{url('/',['listProductFromCategory'])}}">listProductFromCategory</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a href="{{url('/',['createLabel'])}}">Create Label</a></li>
                                     <li><a href="http://italker.info/lunch">Lunch</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    {{--<li><a href="{{url('/',['syncproall'])}}">SyncAllProduct</a></li>--}}
+                                    {{--<li><a href="{{url('/',['syncpro'])}}">SyncSingleProduct</a></li>--}}
+                                    {{--<li><a href="{{url('/',['self_check'])}}">self_check</a></li>--}}
+
                                     <li><a href="{{url('/',['supplier'])}}">new Supplier</a></li>
 
                                     <li><a href="{{url('/',['suppliers'])}}">edit Supplier</a></li>
                                     <li><a href="{{url('/',['addWarrantyGuide'])}}">edit warranty guide</a></li>
-                                    <li><a href="{{url('/',['listProductFromCategory'])}}">listProductFromCategory</a></li>
+
 
                                 </ul>
                             </li>

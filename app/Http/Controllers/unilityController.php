@@ -2086,4 +2086,28 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
         }
         echo round($total,2);
     }
+
+    public function putProducts2Base(){
+        self::clearMoreCaregory();
+        $products = Ex_product::all();
+        $productList = array();
+        foreach ($products as $product){
+            if (is_null($product->special)){
+                $productList[] = $product->id;
+            }
+        }
+        $category = Ex_category::find(327);
+        $category->sync($productList);
+    }
+
+    private function clearMoreCaregory(){
+        $category = Ex_category::find(263);
+        $products = $category->products;
+        foreach ($products as $item){
+            if ($item->quantity<1 && is_null($item->image)){
+                $item->status=0;
+                $item->save();
+            }
+        }
+    }
 }
