@@ -16,7 +16,7 @@
             }
             table tr td{
                 border: solid 1px black;
-                height: 104px;
+                height: 100px;
                 width: 298px;
                 /*background: cornflowerblue;*/
                 text-align: left;
@@ -27,7 +27,7 @@
                 /*float: left;*/
             }
             .tape-top{
-                height: 86px;
+                height: 82px;
             }
             .tape-top-left{
                 padding-left: 5px;
@@ -92,7 +92,7 @@
         }
         table tr td{
             border: solid 1px black;
-            height: 105.66037px;
+            height: 100px;
             width:298px;
             /*background: cornflowerblue;*/
             text-align: left;
@@ -103,7 +103,7 @@
             /*float: left;*/
         }
         .tape-top{
-            height: 86.7925px;
+            height: 82px;
         }
         .tape-top-left{
             padding-left: 5px;
@@ -149,7 +149,7 @@
             background-repeat: no-repeat;
 
             border-top: solid 1px black;
-            height: 18.86792px;
+            height: 18px;
             text-align: right;
             font-family: "Microsoft YaHei UI";
             font-size: 14px;
