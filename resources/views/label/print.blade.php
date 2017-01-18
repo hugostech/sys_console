@@ -81,7 +81,7 @@
                 height: 18px;
                 text-align: right;
                 font-family: "Microsoft YaHei UI";
-                font-size: 14px;
+                font-size: 15px;
                 padding-right: 3px;
             }
         }
@@ -152,7 +152,7 @@
             height: 18px;
             text-align: right;
             font-family: "Microsoft YaHei UI";
-            font-size: 14px;
+            font-size: 15px;
             padding-right: 3px;
         }
     </style>
