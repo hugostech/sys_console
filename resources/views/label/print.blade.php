@@ -16,7 +16,7 @@
             }
             table tr td{
                 border: solid 1px black;
-                height: 105.66037px;
+                height: 104px;
                 width: 298px;
                 /*background: cornflowerblue;*/
                 text-align: left;
@@ -27,7 +27,7 @@
                 /*float: left;*/
             }
             .tape-top{
-                height: 86.7925px;
+                height: 86px;
             }
             .tape-top-left{
                 padding-left: 5px;
@@ -74,11 +74,11 @@
             .tape-bottom{
                 background: rgb(000,204,000);
                 background-image: url("{{url('image',['logo.png'])}}") ;
-                background-size: 128.5714px 17.5px;
+                background-size: 128.5714px 17px;
                 background-repeat: no-repeat;
 
                 border-top: solid 1px black;
-                height: 18.86792px;
+                height: 18px;
                 text-align: right;
                 font-family: "Microsoft YaHei UI";
                 font-size: 14px;
