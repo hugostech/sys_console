@@ -35,7 +35,7 @@
 
                 float: left;
                 font-family: "Microsoft YaHei";
-                line-height: 17px;
+                line-height: 16px;
                 font-size: 15px;
                 font-weight: 600;
             }
@@ -51,7 +51,7 @@
                 text-align: right;
                 float: left;
                 font-family: "Arial Black";
-                padding-top: 4px;
+                padding-top: 2px;
             }
             .tape-top-right h3{
                 font-family: "Arial";
@@ -111,7 +111,7 @@
 
             float: left;
             font-family: "Microsoft YaHei";
-            line-height: 17px;
+            line-height: 16px;
             font-size: 15px;
             font-weight: 600;
         }
@@ -121,7 +121,7 @@
             text-align: right;
             float: left;
             font-family: "Arial Black";
-            padding-top: 4px;
+            padding-top: 2px;
         }
         .tape-top-right h3{
             font-family: "Arial";
