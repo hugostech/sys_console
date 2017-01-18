@@ -51,7 +51,7 @@
                 text-align: right;
                 float: left;
                 font-family: "Arial Black";
-                padding-top: 8px;
+                padding-top: 4px;
             }
             .tape-top-right h3{
                 font-family: "Arial";
@@ -121,7 +121,7 @@
             text-align: right;
             float: left;
             font-family: "Arial Black";
-            padding-top: 8px;
+            padding-top: 4px;
         }
         .tape-top-right h3{
             font-family: "Arial";
