@@ -30,11 +30,11 @@ class labelController extends Controller
                 $label = new Label();
                 $label->code = $request->input('code');
                 $label->description = $ex_description->name;
-                $label->price = round(isset($special->price)?$special->price*1.15:$product->price*1.15,2);
+                $label->price = round($product->price*1.15,2);
                 $label->save();
 
             }else{
-                $label->price = round(isset($special->price)?$special->price*1.15:$product->price*1.15,2);
+                $label->price = round($product->price*1.15,2);
                 $label->save();
             }
         }

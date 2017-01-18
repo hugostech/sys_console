@@ -29,7 +29,7 @@
             <label>Price
 
             </label>
-            {{Form::input('number','price',$label->price,['class'=>'form-control'])}}
+            {{Form::input('number','price',$label->price,['class'=>'form-control','step'=>0.01])}}
         </div>
         <div class="form-group">
             Origin price:<label class="text-info"> {{round($product->price*1.15,2)}}</label><br>
