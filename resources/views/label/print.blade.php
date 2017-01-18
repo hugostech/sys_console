@@ -74,7 +74,7 @@
             .tape-bottom{
                 background: rgb(000,204,000);
                 background-image: url("{{url('image',['logo.png'])}}") ;
-                background-size: 128.5714px 17px;
+                background-size: 126px 16px;
                 background-repeat: no-repeat;
 
                 border-top: solid 1px black;
@@ -145,7 +145,7 @@
         .tape-bottom{
             background: rgb(000,204,000);
             background-image: url("{{url('image',['logo.png'])}}") ;
-            background-size: 128.5714px 18px;
+            background-size: 126px 16px;
             background-repeat: no-repeat;
 
             border-top: solid 1px black;
