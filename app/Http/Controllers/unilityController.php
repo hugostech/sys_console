@@ -1161,13 +1161,16 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
 //                $category->product_id = $product->product_id;
 //                $category->category_id = 267;
 //                $category->save();
+                $label = Label::where('code',$product->model)->first();
+                if(is_null($label)){
+                    $label = new Label();
+                    $label->code = $product->model;
+                    $label->description = $description->name;
+                    $label->price = round($product->price*1.15,2);
+                    $label->prepare2print = 1;
+                    $label->save();
+                }
 
-                $label = new Label();
-                $label->code = $product->model;
-                $label->description = $description->name;
-                $label->price = round($product->price*1.15,2);
-                $label->prepare2print = 1;
-                $label->save();
 
                 return $product->model . ' <font color="green">Insert Sucessed</font>';
             } else {
