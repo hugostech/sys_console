@@ -29,6 +29,7 @@
                     <div class="col-sm-4">
                         <a href="{{url('/batchEditPrice',[$category_id])}}" class="btn btn-default text-capitalize">Batch edit price</a>
                         <a href="{{url('/addProductinLabel',[$category_id])}}" class="btn btn-default text-capitalize">Print label</a>
+                        <button type="button" ng-click="updateMpn()">Check MPN</button>
                     </div>
 
                     <div class="col-sm-12">
@@ -53,7 +54,7 @@
                                     <td>{{isset($single['product_detail']->name)?$single['product_detail']->name:'error'}}</td>
                                     <td>{{round($single['product']->price*1.15,2)}}</td>
                                     <td>{{round($single['special'],2)}}</td>
-                                    <td>{{$single['product']->mpn}}</td>
+                                    <td id="mpn_{{$single['product']->id}}">{{$single['product']->mpn}}</td>
                                     <td><a href="{{url('/deleteProductFromCategory',[$category_id,$single['product']->product_id])}}" class="btn btn-danger">Del</a></td>
                                 </tr>
                             @endforeach
@@ -86,6 +87,16 @@
         var myapp = angular.module('myApp', []);
         myapp.controller('autoComplete',function($scope){
            $scope.categorys = {!! $categorys !!};
+           var todoProductList = [
+               @foreach($result as $single)
+               {{$single['product']->id}},
+               @endforeach
+           ];
+           $scope.updateMpn = function(){
+               $.each(todoProductList, function( index, value ) {
+                   alert( index + ": " + value );
+               });
+           }
         });
     </script>
 
