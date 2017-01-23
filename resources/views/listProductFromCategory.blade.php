@@ -54,7 +54,7 @@
                                     <td>{{isset($single['product_detail']->name)?$single['product_detail']->name:'error'}}</td>
                                     <td>{{round($single['product']->price*1.15,2)}}</td>
                                     <td>{{round($single['special'],2)}}</td>
-                                    <td id="mpn_{{$single['product']->id}}">{{$single['product']->mpn}}</td>
+                                    <td id="mpn_{{$single['product']->product_id}}">{{$single['product']->mpn}}</td>
                                     <td><a href="{{url('/deleteProductFromCategory',[$category_id,$single['product']->product_id])}}" class="btn btn-danger">Del</a></td>
                                 </tr>
                             @endforeach
@@ -85,18 +85,30 @@
 
 
         var myapp = angular.module('myApp', []);
-        myapp.controller('autoComplete',function($scope){
+        myapp.controller('autoComplete',function($scope,$http){
            $scope.categorys = {!! $categorys !!};
            var todoProductList = [
                @foreach($result as $single)
-               {{$single['product']->id}},
+               {{$single['product']->product_id.','}}
                @endforeach
            ];
-           $scope.updateMpn = function(){
-               $.each(todoProductList, function( index, value ) {
-                   alert( index + ": " + value );
-               });
-           }
+           {{--$scope.updateMpn = function(){--}}
+               {{--$.each(todoProductList, function( value ) {--}}
+                   {{--$http({--}}
+                       {{--method : 'get',--}}
+                       {{--url : '{{env('CRAWLER_URL').'/api/products/mpn/'}}/'+value,--}}
+                       {{--headers : {--}}
+                           {{--'Api-Key': '{{encrypt(env('API_KEY'))}}',--}}
+                           {{--'X-CSRF-TOKEN':'{{csrf_token()}}'--}}
+                       {{--}--}}
+                   {{--}).then(function mySuccess(response){--}}
+                       {{--$scope.categorys = JSON.parse(response.data);--}}
+                       {{--console.log($scope.categorys[0].name);--}}
+{{--//                    alert($scope.categorys[0]);--}}
+
+                   {{--});--}}
+               {{--});--}}
+           {{--}--}}
         });
     </script>
 
