@@ -29,7 +29,7 @@
                     <div class="col-sm-4">
                         <a href="{{url('/batchEditPrice',[$category_id])}}" class="btn btn-default text-capitalize">Batch edit price</a>
                         <a href="{{url('/addProductinLabel',[$category_id])}}" class="btn btn-default text-capitalize">Print label</a>
-                        <button type="button" ng-click="updateMpn()">Check MPN</button>
+                        <button type="button" ng-click="updateMpn()" class="btn btn-default text-capitalize">>Check MPN</button>
                     </div>
 
                     <div class="col-sm-12">
@@ -87,11 +87,11 @@
         var myapp = angular.module('myApp', []);
         myapp.controller('autoComplete',function($scope,$http){
            $scope.categorys = {!! $categorys !!};
-           var todoProductList = [
-               @foreach($result as $single)
-               {{$single['product']->product_id.','}}
-               @endforeach
-           ];
+           {{--var todoProductList = [--}}
+               {{--@foreach($result as $single)--}}
+               {{--{{$single['product']->product_id.','}}--}}
+               {{--@endforeach--}}
+           {{--];--}}
            {{--$scope.updateMpn = function(){--}}
                {{--$.each(todoProductList, function( value ) {--}}
                    {{--$http({--}}
