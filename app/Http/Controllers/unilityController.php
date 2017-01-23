@@ -1589,7 +1589,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
         $category_name = '';
         if(Input::has('id')){
             $categorySpecific = Ex_category::find(Input::get('id'));
-            $products = $categorySpecific->products;
+            $products = $categorySpecific->products()->where('status',1)->get();
             foreach($products as $product){
 
                 $product_detail = $product->description;
