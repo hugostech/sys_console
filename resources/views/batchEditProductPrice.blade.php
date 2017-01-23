@@ -19,8 +19,8 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <input type="text" name="category" class="form-control" ng-model="categoryFilter" placeholder="category name">
-                                <ul class="list-group" ng-if="categoryFilter" ng-repeat="x in categorys | filter : categoryFilter">
-                                    <a href="{{url('listProductFromCategory')}}?id=@{{ x.id }}" class="list-group-item @{{ x.status }}">@{{x.name}}</a>
+                                <ul class="list-group" ng-if="categoryFilter" >
+                                    <a ng-repeat="x in categorys | filter : categoryFilter" href="{{url('listProductFromCategory')}}?id=@{{ x.id }}" class="list-group-item @{{ x.status }}">@{{x.name}}</a>
 
 
 
