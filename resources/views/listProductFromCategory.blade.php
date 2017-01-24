@@ -97,7 +97,7 @@
 
            ];
            $scope.updateMpn = function(){
-               $('#btnMpn').button('loading');
+//               $('#btnMpn').button('loading');
                var url = '';
                $.each(todoProductList, function( key,value ) {
                    url='{{env('CRAWLER_URL')}}/api/products/mpn/'+value;
