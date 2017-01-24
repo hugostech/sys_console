@@ -97,22 +97,28 @@
 
            ];
            $scope.updateMpn = function(){
+               var url = '';
                $.each(todoProductList, function( key,value ) {
-                   $http({
-                       method : 'get',
-                       url : '{{env('CRAWLER_URL')}}/api/products/mpn/'+value,
-                       headers: {
-                           'Access-Control-Allow-Origin': $('meta[name="csrf-token"]').attr('content'),
-                           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                       }
+                   url='{{env('CRAWLER_URL')}}/api/products/mpn/'+value;
+                   $http.jsonp(url).success(
+                       function(data){
+                           $('#mpn_'+value).addClass('text-success');                       }
+                   );
+                   {{--$http({--}}
+                       {{--method : 'get',--}}
+                       {{--url : '{{env('CRAWLER_URL')}}/api/products/mpn/'+value,--}}
+                       {{--headers: {--}}
+                           {{--'Origin': '{{url()}}',--}}
+                           {{--'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')--}}
+                       {{--}--}}
 
-                   }).then(function mySuccess(response){
-                       $('#mpn_'+value).addClass('text-success');
+                   {{--}).then(function mySuccess(response){--}}
 
-                   },function errorCallback(){
-                       $('#mpn_'+value).addClass('text-danger');
 
-                   });
+                   {{--},function errorCallback(){--}}
+                       {{--$('#mpn_'+value).addClass('text-danger');--}}
+
+                   {{--});--}}
                });
            }
             @endif
