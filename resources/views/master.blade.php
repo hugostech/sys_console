@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">gi
     <title>@yield('sync_percentage') Warranty Management System</title>
     <link rel="stylesheet" href="{{url('/',['css','bootstrap.min.css'])}}">
     <script src="{{url('/',['js','jquery-2.2.0.min.js'])}}"></script>

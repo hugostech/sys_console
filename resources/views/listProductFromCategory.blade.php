@@ -102,6 +102,7 @@
                        method : 'get',
                        url : '{{env('CRAWLER_URL')}}/api/products/mpn/'+value,
                        headers: {
+                           'Access-Control-Allow-Origin': $('meta[name="csrf-token"]').attr('content'),
                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                        }
 
