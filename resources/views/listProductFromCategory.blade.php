@@ -93,8 +93,17 @@
                @endforeach
            ];
            $scope.updateMpn = function(){
-               $.each(todoProductList, function( value ) {
-                   alert(value);
+               $.each(todoProductList, function( key,value ) {
+                   $http({
+                       method : 'get',
+                       url : '{{url('/api/categorys')}}/'+value
+                   }).then(function mySuccess(response){
+                       $('#mpn_'+value).addClass('text-success');
+
+                   },function errorCallback(){
+                       $('#mpn_'+value).addClass('text-danger');
+
+                   });
                });
            }
         });
