@@ -97,25 +97,21 @@
 
            ];
            $scope.updateMpn = function(){
-               $('#btnMpn').on('click', function () {
-                   var $btn = $(this).button('loading')
-                   var url = '';
-                   $.each(todoProductList, function( key,value ) {
-                       url='{{env('CRAWLER_URL')}}/api/products/mpn/'+value;
-                       $http.jsonp(url).success(
+               $('#btnMpn').button('loading');
+               var url = '';
+               $.each(todoProductList, function( key,value ) {
+                   url='{{env('CRAWLER_URL')}}/api/products/mpn/'+value;
+                   $http.jsonp(url).success(
 
-                           function(data, status, header, config){
-                               $('#mpn_'+value).addClass('text-success');
-                           }
+                       function(data, status, header, config){
+                           $('#mpn_'+value).addClass('text-success');
+                       }
 //                       function(data){
 //                           $('#mpn_'+value).addClass('text-success');                       }
-                       );
+                   );
 
-                   });
-                   location.reload();
-//                   $btn.button('reset')
-               })
-
+               });
+               location.reload();
            }
             @endif
 
