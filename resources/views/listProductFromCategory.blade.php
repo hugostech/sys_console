@@ -104,7 +104,7 @@
                    $http.jsonp(url).success(
 
                        function(data, status, header, config){
-                           $('#mpn_'+value).addClass('text-success');
+                           $('#mpn_'+value).addClass(data);
                        }
 //                       function(data){
 //                           $('#mpn_'+value).addClass('text-success');                       }
