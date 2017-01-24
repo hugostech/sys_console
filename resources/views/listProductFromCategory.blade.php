@@ -111,7 +111,7 @@
                    );
 
                });
-               location.reload();
+//               location.reload();
            }
             @endif
 
