@@ -1621,6 +1621,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
 
         }
         $categorys = self::categorysFullPath();
+//        $categorys = null;
         $categorys = \GuzzleHttp\json_encode($categorys);
 
 

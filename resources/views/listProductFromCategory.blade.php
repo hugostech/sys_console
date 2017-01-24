@@ -29,7 +29,7 @@
                     <div class="col-sm-4">
                         <a href="{{url('/batchEditPrice',[$category_id])}}" class="btn btn-default text-capitalize">Batch edit price</a>
                         <a href="{{url('/addProductinLabel',[$category_id])}}" class="btn btn-default text-capitalize">Print label</a>
-                        <button type="button" ng-click="updateMpn()" class="btn btn-default text-capitalize">Check MPN</button>
+                        <button type="button" ng-click="updateMpn()" class="btn btn-default text-capitalize sr-only" id="btnMpn">Check MPN</button>
                     </div>
 
                     <div class="col-sm-12">
@@ -87,25 +87,31 @@
         var myapp = angular.module('myApp', []);
         myapp.controller('autoComplete',function($scope,$http){
            $scope.categorys = {!! $categorys !!};
+            @if(!is_null($result))
+            $('#btnMpn').removeClass('sr-only');
            var todoProductList = [
-               @foreach($result as $key=>$single)
+
+               @foreach($result as $single)
                {{$single['product']->product_id.','}}
                @endforeach
+
            ];
            $scope.updateMpn = function(){
                $.each(todoProductList, function( key,value ) {
-                   {{--$http({--}}
-                       {{--method : 'get',--}}
-                       {{--url : '{{url('/api/categorys')}}/'+value--}}
-                   {{--}).then(function mySuccess(response){--}}
-                       {{--$('#mpn_'+value).addClass('text-success');--}}
+                   $http({
+                       method : 'get',
+                       url : '{{url('/api/categorys')}}/'+value
+                   }).then(function mySuccess(response){
+                       $('#mpn_'+value).addClass('text-success');
 
-                   {{--},function errorCallback(){--}}
-                       {{--$('#mpn_'+value).addClass('text-danger');--}}
+                   },function errorCallback(){
+                       $('#mpn_'+value).addClass('text-danger');
 
-                   {{--});--}}
+                   });
                });
            }
+            @endif
+
         });
     </script>
 
