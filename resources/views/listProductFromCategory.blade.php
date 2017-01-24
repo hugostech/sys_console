@@ -100,7 +100,7 @@
                $.each(todoProductList, function( key,value ) {
                    $http({
                        method : 'get',
-                       url : '{{url('/api/categorys')}}/'+value
+                       url : '{{env('CRAWLER_URL')}}/api/products/mpn/'+value
                    }).then(function mySuccess(response){
                        $('#mpn_'+value).addClass('text-success');
 
