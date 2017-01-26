@@ -79,6 +79,7 @@
                             <option value="jimmy">Jimmy</option>
                             <option value="piero">Piero</option>
                             <option value="tony">Tony</option>
+                            <option value="tony">Elfa</option>
                             <option selected value="Danny">Danny</option>
                             <option value="matt">Matt</option>
                             <option value="hugo">Hugo</option>

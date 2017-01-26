@@ -246,29 +246,64 @@ class warrantyController extends Controller
     {
         $ip = self::getIP();
         $condition = '%' . $request->input('condition') . '%';
-
-        $warrantys = Warranty::where('model_name', 'like', $condition)
-            ->orWhere('model_code', 'like', $condition)
-            ->orWhere('client_name', 'like', $condition)
-            ->orWhere('client_phone', 'like', $condition)
-            ->orWhere('sn', 'like', $condition)
-            ->orWhere('ref_no', 'like', $condition)
+        $warrantys = DB::table('warrantys')
+            ->join('notes', 'warrantys.id', '=', 'notes.model_id')
+            ->select('warrantys.*')
+            ->where('warrantys.model_name', 'like', $condition)
+            ->orWhere('warrantys.model_code', 'like', $condition)
+            ->orWhere('warrantys.client_name', 'like', $condition)
+            ->orWhere('warrantys.client_phone', 'like', $condition)
+            ->orWhere('warrantys.sn', 'like', $condition)
+            ->orWhere('warrantys.ref_no', 'like', $condition)
+            ->orWhere('notes.note', 'like', $condition)
             ->orderBy('id', 'desc')
             ->simplePaginate(30);
-
-        $rates = self::rateData(Warranty::where('model_name', 'like', $condition)
-            ->orWhere('model_code', 'like', $condition)
-            ->orWhere('client_name', 'like', $condition)
-            ->orWhere('sn', 'like', $condition)
-            ->orWhere('ref_no', 'like', $condition)
-            ->orWhere('client_phone', 'like', $condition)->get());
-
-        $suppliers = self::supplierData(Warranty::where('model_name', 'like', $condition)
-            ->orWhere('model_code', 'like', $condition)
-            ->orWhere('client_name', 'like', $condition)
-            ->orWhere('sn', 'like', $condition)
-            ->orWhere('ref_no', 'like', $condition)
-            ->orWhere('client_phone', 'like', $condition)->get());
+//        $warrantys = Warranty::where('model_name', 'like', $condition)
+//            ->orWhere('model_code', 'like', $condition)
+//            ->orWhere('client_name', 'like', $condition)
+//            ->orWhere('client_phone', 'like', $condition)
+//            ->orWhere('sn', 'like', $condition)
+//            ->orWhere('ref_no', 'like', $condition)
+//            ->orderBy('id', 'desc')
+//            ->simplePaginate(30);
+        $rates = self::rateData(
+            DB::table('warrantys')
+                ->join('notes', 'warrantys.id', '=', 'notes.model_id')
+                ->select('warrantys.*')
+                ->where('warrantys.model_name', 'like', $condition)
+                ->orWhere('warrantys.model_code', 'like', $condition)
+                ->orWhere('warrantys.client_name', 'like', $condition)
+                ->orWhere('warrantys.client_phone', 'like', $condition)
+                ->orWhere('warrantys.sn', 'like', $condition)
+                ->orWhere('warrantys.ref_no', 'like', $condition)
+                ->orWhere('notes.note', 'like', $condition)
+                ->get()
+        );
+//        $rates = self::rateData(Warranty::where('model_name', 'like', $condition)
+//            ->orWhere('model_code', 'like', $condition)
+//            ->orWhere('client_name', 'like', $condition)
+//            ->orWhere('sn', 'like', $condition)
+//            ->orWhere('ref_no', 'like', $condition)
+//            ->orWhere('client_phone', 'like', $condition)->get());
+        $suppliers = self::supplierData(
+            DB::table('warrantys')
+                ->join('notes', 'warrantys.id', '=', 'notes.model_id')
+                ->select('warrantys.*')
+                ->where('warrantys.model_name', 'like', $condition)
+                ->orWhere('warrantys.model_code', 'like', $condition)
+                ->orWhere('warrantys.client_name', 'like', $condition)
+                ->orWhere('warrantys.client_phone', 'like', $condition)
+                ->orWhere('warrantys.sn', 'like', $condition)
+                ->orWhere('warrantys.ref_no', 'like', $condition)
+                ->orWhere('notes.note', 'like', $condition)
+                ->get()
+        );
+//        $suppliers = self::supplierData(Warranty::where('model_name', 'like', $condition)
+//            ->orWhere('model_code', 'like', $condition)
+//            ->orWhere('client_name', 'like', $condition)
+//            ->orWhere('sn', 'like', $condition)
+//            ->orWhere('ref_no', 'like', $condition)
+//            ->orWhere('client_phone', 'like', $condition)->get());
         return view('list', compact('warrantys', 'rates', 'suppliers','ip'));
     }
 
