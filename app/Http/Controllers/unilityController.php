@@ -2121,7 +2121,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
         $rocs = self::syncqty();
 //        dd($rocs);
         foreach ($rocs as $code=>$pro){
-            if ($pro[0]=='True'){
+            if ($pro[0]=='False'){
                 $ex_product = Ex_product::where('model',$code)->first();
                 if (is_null($ex_product)){
                     echo $code.'<br>';
