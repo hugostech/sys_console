@@ -2115,4 +2115,20 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
             }
         }
     }
+
+    public function findMissProduct(){
+//        echo 'test';
+        $rocs = self::syncqty();
+//        dd($rocs);
+        foreach ($rocs as $code=>$pro){
+            if ($pro[0]=='True'){
+                $ex_product = Ex_product::where('model',$code)->first();
+                if (is_null($ex_product)){
+                    echo $code.'<br>';
+                }
+
+            }
+
+        }
+    }
 }

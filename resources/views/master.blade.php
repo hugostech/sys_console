@@ -105,6 +105,7 @@
                                     {{--<li><a href="{{url('/',['sync'])}}">Sync</a></li>--}}
                                     <li><a href="{{url('/',['putProducts2Base'])}}">putProducts2Base</a></li>
                                     <li><a href="{{url('/',['listProductFromCategory'])}}">listProductFromCategory</a></li>
+                                    <li><a href="{{url('/',['findMissProduct'])}}">findMissProduct</a></li>
                                     <li role="separator" class="divider"></li>
                                     <li><a href="{{url('/',['createLabel'])}}">Create Label</a></li>
                                     <li><a href="http://italker.info/lunch">Lunch</a></li>
