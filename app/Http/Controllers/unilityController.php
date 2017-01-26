@@ -2120,15 +2120,18 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
 //        echo 'test';
         $rocs = self::syncqty();
 //        dd($rocs);
+        $total = 0;
         foreach ($rocs as $code=>$pro){
             if ($pro[0]=='False' && $pro[1]>0){
                 $ex_product = Ex_product::where('model',$code)->first();
                 if (is_null($ex_product)){
+                    $total++;
                     echo $code.'<br>';
                 }
 
             }
 
         }
+        echo 'Total: '.$total;
     }
 }
