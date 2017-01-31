@@ -18,7 +18,7 @@
                     <td>{!! $label->description !!}</td>
                     <td>{{$label->price}}</td>
                     <td><a href="{{url('editLabel',[$label->id])}}" class="btn btn-primary">Edit</a>
-                        <a class="btn btn-danger" href="{{url('removeLabelFromPrintList',[$label->id])}}">Remove from print list</a>
+                        <a class="btn btn-danger" href="{{url('removeLabelFromPrintList',[$label->id])}}?list=true">Remove from print list</a>
 
                     </td>
                 </tr>
