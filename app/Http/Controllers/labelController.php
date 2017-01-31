@@ -78,6 +78,8 @@ class labelController extends Controller
         $label = Label::find($id);
         $label->prepare2print = 0;
         $label->save();
+        return redirect($_SERVER['HTTP_REFERER']);
+
         $product = Ex_product::where('model',$label->code)->first();
         $special = Ex_speceal::where('product_id', $product->product_id)->first();
         return view('label.labelTemplate',compact('label','product','special'));
