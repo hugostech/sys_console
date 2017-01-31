@@ -134,7 +134,7 @@
         myapp.controller('autoComplete',function($scope){
             $scope.categorys = {!! $categorys !!};
         });
-
+        @if(!is_null($data['bottom_cost']))
         function remind(price){
             var bottomPrice = {{$data['bottom_cost']*1.15}};
             var oprice = $(price).val();
@@ -142,6 +142,7 @@
                 alert('This price is under average cost');
             }
         }
+        @endif
     </script>
 
 
