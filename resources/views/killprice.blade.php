@@ -134,7 +134,7 @@
         myapp.controller('autoComplete',function($scope){
             $scope.categorys = {!! $categorys !!};
         });
-        @if(!is_null($data))
+        @if(!empty($data))
         function remind(price){
             var bottomPrice = {{$data['bottom_cost']*1.15}};
             var oprice = $(price).val();
