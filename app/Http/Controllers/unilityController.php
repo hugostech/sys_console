@@ -173,7 +173,7 @@ class unilityController extends Controller
             $productDetailArray = explode('<br>',$pricedetail);
             $averageCost = str_replace('Average Cost: $','',$productDetailArray[4]);
             $averageCost = str_replace(',','',$averageCost);
-            $averageCost = floatval($averageCost);
+//            $averageCost = floatval($averageCost);
 //            $averageCost = number_format($averageCost, 2, '.', '');
 //            $averageCost = round($averageCost,2);
         }
