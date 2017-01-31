@@ -171,7 +171,9 @@ class unilityController extends Controller
         $averageCost = 0;
         if(str_contains($pricedetail,'Average price inc')){
             $productDetailArray = explode('<br>',$pricedetail);
-            $averageCost = str_replace('Average price inc: $','',$productDetailArray[6]);
+            $averageCost = str_replace('<font color=red>Manual price inc: $','',$productDetailArray[6]);
+            $averageCost = str_replace('</font>','',$averageCost);
+            $averageCost = trim($averageCost);
         }
         $data = array(
             'code' => $code,

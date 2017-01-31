@@ -54,7 +54,7 @@
                             <input type="hidden" name='code' value="{{$data['code'] }}">
                             <div class="input-group">
                                 <input type='text' class="form-control" name='price' value='{{$data['extremepcprice']}}'
-                                       ng-model="normal_price">
+                                       ng-model="normal_price" onchange="remind(this)">
                         <span class="input-group-btn">
                             <button type="submit" class="btn btn-default">Edit Price</button>
                         </span>
@@ -64,7 +64,7 @@
                         <div class="form-group">
                             <div class="input-group">
                                 <input type="text" class="form-control" name='special' value="{{$data['special']}}"
-                                       ng-model="special_price">
+                                       ng-model="special_price" onchange="remind(this)">
                                 <span class="input-group-btn">
                                     <button type="submit" class="btn btn-default">Edit Sepcial</button>
                                 </span>
@@ -114,7 +114,7 @@
                     <td>
                         {!! str_limit($data['price'],2000) !!}<br>
                         Viewed:<label>{{$data['view']}}</label><br>
-                        bottom cost:{{$data['bottom_cost']}}
+
                     </td>
                 </tr>
                 <tr>
@@ -134,6 +134,14 @@
         myapp.controller('autoComplete',function($scope){
             $scope.categorys = {!! $categorys !!};
         });
+
+        function remind(price){
+            var bottomPrice = {{$data['bottom_cost']}};
+            var oprice = $(price).val();
+            if(oprice<bottomPrice){
+                alert('This price is under average cost');
+            }
+        }
     </script>
 
 
