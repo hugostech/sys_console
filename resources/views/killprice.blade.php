@@ -136,7 +136,7 @@
         });
 
         function remind(price){
-            var bottomPrice = {{$data['bottom_cost']}};
+            var bottomPrice = {{$data['bottom_cost']*1.15}};
             var oprice = $(price).val();
             if(oprice<bottomPrice){
                 alert('This price is under average cost');
