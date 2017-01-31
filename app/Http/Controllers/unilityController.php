@@ -168,7 +168,11 @@ class unilityController extends Controller
 
         $url = env("SNPORT") . "?action=sc&code=$code";
         $supplier_code = self::getContent($url);
-
+        $averageCost = 0;
+        if(str_contains($pricedetail,'Average price inc')){
+            $productDetailArray = explode('<br>',$pricedetail);
+            $averageCost = str_replace('Average price inc: $','',$productDetailArray[6]);
+        }
         $data = array(
             'code' => $code,
             'price' => $pricedetail,
@@ -181,7 +185,8 @@ class unilityController extends Controller
             'product_id'=>$product_id,
             'special_start'=>$special_start,
             'special_end'=>$special_end,
-            'img'=>$product->image
+            'img'=>$product->image,
+            'bottom_cost'=>$averageCost
         );
         return $data;
     }

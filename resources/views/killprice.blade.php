@@ -113,7 +113,8 @@
                     {{--<td><a href="http://www.extremepc.co.nz/william/categories.php?search={{$data['code']}}" target="_blank">{{$data['extremepcprice']}}</a></td>--}}
                     <td>
                         {!! str_limit($data['price'],2000) !!}<br>
-                        Viewed:<label>{{$data['view']}}</label>
+                        Viewed:<label>{{$data['view']}}</label><br>
+                        bottom cost:{{$data['bottom_cost']}}
                     </td>
                 </tr>
                 <tr>
