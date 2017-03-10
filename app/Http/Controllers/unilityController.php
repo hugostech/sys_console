@@ -2172,12 +2172,13 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
 
     private function hasSpecial(Ex_product $product){
         $special = Ex_speceal::where('product_id', $product->product_id)->first();
-        echo $special->price;
-        if (is_null($special)){
-            return false;
+
+        if (isset($special)){
+            echo $special->price;
+            return true;
         }else{
 
-           return true;
+           return false;
         }
 
     }
