@@ -523,8 +523,8 @@ class unilityController extends Controller
 
         $list = array();
         foreach ($orders as $order) {
-            echo $order->order_id;
-            continue;
+//            echo $order->order_id.'<br>';
+//            continue;
             $history = new Ex_order_history();
             $history->order_id = $order->order_id;
             $history->order_status_id = 5;
@@ -731,11 +731,13 @@ class unilityController extends Controller
     {
         self::checkOrder();
         self::categoryarrange();
+
 //        self::listnewclient();
         self::specialCheck();
         self::selfClearSpecial();
 //        self::producttosales();
 //        self::categoryarrange();
+        self::changeOrderStatus();
         return self::syncQuantity(); //sync quantity
     }
     private function specialCheck(){
@@ -1593,7 +1595,26 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
         $category->products()->attach($product->product_id);
         return redirect($_SERVER['HTTP_REFERER']);
     }
+    /*
+     * clean unspecial product from on sale order*/
+    public function cleanOnSaleCategory(){
+        $result = null;
+        $category_id = 0;
+        $category_name = '';
+        if(Input::has('id')){
+            $categorySpecific = Ex_category::find(Input::get('id'));
+            $products = $categorySpecific->products()->where('status',1)->get();
+            foreach($products as $product){
+                if(!self::hasSpecial($product)){
+                    $categorySpecific->products()->detach($product->id);
+                }
 
+            }
+
+
+        }
+        return redirect($_SERVER['HTTP_REFERER']);
+    }
     /*
      * List product form specific category*/
     public function listProductFromCategory(){
@@ -2146,5 +2167,28 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
 
         }
         echo 'Total: '.$total;
+    }
+
+    private function hasSpecial(Ex_product $product){
+        $special = $product->special;
+        if (is_null($special)){
+            return false;
+        }else{
+
+            if ($special->date_end <> '0000-00-00') {
+                $enddate = Carbon::parse($special->date_end);
+                $startdate = Carbon::parse($special->date_start);
+                $now = Carbon::now();
+                if ($now->between($startdate, $enddate)) {
+                    return true;
+                } else {
+                    return false;
+                }
+
+            } else {
+                return true;
+            }
+        }
+
     }
 }

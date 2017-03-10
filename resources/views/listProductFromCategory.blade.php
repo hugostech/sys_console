@@ -29,6 +29,8 @@
                     <div class="col-sm-4">
                         <a href="{{url('/batchEditPrice',[$category_id])}}" class="btn btn-default text-capitalize">Batch edit price</a>
                         <a href="{{url('/addProductinLabel',[$category_id])}}" class="btn btn-default text-capitalize">Print label</a>
+                        <a href="{{url('/cleanOnSaleCategory')}}?id={{$category_id}}" class="btn btn-default text-capitalize">Clean unspecial product from category</a>
+
                         <button type="button" ng-click="updateMpn()" class="btn btn-default text-capitalize sr-only" id="btnMpn">Check MPN</button>
                     </div>
 
