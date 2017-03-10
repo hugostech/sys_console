@@ -1598,9 +1598,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
     /*
      * clean unspecial product from on sale order*/
     public function cleanOnSaleCategory(){
-        $result = null;
-        $category_id = 0;
-        $category_name = '';
+
         if(Input::has('id')){
             $categorySpecific = Ex_category::find(Input::get('id'));
             $products = $categorySpecific->products()->where('status',1)->get();
@@ -2170,7 +2168,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
     }
 
     private function hasSpecial(Ex_product $product){
-        $special = $product->special;
+        $special = Ex_speceal::where('product_id', $product->product_id)->first();
         if (is_null($special)){
             return false;
         }else{
