@@ -1603,18 +1603,18 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
             $categorySpecific = Ex_category::find(Input::get('id'));
             $products = $categorySpecific->products()->where('status',1)->get();
             foreach($products as $product){
-                var_dump(self::hasSpecial($product));
+//                var_dump(self::hasSpecial($product));
 
-//                if(!self::hasSpecial($product)){
-//                    echo
-//                    $categorySpecific->products()->detach($product->id);
-//                }
+                if(!self::hasSpecial($product)){
+                    echo
+                    $categorySpecific->products()->detach($product->id);
+                }
 
             }
 
 
         }
-//        return redirect($_SERVER['HTTP_REFERER']);
+        return redirect($_SERVER['HTTP_REFERER']);
     }
     /*
      * List product form specific category*/
@@ -2174,7 +2174,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
         $special = Ex_speceal::where('product_id', $product->product_id)->first();
 
         if (isset($special)){
-            echo $special->price;
+//            echo $special->price;
             return true;
         }else{
 
