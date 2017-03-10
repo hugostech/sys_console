@@ -1606,8 +1606,8 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
 //                var_dump(self::hasSpecial($product));
 
                 if(!self::hasSpecial($product)){
-                    echo
-                    $categorySpecific->products()->detach($product->id);
+//                    echo $product->product_id;
+                    $categorySpecific->products()->detach($product->product_id);
                 }
 
             }
