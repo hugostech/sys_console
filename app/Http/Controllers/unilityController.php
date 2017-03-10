@@ -518,14 +518,18 @@ class unilityController extends Controller
     public function changeOrderStatus()
     {
 //        $orders = Ex_order::where('order_status_id', 21)->get();
-        $orders = Ex_order::where('order_status_id', 21)->where('date_added', '<', '2016-10-16')->get();
+//        $orders = Ex_order::where('order_status_id', 21)->where('date_added', '<', '2016-10-16')->get();
+        $orders = Ex_order::whereIn('order_status_id',[21,15])->where('date_added','<',Carbon::now()->subDays(30)->format('Y-m-d'))->get();
+
         $list = array();
         foreach ($orders as $order) {
+            echo $order->order_id;
+            continue;
             $history = new Ex_order_history();
             $history->order_id = $order->order_id;
             $history->order_status_id = 5;
             $history->notify = 0;
-            $history->comment = '';
+            $history->comment = 'Updated by system';
             $history->date_added = Carbon::now();
             $history->save();
             $order->order_status_id = 5;
