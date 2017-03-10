@@ -1603,9 +1603,12 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
             $categorySpecific = Ex_category::find(Input::get('id'));
             $products = $categorySpecific->products()->where('status',1)->get();
             foreach($products as $product){
-                if(!self::hasSpecial($product)){
-                    $categorySpecific->products()->detach($product->id);
-                }
+                var_dump(self::hasSpecial($product));
+
+//                if(!self::hasSpecial($product)){
+//                    echo
+//                    $categorySpecific->products()->detach($product->id);
+//                }
 
             }
 
