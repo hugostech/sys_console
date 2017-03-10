@@ -2173,19 +2173,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
             return false;
         }else{
 
-            if ($special->date_end <> '0000-00-00') {
-                $enddate = Carbon::parse($special->date_end);
-                $startdate = Carbon::parse($special->date_start);
-                $now = Carbon::now();
-                if ($now->between($startdate, $enddate)) {
-                    return true;
-                } else {
-                    return false;
-                }
-
-            } else {
-                return true;
-            }
+           return true;
         }
 
     }
