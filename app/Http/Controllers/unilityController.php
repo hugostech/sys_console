@@ -2185,12 +2185,15 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
 
     /*put product into category*/
     public function dryCategory(Request $request){
+
         $this->validate($request,[
             'otherCategory'=>'required|exists:category,category_id'
         ]);
+
         $categoryA = Ex_category::find($request->input('category_id'));
         $categoryB = Ex_category::find($request->input('otherCategory'));
         $products = $categoryA->products;
+        dd($products);
         foreach ($products as $product){
             if(self::hasSpecial($product)){
                 echo $product->product_id;
