@@ -134,6 +134,15 @@
             @yield('footer')
             {{--@include('errors.error')--}}
         </div>
+        @if (count($errors) > 0)
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
     </div>
     <footer class="container-fluid" style="background-color: #f5f5f5;margin-top: 20px;">
 
