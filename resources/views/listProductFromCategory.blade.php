@@ -39,7 +39,18 @@
                                 }
                             }
                         </script>
+                        {!! Form::open(['url'=>'dryCategory2Other']) !!}
+                            {{Form::input('hidden','category_id',$category_id)}}
+                            <div class="input-group">
+                                {!! Form::input('otherCategory',null,['class'=>'form-control']) !!}
+                                <div class="input-group-btn">
+                                    {!! Form::submit('Copy special to!') !!}
+                                </div>
+                            </div>
+
+                        {!! Form::close() !!}
                         <button type="button" ng-click="updateMpn()" class="btn btn-default text-capitalize sr-only" id="btnMpn">Check MPN</button>
+
                     </div>
 
                     <div class="col-sm-12">

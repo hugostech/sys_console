@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 /*
 |--------------------------------------------------------------------------
@@ -142,6 +142,7 @@ Route::post('add_flash_sale_product','unilityController@add_flash_sale_product')
 Route::get('publishFlash','unilityController@publishFlash');
 Route::get('offlineFlash','unilityController@offlineFlash');
 Route::get('findMissProduct','unilityController@findMissProduct');
+Route::get('dryCategory2Other','unilityController@findMissProduct');
 
 
 Route::post('sales_list','unilityController@sales_add');

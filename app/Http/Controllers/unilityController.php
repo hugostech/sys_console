@@ -2182,4 +2182,20 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
         }
 
     }
+
+    /*put product into category*/
+    public function dryCategory(Request $request){
+        $this->validate($request,[
+            'otherCategory'=>'required|exists:category_id'
+        ]);
+        $categoryA = Ex_category::find($request->input('category_id'));
+        $categoryB = Ex_category::find($request->input('otherCategory'));
+        $products = $categoryA->products;
+        foreach ($products as $product){
+            if(self::hasSpecial($product)){
+                $categoryB->products()->attach($product->product_id);
+            }
+        }
+        return redirect($_SERVER['HTTP_REFERER']);
+    }
 }
