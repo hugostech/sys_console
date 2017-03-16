@@ -2198,7 +2198,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
 
             if(self::hasSpecial($product)){
 
-                $categoryB->products()->attach($product->product_id);
+                $categoryB->products()->syncWithoutDetaching($product->product_id);
             }
         }
 
