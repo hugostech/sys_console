@@ -40,7 +40,7 @@
                             }
                         </script>
                         {!! Form::open(['url'=>'dryCategory2Other']) !!}
-                            {{Form::input('hidden','category_id',$category_id)}}
+                            {!! Form::input('hidden','category_id',$category_id) !!}
                             <div class="input-group">
                                 {!! Form::input('otherCategory',null,['class'=>'form-control']) !!}
                                 <div class="input-group-btn">
