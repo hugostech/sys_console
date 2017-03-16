@@ -2186,7 +2186,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
     /*put product into category*/
     public function dryCategory(Request $request){
         $this->validate($request,[
-            'otherCategory'=>'required|exists:category_id'
+            'otherCategory'=>'required|exists:oc_ex_category,category_id'
         ]);
         $categoryA = Ex_category::find($request->input('category_id'));
         $categoryB = Ex_category::find($request->input('otherCategory'));
