@@ -2193,9 +2193,10 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
         $products = $categoryA->products;
         foreach ($products as $product){
             if(self::hasSpecial($product)){
+                echo $product->product_id;
                 $categoryB->products()->attach($product->product_id);
             }
         }
-        return redirect($_SERVER['HTTP_REFERER']);
+//        return redirect($_SERVER['HTTP_REFERER']);
     }
 }
