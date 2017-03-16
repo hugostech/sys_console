@@ -42,7 +42,7 @@
                         {!! Form::open(['url'=>'dryCategory2Other']) !!}
                             {!! Form::input('hidden','category_id',$category_id) !!}
                             <div class="input-group">
-                                {!! Form::input('otherCategory',null,['class'=>'form-control']) !!}
+                                {!! Form::text('otherCategory',null,['class'=>'form-control']) !!}
                                 <div class="input-group-btn">
                                     {!! Form::submit('Copy special to!') !!}
                                 </div>
