@@ -2186,9 +2186,9 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
     /*put product into category*/
     public function dryCategory(Request $request){
 
-//        $this->validate($request,[
-//            'otherCategory'=>'required|exists:category,category_id'
-//        ]);
+        $this->validate($request,[
+            'otherCategory'=>'required|exists:category,category_id'
+        ]);
 
         $categoryA = Ex_category::find($request->input('category_id'));
         $categoryB = Ex_category::find($request->input('otherCategory'));
@@ -2197,7 +2197,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
         foreach ($products as $product){
 
             if(self::hasSpecial($product)){
-                echo $product->product_id;
+
                 $categoryB->products()->attach($product->product_id);
             }
         }
