@@ -43,9 +43,9 @@
                             {!! Form::input('hidden','category_id',$category_id) !!}
                             <div class="input-group">
                                 {!! Form::text('otherCategory',null,['class'=>'form-control']) !!}
-                                <div class="input-group-btn">
-                                    {!! Form::submit('Copy special to!') !!}
-                                </div>
+                                <span class="input-group-btn">
+                                    {!! Form::submit('Copy special to!',['class'=>'btn btn-secondary']) !!}
+                                </span>
                             </div>
 
                         {!! Form::close() !!}
