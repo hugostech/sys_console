@@ -2192,7 +2192,9 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
 
         $categoryA = Ex_category::find($request->input('category_id'));
         $categoryB = Ex_category::find($request->input('otherCategory'));
-
+        if (!isset($categoryB)){
+            return redirect($_SERVER['HTTP_REFERER']);
+        }
         $products = $categoryA->products;
 
         foreach ($products as $product){
@@ -2202,6 +2204,6 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
                 $categoryB->products()->syncWithoutDetaching([$product->product_id]);
             }
         }
-
+        return redirect($_SERVER['HTTP_REFERER']);
     }
 }
