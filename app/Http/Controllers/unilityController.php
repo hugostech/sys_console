@@ -604,6 +604,7 @@ class unilityController extends Controller
             "GTX965M"=>"GTX965M",
             "GTX970M"=>"GTX970M",
             "GTX980M"=>"GTX980M",
+            "GTX1050"=>"GTX1050",
             "GTX1060"=>"GTX1060",
             "GTX1070"=>"GTX1070",
             "GTX1080"=>"GTX1080",
