@@ -181,6 +181,9 @@ Route::get('addProductinLabel/{id}','labelController@addProductinLabel');
 /*Print sunday total sale*/
 Route::get('sunTotal','unilityController@sunTotal');
 
+/*kill price list*/
+Route::get('killprice/product','KillPriceController@getPrice');
+
 
 
 

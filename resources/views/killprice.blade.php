@@ -118,6 +118,9 @@
                     </td>
                 </tr>
                 <tr>
+                    <button class="btn btn-primary">Add to kill price list</button>
+                </tr>
+                <tr>
                     <td colspan="4">
                         <iframe src="http://pricespy.co.nz/#rparams=ss={{substr($data['des'],0,25) }}" width="100%"
                                 height="600px;" frameborder="0"></iframe>
