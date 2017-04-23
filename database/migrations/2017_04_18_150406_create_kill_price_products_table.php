@@ -18,6 +18,8 @@ class CreateKillPriceProductsTable extends Migration
             $table->string('model');
             $table->string('url');
             $table->string('status')->default('y');
+            $table->float('bottomPrice');
+            $table->text('target')->nullable();
         });
     }
 

@@ -117,12 +117,18 @@
 
                     </td>
                 </tr>
+
                 <tr>
-                    <button class="btn btn-primary">Add to kill price list</button>
+                    {!! Form::open(['url'=>'startKillPrice','id'=>'killprice_form']) !!}
+                    {!! Form::input('hidden','product_id',$data['product_id']) !!}
+                    <input type="hidden" id="price_url" name="price_url">
+                    {!! Form::close() !!}
+                    <button class="btn btn-primary" type="button" onclick="killpriceStart()">Add to kill price list</button>
+
                 </tr>
                 <tr>
                     <td colspan="4">
-                        <iframe src="http://pricespy.co.nz/#rparams=ss={{substr($data['des'],0,25) }}" width="100%"
+                        <iframe id="if_pricespy" src="http://pricespy.co.nz/#rparams=ss={{substr($data['des'],0,25) }}" width="100%"
                                 height="600px;" frameborder="0"></iframe>
                     </td>
                 </tr>
@@ -130,7 +136,10 @@
         @endif
     </div>
     <script>
-
+        function killpriceStart(){
+            $('#price_url').val($('#if_pricespy').attr('src'));
+            $('#killprice_form').submit();
+        }
 
 
         var myapp = angular.module('myApp', []);
