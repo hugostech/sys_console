@@ -11,11 +11,11 @@ use App\Http\Requests;
 class KillPriceController extends Controller
 {
     public function step1(Request $request){
-        dd($request->all());
+
         $this->validate($request,[
             'pricespy_url'=>'required'
         ]);
-        $url = $request->input('price_url');
+        $url = $request->input('pricespy_url');
         $page = HtmlDomParser::file_get_html($url);
         $info = $page->find('div[id=product_content]',0);
         if (isset($info)){
@@ -24,6 +24,7 @@ class KillPriceController extends Controller
         }else{
             return redirect()->back()->withErrors(['pricespy', 'Price spy url not correct']);;
         }
+//        dd($priceList);
         return view('killprice.confirm',compact('priceList'));
     }
     public function getPrice(){
@@ -74,6 +75,7 @@ class KillPriceController extends Controller
 
 
         }
+        return $result;
 
 
 

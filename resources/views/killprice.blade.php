@@ -102,6 +102,7 @@
                             @else
                                 <input type="submit" class="btn btn-danger" name="product_status" value="Disable">
                             @endif
+                            <a href="{{url('startKillPrice').'?id='.$data['product_id']}}" class="btn btn-primary">Add to kill price list</a>
 
                         </div>
 
@@ -118,14 +119,12 @@
                     </td>
                 </tr>
 
-                <tr>
-                    {!! Form::open(['url'=>'startKillPrice','id'=>'killprice_form']) !!}
-                    {!! Form::input('hidden','product_id',$data['product_id']) !!}
-                    <input type="hidden" id="price_url" name="price_url">
-                    {!! Form::close() !!}
-                    <button class="btn btn-primary" type="button" onclick="killpriceStart()">Add to kill price list</button>
 
-                </tr>
+
+
+
+
+
                 <tr>
                     <td colspan="4">
                         <iframe id="if_pricespy" src="http://pricespy.co.nz/#rparams=ss={{substr($data['des'],0,25) }}" width="100%"
