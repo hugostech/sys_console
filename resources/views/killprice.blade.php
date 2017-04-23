@@ -137,7 +137,7 @@
     </div>
     <script>
         function killpriceStart(){
-            $('#price_url').val($('#if_pricespy').attr('src'));
+            $('#price_url').val(parent.document.getElementById("if_pricespy").contentWindow.location.href);
             $('#killprice_form').submit();
         }
 
