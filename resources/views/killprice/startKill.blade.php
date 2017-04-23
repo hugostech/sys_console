@@ -11,7 +11,7 @@
         @else
         <div class="form-group">
             {!! Form::input('hidden','product_id',$product->id) !!}
-            {{$prodcut->description->name}}
+            {{$product->description->name}}
         </div>
         @endif
         <div class="form-group">
