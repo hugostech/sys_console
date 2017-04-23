@@ -11,6 +11,7 @@ use App\Http\Requests;
 class KillPriceController extends Controller
 {
     public function step1(Request $request){
+        dd($request->all());
         $this->validate($request,[
             'pricespy_url'=>'required'
         ]);
