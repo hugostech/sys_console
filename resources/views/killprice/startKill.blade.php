@@ -10,7 +10,7 @@
         </div>
         @else
         <div class="form-group">
-            {!! Form::input('hidden','product_id',$product->id) !!}
+            {!! Form::input('hidden','product_id',$product->product_id) !!}
             {{$product->description->name}}
         </div>
         @endif
