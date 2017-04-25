@@ -8,6 +8,7 @@
             {!! Form::input('hidden','url',$url) !!}
             <div class="form-group">
                 <h3>{{$product->description->name}}</h3>
+                <label class="text-info">PriceSpy: {{$product_name}}</label>
             </div>
             <div class="form-group">
                 <label>Bottom Price(inc GST)</label>

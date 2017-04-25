@@ -42,12 +42,13 @@ class KillPriceController extends Controller
         $info = $page->find('div[id=product_content]',0);
         if (isset($info)){
             $priceList = self::getPriceList($page);
+            $product_name = $info->find('h1[class=intro_header]',0)->plaintext;
 
         }else{
             return redirect()->back()->withErrors(['pricespy', 'Price spy url not correct']);;
         }
 //        dd($priceList);
-        return view('killprice.confirm',compact('priceList','product','url'));
+        return view('killprice.confirm',compact('priceList','product','url','product_name'));
     }
     public function killpriceConfirm(Request $request){
 //        dd($request->all());
@@ -207,7 +208,7 @@ class KillPriceController extends Controller
 
                     }
                 }
-                $this->add_note($product,'<font color="#228b22">Normal: update at'.Carbon::now().'</font>');
+                $this->add_note($product,'<font color="#228b22">Normal: update at '.Carbon::now().'</font>');
                 DB::commit();
                 }catch (\Exception $e){
                     $this->add_note($product,$e->getMessage());
