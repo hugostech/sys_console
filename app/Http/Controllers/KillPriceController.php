@@ -29,7 +29,7 @@ class KillPriceController extends Controller
         $product = null;
         if($request->has('code')){
             $product = Ex_product::where('model',$request->input('code'))->first();
-        }elseif ($request->has(product_id)){
+        }elseif ($request->has('product_id')){
             $product = Ex_product::find($request->input('product_id'));
         }else{
             return redirect()->back();
