@@ -61,8 +61,9 @@ class KillPriceController extends Controller
 
     }
 
-    public function remove(Kill_price_product $product){
-        $product->delete();
+    public function remove($id){
+        Kill_price_product::destroy($id);
+//        $product->delete();
         return redirect()->back();
     }
     public function listAllProducts(){
