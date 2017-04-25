@@ -60,6 +60,11 @@ class KillPriceController extends Controller
         return redirect('killprice');
 
     }
+
+    public function remove(Kill_price_product $product){
+        $product->delete();
+        return redirect()->back();
+    }
     public function listAllProducts(){
         $products = Kill_price_product::all();
         return view('killprice.list',compact('products'));
