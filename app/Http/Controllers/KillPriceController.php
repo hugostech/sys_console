@@ -201,7 +201,7 @@ class KillPriceController extends Controller
                     }
                 }else{
 //                    dd($compantlist[0][0]);
-                    if ($compantlist[0][0] != 'ExtremePC' or $compantlist[0][0] != 'Ktech'){
+                    if ($compantlist[0][0] != 'ExtremePC' && $compantlist[0][0] != 'Ktech'){
                         $warrany = $this->edit_price($ex_product,$compantlist[0][1],$product->bottomPrice,$warrany);
 
                     }

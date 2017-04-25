@@ -27,7 +27,11 @@
                 <tbody>
                 @foreach($priceList as $item)
                 <tr>
-                    <td>{!! Form::checkbox('companies[]',$item[0]) !!} </td>
+                    <td>
+                        @if(trim($item[0]) != 'ExtremePC' and trim($item[0])!='Ktech')
+                            {!! Form::checkbox('companies[]',$item[0]) !!}
+                        @endif
+                    </td>
                     <td>{{$item[0]}}</td>
                     <td>{{$item[1]}}</td>
                 </tr>
