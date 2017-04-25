@@ -3,6 +3,19 @@
 @section('mainContent')
     <div class="col-md-12">
         {!! Form::open(['url'=>'killpriceConfirm']) !!}
+            {!! Form::input('hidden','product_id',$product->product_id) !!}
+            {!! Form::input('hidden','model',$product->model) !!}
+            {!! Form::input('hidden','url',$url) !!}
+            <div class="form-group">
+                <h3>{{$product->description->name}}</h3>
+            </div>
+            <div class="form-group">
+                <label>Bottom Price(inc GST)</label>
+                {!! Form::input('number','bottomPrice',null,['class'=>'form-control']) !!}
+            </div>
+            <div class="form-group">
+                <label></label>
+            </div>
             <table class="table table-bordered">
                 <thead>
                 <tr>
@@ -14,7 +27,7 @@
                 <tbody>
                 @foreach($priceList as $item)
                 <tr>
-                    <td>{!! Form::checkbox('companies',$item[0]) !!} </td>
+                    <td>{!! Form::checkbox('companies[]',$item[0]) !!} </td>
                     <td>{{$item[0]}}</td>
                     <td>{{$item[1]}}</td>
                 </tr>
@@ -22,6 +35,9 @@
 
                 </tbody>
             </table>
+            <div class="form-group">
+                {!! Form::submit('Confirm') !!}
+            </div>
         {!! Form::close() !!}
     </div>
 

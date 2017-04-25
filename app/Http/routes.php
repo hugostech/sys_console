@@ -182,15 +182,10 @@ Route::get('addProductinLabel/{id}','labelController@addProductinLabel');
 Route::get('sunTotal','unilityController@sunTotal');
 
 /*kill price list*/
-Route::get('startKillPrice',function(){
-    $product = null;
-    if(\Illuminate\Support\Facades\Input::has('id')){
-        $product = \App\Ex_product::find(\Illuminate\Support\Facades\Input::get('id'));
-    }
-
-    return view('killprice.startKill',compact('product'));
-});
+Route::get('startKillPrice','KillPriceController@startKillPrice');
+Route::get('listAllKillProduct','KillPriceController@listAllProducts');
 Route::post('startKillPrice','KillPriceController@step1');
+Route::post('killpriceConfirm','KillPriceController@killpriceConfirm');
 
 
 

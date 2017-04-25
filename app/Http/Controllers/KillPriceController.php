@@ -1,20 +1,40 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Kill_price_product;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
 use Psy\Exception\FatalErrorException;
 use Sunra\PhpSimple\HtmlDomParser;
 //use PHPHtmlParser\dom;
 use App\Http\Requests;
+use App\Ex_product;
 
 class KillPriceController extends Controller
 {
+    public function startKillPrice(){
+        $product = null;
+        if(Input::has('id')) {
+            $product = Ex_product::find(Input::get('id'));
+        }
+
+        return view('killprice.startKill',compact('product'));
+
+    }
     public function step1(Request $request){
 
         $this->validate($request,[
             'pricespy_url'=>'required'
         ]);
+        $product = null;
+        if($request->has('code')){
+            $product = Ex_product::where('model',$request->input('code'))->first();
+        }elseif ($request->has(product_id)){
+            $product = Ex_product::find($request->input('product_id'));
+        }else{
+            return redirect()->back();
+        }
+
         $url = $request->input('pricespy_url');
         $page = HtmlDomParser::file_get_html($url);
         $info = $page->find('div[id=product_content]',0);
@@ -25,7 +45,24 @@ class KillPriceController extends Controller
             return redirect()->back()->withErrors(['pricespy', 'Price spy url not correct']);;
         }
 //        dd($priceList);
-        return view('killprice.confirm',compact('priceList'));
+        return view('killprice.confirm',compact('priceList','product','url'));
+    }
+    public function killpriceConfirm(Request $request){
+//        dd($request->all());
+        $this->validate($request,[
+            'bottomPrice'=>'required'
+        ]);
+        $kill_price_product = Kill_price_product::create($request->all());
+        if ($request->has('companies')){
+            $kill_price_product->target = \GuzzleHttp\json_encode($request->input('companies'));
+            $kill_price_product->save();
+        }
+        return redirect('killprice');
+
+    }
+    public function listAllProducts(){
+        $products = Kill_price_product::all();
+        return view('killprice.list',compact('products'));
     }
     public function getPrice(){
 

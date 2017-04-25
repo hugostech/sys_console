@@ -18,6 +18,7 @@
             <label>Url</label>
             {!! Form::text('pricespy_url',null,['class'=>'form-control']) !!}
         </div>
+
         <div class="form-group">
             {!! Form::submit('Next',['class'=>'btn btn-primary']) !!}
         </div>
