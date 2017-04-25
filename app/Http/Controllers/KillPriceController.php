@@ -115,6 +115,7 @@ class KillPriceController extends Controller
                 continue;
             }
             $price = $price->children(1)->plaintext;
+            $price = floatval(str_replace('$','',trim($price)));
 
             $result[] = [$company,$price];
 
@@ -148,9 +149,17 @@ class KillPriceController extends Controller
 
         return $output;
     }
+    private function price_generate($price,$shift=1){
+        if(floor($price) < $price){
+            return floor($price);
+        }else{
+            return $price-$shift;
+        }
+    }
     private function edit_price(Ex_product $product,$price,$bottom,$warrany){
-        if ($price-1>$bottom){
-            $product->price = ($price-1)/1.15;
+        $new_price = $this->price_generate($price);
+        if ($new_price>$bottom){
+            $product->price = ($new_price)/1.15;
         }else{
             $product->price = $bottom/1.15;
             $warrany[] = $product->model;
@@ -167,6 +176,7 @@ class KillPriceController extends Controller
     public function run(){
 
         Kill_price_product::where('status','y')->chunk(20,function($products){
+
             $warrany = [];
             foreach ($products as $product){
                 try{
@@ -174,13 +184,15 @@ class KillPriceController extends Controller
 
                 DB::beginTransaction();
                 $ex_product = Ex_product::find($product->product_id);
+
                 if($ex_product->quantity<1) {
                     $this->add_note($product,'<font color="red">Stop: product no stock</font>');
                     continue;
                 }
                 $page = HtmlDomParser::file_get_html($product->url);
                 $compantlist = $this->getPriceList($page);
-                if ($product->target != ''){
+//                dd($product->target);
+                if (!is_null($product->target)){
                     $target = \GuzzleHttp\json_decode($product->target,true);
                     foreach ($compantlist as $company){
                         if (in_array($company[0],$target)){
@@ -188,7 +200,8 @@ class KillPriceController extends Controller
                         }
                     }
                 }else{
-                    if ($compantlist[0][0] != 'ExtremePC' or $compantlist[0][0] = 'Ktech'){
+//                    dd($compantlist[0][0]);
+                    if ($compantlist[0][0] != 'ExtremePC' or $compantlist[0][0] != 'Ktech'){
                         $warrany = $this->edit_price($ex_product,$compantlist[0][1],$product->bottomPrice,$warrany);
 
                     }

@@ -9,6 +9,8 @@
                 <th>Name</th>
                 <th>Model</th>
                 <th>Bottom Price</th>
+                <th>Extremepc Price</th>
+
                 <th>Note</th>
                 <th></th>
             </tr>
@@ -20,7 +22,8 @@
                     <td>{{\App\Ex_product::find($product->product_id)->description->name}}</td>
                     <td>{{$product->model}}</td>
                     <td>${{$product->bottomPrice}}</td>
-                    <td>{{$product->note}}</td>
+                    <td>${{ round(\App\Ex_product::find($product->product_id)->price * 1.15,2)}}</td>
+                    <td>{!! $product->note !!}</td>
                     <td><a href="{{url('killprice',[$product->id,'remove'])}}" type="button" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span></a></td>
                 </tr>
             @endforeach
