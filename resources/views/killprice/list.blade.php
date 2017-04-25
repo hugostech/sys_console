@@ -19,7 +19,7 @@
                     <td>{{$key + 1}}</td>
                     <td>{{\App\Ex_product::find($product->product_id)->description->name}}</td>
                     <td>{{$product->model}}</td>
-                    <td>{{$product->bottomPrice}}</td>
+                    <td>${{$product->bottomPrice}}</td>
                     <td>{{$product->note}}</td>
                     <td><a href="{{url('killprice',[$product->id,'remove'])}}" type="button" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span></a></td>
                 </tr>

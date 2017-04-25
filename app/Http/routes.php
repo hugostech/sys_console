@@ -184,6 +184,7 @@ Route::get('sunTotal','unilityController@sunTotal');
 /*kill price list*/
 Route::get('killprice/{id}/remove','KillPriceController@remove');
 Route::get('startKillPrice','KillPriceController@startKillPrice');
+Route::get('runKillPrice','KillPriceController@run');
 Route::get('listAllKillProduct','KillPriceController@listAllProducts');
 Route::post('startKillPrice','KillPriceController@step1');
 Route::post('killpriceConfirm','KillPriceController@killpriceConfirm');

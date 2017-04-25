@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 use App\Kill_price_product;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
 use Psy\Exception\FatalErrorException;
@@ -145,5 +147,60 @@ class KillPriceController extends Controller
         curl_close($ch);
 
         return $output;
+    }
+    private function edit_price(Ex_product $product,$price,$bottom,$warrany){
+        if ($price-1>$bottom){
+            $product->price = ($price-1)/1.15;
+        }else{
+            $product->price = $bottom/1.15;
+            $warrany[] = $product->model;
+            $this->add_note($product,'<font color="yellow">Warning: Price below bottom price</font>');
+
+        }
+        $product->save();
+        return $warrany;
+    }
+    private function add_note(Kill_price_product $product,$note){
+        $product->note = $note;
+        $product->save();
+    }
+    public function run(){
+
+        Kill_price_product::where('status','y')->chunk(20,function($products){
+            $warrany = [];
+            foreach ($products as $product){
+                try{
+
+
+                DB::beginTransaction();
+                $ex_product = Ex_product::find($product->product_id);
+                if($ex_product->quantity<1) {
+                    $this->add_note($product,'<font color="red">Stop: product no stock</font>');
+                    continue;
+                }
+                $page = HtmlDomParser::file_get_html($product->url);
+                $compantlist = $this->getPriceList($page);
+                if ($product->target != ''){
+                    $target = \GuzzleHttp\json_decode($product->target,true);
+                    foreach ($compantlist as $company){
+                        if (in_array($company[0],$target)){
+                            $warrany = $this->edit_price($ex_product,$company[1],$product->bottomPrice,$warrany);
+                        }
+                    }
+                }else{
+                    if ($compantlist[0][0] != 'ExtremePC' or $compantlist[0][0] = 'Ktech'){
+                        $warrany = $this->edit_price($ex_product,$compantlist[0][1],$product->bottomPrice,$warrany);
+
+                    }
+                }
+                $this->add_note($product,'<font color="#228b22">Normal: update at'.Carbon::now().'</font>');
+                DB::commit();
+                }catch (\Exception $e){
+                    $this->add_note($product,$e->getMessage());
+                }
+
+            }
+        });
+        return view('killprice.run');
     }
 }
