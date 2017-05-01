@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Ex_speceal;
 use App\Kill_price_product;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -18,6 +19,9 @@ class KillPriceController extends Controller
         $product = null;
         if(Input::has('id')) {
             $product = Ex_product::find(Input::get('id'));
+
+
+
         }
 
         return view('killprice.startKill',compact('product'));
@@ -65,12 +69,15 @@ class KillPriceController extends Controller
     }
 
     public function remove($id){
-        Kill_price_product::destroy($id);
+
+        $product = Kill_price_product::find($id);
+        $product->status = 'n';
+        $product->save();
 //        $product->delete();
         return redirect()->back();
     }
     public function listAllProducts(){
-        $products = Kill_price_product::all();
+        $products = Kill_price_product::where('status','y')->get();
         return view('killprice.list',compact('products'));
     }
     public function getPrice(){
@@ -150,7 +157,7 @@ class KillPriceController extends Controller
 
         return $output;
     }
-    private function price_generate($price,$shift=1){
+    private function price_generate($price,$shift=0.5){
         if(floor($price) < $price){
             return floor($price);
         }else{
@@ -159,18 +166,38 @@ class KillPriceController extends Controller
     }
     private function edit_price(Ex_product $product,$price,$bottom,$warrany){
         $new_price = $this->price_generate($price);
+//        dd($product);
+//        dd($new_price);
+//        dd($bottom);
+//        dd($this->price_generate($price));
+        $special = $product->special;
+        if(is_null($special)){
+            $special = new Ex_speceal();
+//            $special = new Ex_speceal();
+            $special->product_id = $product->product_id;
+            $special->customer_group_id = 1;
+            $special->priority = 0;
+//                    dd($this->price_generate($price));
+
+            $special->price = $new_price / 1.15;
+            $special->save();
+        }
+
         if ($new_price>$bottom){
-            $product->price = ($new_price)/1.15;
+            $special->price = ($new_price)/1.15;
         }else{
-            $product->price = $bottom/1.15;
+            $special->price = $bottom/1.15;
             $warrany[] = $product->model;
-            $this->add_note($product,'<font color="yellow">Warning: Price below bottom price</font>');
+
+//            $this->add_note($product,'<font color="yellow">Warning: Price below bottom price</font>');
 
         }
         $product->save();
+//        dd($product);
         return $warrany;
     }
     private function add_note(Kill_price_product $product,$note){
+//        dd($note);
         $product->note = $note;
         $product->save();
     }
@@ -187,6 +214,10 @@ class KillPriceController extends Controller
                 $ex_product = Ex_product::find($product->product_id);
 
                 if($ex_product->quantity<1) {
+                    $special = $ex_product->special;
+                    if (!is_null($special)){
+                        $special->delete();
+                    }
                     $this->add_note($product,'<font color="red">Stop: product no stock</font>');
                     continue;
                 }
@@ -208,6 +239,7 @@ class KillPriceController extends Controller
 
                     }
                 }
+
                 $this->add_note($product,'<font color="#228b22">Normal: update at '.Carbon::now().'</font>');
                 DB::commit();
                 }catch (\Exception $e){
