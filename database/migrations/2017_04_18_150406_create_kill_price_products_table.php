@@ -15,8 +15,8 @@ class CreateKillPriceProductsTable extends Migration
         Schema::create('kill_price_products', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->string('model')->unique();
-            $table->float('product_id')->unique();
+            $table->string('model');
+            $table->float('product_id');
             $table->string('url');
             $table->string('status')->default('y');
             $table->float('bottomPrice');

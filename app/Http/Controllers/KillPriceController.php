@@ -217,7 +217,6 @@ class KillPriceController extends Controller
 
                 DB::beginTransaction();
                 $ex_product = Ex_product::find($product->product_id);
-
                 if($ex_product->quantity<1) {
                     $special = $ex_product->special;
                     if (!is_null($special)){
