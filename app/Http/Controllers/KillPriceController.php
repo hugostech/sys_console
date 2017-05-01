@@ -56,8 +56,8 @@ class KillPriceController extends Controller
         }else{
             return redirect()->back()->withErrors(['pricespy', 'Price spy url not correct']);;
         }
-//        dd($priceList);
-        return view('killprice.confirm',compact('priceList','product','url','product_name'));
+        $product_detail = $this->grabProductDetail($product->model);
+        return view('killprice.confirm',compact('priceList','product','url','product_name','product_detail'));
     }
     public function killpriceConfirm(Request $request){
 //        dd($request->all());
@@ -110,27 +110,45 @@ class KillPriceController extends Controller
 
     }
 
-    public function editPrice(){
+    public function grabProductDetail($code){
+        $url = env('SNPORT') . "?action=test&code=$code";
+//        dd($url);
+        $pricedetail = $this->getContent($url);
 
+//        $averageCost = 0;
+//        if(str_contains($pricedetail,'Average price inc')){
+//            $productDetailArray = explode('<br>',$pricedetail);
+//            $averageCost = str_replace('Average Cost: $','',$productDetailArray[4]);
+//            $averageCost = str_replace(',','',$averageCost);
+//        }
+        return $pricedetail;
     }
 
     public function getPriceList($page){
+
         $table = $page->find('div[id=tabcontentdiv]',0)->find('table',0)->find('tr[data-pris_typ=normal]');
         $result = [];
 
 
         foreach ($table as $item){
+            try{
 
-            $company = $item->find('td',0)->find('span',0)->plaintext;
+                $company = $item->find('td',0);
+                if (is_null($company)) continue;
+                $company = $company->find('span',0)->plaintext;
 
-            $price = $item->find('td',4);
-            if(is_null($price)){
+                $price = $item->find('td',4);
+                if(is_null($price)){
+                    continue;
+                }
+                $price = $price->children(1)->plaintext;
+                $price = floatval(str_replace('$','',trim($price)));
+
+                $result[] = [$company,$price];
+            }catch (\Exception $e){
                 continue;
             }
-            $price = $price->children(1)->plaintext;
-            $price = floatval(str_replace('$','',trim($price)));
 
-            $result[] = [$company,$price];
 
 
         }

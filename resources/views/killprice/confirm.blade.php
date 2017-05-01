@@ -11,6 +11,9 @@
                 <label class="text-info">PriceSpy: {{$product_name}}</label>
             </div>
             <div class="form-group">
+                {!! $product_detail !!}
+            </div>
+            <div class="form-group">
                 <label>Bottom Price(inc GST)</label>
                 {!! Form::input('number','bottomPrice',null,['class'=>'form-control']) !!}
             </div>
