@@ -11,7 +11,7 @@
 
 
     <h2>Kill price running! last Update {{\Carbon\Carbon::now()}}</h2>
-    <label><a href="{{url('listAllKillProduct')}}">Report</a></label>
+    <label><a href="{{url('listAllKillProduct')}}" target="_blank">Report</a></label>
 
 </div>
 <script language="JavaScript">

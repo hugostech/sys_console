@@ -22,7 +22,16 @@
                     <td>{{\App\Ex_product::find($product->product_id)->description->name}}</td>
                     <td>{{$product->model}}</td>
                     <td>${{$product->bottomPrice}}</td>
-                    <td>${{ round(\App\Ex_product::find($product->product_id)->price * 1.15,2)}}</td>
+                    <td>
+                        @if(is_null(\App\Ex_product::find($product->product_id)->special))
+                            ${{ round(\App\Ex_product::find($product->product_id)->price * 1.15,2)}}
+                        @else
+                            ${{round(\App\Ex_product::find($product->product_id)->special->price * 1.15,2)}} <sup class="text-danger">On Sale</sup>
+                        @endif
+
+
+
+                    </td>
                     <td>{!! $product->note !!}</td>
                     <td><a href="{{url('killprice',[$product->id,'remove'])}}" type="button" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span></a></td>
                 </tr>
