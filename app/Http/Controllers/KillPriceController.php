@@ -17,14 +17,19 @@ class KillPriceController extends Controller
 {
     public function startKillPrice(){
         $product = null;
+        $url = null;
         if(Input::has('id')) {
             $product = Ex_product::find(Input::get('id'));
+            $kill_price = Kill_price_product::where('product_id',$product->product_id)->first();
+            if(isset($kill_price)){
+                $url = $kill_price->url;
 
-
+            }
 
         }
 
-        return view('killprice.startKill',compact('product'));
+
+        return view('killprice.startKill',compact('product','url'));
 
     }
     public function step1(Request $request){

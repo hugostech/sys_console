@@ -16,7 +16,7 @@
         @endif
         <div class="form-group">
             <label>Url</label>
-            {!! Form::text('pricespy_url',null,['class'=>'form-control']) !!}
+            {!! Form::text('pricespy_url',$url,['class'=>'form-control']) !!}
         </div>
 
         <div class="form-group">
