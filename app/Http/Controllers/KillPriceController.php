@@ -74,16 +74,22 @@ class KillPriceController extends Controller
         $this->validate($request,[
             'bottomPrice'=>'required'
         ]);
-        $product_exist = Kill_price_product::where('status','y')->where('product_id',$request->input('product_id'))->get();
+        $product_exist = Kill_price_product::where('status','y')->where('product_id',$request->input('product_id'))->first();
         if (count($product_exist) > 0){
 
-            return redirect('killprice');
+            $product_exist->update($request->all());
+            if ($request->has('companies')) {
+                $product_exist->target = \GuzzleHttp\json_encode($request->input('companies'));
+                $product_exist->save();
+            }
+        }else{
+            $kill_price_product = Kill_price_product::create($request->all());
+            if ($request->has('companies')) {
+                $kill_price_product->target = \GuzzleHttp\json_encode($request->input('companies'));
+                $kill_price_product->save();
+            }
         }
-        $kill_price_product = Kill_price_product::create($request->all());
-        if ($request->has('companies')){
-            $kill_price_product->target = \GuzzleHttp\json_encode($request->input('companies'));
-            $kill_price_product->save();
-        }
+
         return redirect('killprice');
 
     }

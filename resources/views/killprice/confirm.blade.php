@@ -7,6 +7,7 @@
             {!! Form::input('hidden','product_id',$product->product_id) !!}
             {!! Form::input('hidden','model',$product->model) !!}
             {!! Form::input('hidden','url',$url) !!}
+            {!! Form::input('hidden','average_cost',$averageCost) !!}
             <div class="form-group">
                 <h3>{{$product->description->name}}</h3>
                 <label class="text-info">PriceSpy: {{$product_name}}</label>
