@@ -142,6 +142,7 @@ class KillPriceController extends Controller
                     continue;
                 }
                 $price = $price->children(1)->plaintext;
+                $price = str_replace(',','',$price);
                 $price = floatval(str_replace('$','',trim($price)));
 
                 $result[] = [$company,$price];
