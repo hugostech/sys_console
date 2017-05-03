@@ -76,8 +76,8 @@ class KillPriceController extends Controller
         ]);
         $product_exist = Kill_price_product::where('status','y')->where('product_id',$request->input('product_id'))->get();
         if (count($product_exist) > 0){
-            
-            return redirect()->back()->withErrors(['error', 'Item exists!']);
+
+            return redirect('killprice');
         }
         $kill_price_product = Kill_price_product::create($request->all());
         if ($request->has('companies')){
