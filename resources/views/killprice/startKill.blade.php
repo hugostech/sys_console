@@ -1,12 +1,7 @@
 @extends('master')
 
 @section('mainContent')
-    @if(\Illuminate\Support\Facades\Session::has('error'))
-        <div class="alert alert-danger alert-dismissable fade in">
-            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            <strong>Error!</strong> This product is already in the list.
-        </div>
-    @endif
+
     <div class="col-md-12">
         {!! Form::open(['url'=>'startKillPrice']) !!}
         @if(is_null($product))
