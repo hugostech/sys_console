@@ -15,7 +15,7 @@
             </div>
             <div class="form-group">
                 <label>Bottom Price(inc GST)</label>
-                {!! Form::input('number','bottomPrice',null,['class'=>'form-control']) !!}
+                {!! Form::input('number','bottomPrice',$averageCost,['class'=>'form-control','step'=>'0.01']) !!}
             </div>
             <div class="form-group">
                 <label></label>

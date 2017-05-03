@@ -57,13 +57,28 @@ class KillPriceController extends Controller
             return redirect()->back()->withErrors(['pricespy', 'Price spy url not correct']);;
         }
         $product_detail = $this->grabProductDetail($product->model);
-        return view('killprice.confirm',compact('priceList','product','url','product_name','product_detail'));
+        $averageCost = null;
+        if(str_contains($product_detail,'Average price inc')){
+            $productDetailArray = explode('<br>',$product_detail);
+            $averageCost = str_replace('Average Cost: $','',$productDetailArray[4]);
+            $averageCost = str_replace(',','',$averageCost);
+            $averageCost = floatval($averageCost);
+            $averageCost = $averageCost * 1.05;
+//            $averageCost = number_format($averageCost, 2, '.', '');
+            $averageCost = round($averageCost,2);
+        }
+        return view('killprice.confirm',compact('priceList','product','url','product_name','product_detail','averageCost'));
     }
     public function killpriceConfirm(Request $request){
 //        dd($request->all());
         $this->validate($request,[
             'bottomPrice'=>'required'
         ]);
+        $product_exist = Kill_price_product::where('status','y')->where('product_id',$request->input('product_id'))->get();
+        if (count($product_exist) > 0){
+            $request->session()->flash('error', 'Item exists!');
+            return redirect()->back();
+        }
         $kill_price_product = Kill_price_product::create($request->all());
         if ($request->has('companies')){
             $kill_price_product->target = \GuzzleHttp\json_encode($request->input('companies'));
