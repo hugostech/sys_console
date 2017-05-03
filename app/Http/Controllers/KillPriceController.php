@@ -63,7 +63,7 @@ class KillPriceController extends Controller
             $averageCost = str_replace('Average Cost: $','',$productDetailArray[4]);
             $averageCost = str_replace(',','',$averageCost);
             $averageCost = floatval($averageCost);
-            $averageCost = $averageCost * 1.05;
+            $averageCost = $averageCost * 1.05 * 1.15;
 //            $averageCost = number_format($averageCost, 2, '.', '');
             $averageCost = round($averageCost,2);
         }
