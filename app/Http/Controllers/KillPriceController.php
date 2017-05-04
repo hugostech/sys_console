@@ -147,7 +147,14 @@ class KillPriceController extends Controller
 
     public function getPriceList($page){
 
-        $table = $page->find('div[id=tabcontentdiv]',0)->find('table',0)->find('tr[data-pris_typ=normal]');
+        $table = $page->find('div[id=tabcontentdiv]',0);
+        if (is_null($table)) return null;
+        $table = $table->find('table',0);
+        if (is_null($table)) return null;
+
+        $table = $table->find('tr[data-pris_typ=normal]');
+        if (is_null($table)) return null;
+
         $result = [];
 
 
@@ -267,6 +274,10 @@ class KillPriceController extends Controller
                 }
                 $page = HtmlDomParser::file_get_html($product->url);
                 $compantlist = $this->getPriceList($page);
+                if (is_null($compantlist)){
+                    $this->add_note($product,'<font color="red">Stop: Page Error</font>');
+                    continue;
+                }
 //                dd($product->target);
                 if (!is_null($product->target)){
                     $target = \GuzzleHttp\json_decode($product->target,true);
@@ -286,7 +297,7 @@ class KillPriceController extends Controller
 
                 $this->add_note($product,'<font color="#228b22">Normal: update at '.Carbon::now().'</font>');
                 DB::commit();
-                }catch (\Exception $e){
+                }catch(\Exception $e){
                     $this->add_note($product,$e->getMessage());
                 }
 
