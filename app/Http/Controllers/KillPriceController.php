@@ -224,6 +224,7 @@ class KillPriceController extends Controller
 //        dd($bottom);
 //        dd($this->price_generate($price));
         $special = $product->special;
+        echo is_null($special)."<br>";
         if(is_null($special)){
             $special = new Ex_speceal();
 //            $special = new Ex_speceal();
@@ -250,9 +251,10 @@ class KillPriceController extends Controller
         return $warrany;
     }
     private function add_note(Kill_price_product $product,$note){
-//        dd($note);
+
         $product->note = $note;
         $product->save();
+
     }
     public function run(){
 
@@ -267,17 +269,21 @@ class KillPriceController extends Controller
                 $ex_product = Ex_product::find($product->product_id);
                 echo $ex_product->model .'-'.$ex_product->quantity;
                 if($ex_product->quantity<1) {
+
                     $special = $ex_product->special;
+
                     if (!is_null($special)){
                         $special->delete();
                     }
                     $this->add_note($product,'<font color="red">Stop: product no stock</font>');
+                    DB::commit();
                     continue;
                 }
                 $page = HtmlDomParser::file_get_html($product->url);
                 $compantlist = $this->getPriceList($page);
                 if (is_null($compantlist)){
                     $this->add_note($product,'<font color="red">Stop: Page Error</font>');
+                    DB::commit();
                     continue;
                 }
                 echo '<br>'.$product->target;
