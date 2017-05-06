@@ -264,8 +264,8 @@ class KillPriceController extends Controller
             foreach ($products as $product){
                 try{
 
-
                 DB::beginTransaction();
+
                 $ex_product = Ex_product::find($product->product_id);
                 echo $ex_product->model .'-'.$ex_product->quantity;
                 if($ex_product->quantity<1) {
@@ -315,6 +315,6 @@ class KillPriceController extends Controller
             }
         });
 
-//        return view('killprice.run');
+        return view('killprice.run');
     }
 }
