@@ -218,6 +218,7 @@ class KillPriceController extends Controller
     }
     private function edit_price(Ex_product $product,$price,$bottom,$warrany){
         $new_price = $this->price_generate($price);
+        echo "<br>".$new_price."-".$bottom;
 //        dd($product);
 //        dd($new_price);
 //        dd($bottom);
@@ -244,7 +245,7 @@ class KillPriceController extends Controller
 //            $this->add_note($product,'<font color="yellow">Warning: Price below bottom price</font>');
 
         }
-        $product->save();
+        $special->save();
 //        dd($product);
         return $warrany;
     }
@@ -256,14 +257,15 @@ class KillPriceController extends Controller
     public function run(){
 
         Kill_price_product::where('status','y')->chunk(20,function($products){
-
             $warrany = [];
+
             foreach ($products as $product){
                 try{
 
 
                 DB::beginTransaction();
                 $ex_product = Ex_product::find($product->product_id);
+                echo $ex_product->model .'-'.$ex_product->quantity;
                 if($ex_product->quantity<1) {
                     $special = $ex_product->special;
                     if (!is_null($special)){
@@ -278,6 +280,7 @@ class KillPriceController extends Controller
                     $this->add_note($product,'<font color="red">Stop: Page Error</font>');
                     continue;
                 }
+                echo '<br>'.$product->target;
 //                dd($product->target);
                 if (!is_null($product->target)){
                     $target = \GuzzleHttp\json_decode($product->target,true);
@@ -298,11 +301,14 @@ class KillPriceController extends Controller
                 $this->add_note($product,'<font color="#228b22">Normal: update at '.Carbon::now().'</font>');
                 DB::commit();
                 }catch(\Exception $e){
+                    DB::rollback();
                     $this->add_note($product,$e->getMessage());
+
                 }
 
             }
         });
-        return view('killprice.run');
+
+//        return view('killprice.run');
     }
 }
