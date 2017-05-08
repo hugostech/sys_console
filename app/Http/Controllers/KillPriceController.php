@@ -218,13 +218,14 @@ class KillPriceController extends Controller
     }
     private function edit_price(Ex_product $product,$price,$bottom,$warrany){
         $new_price = $this->price_generate($price);
-        echo "<br>".$new_price."-".$bottom;
+//        echo "<br>".$new_price."-".$bottom;
 //        dd($product);
 //        dd($new_price);
 //        dd($bottom);
 //        dd($this->price_generate($price));
+
         $special = $product->special;
-        echo is_null($special)."<br>";
+//        echo is_null($special)."<br>";
         if(is_null($special)){
             $special = new Ex_speceal();
 //            $special = new Ex_speceal();
@@ -235,6 +236,7 @@ class KillPriceController extends Controller
 
             $special->price = $new_price / 1.15;
             $special->save();
+
         }
 
         if ($new_price>$bottom){
@@ -247,6 +249,9 @@ class KillPriceController extends Controller
 
         }
         $special->save();
+        if ($special->price > $product->price){
+            $special->delete();
+        }
 //        dd($product);
         return $warrany;
     }
@@ -267,7 +272,7 @@ class KillPriceController extends Controller
                 DB::beginTransaction();
 
                 $ex_product = Ex_product::find($product->product_id);
-                echo $ex_product->model .'-'.$ex_product->quantity;
+//                echo $ex_product->model .'-'.$ex_product->quantity;
                 if($ex_product->quantity<1) {
 
                     $special = $ex_product->special;
@@ -286,7 +291,7 @@ class KillPriceController extends Controller
                     DB::commit();
                     continue;
                 }
-                echo '<br>'.$product->target;
+//                echo '<br>'.$product->target;
 //                dd($product->target);
                 if (!is_null($product->target)){
                     $target = \GuzzleHttp\json_decode($product->target,true);
