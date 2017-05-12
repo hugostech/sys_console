@@ -19,7 +19,7 @@
             @foreach($products as $key=>$product)
                 <tr>
                     <td>{{$key + 1}}</td>
-                    <td>{{\App\Ex_product::find($product->product_id)->description->name}}</td>
+                    {{--<td>{{\App\Ex_product::find($product->product_id)->description->name}}</td>--}}
                     <td>{{$product->model}}</td>
                     <td>${{$product->bottomPrice}}</td>
                     <td>
