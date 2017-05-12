@@ -24,7 +24,7 @@
                     <td>${{$product->bottomPrice}}</td>
                     <td>
                         @if(is_null(\App\Ex_product::find($product->product_id)->special))
-                            ${{ round(\App\Ex_product::find($product->product_id)->price * 1.15,2)}}
+                            {{--${{ round(\App\Ex_product::find($product->product_id)->price * 1.15,2)}}--}}
                         {{--@else--}}
                             {{--${{round(\App\Ex_product::find($product->product_id)->special->price * 1.15,2)}}--}}
                             {{--@if(round(\App\Ex_product::find($product->product_id)->special->price * 1.15,2)<$product->bottomPrice)--}}
