@@ -21,6 +21,8 @@
                     <td>{{$key + 1}}</td>
                     <td id="product_detail_{{$product->model}}">
                         {{\App\Ex_product::find($product->product_id)->description->name}}
+                        <br>
+                        {{$product->target}}
                     </td>
                     <td>
                         {{$product->model}}
