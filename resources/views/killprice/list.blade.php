@@ -19,7 +19,7 @@
             @foreach($products as $key=>$product)
                 <tr>
                     <td>{{$key + 1}}</td>
-                    <td id="product_detail">
+                    <td id="product_detail_{{$product_model}}">
                         {{\App\Ex_product::find($product->product_id)->description->name}}
                     </td>
                     <td>
@@ -75,7 +75,7 @@
 //            alert(url);
             $.ajax( url )
                 .done(function(result) {
-                    $('#product_detail').append(
+                    $('#product_detail_'+code).append(
                         '<hr>'+result
                     )
 //                    alert( result );
