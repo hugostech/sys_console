@@ -21,12 +21,13 @@
                     <td>{{$key + 1}}</td>
                     <td id="product_detail_{{$product->model}}">
                         {{\App\Ex_product::find($product->product_id)->description->name}}
-                        <br>
+                        <hr>
                         {{$product->target}}
                     </td>
                     <td>
                         {{$product->model}}
                         <button type="button" class="btn btn-primary btn-xs" onclick="getPrice('{{ $product->model }}')">Show price</button>
+                        <a href="{{$product->url}}" target="_blank">Pricespy link</a>
 
                     </td>
                     <td>
