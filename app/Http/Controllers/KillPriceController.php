@@ -133,6 +133,7 @@ class KillPriceController extends Controller
 
     public function grabProductDetail($code){
         $url = env('SNPORT') . "?action=test&code=$code";
+
 //        dd($url);
         $pricedetail = $this->getContent($url);
 
@@ -213,7 +214,8 @@ class KillPriceController extends Controller
         if(floor($price) < $price){
             return floor($price);
         }else{
-            return $price-$shift;
+//            return $price-$shift;
+            return $price;
         }
     }
     private function edit_price(Ex_product $product,$price,$bottom,$warrany){
@@ -306,6 +308,13 @@ class KillPriceController extends Controller
                     if ($compantlist[0][0] != 'ExtremePC' && $compantlist[0][0] != 'Ktech'){
                         $warrany = $this->edit_price($ex_product,$compantlist[0][1],$product->bottomPrice,$warrany);
 
+                    }else{
+                        foreach ($compantlist as $company){
+                            if ($company[0] != 'ExtremePC' && $company[0] != 'Ktech') {
+                                $warrany = $this->edit_price($ex_product, $company[1], $product->bottomPrice, $warrany);
+                                break;
+                            }
+                        }
                     }
                 }
 
@@ -322,4 +331,13 @@ class KillPriceController extends Controller
 
         return view('killprice.run');
     }
+
+    public function editBottomPrice(Request $request){
+        $product = Kill_price_product::find($request->input('product_id'));
+        $product->bottomPrice = $request->input('bottomPrice');
+        $product->save();
+        return redirect()->back();
+    }
+
+
 }

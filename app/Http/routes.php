@@ -188,6 +188,7 @@ Route::get('runKillPrice','KillPriceController@run');
 Route::get('listAllKillProduct','KillPriceController@listAllProducts');
 Route::post('startKillPrice','KillPriceController@step1');
 Route::post('killpriceConfirm','KillPriceController@killpriceConfirm');
-
+Route::post('editBottomPrice','KillPriceController@editBottomPrice');
+Route::get('grabProductDetail/{id}','KillPriceController@grabProductDetail');
 
 

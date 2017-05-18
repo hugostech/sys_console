@@ -19,9 +19,31 @@
             @foreach($products as $key=>$product)
                 <tr>
                     <td>{{$key + 1}}</td>
-                    <td>{{\App\Ex_product::find($product->product_id)->description->name}}</td>
-                    <td>{{$product->model}}</td>
-                    <td>${{$product->bottomPrice}}</td>
+                    <td id="product_detail">
+                        {{\App\Ex_product::find($product->product_id)->description->name}}
+                    </td>
+                    <td>
+                        {{$product->model}}
+                        <button type="button" class="btn btn-primary btn-xs" onclick="getPrice('{{ $product->model }}')">Show price</button>
+
+                    </td>
+                    <td>
+                        {!! Form::open(['url'=>'editBottomPrice','class'=>'form-inline']) !!}
+                            {!! Form::input('hidden','product_id',$product->id) !!}
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon">$</span>
+                                {!! Form::number('bottomPrice',$product->bottomPrice) !!}
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {!! Form::submit('edit',['class'=>'btn btn-xs']) !!}
+                        </div>
+
+                        {!! Form::close() !!}
+
+                    </td>
                     <td>
                         {{--{{!is_null(\App\Ex_product::find($product->product_id))?'t':'f'}}--}}
                         @if(is_null(\App\Ex_product::find($product->product_id)->special))
@@ -47,4 +69,18 @@
             </tbody>
         </table>
     </div>
+    <script>
+        function getPrice(code) {
+            var url = '{{url('grabProductDetail')}}/'+code;
+//            alert(url);
+            $.ajax( url )
+                .done(function(result) {
+                    $('#product_detail').append(
+                        '<hr>'+result
+                    )
+//                    alert( result );
+                })
+
+        }
+    </script>
 @endsection
