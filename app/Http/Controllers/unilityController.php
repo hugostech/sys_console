@@ -2207,4 +2207,8 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
         }
         return redirect($_SERVER['HTTP_REFERER']);
     }
+
+    public function sendReminderEmailOver1000D($orderid){
+
+    }
 }

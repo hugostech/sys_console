@@ -36,7 +36,7 @@
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon">$</span>
-                                {!! Form::number('bottomPrice',$product->bottomPrice) !!}
+                                {!! Form::text('bottomPrice',$product->bottomPrice,['class'=>'form-control']) !!}
 
                             </div>
                         </div>
