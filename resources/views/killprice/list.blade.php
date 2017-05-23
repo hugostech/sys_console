@@ -31,20 +31,21 @@
 
                     </td>
                     <td>
-                        {!! Form::open(['url'=>'editBottomPrice','class'=>'form-inline']) !!}
-                            {!! Form::input('hidden','product_id',$product->id) !!}
+                        {{--{!! Form::open(['url'=>'editBottomPrice','class'=>'form-inline']) !!}--}}
+                            {{--{!! Form::input('hidden','product_id',$product->id) !!}--}}
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon">$</span>
-                                {!! Form::text('bottomPrice',$product->bottomPrice) !!}
+                                {!! Form::text('bottomPrice',$product->bottomPrice,['id'=>'producBottom_'.$product->id,'class'=>'form-control']) !!}
 
                             </div>
                         </div>
                         <div class="form-group">
-                            {!! Form::submit('edit',['class'=>'btn btn-xs']) !!}
+                            {{--{!! Form::submit('Save',['class'=>'btn btn-xs']) !!}--}}
+                            <button class="btn btn-sm" type="button" onclick="resetBottom('{{$product->id}}')">Save</button>
                         </div>
 
-                        {!! Form::close() !!}
+                        {{--{!! Form::close() !!}--}}
 
                     </td>
                     <td>
@@ -71,6 +72,7 @@
             @endforeach
             </tbody>
         </table>
+        <p id="error_debug"></p>
     </div>
     <script>
         function getPrice(code) {
@@ -83,6 +85,17 @@
                     )
 //                    alert( result );
                 })
+
+        }
+
+        function resetBottom(product_id){
+//            alert(product_id)
+            var url = '{{url('editBottomPrice')}}';
+            var price = $('#producBottom_'+product_id).val();
+            $.post( url, { product_id: product_id, bottomPrice: price})
+                .done(function( data ) {
+                    alert( data );
+                });
 
         }
     </script>

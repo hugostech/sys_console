@@ -333,10 +333,11 @@ class KillPriceController extends Controller
     }
 
     public function editBottomPrice(Request $request){
+//        dd($request->all());
         $product = Kill_price_product::find($request->input('product_id'));
         $product->bottomPrice = $request->input('bottomPrice');
         $product->save();
-        return redirect()->back();
+        return $product->model.' price:'.$product->bottomPrice.' Success!';
     }
 
 
