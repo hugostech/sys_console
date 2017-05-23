@@ -2210,5 +2210,27 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
 
     public function sendReminderEmailOver1000D($orderid){
 
+        $order = Ex_order::find($orderid);
+
+        Mail::send('email.payment1000dreminder', compact('order'), function ($m) use ($order) {
+            $m->from('no-reply@extremepc.co.nz', 'ExtremePC');
+            $m->replyTo('sales@roctech.co.nz','ExtremePC Team');
+
+            $m->bcc('sales@roctech.co.nz', 'ExtremePC Team');
+            $m->to($order->email, $order->firstname.' '.$order->lastname)->subject('ExtremePC Online Order Payment Check');
+
+//            $m->to($user->email, $user->name)->subject('Your Reminder!');
+        });
+        return 'Order '.$order->order_id.' mail send Successfully!';
+
+
+
+
+
+
+
+//        return redirect("http://192.168.1.3/admin/olist.aspx?r=&id=$roctech_order_id");
+
+
     }
 }

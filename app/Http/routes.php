@@ -191,4 +191,6 @@ Route::post('killpriceConfirm','KillPriceController@killpriceConfirm');
 Route::post('editBottomPrice','KillPriceController@editBottomPrice');
 Route::get('grabProductDetail/{id}','KillPriceController@grabProductDetail');
 
+/*send verify email when order over $1000*/
+Route::get('sendEmailOver1000/{id}','unilityController@sendReminderEmailOver1000D');
 
