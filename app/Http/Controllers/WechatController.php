@@ -28,7 +28,18 @@ class WechatController extends Controller
     }
 
     public function entry(Request $request){
+        if(Input::has('echostr')){
+            $this->signature = Input::get('signature');
+            $this->timestamp = Input::get('timestamp');
+            $this->nonce = Input::get('nonce');
+            if ($this->vaild()){
+                return Input::get('echostr');
+            }else{
+                return false;
+            }
 
+
+        }
     }
 
     private function vaild(){
