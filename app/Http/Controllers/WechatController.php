@@ -29,7 +29,7 @@ class WechatController extends Controller
 //    }
 
     public function entry(Request $request){
-        echo 'tst';
+        dd($request->all());
     }
 
 //    private function vaild(){
