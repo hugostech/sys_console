@@ -121,7 +121,8 @@ XMLMESSAGE;
         $secret = env('WC_APPSECRET');
         $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=$appid&secret=$secret";
         $output = $this->getContent($url);
-        return \GuzzleHttp\json_decode($output,true)['access_token'];
+        $arr = \GuzzleHttp\json_decode($output,true);
+        return $arr['access_token'];
 
     }
     private function getContent($url)
