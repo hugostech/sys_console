@@ -138,13 +138,13 @@ MENUSTYLE;
     private function callKF($xml){
         $content = <<<KF
          <xml>
-             <ToUserName><![CDATA[$xml->ToUserName]]></ToUserName>
-             <FromUserName><![CDATA[$xml->FromUserName]]></FromUserName>
+             <ToUserName><![CDATA[$xml->FromUserName]]></ToUserName>
+             <FromUserName><![CDATA[$xml->ToUserName]]></FromUserName>
              <CreateTime>%s</CreateTime>
              <MsgType><![CDATA[transfer_customer_service]]></MsgType>
          </xml>
 KF;
-        return sprintf($content,Carbon::now());
+        return sprintf($content,time());
 
     }
     private function eventHandle($type,$xml){
@@ -173,7 +173,7 @@ KF;
                 <Content><![CDATA[%s]]></Content>
                 </xml>
 XMLMESSAGE;
-        return sprintf($msgTemplate,$to,$from,Carbon::now(),$msg);
+        return sprintf($msgTemplate,$to,$from,time(),$msg);
     }
 
 //    private function vaild(){
