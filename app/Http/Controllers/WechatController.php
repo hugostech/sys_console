@@ -17,12 +17,10 @@ class WechatController extends Controller
             $this->timestamp = Input::get('timestamp');
             $this->nonce = Input::get('nonce');
             if ($this->vaild()){
-                return Input::get('echostr');
+                echo Input::get('echostr');
             }
 
 
-        }else{
-            return null;
         }
     }
 
@@ -38,6 +36,8 @@ class WechatController extends Controller
         );
         sort($arr,SORT_STRING);
         $str = implode($arr);
+
+
         return sha1($str)==$this->signature;
 
 
