@@ -194,3 +194,6 @@ Route::get('grabProductDetail/{id}','KillPriceController@grabProductDetail');
 /*send verify email when order over $1000*/
 Route::get('sendEmailOver1000/{id}','unilityController@sendReminderEmailOver1000D');
 
+
+Route::get('wc/api','WechatController@index');
+Route::post('wc/api','WechatController@entry');
