@@ -113,7 +113,7 @@ XMLMESSAGE;
         $token = $this->getAccessToken();
         $url = "https://api.weixin.qq.com/cgi-bin/getcallbackip?access_token=$token";
         $ips = $this->getContent($url);
-        $ips = \GuzzleHttp\json_decode($ips);
+        $ips = \GuzzleHttp\json_decode($ips,true);
         return $ips['ip_list'];
     }
     private function getAccessToken(){
