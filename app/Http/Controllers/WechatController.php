@@ -138,8 +138,8 @@ MENUSTYLE;
     private function callKF($xml){
         $content = <<<KF
          <xml>
-             <ToUserName><![CDATA[$xml->FromUserName]]></ToUserName>
-             <FromUserName><![CDATA[$xml->ToUserName]]></FromUserName>
+             <ToUserName><![CDATA[$xml->ToUserName]]></ToUserName>
+             <FromUserName><![CDATA[$xml->FromUserName]]></FromUserName>
              <CreateTime>%s</CreateTime>
              <MsgType><![CDATA[transfer_customer_service]]></MsgType>
          </xml>
