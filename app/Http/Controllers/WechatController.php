@@ -142,9 +142,7 @@ MENUSTYLE;
              <FromUserName><![CDATA[$xml->ToUserName]]></FromUserName>
              <CreateTime>%s</CreateTime>
              <MsgType><![CDATA[transfer_customer_service]]></MsgType>
-             <TransInfo>
-                 <KfAccount><![CDATA[sfc@sfc_express]]></KfAccount>
-             </TransInfo>
+             
          </xml>
 KF;
         return sprintf($content,time());
