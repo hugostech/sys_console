@@ -31,9 +31,14 @@ class WechatController extends Controller
 
     public function entry(Request $request){
         $ip = $request->input('ip');
-        if (in_array($ip,$this->getWcIPs())){
+        $ips = $this->getWcIPs();
+        if (in_array($ip,$ips)){
             $content = $request->input('content');
             return $this->run($content);
+        }else{
+            echo $ip;
+            echo '<br>';
+            print_r($ips);
         }
     }
 
