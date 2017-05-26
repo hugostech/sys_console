@@ -47,7 +47,22 @@ class WechatController extends Controller
     }
 
     private function msgHandle($xml){
+        $to = $xml->ToUserName;
+        $from = $xml->FromUserName;
+        $msg = '感谢您关注SFC快羊国际
+            
+            SFC快羊国际是新西兰中国商品购买及转运服务提供商
 
+专门为新西兰用户提供代购中国商品一站式服务
+
+采购、检验、保存、寄送、售后
+
+所有环节我们解决并负责
+
+坚持为用户解决难题、创造价值之理念
+
+以最具美誉之产品与服务“重新定义新西兰购物”！';
+        return $this->msgGenerator($from,$to,$msg);
     }
 
     private function eventHandle($type,$xml){
