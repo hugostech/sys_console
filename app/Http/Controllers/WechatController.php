@@ -44,7 +44,7 @@ class WechatController extends Controller
 
     private function vaild(){
         $arr = array(
-            env('WCTOKEN'),
+            'sfcwechat',
             $this->timestamp,
             $this->nonce
         );
