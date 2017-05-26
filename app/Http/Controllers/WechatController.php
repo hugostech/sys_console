@@ -12,12 +12,15 @@ class WechatController extends Controller
     private $timestamp;
     private $nonce;
     public function index(){
+//        echo Input::get('echostr');
         if(Input::has('echostr')){
             $this->signature = Input::get('signature');
             $this->timestamp = Input::get('timestamp');
             $this->nonce = Input::get('nonce');
             if ($this->vaild()){
-                echo Input::get('echostr');
+                return Input::get('echostr');
+            }else{
+                return false;
             }
 
 
