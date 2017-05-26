@@ -195,5 +195,5 @@ Route::get('grabProductDetail/{id}','KillPriceController@grabProductDetail');
 Route::get('sendEmailOver1000/{id}','unilityController@sendReminderEmailOver1000D');
 
 
-Route::get('wc/api','WechatController@index');
+Route::get('wc/api','WechatController@getAccessToken');
 Route::post('wc/api','WechatController@entry');
