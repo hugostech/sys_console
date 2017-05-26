@@ -28,6 +28,77 @@ class WechatController extends Controller
 //
 //        }
 //    }
+    private $token;
+    public function __construct()
+    {
+        $this->token = $this->getAccessToken();
+    }
+
+    public function createKF(){
+
+        $url = 'https://api.weixin.qq.com/customservice/kfaccount/add?access_token='.$this->token;
+        $data = <<<KF
+        {
+            "kf_account" : "sfc@sfc_express",
+            "nickname" : "Hugo"
+         }
+KF;
+        echo $this->sendData($url,$data);
+        return $this->bindKF();
+
+    }
+
+    public function bindKF(){
+        $url = 'https://api.weixin.qq.com/customservice/kfaccount/inviteworker?access_token='.$this->token;
+
+        $data = <<<DATA
+         {
+             "kf_account" : "sfc@sfc_express",
+            "invite_wx" : "hugonj"
+         }
+DATA;
+        return $this->sendData($url,$data);
+
+
+    }
+
+    public function createMenu(){
+
+        $url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=".$this->token;
+        $menu = <<<MENUSTYLE
+        {
+            "button": [
+                {
+                    "type": "view", 
+                    "name": "关于快羊国际", 
+                    "url": "http://shopfromchina.co.nz"
+                }, 
+                {
+                    "name": "功能", 
+                    "sub_button": [
+                        {
+                            "type": "view", 
+                            "name": "转运", 
+                            "url": "http://shopfromchina.co.nz/%E8%BD%AC%E8%BF%90/"
+                        }, 
+                        {
+                            "type": "view", 
+                            "name": "价格", 
+                            "url": "http://shopfromchina.co.nz/%E4%BB%B7%E6%A0%BC/", 
+                            
+                        }, 
+                        {
+                            "type": "view", 
+                            "name": "注册", 
+                            "url": "http://dashboard.shopfromchina.co.nz/register"
+                        }
+                    ]
+                }
+            ]
+        }
+MENUSTYLE;
+
+    }
 
     public function entry(Request $request){
         $ip = $request->input('ip');
@@ -56,18 +127,34 @@ class WechatController extends Controller
     private function msgHandle($xml){
         $to = $xml->ToUserName;
         $from = $xml->FromUserName;
+        return $this->callKF($xml);
         $msg = '感谢您关注SFC快羊国际
+        
             SFC快羊国际是新西兰中国商品购买及转运服务提供商，专门为新西兰用户提供代购中国商品一站式服务。采购、检验、保存、寄送、售后，所有环节我们解决并负责。
+            
             我们坚持为用户解决难题、创造价值之理念，以最具美誉之产品与服务“重新定义新西兰购物”！';
         return $this->msgGenerator($from,$to,$msg);
     }
+    private function callKF($xml){
+        $content = <<<KF
+         <xml>
+             <ToUserName><![CDATA[$xml->ToUserName]]></ToUserName>
+             <FromUserName><![CDATA[$xml->FromUserName]]></FromUserName>
+             <CreateTime>%s</CreateTime>
+             <MsgType><![CDATA[transfer_customer_service]]></MsgType>
+         </xml>
+KF;
+        return sprintf($content,Carbon::now());
 
+    }
     private function eventHandle($type,$xml){
         if ($type=='subscribe'){
             $to = $xml->ToUserName;
             $from = $xml->FromUserName;
             $msg = '感谢您关注SFC快羊国际
+            
             SFC快羊国际是新西兰中国商品购买及转运服务提供商，专门为新西兰用户提供代购中国商品一站式服务。采购、检验、保存、寄送、售后，所有环节我们解决并负责。
+            
             我们坚持为用户解决难题、创造价值之理念，以最具美誉之产品与服务“重新定义新西兰购物”！';
             return $this->msgGenerator($from,$to,$msg);
 
@@ -132,5 +219,24 @@ XMLMESSAGE;
         curl_close($ch);
 
         return $output;
+    }
+
+    private function sendData($url, $data)
+    {
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        $server_output = curl_exec($ch);
+
+        curl_close($ch);
+
+
+
+        return $server_output;
+
     }
 }
