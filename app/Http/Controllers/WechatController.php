@@ -138,10 +138,13 @@ MENUSTYLE;
     private function callKF($xml){
         $content = <<<KF
          <xml>
-             <ToUserName><![CDATA[$xml->ToUserName]]></ToUserName>
-             <FromUserName><![CDATA[$xml->FromUserName]]></FromUserName>
+             <ToUserName><![CDATA[$xml->FromUserName]]></ToUserName>
+             <FromUserName><![CDATA[$xml->ToUserName]]></FromUserName>
              <CreateTime>%s</CreateTime>
              <MsgType><![CDATA[transfer_customer_service]]></MsgType>
+             <TransInfo>
+                 <KfAccount><![CDATA[sfc@sfc_express]]></KfAccount>
+             </TransInfo>
          </xml>
 KF;
         return sprintf($content,time());
