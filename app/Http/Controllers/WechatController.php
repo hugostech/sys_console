@@ -43,9 +43,9 @@ class WechatController extends Controller
     }
 
     private function run($content){
-        dd($content);
+
         $content = html_entity_decode($content);
-        $xml = simplexml_load_file($content, 'SimpleXMLElement', LIBXML_NOCDATA);
+        $xml = simplexml_load_string($content, 'SimpleXMLElement', LIBXML_NOCDATA);
         if($xml->MsgType=='event'){
             return $this->eventHandle($xml->Event,$xml);
         }else{
