@@ -330,9 +330,12 @@ class unilityController extends Controller
         try {
 
 
-            $products = Ex_product::all();
+            $products = Ex_product::where('status',1)->get();
             $feed = array();
             foreach ($products as $product) {
+                if (!is_numeric($product->model)){
+                    continue;
+                }
                 $stock_status = 'Yes';
                 $special = Ex_speceal::where('product_id', $product->product_id)->first();
                 $product_name = isset(Ex_product_description::find($product->product_id)->name) ? Ex_product_description::find($product->product_id)->name : '';
@@ -362,7 +365,7 @@ class unilityController extends Controller
 
                 $tem = array(
                     'Product name' => $product_name,
-                    'Article number' => $product->model,
+                    'Article number' => $product->mpn,
                     'Manufacturer' => $product->manufacturer_id == 0 ? 'null' : Ex_manufacturer::find($product->manufacturer_id)->name,
                     'URL to the product page' => "http://www.extremepc.co.nz/index.php?route=product/product&product_id=$product->product_id",
                     'Product category' => $categorytree,
