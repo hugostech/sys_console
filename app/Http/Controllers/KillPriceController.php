@@ -251,7 +251,9 @@ class KillPriceController extends Controller
 
         }
         $special->save();
-        if ($special->price >= $product->price){
+
+
+        if (round($special->price,2) >= round($product->price,2)){
             $special->delete();
         }
 //        dd($product);
