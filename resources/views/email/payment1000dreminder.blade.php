@@ -18,7 +18,7 @@
     &nbsp;
 </p>
 <p class="MsoNormal" style="font-size:11pt;font-family:Calibri, sans-serif;">
-    Once we receive it from you, we will arrange shipping immediately. Thanks again and looking forward to your reply soon.
+    Please send it back to sales@roctech.co.nz. Once we receive it from you, we will arrange shipping immediately. Thanks again and looking forward to your reply soon.
 </p>
 <p class="MsoNormal" style="font-size:11pt;font-family:Calibri, sans-serif;">
     <b><span style="color:#1F497D;">&nbsp;</span></b>
