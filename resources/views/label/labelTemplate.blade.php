@@ -335,7 +335,7 @@
 
                             float: left;
                             font-family: "Microsoft YaHei";
-                            line-height: 17px;
+                            line-height: 15px;
                             font-size: 15px;
                             font-weight: 600;
                         }

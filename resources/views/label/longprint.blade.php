@@ -96,7 +96,7 @@
 
                 float: left;
                 font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;
-                line-height: 20px;
+                line-height: 15px;
                 font-size: 17px;
                 font-weight: 500;
             }
@@ -225,7 +225,7 @@
 
             float: left;
             font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;
-            line-height: 20px;
+            line-height: 15px;
             font-size: 17px;
             font-weight: 500;
         }
