@@ -51,8 +51,23 @@ class labelController extends Controller
         ]);
 
         $label = Label::find($request->input('label_id'));
-        $label->update($request->all());
+        $tem = null;
+        if ($label->type==1 && $request->input('type')==2){
+            $tem = array(
+                $label->description
+            );
+            $tem = \GuzzleHttp\json_encode($tem);
+        }
+        if ($label->type==2 && $request->input('type')==1){
+            $tem = \GuzzleHttp\json_decode($label->description,true);
+            $tem = implode(' ',$tem);
 
+        }
+        $label->update($request->all());
+        if (!is_null($tem)){
+            $label->description = $tem;
+            $label->save();
+        }
 
 
         $product = Ex_product::where('model',$label->code)->first();

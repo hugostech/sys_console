@@ -27,7 +27,7 @@
                 /*float: left;*/
             }
             .tape-top{
-                height: 92px;
+                height: 107px;
             }
             .tape-top-left{
                 padding-left: 5px;
@@ -162,7 +162,7 @@
             /*float: left;*/
         }
         .tape-top{
-            height: 92px;
+            height: 107px;
         }
         .tape-top-left{
             padding-left: 5px;

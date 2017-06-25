@@ -223,9 +223,12 @@
                                     @endif
                                 @endforeach
                             @else
-                                @foreach(json_decode($label->description,true) as $key=>$item)
-                                    <label>Row {{$key+1}} :</label>
-                                    <input type="text" class="form-control" value="{{$item}}" name="description[]">
+                                @php
+                                $temlabels = json_decode($label->description,true);
+                                @endphp
+                                @foreach(range(0,3) as $i)
+                                    <label>Row {{$i+1}} :</label>
+                                    <input type="text" class="form-control" value="{{isset($temlabels[$i])?$temlabels[$i]:''}}" name="description[]">
                                 @endforeach
                             @endif
                         </div>
@@ -384,7 +387,7 @@
                         {!! $label->description !!}
                     @else
                         @foreach(json_decode($label->description,true) as $item)
-                            {!! $item !!}
+                            {!! $item !!}<br>
                         @endforeach
                     @endif
                 </span>

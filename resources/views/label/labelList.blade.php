@@ -19,7 +19,7 @@
                         @if($label->type == 1)
                         {!! $label->description !!}
                         @else
-
+                            {{--{{dd(json_decode($label->description,true))}}--}}
                             @foreach(json_decode($label->description,true) as $item)
                                 {!! $item !!}
                             @endforeach
