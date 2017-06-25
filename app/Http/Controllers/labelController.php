@@ -20,6 +20,7 @@ class labelController extends Controller
 
     public function findLabel(Request $request){
         $label = null;
+
         if($request->has('code')){
             $label = Label::where('code',$request->input('code'))->first();
             $product = Ex_product::where('model',$request->input('code'))->first();
@@ -35,18 +36,25 @@ class labelController extends Controller
 
             }else{
                 $label->price = round($product->price*1.15,2);
+
                 $label->save();
             }
         }
+
         return view('label.labelTemplate',compact('label','product','special'));
     }
 
     public function editLabel(Request $request){
         $this->validate($request,[
-            'label_id'=>'required'
+            'label_id'=>'required',
+
         ]);
+
         $label = Label::find($request->input('label_id'));
         $label->update($request->all());
+
+
+
         $product = Ex_product::where('model',$label->code)->first();
         $special = Ex_speceal::where('product_id', $product->product_id)->first();
         return view('label.labelTemplate',compact('label','product','special'));
@@ -54,23 +62,36 @@ class labelController extends Controller
     }
 
     public function addLabel2PrintList($id){
+
         $label = Label::find($id);
         $label->prepare2print = 1;
         $label->save();
         $product = Ex_product::where('model',$label->code)->first();
         $special = Ex_speceal::where('product_id', $product->product_id)->first();
+
         return view('label.labelTemplate',compact('label','product','special'));
 
     }
 
 
     public function labelList(){
-
         $labels = Label::where('prepare2print',1)->paginate(16);
+
         if(Input::has('print')){
-            return view('label.print',compact('labels'));
+            if (Input::has('long')){
+                $labels = Label::where('prepare2print',1)->where('type',2)->paginate(16);
+                return view('label.longprint',compact('labels'));
+            }else{
+                $labels = Label::where('prepare2print',1)->where('type',1)->paginate(16);
+                return view('label.print',compact('labels'));
+            }
+
         }
+
+
         return view('label.labelList',compact('labels'));
+
+
 
     }
 

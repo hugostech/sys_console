@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Short</title>
+    <title>Long</title>
     <style>
         @media print {
             body{
@@ -27,7 +27,7 @@
                 /*float: left;*/
             }
             .tape-top{
-                height: 82px;
+                height: 92px;
             }
             .tape-top-left{
                 padding-left: 5px;
@@ -84,6 +84,65 @@
                 font-size: 15px;
                 padding-right: 3px;
             }
+
+            .long-label{
+                width: 600px;
+            }
+
+            .long-tape-top-left {
+                padding-left: 10px;
+                padding-top: 5px;
+                width: 400px;
+
+                float: left;
+                font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;
+                line-height: 20px;
+                font-size: 17px;
+                font-weight: 500;
+            }
+
+            .long-tape-top-right {
+                width: 185px;
+
+                text-align: right;
+                float: left;
+                font-family: "Arial Black";
+                padding-top: 8px;
+            }
+
+            .long-tape-top-right h2 {
+                font-family: "Arial";
+                /*font-family: "Cordia New";*/
+                font-size: 70px;
+                margin: 0;
+                padding: 0;
+                letter-spacing: -3px;
+
+                /*position: relative;*/
+
+            }
+            .long-tape-top-right h2 sup{
+                font-family: "Arial Unicode MS";
+                font-size: 40px;
+
+
+            }
+
+            .long-tape-bottom {
+                background: rgb(000, 204, 000);
+                background-image: url("{{url('image',['logo.png'])}}");
+                background-size: 128.5714px 18px;
+                background-repeat: no-repeat;
+
+                border-top: solid 1px black;
+                height: 18.86792px;
+                text-align: right;
+                font-family: "Microsoft YaHei UI";
+                font-size: 16px;
+                padding-right: 3px;
+                width: 600px;
+            }
+
         }
         table{
             /*border: solid 1px beige;*/
@@ -103,7 +162,7 @@
             /*float: left;*/
         }
         .tape-top{
-            height: 82px;
+            height: 92px;
         }
         .tape-top-left{
             padding-left: 5px;
@@ -155,42 +214,96 @@
             font-size: 15px;
             padding-right: 3px;
         }
+        .long-label{
+            width: 600px;
+        }
+
+        .long-tape-top-left {
+            padding-left: 10px;
+            padding-top: 5px;
+            width: 400px;
+
+            float: left;
+            font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;
+            line-height: 20px;
+            font-size: 17px;
+            font-weight: 500;
+        }
+
+        .long-tape-top-right {
+            width: 185px;
+
+            text-align: right;
+            float: left;
+            font-family: "Arial Black";
+            padding-top: 8px;
+        }
+
+        .long-tape-top-right h2 {
+            font-family: "Arial";
+            /*font-family: "Cordia New";*/
+            font-size: 70px;
+            margin: 0;
+            padding: 0;
+            letter-spacing: -3px;
+
+            /*position: relative;*/
+
+        }
+        .long-tape-top-right h2 sup{
+            font-family: "Arial Unicode MS";
+            font-size: 40px;
+
+
+        }
+
+        .long-tape-bottom {
+            background: rgb(000, 204, 000);
+            background-image: url("{{url('image',['logo.png'])}}");
+            background-size: 128.5714px 18px;
+            background-repeat: no-repeat;
+
+            border-top: solid 1px black;
+            height: 18.86792px;
+            text-align: right;
+            font-family: "Microsoft YaHei UI";
+            font-size: 16px;
+            padding-right: 3px;
+            width: 600px;
+        }
+
     </style>
 </head>
 <body>
 <table>
     @foreach($labels as $key=>$label)
-        @if($key%2==0)
+
             <tr>
                 <td>
-                    <div class="tape-top">
-                <span class="tape-top-left">
-                    {!! $label->description !!}
+                    <div class="long-label tape-top">
+                <span class="long-tape-top-left">
+                    @if(is_null(json_decode($label->description,true)))
+                        {!! $label->description !!}
+                    @else
+                        @foreach(json_decode($label->description,true) as $key=>$item)
+                            @if($key==0)
+                            <strong>{!! $item !!}</strong>
+                            @else
+                            <small>{!! $item !!}</small>
+                            @endif
+                                <br>
+                        @endforeach
+                    @endif
                 </span>
-                        <span class="tape-top-right">
-                    <h3><sup>$</sup>{{number_format($label->price)}}</h3>
+                        <span class="long-tape-top-right">
+                    <h2><sup>$</sup>{{number_format($label->price)}}</h2>
                 </span>
 
 
                     </div>
-                    <div class="tape-bottom">Code: {{$label->code}}</div>
+                    <div class="long-tape-bottom">Code: {{$label->code}}</div>
                 </td>
-        @else
-                    <td>
-                        <div class="tape-top">
-                <span class="tape-top-left">
-                    {!! $label->description !!}
-                </span>
-                            <span class="tape-top-right">
-                    <h3><sup>$</sup>{{number_format($label->price)}}</h3>
-                </span>
-
-
-                        </div>
-                        <div class="tape-bottom">Code: {{$label->code}}</div>
-                    </td>
             </tr>
-        @endif
     @endforeach
 
 </table>
