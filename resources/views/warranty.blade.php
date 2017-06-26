@@ -82,6 +82,7 @@
                             <option value="tony">Elfa</option>
                             <option selected value="Danny">Danny</option>
                             <option value="matt">Matt</option>
+                            <option value="John">John</option>
                             <option value="hugo">Hugo</option>
                         </select>
                     </div>
