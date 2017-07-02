@@ -198,3 +198,5 @@ Route::get('sendEmailOver1000/{id}','unilityController@sendReminderEmailOver1000
 Route::get('wc/api','WechatController@getAccessToken');
 Route::get('wc/api/addKF','WechatController@createKF');
 Route::post('wc/api','WechatController@entry');
+
+Route::get('royalpoint/neworder/{id}','RoyalPointController@sendNewRoyalPointReminder');

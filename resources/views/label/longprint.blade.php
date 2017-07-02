@@ -225,7 +225,7 @@
 
             float: left;
             font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;
-            line-height: 15px;
+            line-height: 16px;
             font-size: 17px;
             font-weight: 500;
         }
