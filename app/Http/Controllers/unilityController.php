@@ -22,6 +22,7 @@ use App\Ex_speceal;
 use App\Ex_stock_status;
 use App\Flash_sale_products;
 use App\Http\Requests;
+use App\Kill_price_product;
 use App\Label;
 use App\News_letter;
 use App\Product;
@@ -177,6 +178,8 @@ class unilityController extends Controller
 //            $averageCost = number_format($averageCost, 2, '.', '');
 //            $averageCost = round($averageCost,2);
         }
+
+        $killp_price_status = Kill_price_product::where('product_id',$product->product_id)->where('status','!=','y')->first();
         $data = array(
             'code' => $code,
             'price' => $pricedetail,
@@ -190,7 +193,8 @@ class unilityController extends Controller
             'special_start'=>$special_start,
             'special_end'=>$special_end,
             'img'=>$product->image,
-            'bottom_cost'=>$averageCost
+            'bottom_cost'=>$averageCost,
+            'kill_price_status'=>$killp_price_status
         );
         return $data;
     }

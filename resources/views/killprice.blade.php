@@ -102,7 +102,13 @@
                             @else
                                 <input type="submit" class="btn btn-danger" name="product_status" value="Disable">
                             @endif
-                            <a href="{{url('startKillPrice').'?id='.$data['product_id']}}" class="btn btn-primary">Add to kill price list</a>
+                            @if(is_null($data['kill_price_status']))
+                                <a href="{{url('startKillPrice').'?id='.$data['product_id']}}" class="btn btn-primary">Add to kill price list</a>
+                            @else
+                                <label class="text-success">Product in killprice list</label>
+                            @endif
+
+
 
                         </div>
 

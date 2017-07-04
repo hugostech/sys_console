@@ -15,6 +15,19 @@ use App\Ex_product;
 
 class KillPriceController extends Controller
 {
+    private $killlist;
+
+    public function __construct()
+    {
+        $this->killlist = array(
+            'PB Technologies ','Playtech ','Computer Lounge ',
+            'DTC Systems ','XP Computers Warehouse ','PC Force ',
+            'Just Laptops ','Global PC ','Noel Leeming ','JB Hi-Fi ',
+            'The Warehouse ','Paradigm PC\'s ','Ascent ','Mighty Ape ',
+            'PC Online Shop '
+        );
+    }
+
     public function startKillPrice(){
         $product = null;
         $url = null;
@@ -295,10 +308,11 @@ class KillPriceController extends Controller
                     DB::commit();
                     continue;
                 }
-//                echo '<br>'.$product->target;
-//                dd($product->target);
-                if (!is_null($product->target)){
-                    $target = \GuzzleHttp\json_decode($product->target,true);
+
+//                if (!is_null($product->target)){
+                if (true){
+//                    $target = \GuzzleHttp\json_decode($product->target,true);
+                    $target = $this->killlist;
                     foreach ($compantlist as $company){
                         if (in_array($company[0],$target)){
                             $warrany = $this->edit_price($ex_product,$company[1],$product->bottomPrice,$warrany);
