@@ -116,7 +116,43 @@ class KillPriceController extends Controller
         return redirect()->back();
     }
     public function listAllProducts(){
+
         $products = Kill_price_product::where('status','y')->get();
+        if (Input::has('filter')){
+            if (Input::get('filter')=='error'){
+                $tem = array();
+                foreach ($products as $product){
+                    $ex_product = Ex_product::find($product->product_id);
+                    $special = $ex_product->special;
+                    if (is_null($special)){
+                        $price = round($ex_product->price*1.15,2);
+                    }else{
+                        $price = round($special->price*1.15,2);
+                    }
+                    if($price<$product->bottomPrice){
+                        $tem[] = $product;
+                    }
+                }
+                $products = $tem;
+            }elseif (Input::get('filter')=='bottom'){
+                $tem = array();
+                foreach ($products as $product){
+                    $ex_product = Ex_product::find($product->product_id);
+                    $special = $ex_product->special;
+                    if (is_null($special)){
+                        $price = round($ex_product->price*1.15,2);
+                    }else{
+                        $price = round($special->price*1.15,2);
+                    }
+                    if($price==$product->bottomPrice){
+                        $tem[] = $product;
+                    }
+                }
+                $products = $tem;
+            }
+
+
+        }
         return view('killprice.list',compact('products'));
     }
     public function getPrice(){
@@ -290,6 +326,12 @@ class KillPriceController extends Controller
 
                 $ex_product = Ex_product::find($product->product_id);
 //                echo $ex_product->model .'-'.$ex_product->quantity;
+                if ($ex_product->status == 0){
+
+                    $product->status = 'n';
+                    $product->save();
+                    continue;
+                }
                 if($ex_product->quantity<1) {
 
                     $special = $ex_product->special;
