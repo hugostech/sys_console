@@ -179,8 +179,8 @@ class unilityController extends Controller
 //            $averageCost = round($averageCost,2);
         }
 
-        $killp_price_status = Kill_price_product::where('product_id',$product->product_id)->where('status','!=','y')->first();
-        dd($killp_price_status);
+        $killp_price_status = Kill_price_product::where('product_id',$product->product_id)->where('status','y')->first();
+
         $data = array(
             'code' => $code,
             'price' => $pricedetail,
