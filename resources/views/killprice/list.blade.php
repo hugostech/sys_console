@@ -6,7 +6,7 @@
             <thead>
             <tr>
                 <th>#</th>
-                <th>Name | <a href="?filter=error">Show Error</a><br><a href="?filter=bottom">Show Bottom</a></th>
+                <th>Name | <a href="?filter=error">Show Error</a> | <a href="?filter=bottom">Show Bottom</a></th>
                 <th>Model</th>
                 <th>Bottom Price</th>
                 <th>Extremepc Price</th>
