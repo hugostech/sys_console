@@ -6,13 +6,13 @@
             <thead>
             <tr>
                 <th>#</th>
-                <th>Name</th>
+                <th>Name | <a href="?filter=error">Show Error</a><br><a href="?filter=bottom">Show Bottom</a></th>
                 <th>Model</th>
                 <th>Bottom Price</th>
                 <th>Extremepc Price</th>
 
                 <th>Note</th>
-                <th><a href="?filter=error">Show Error</a><br><a href="?filter=bottom">Show Error</a></th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
