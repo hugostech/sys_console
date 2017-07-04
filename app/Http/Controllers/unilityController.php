@@ -180,6 +180,7 @@ class unilityController extends Controller
         }
 
         $killp_price_status = Kill_price_product::where('product_id',$product->product_id)->where('status','!=','y')->first();
+        dd($killp_price_status);
         $data = array(
             'code' => $code,
             'price' => $pricedetail,
