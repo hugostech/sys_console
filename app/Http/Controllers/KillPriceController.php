@@ -312,6 +312,7 @@ class KillPriceController extends Controller
 
         $product->note = $note;
         $product->save();
+        echo $product->model.'br';
 
     }
     public function run(){
@@ -357,7 +358,9 @@ class KillPriceController extends Controller
 //                    $target = \GuzzleHttp\json_decode($product->target,true);
                     $target = $this->killlist;
                     foreach ($compantlist as $company){
+
                         if (in_array($company[0],$target)){
+                            echo 'insert array';
                             $warrany = $this->edit_price($ex_product,$company[1],$product->bottomPrice,$warrany);
                             break;
                         }
