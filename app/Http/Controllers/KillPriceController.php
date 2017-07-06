@@ -332,6 +332,7 @@ class KillPriceController extends Controller
                     $product->save();
                     continue;
                 }
+                echo $ex_product->model.'<br>';
                 if($ex_product->quantity<1) {
 
                     $special = $ex_product->special;
