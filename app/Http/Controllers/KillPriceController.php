@@ -312,7 +312,7 @@ class KillPriceController extends Controller
 
         $product->note = $note;
         $product->save();
-        echo $product->model.'br';
+        echo $product->model.'<br>';
 
     }
     public function run(){
@@ -360,7 +360,7 @@ class KillPriceController extends Controller
                     foreach ($compantlist as $company){
 
                         if (in_array($company[0],$target)){
-                            echo 'insert array';
+                            echo 'insert array<br>';
                             $warrany = $this->edit_price($ex_product,$company[1],$product->bottomPrice,$warrany);
                             break;
                         }
