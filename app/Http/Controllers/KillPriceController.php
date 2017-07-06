@@ -376,7 +376,7 @@ class KillPriceController extends Controller
                         }
                     }
                 }
-
+                echo $ex_product->model.'step2<br>';
                 $this->add_note($product,'<font color="#228b22">Normal: update at '.Carbon::now().'</font>');
                 DB::commit();
                 }catch(\Exception $e){
