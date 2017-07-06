@@ -353,10 +353,10 @@ class KillPriceController extends Controller
                     continue;
                 }
 
-//                if (!is_null($product->target)){
-                if (true){
-//                    $target = \GuzzleHttp\json_decode($product->target,true);
-                    $target = $this->killlist;
+                if (!is_null($product->target)){
+//                if (true){
+                    $target = \GuzzleHttp\json_decode($product->target,true);
+//                    $target = $this->killlist;
                     foreach ($compantlist as $company){
 
                         if (in_array($company[0],$target)){
