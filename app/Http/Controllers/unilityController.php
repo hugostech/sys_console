@@ -647,6 +647,7 @@ class unilityController extends Controller
             "AMD A4"=>'AMD A4',
             "AMD A6"=>'AMD A6',
             "AMD A8"=>'AMD A8',
+            "AMD A9"=>'AMD A9',
             "AMD A10"=>'AMD A10',
             "AMD E1"=>'AMD E1'
         );

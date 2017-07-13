@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Ex_order;
+use backend\ExtremepcOrder;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -19,6 +20,23 @@ class RoyalPointController extends Controller
             $email = $order->email;
             $name = $order->firstname.' '.$order->lastname;
             $m->to($email,$name)->subject('RE: Purchase order '.$order->order_id);
+        });
+    }
+
+    public function send_royal_point($order_id){
+        $ex_order = ExtremepcOrder::loadById($order_id);
+        if (!is_null($ex_order)){
+            $ex_order->giveRoyalPoint();
+//            $this->sendNewRoyalPointReminder($order_id);
+        }
+    }
+
+    public function run($date_start = '2017-04-01'){
+        Ex_order::where('date_added','>',$date_start)->where('royal_point',0)->where('order_status_id',5)->chunk(20,function ($orders){
+            foreach ($orders as $order){
+//                echo $order->order_id.'<br>';
+                $this->send_royal_point($order->order_id);
+            }
         });
     }
 }

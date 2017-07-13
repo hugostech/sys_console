@@ -199,4 +199,5 @@ Route::get('wc/api','WechatController@getAccessToken');
 Route::get('wc/api/addKF','WechatController@createKF');
 Route::post('wc/api','WechatController@entry');
 
-Route::get('royalpoint/neworder/{id}','RoyalPointController@sendNewRoyalPointReminder');
+Route::get('royalpoint/run','RoyalPointController@run');
+Route::get('royalpoint/givepoint/{order_id}','RoyalPointController@send_royal_point');

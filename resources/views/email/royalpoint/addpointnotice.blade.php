@@ -6,7 +6,7 @@
     Thank you for purchasing from ExtremePC (Order No:&nbsp;<strong><span style="font-weight:normal;">{{$order->order_id}}</span></strong>, Amount: ${{round($order->total,2)}}).&nbsp;
 </p>
 <p class="MsoNormal" style="font-size:11pt;font-family:Calibri, sans-serif;">
-    &nbsp;As you purchased from us online, you have received {{round($order->total/100,2)}} Loyalty Points! These will contribute to your next purchase and give you a discount! Each loyalty point towards your purchase takes a dollar off of the total price you pay.
+    As you purchased from us online, you have received {{round($order->total/100,2)}} Loyalty Points! These will contribute to your next purchase and give you a discount! Each loyalty point towards your purchase takes a dollar off of the total price you pay.
 </p>
 <p class="MsoNormal" style="font-size:11pt;font-family:Calibri, sans-serif;">
     For more info, please visit&nbsp;<span style="color:#333333;font-family:Poppins;font-size:14px;"><strong><a href="http://www.extremepc.co.nz/index.php?route=information/information&information_id=17" target="_blank">LOYALTY POINTS Terms &amp; Conditions</a></strong></span>
