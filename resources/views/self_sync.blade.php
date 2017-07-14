@@ -50,7 +50,7 @@
         </thead>
     </table>
 </div>
-<iframe src="{{url().'royalpoint/run'}}"></iframe>
+<iframe src="{{url('royalpoint/run')}}"></iframe>
 <script language="JavaScript">
 
     function myrefresh(){
