@@ -326,8 +326,9 @@ class KillPriceController extends Controller
                 DB::beginTransaction();
 
                 $ex_product = Ex_product::find($product->product_id);
+
 //                echo $ex_product->model .'-'.$ex_product->quantity;
-                if ($ex_product->status == 0){
+                if (is_null($ex_product) || $ex_product->status == 0){
 
                     $product->status = 'n';
                     $product->save();
