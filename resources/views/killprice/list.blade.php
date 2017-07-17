@@ -17,7 +17,7 @@
             </thead>
             <tbody>
             @foreach($products as $key=>$product)
-
+                @if(!is_null($product))
                 <tr>
                     <td>{{$key + 1}}</td>
                     <td id="product_detail_{{$product->model}}">
@@ -70,6 +70,7 @@
                     <td>{!! $product->note !!}</td>
                     <td><a href="{{url('killprice',[$product->id,'remove'])}}" type="button" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span></a></td>
                 </tr>
+                @endif
             @endforeach
             </tbody>
         </table>
