@@ -27,7 +27,7 @@ class RoyalPointController extends Controller
         $ex_order = ExtremepcOrder::loadById($order_id);
         if (!is_null($ex_order)){
             $ex_order->giveRoyalPoint();
-//            $this->sendNewRoyalPointReminder($order_id);
+            $this->sendNewRoyalPointReminder($order_id);
         }
     }
 
