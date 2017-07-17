@@ -70,6 +70,13 @@
                     <td>{!! $product->note !!}</td>
                     <td><a href="{{url('killprice',[$product->id,'remove'])}}" type="button" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span></a></td>
                 </tr>
+                @else
+                    <tr>
+                        <td colspan="6">
+                            {{$product->model}}
+                        </td>
+                        <td><a href="{{url('killprice',[$product->id,'remove'])}}" type="button" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span></a></td>
+                    </tr>
                 @endif
             @endforeach
             </tbody>
