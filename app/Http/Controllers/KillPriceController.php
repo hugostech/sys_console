@@ -332,6 +332,7 @@ class KillPriceController extends Controller
 
                     $product->status = 'n';
                     $product->save();
+                    echo '____________1231231_____________'.$product->model;
                     continue;
                 }
                 echo $ex_product->model.'<br>';
