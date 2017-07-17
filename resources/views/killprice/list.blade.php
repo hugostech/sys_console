@@ -51,18 +51,18 @@
                     </td>
                     <td>
                         {{--{{!is_null(\App\Ex_product::find($product->product_id))?'t':'f'}}--}}
-                        @if(is_null(\App\Ex_product::find($product->product_id)->special))
-                            ${{ round(\App\Ex_product::find($product->product_id)->price * 1.15,2)}}
-                        @else
-                            ${{round(\App\Ex_product::find($product->product_id)->special->price * 1.15,2)}}
-                            @if(round(\App\Ex_product::find($product->product_id)->special->price * 1.15,2)<$product->bottomPrice)
-                                <sup class="text-info">Error</sup>
-                            @elseif(round(\App\Ex_product::find($product->product_id)->special->price * 1.15,2)==$product->bottomPrice)
-                                <sup class="text-primary">Touch Bottom</sup>
-                            @else
-                                <sup class="text-danger">On Sale</sup>
-                            @endif
-                        @endif
+                        {{--@if(is_null(\App\Ex_product::find($product->product_id)->special))--}}
+                            {{--${{ round(\App\Ex_product::find($product->product_id)->price * 1.15,2)}}--}}
+                        {{--@else--}}
+                            {{--${{round(\App\Ex_product::find($product->product_id)->special->price * 1.15,2)}}--}}
+                            {{--@if(round(\App\Ex_product::find($product->product_id)->special->price * 1.15,2)<$product->bottomPrice)--}}
+                                {{--<sup class="text-info">Error</sup>--}}
+                            {{--@elseif(round(\App\Ex_product::find($product->product_id)->special->price * 1.15,2)==$product->bottomPrice)--}}
+                                {{--<sup class="text-primary">Touch Bottom</sup>--}}
+                            {{--@else--}}
+                                {{--<sup class="text-danger">On Sale</sup>--}}
+                            {{--@endif--}}
+                        {{--@endif--}}
 
 
 
