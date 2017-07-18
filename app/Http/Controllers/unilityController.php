@@ -376,7 +376,8 @@ class unilityController extends Controller
                     'Product category' => $categorytree,
                     'Price' => round($product->price * 1.15, 2),
                     'Status' => 'Normal',
-                    'Stock status' => $stock_status
+                    'Stock status' => $stock_status,
+                    'Freight'=>0
 
 
                 );
@@ -392,6 +393,10 @@ class unilityController extends Controller
                     } else {
                         $tem['Price'] = round($special->price * 1.15, 2);
                     }
+                }
+
+                if($tem['Price']<299){
+                    $tem['Freight'] = 3.5;
                 }
 
                 $feed[$product->product_id] = $tem;
