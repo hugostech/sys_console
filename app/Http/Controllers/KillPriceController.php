@@ -28,7 +28,7 @@ class KillPriceController extends Controller
             "PC Online Shop "
         );
 
-        View::share('kill_list',$this->killlist);
+        View::share('kill_list',\GuzzleHttp\json_encode($this->killlist));
     }
 
     public function startKillPrice(){
