@@ -116,7 +116,7 @@ class KillPriceController extends Controller
         $product->status = 'n';
         $product->save();
 //        $product->delete();
-        return redirect()->back();
+//        return redirect()->back();
     }
     public function listAllProducts(){
 
