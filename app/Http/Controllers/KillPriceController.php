@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\View;
 use Psy\Exception\FatalErrorException;
 use Sunra\PhpSimple\HtmlDomParser;
 //use PHPHtmlParser\dom;
@@ -26,6 +27,7 @@ class KillPriceController extends Controller
             "The Warehouse ","Paradigm PC's ","Ascent ","Mighty Ape ",
             "PC Online Shop "
         );
+
         View::share('kill_list',$this->killlist);
     }
 
