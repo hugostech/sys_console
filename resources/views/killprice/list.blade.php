@@ -23,7 +23,7 @@
                     <td id="product_detail_{{$product->model}}">
                         {{\App\Ex_product::find($product->product_id)->description->name}}
                         <hr>
-                        {{--{{$product->target}}--}}
+                        {{$kill_list}}
                     </td>
                     <td>
                         {{$product->model}}
@@ -68,12 +68,16 @@
 
                     </td>
                     <td>{!! $product->note !!}</td>
-                    <td><a href="{{url('killprice',[$product->id,'remove'])}}" type="button" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span></a></td>
+                    <td id="td_item_{{$product->id}}">
+                        <button class="btn btn-danger" type="button" onclick="removeItem({{$product->id}})">Del</button>
+                        {{--<a href="{{url('killprice',[$product->id,'remove'])}}" type="button" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span></a>--}}
+                    </td>
                 </tr>
                 @else
                     <tr>
                         <td colspan="6">
                             {{$product->model}}
+
                         </td>
                         <td><a href="{{url('killprice',[$product->id,'remove'])}}" type="button" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span></a></td>
                     </tr>
@@ -84,6 +88,14 @@
         <p id="error_debug"></p>
     </div>
     <script>
+        function removeItem(id) {
+            var url = '{{url('killprice')}}/'+id+'/remove';
+
+            $.ajax({url: url, success: function(result){
+
+                $("#td_item_"+id).html('<span class="glyphicon glyphicon-trash"></span>');
+            }});
+        }
         function getPrice(code) {
             var url = '{{url('grabProductDetail')}}/'+code;
 //            alert(url);

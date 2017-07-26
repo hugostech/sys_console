@@ -20,12 +20,13 @@ class KillPriceController extends Controller
     public function __construct()
     {
         $this->killlist = array(
-            'PB Technologies ','Playtech ','Computer Lounge ',
-            'DTC Systems ','XP Computers Warehouse ','PC Force ',
-            'Just Laptops ','Global PC ','Noel Leeming ','JB Hi-Fi ',
-            'The Warehouse ','Paradigm PC\'s ','Ascent ','Mighty Ape ',
-            'PC Online Shop '
+            "PB Technologies ","Playtech ","Computer Lounge ",
+            "DTC Systems ","XP Computers Warehouse ","PC Force ",
+            "Just Laptops ","Global PC ","Noel Leeming ","JB Hi-Fi ",
+            "The Warehouse ","Paradigm PC's ","Ascent ","Mighty Ape ",
+            "PC Online Shop "
         );
+        View::share('kill_list',$this->killlist);
     }
 
     public function startKillPrice(){
@@ -357,10 +358,11 @@ class KillPriceController extends Controller
                     continue;
                 }
 
-                if (!is_null($product->target)){
-//                if (true){
-                    $target = \GuzzleHttp\json_decode($product->target,true);
-//                    $target = $this->killlist;
+
+//                if (!is_null($product->target)){
+                if (true){
+//                    $target = \GuzzleHttp\json_decode($product->target,true);
+                    $target = $this->killlist;
                     foreach ($compantlist as $company){
 
                         if (in_array($company[0],$target)){
