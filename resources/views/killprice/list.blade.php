@@ -89,12 +89,16 @@
     </div>
     <script>
         function removeItem(id) {
-            var url = '{{url('killprice')}}/'+id+'/remove';
 
-            $.ajax({url: url, success: function(result){
+            if (confirm("Are you sure to remove this item from list?!")) {
+                var url = '{{url('killprice')}}/'+id+'/remove';
 
-                $("#td_item_"+id).html('<span class="glyphicon glyphicon-trash"></span>');
-            }});
+                $.ajax({url: url, success: function(result){
+
+                    $("#td_item_"+id).html('<span class="glyphicon glyphicon-trash"></span>');
+                }});
+            }
+
         }
         function getPrice(code) {
             var url = '{{url('grabProductDetail')}}/'+code;
