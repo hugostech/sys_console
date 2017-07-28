@@ -37,7 +37,7 @@
                         <div class="panel-body">
                             <strong class="text-capitalize text-muted">Shipping Method: {{$order->shipping_method}}</strong><br>
                             <strong class="text-capitalize text-muted">Total: ${{$order->total}}</strong><br>
-
+                            <strong class="text-capitalize text-muted">Order Status: {{$order->status->name}}</strong><br>
 
 
                         </div>
