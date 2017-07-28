@@ -194,6 +194,10 @@ Route::get('grabProductDetail/{id}','KillPriceController@grabProductDetail');
 /*send verify email when order over $1000*/
 Route::get('sendEmailOver1000/{id}','unilityController@sendReminderEmailOver1000D');
 
+Route::get('ex_order_confirm','ExtremepcController@ex_order_detail');
+Route::get('completeOrder/{order_id}','ExtremepcController@complete_order');
+
+
 
 Route::get('wc/api','WechatController@getAccessToken');
 Route::get('wc/api/addKF','WechatController@createKF');

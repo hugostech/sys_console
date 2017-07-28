@@ -32,4 +32,8 @@ class Ex_order extends Model
         return round($total,2);
 
     }
+
+    public function status(){
+        return $this->hasOne('App\Ex_order_status','order_status_id','order_status_id');
+    }
 }
