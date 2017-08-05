@@ -625,6 +625,7 @@ class unilityController extends Controller
             "Integrated"=>"Integrated"
         );
         $resolution = array(
+            "1280 X 800"=>"1280 X 800",
             "1366 X 768"=>"1366 X 768",
             "1440 X 900"=>"1440 X 900",
             "1600 X 900"=>"1600 X 900",
