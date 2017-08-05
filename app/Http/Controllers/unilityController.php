@@ -2255,6 +2255,50 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
         if (count($product->special)>0){
             $spaceal_price = $product->special->price;
         }
-        return $spaceal_price/$base_price;
+        return $spaceal_price/$base_price*1.0;
+    }
+
+    public function run12Promotion(){
+        Ex_product::where('quantity','>',0)->where('status',1)->limit(40)->chunk(20,function ($products){
+            foreach ($products as $product){
+                $promotion_percentage = $this->calculatePromoPercentage($product);
+                if ($promotion_percentage == 0 || (1-$promotion_percentage )< 0.12){
+                    echo $product->model.'<br>';
+                }
+            }
+        });
+    }
+
+    public function editProductPrice(Ex_product $product){
+        $base_price = $product->price;
+
+        $special_price = $base_price * 0.88;
+        $avarageCode = $this->getProductAvarageCost($product->model);
+        if ($avarageCode != 0 && $special_price>$avarageCode*0.95){
+            $product->special->delete();
+            $special = new Ex_speceal();
+            $special->product_id = $product->product_id;
+            $special->customer_group_id = 1;
+            $special->priority = 0;
+            $special->price = $special_price;
+            $special->save();
+        }
+
+
+    }
+
+    public function getProductAvarageCost($code){
+        $url = env('SNPORT') . "?action=test&code=$code";
+        $pricedetail = $this->getContent($url);
+        $averageCost = 0;
+        if(str_contains($pricedetail,'Average price inc')){
+            $productDetailArray = explode('<br>',$pricedetail);
+            $averageCost = str_replace('Average Cost: $','',$productDetailArray[4]);
+            $averageCost = str_replace(',','',$averageCost);
+            $averageCost = floatval($averageCost);
+//            $averageCost = number_format($averageCost, 2, '.', '');
+//            $averageCost = round($averageCost,2);
+        }
+        return $averageCost;
     }
 }

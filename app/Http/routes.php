@@ -205,3 +205,5 @@ Route::post('wc/api','WechatController@entry');
 
 Route::get('royalpoint/run','RoyalPointController@run');
 Route::get('royalpoint/givepoint/{order_id}','RoyalPointController@send_royal_point');
+
+Route::get('run12promotion','unilityController@run12Promotion');
