@@ -2248,4 +2248,13 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
 
 
     }
+
+    public function calculatePromoPercentage(Ex_product $product){
+        $base_price = $product->price;
+        $spaceal_price = 0;
+        if (count($product->special)>0){
+            $spaceal_price = $product->special->price;
+        }
+        return $spaceal_price/$base_price;
+    }
 }
