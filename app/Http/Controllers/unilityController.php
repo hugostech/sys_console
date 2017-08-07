@@ -2263,7 +2263,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
             foreach ($products as $product){
                 $promotion_percentage = $this->calculatePromoPercentage($product);
                 if ($promotion_percentage == 0 || (1-$promotion_percentage )< 0.12){
-                    echo $product->model.'<br>';
+                    $this->editProductPrice($product);
                 }
             }
         });
@@ -2271,17 +2271,25 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
 
     public function editProductPrice(Ex_product $product){
         $base_price = $product->price;
+        $special = $product->special;
 
         $special_price = $base_price * 0.88;
         $avarageCode = $this->getProductAvarageCost($product->model);
+
         if ($avarageCode != 0 && $special_price>$avarageCode*0.95){
-            $product->special->delete();
+            if (!is_null($special)){
+                $special->delete();
+            }
+            $special_price=floor($special_price*1.15);
+            $special_price=$special_price/1.15;
             $special = new Ex_speceal();
             $special->product_id = $product->product_id;
             $special->customer_group_id = 1;
             $special->priority = 0;
             $special->price = $special_price;
             $special->save();
+        }else{
+            echo $product->model.'<br>';
         }
 
 
