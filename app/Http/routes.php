@@ -26,9 +26,7 @@ Route::get('/', function () {
 |
 */
 
-Route::group(['middleware' => ['web']], function () {
-    //
-});
+
 Route::post('warranty','warrantyController@store');
 Route::get('warranty','warrantyController@show');
 Route::get('list','warrantyController@listOnGoing');
@@ -208,3 +206,8 @@ Route::get('royalpoint/givepoint/{order_id}','RoyalPointController@send_royal_po
 
 Route::get('run12promotion','unilityController@run12Promotion');
 Route::get('testeditProductPrice/{code}','unilityController@editProductPrice');
+ Route::group(['middleware' => ['web']], function () {
+     Route::get('luckydraw','LuckyDrawController@index');
+     Route::post('luckyydraw/register','LuckyDrawController@register');
+ });
+
