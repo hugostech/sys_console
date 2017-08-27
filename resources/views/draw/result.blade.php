@@ -1,7 +1,7 @@
 @extends('draw.master')
 
 @section('content')
-<div class="col-sm-12" >
+<div class="col-sm-8 col-sm-offset-2" >
 
     <div class="panel panel-info">
         <div class="panel-heading">
@@ -15,7 +15,7 @@
             </tr>
             @foreach($list as $key=>$item)
                 <tr>
-                    <td>{{$key}}</td>
+                    <td>{{$key+1}}</td>
                     <td>{{$item->name}}</td>
                     <td>{{$item->email}}</td>
                 </tr>
