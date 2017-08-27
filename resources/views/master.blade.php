@@ -110,6 +110,7 @@
                                     <li><a href="{{url('/',['ex_order_confirm'])}}">ex_order_finder</a></li>
                                     <li role="separator" class="divider"></li>
                                     <li><a href="{{url('/',['createLabel'])}}">Create Label</a></li>
+                                    <li><a href="{{url('/',['luckydrawlist'])}}">lucky draw list</a></li>
                                     <li><a href="http://italker.info/lunch">Lunch</a></li>
                                     <li role="separator" class="divider"></li>
                                     {{--<li><a href="{{url('/',['syncproall'])}}">SyncAllProduct</a></li>--}}

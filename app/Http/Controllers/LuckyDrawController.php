@@ -26,4 +26,9 @@ class LuckyDrawController extends Controller
 //        Session::flash('info','');
         return redirect('luckydraw');
     }
+
+    public function clinetList(){
+        $list = Lucky_draw_client_list::all();
+        return view('draw.result');
+    }
 }

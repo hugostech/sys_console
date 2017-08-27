@@ -208,6 +208,9 @@ Route::get('run12promotion','unilityController@run12Promotion');
 Route::get('testeditProductPrice/{code}','unilityController@editProductPrice');
  Route::group(['middleware' => ['web']], function () {
      Route::get('luckydraw','LuckyDrawController@index');
+     Route::get('luckydrawlist','LuckyDrawController@clinetList');
      Route::post('luckyydraw/register','LuckyDrawController@register');
+
  });
+
 
