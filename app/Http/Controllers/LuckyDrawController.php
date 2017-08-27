@@ -29,6 +29,6 @@ class LuckyDrawController extends Controller
 
     public function clinetList(){
         $list = Lucky_draw_client_list::all();
-        return view('draw.result');
+        return view('draw.result',compact('list'));
     }
 }
