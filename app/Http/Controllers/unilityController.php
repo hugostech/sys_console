@@ -2258,11 +2258,22 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
         return $spaceal_price/$base_price*1.0;
     }
 
+    public function run10Promotion(){
+        Ex_product::where('quantity','>',0)->chunk(20,function ($products){
+           foreach ($products as $product){
+               $promotion_percentage = $this->calculatePromoPercentage($product);
+               if ($promotion_percentage != 0 && (1-$promotion_percentage )< 0.13){
+                   $this->editProductPrice($product);
+               }
+           }
+        });
+    }
+
     public function run12Promotion(){
         Ex_product::where('quantity','>',0)->where('status',1)->limit(40)->chunk(20,function ($products){
             foreach ($products as $product){
                 $promotion_percentage = $this->calculatePromoPercentage($product);
-                if ($promotion_percentage == 0 || (1-$promotion_percentage )< 0.1){
+                if ($promotion_percentage == 0 || (1-$promotion_percentage )< 0.12){
                     $this->editProductPrice($product);
                 }
             }
