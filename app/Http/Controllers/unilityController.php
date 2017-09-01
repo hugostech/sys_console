@@ -2262,7 +2262,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
         Ex_product::where('quantity','>',0)->where('status',1)->limit(40)->chunk(20,function ($products){
             foreach ($products as $product){
                 $promotion_percentage = $this->calculatePromoPercentage($product);
-                if ($promotion_percentage == 0 || (1-$promotion_percentage )< 0.12){
+                if ($promotion_percentage == 0 || (1-$promotion_percentage )< 0.1){
                     $this->editProductPrice($product);
                 }
             }
@@ -2273,7 +2273,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
         $base_price = $product->price;
         $special = $product->special;
 
-        $special_price = $base_price * 0.88;
+        $special_price = $base_price * 0.9;
         $avarageCode = $this->getProductAvarageCost($product->model);
 
         if ($avarageCode != 0 && $special_price>$avarageCode*0.95){
