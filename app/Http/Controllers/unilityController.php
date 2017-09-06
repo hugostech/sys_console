@@ -631,6 +631,7 @@ class unilityController extends Controller
             "1600 X 900"=>"1600 X 900",
             "1920 X 1080"=>"1920 X 1080",
             "1920 X 1200"=>"1920 X 1200",
+            "2256 X 1504"=>"2256 X 1504",
             "2304 X 1440"=>"2304 X 1440",
             "2560 X 1440"=>"2560 X 1440",
             "2560 X 1600"=>"2560 X 1600",
@@ -660,6 +661,7 @@ class unilityController extends Controller
         $os = array(
             'Windows 10 home'=>'Windows 10 home',
             'Windows 10 pro'=>'Windows 10 pro',
+            'Windows 10S'=>'Windows 10S',
             'Windows 8 home'=>'Windows 8 home',
             'Windows 8 pro'=>'Windows 8 pro',
             'Windows 8.1'=>'Windows 8.1',
