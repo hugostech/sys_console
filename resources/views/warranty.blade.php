@@ -80,7 +80,7 @@
                             <option value="piero">Piero</option>
                             <option value="tony">Tony</option>
                             <option value="tony">Elfa</option>
-                            <option selected value="Danny">Danny</option>
+                            <option selected value="Jack">Jack</option>
                             <option value="matt">Matt</option>
                             <option value="John">John</option>
                             <option value="hugo">Hugo</option>
