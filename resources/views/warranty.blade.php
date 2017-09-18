@@ -72,6 +72,7 @@
                         {!! Form::input('number','quantity',1,['class'=>'form-control']) !!}
                     </div>
 
+
                     <div class="form-group">
                         <label for="staff">Staff</label>
                         <select class="form-control" name="staff" id="staff">
