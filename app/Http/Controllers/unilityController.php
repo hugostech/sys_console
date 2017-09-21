@@ -2300,7 +2300,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
         $base_price = $product->price;
         $special = $product->special;
 
-        $special_price = $base_price * $percentage;
+        $special_price = $base_price * (1-$percentage);
         $avarageCode = $this->getProductAvarageCost($product->model);
 
         if((!is_null($special)) && $special->price < $special_price){
