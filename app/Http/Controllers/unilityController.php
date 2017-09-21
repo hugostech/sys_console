@@ -2303,6 +2303,10 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
         $special_price = $base_price * $percentage;
         $avarageCode = $this->getProductAvarageCost($product->model);
 
+        if((!is_null($special)) && $special->price < $special_price){
+            return ;
+        }
+
         if ($avarageCode != 0 && $special_price>$avarageCode*0.95){
             if (!is_null($special)){
                 $special->delete();
@@ -2318,6 +2322,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
         }else{
             echo $product->model.'<br>';
         }
+
 
 
     }
