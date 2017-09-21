@@ -2284,7 +2284,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
     }
 
     public function runPromotion($category_id,$percentage){
-        $category = Category::find($category_id);
+        $category = Ex_category::find($category_id);
         if ($percentage>1){
             $percentage = floatval($percentage*1.0/100);
         }
