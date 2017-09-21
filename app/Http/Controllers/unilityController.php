@@ -2283,11 +2283,24 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
         });
     }
 
-    public function editProductPrice(Ex_product $product){
+    public function runPromotion($category_id,$percentage){
+        $category = Category::find($category_id);
+        if ($percentage>1){
+            $percentage = floatval($percentage*1.0/100);
+        }
+        foreach ($category->products as $product){
+            $promotion_percentage = $this->calculatePromoPercentage($product);
+            if ($promotion_percentage == 0 || (1-$promotion_percentage )< $percentage){
+                $this->editProductPrice($product,$percentage);
+            }
+        }
+    }
+
+    public function editProductPrice(Ex_product $product,$percentage){
         $base_price = $product->price;
         $special = $product->special;
 
-        $special_price = $base_price * 0.9;
+        $special_price = $base_price * $percentage;
         $avarageCode = $this->getProductAvarageCost($product->model);
 
         if ($avarageCode != 0 && $special_price>$avarageCode*0.95){

@@ -206,6 +206,7 @@ Route::get('royalpoint/givepoint/{order_id}','RoyalPointController@send_royal_po
 
 Route::get('run12promotion','unilityController@run12Promotion');
 Route::get('run10promotion','unilityController@run10Promotion');
+Route::get('runpromotion/{category_id}/{percentage}','unilityController@runPromotion');
 Route::get('testeditProductPrice/{code}','unilityController@editProductPrice');
  Route::group(['middleware' => ['web']], function () {
      Route::get('luckydraw','LuckyDrawController@index');
