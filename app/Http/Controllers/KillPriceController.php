@@ -24,8 +24,7 @@ class KillPriceController extends Controller
             "PB Technologies ","Playtech ","Computer Lounge ",
             "DTC Systems ","XP Computers Warehouse ","PC Force ",
             "Just Laptops ","Global PC ","Noel Leeming ","JB Hi-Fi ",
-            "The Warehouse ","Paradigm PC's ","Ascent ","Mighty Ape ",
-            "PC Online Shop "
+            "The Warehouse ","Mighty Ape "
         );
 
         View::share('kill_list',\GuzzleHttp\json_encode($this->killlist));
