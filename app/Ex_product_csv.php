@@ -10,4 +10,7 @@ class Ex_product_csv extends Model
     protected $table = 'oc_ex_product_csv';
     protected $primaryKey = 'product_csv_id';
     public $timestamps = false;
+    protected $fillable = array(
+        'supply_code','price','stock','product_id','supplier_code'
+    );
 }

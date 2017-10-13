@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Ex_category;
+use App\Ex_product;
+use App\Ex_product_csv;
+use App\Ex_product_description;
+use App\Ex_product_store;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -19,25 +24,91 @@ class CsvController extends Controller
     }
 
     public function import(){
-
-//        Excel::load('storage/app/pb.csv',function ($render){
-//            $render->each(function ($sheet){
-//
-//            });
-//        });
-        Excel::filter('chunk')->load('storage/app/pb.csv')->chunk(10, function($results)
-        {
-            foreach($results as $row)
+        DB::beginTranscation();
+        try{
+            $this->cleanProductCscByCode('pb');
+            Excel::filter('chunk')->load('storage/app/pb.csv')->chunk(10, function($results)
             {
+                foreach($results as $row)
+                {
 
-            }
-            dd('test');
-        });
+                    $this->importSingleProduct($row->manufacturers_code,$row->bulk_stock,$row->your_price,'pb',$row->brand.' '.$row->product_name,$row->pb_part_number);
+                }
+
+            });
+            DB::commit();
+        }catch (\Exception $e){
+            DB::rollback();
+            echo $e->getMessage();
+        }
+
+
     }
 
-    public function importProduct($data){
-        //to do check product exisit
-        //generate product
-        //add product_tag
+    public function importSingleProduct($mpn,$stock,$price,$supply_code,$name,$supplier_code){
+
+        if ($products = $this->mapProductByMpn($mpn)){
+            foreach ($products as $product_id){
+                $this->recordProductCsv($product_id,$stock,$price,$supply_code,$supplier_code);
+            }
+        }else{
+            $product_id = $this->generateProduct($mpn,$name,$price);
+            $this->recordProductCsv($product_id,$stock,$price,$supply_code,$supplier_code);
+        }
+
+    }
+
+    public function mapProductByMpn($mpn){
+        $products = Ex_product::where('mpn',$mpn)->get();
+        if(count($products)>0){
+            return $products->pluck('product_id');
+        }else{
+            return false;
+        }
+    }
+
+    private function recordProductCsv($product_id,$stock,$price,$supply_code,$supplier_code){
+        Ex_product_csv::create(compact('product_id','price','stock','supply_code','supplier_code'));
+    }
+
+    private function cleanProductCscByCode($supply_code){
+        Ex_product_csv::where('supply_code',$supply_code)->delete();
+    }
+
+    private function generateProduct($mpn,$name,$price){
+        //to do price edit
+        //out of stock status edit
+        //brand
+        $tem = array(
+            'model' => $mpn,
+            'mpn' => $mpn,
+            'quantity' => 0,
+            'stock_status_id' => 9,
+            'shipping' => 1,
+            'price' => $price*1.1,
+            'tax_class_id' => 9,
+            'weight' => 1,
+            'weight_class_id' => 1,
+            'subtract' => 1,
+            'sort_order' => 1,
+            'status' => 1,
+            'date_added' => Carbon::now()
+
+
+        );
+        $product = Ex_product::create($tem);
+        $store = new Ex_product_store();
+        $store->product_id = $product->product_id;
+        $store->store_id = 0;
+        $store->save();
+        $description = New Ex_product_description();
+        $description->product_id = $product->product_id;
+        $description->language_id = 1;
+        $description->name = $name;
+        $description->description = $name;
+        $description->meta_title = $name;
+        $description->save();
+        $this->category->products()->attach($product->product_id);
+        return $product->product_id;
     }
 }
