@@ -215,4 +215,6 @@ Route::get('testeditProductPrice/{code}','unilityController@editProductPrice');
 
  });
 
+ Route::get('csv/import','CsvController@import');
+
 
