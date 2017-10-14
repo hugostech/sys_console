@@ -76,7 +76,7 @@ class CsvController extends Controller
                 foreach($results as $row)
                 {
 
-                    $this->importSingleProduct($row->manufacturers_code,$row->bulk_stock,$row->your_price,'pb',$row->product_name,$row->pb_part_number);
+                    $this->importSingleProduct($row->manufacturers_code,$row->bulk_stock,$row->your_price,'pb',$row->product_name.' '.$row->manufacturers_code,$row->pb_part_number);
                 }
 
             });

@@ -7,6 +7,8 @@
                 <h3>CSV import</h3>
             </div>
             <div class="panel-body">
+
+
                 {!! Form::open(['url'=>'csv/import/run','method'=>'post','files'=>true]) !!}
                 <div class="form-group col-md-4">
                     {{--<label>Supplier</label>--}}
@@ -31,7 +33,14 @@
                                 @endforeach
                             </tr>
                         </table>
-                        <a href="{{url('csv/import',[$supply_code,'start'])}}" class="btn btn-primary text-capitalize">{{$supply_code}} Import!</a>
+                        <a href="{{url('csv/import',[$supply_code,'start'])}}" class="btn btn-primary text-capitalize" onclick="run()">{{$supply_code}} Import!</a>
+                        <br>
+                        <div class="progress sr-only" id="progress_bar">
+                            <div class="progress-bar progress-bar-striped active" role="progressbar"
+                                 aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:40%">
+                                Importing...
+                            </div>
+                        </div>
                     </div>
 
 
@@ -63,4 +72,9 @@
             </table>
         </div>
     </div>
+    <script>
+        function run() {
+            $('#progress_bar').removeClass('sr-only');
+        }
+    </script>
 @endsection
