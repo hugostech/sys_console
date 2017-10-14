@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Csv;
 use App\Ex_category;
 use App\Ex_product;
 use App\Ex_product_csv;
 use App\Ex_product_description;
 use App\Ex_product_store;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\View\View;
 use Maatwebsite\Excel\Facades\Excel;
 
 Define('NOCATEGORY',381);
@@ -21,29 +24,69 @@ class CsvController extends Controller
     public function __construct()
     {
         $this->category = Ex_category::find(NOCATEGORY);
+        View::share('csvRecords',Csv::all());
     }
 
-    public function import(){
-        DB::beginTranscation();
+    public function index(){
+        return view('csv.index');
+    }
+
+    public function run(Request $request){
+        $this->validate($request,[
+            'csv'=>'required',
+            'supply_code'=>'required'
+        ]);
+        $supply_code = $request->input('supply_code');
+        $filename = "$supply_code.csv";
+       $request->file('csv')->move(storage_path('app'),$filename);
+       try{
+           $firstsheet = 'test';
+           Excel::load('storage/app/'.$filename,function ($render) use(&$firstsheet){
+               $firstsheet = $render->first()->toArray();
+
+           });
+           return view('csv.index',compact('firstsheet','supply_code'));
+       }catch (\Exception $e){
+           $firstsheet = $e->getMessage();
+           return view('csv.index',compact('firstsheet'));
+       }
+
+    }
+
+    public function startImport($supply_code){
+
+        $this->$supply_code();
+        return redirect('csv/import');
+    }
+
+    private function recordCsv($code){
+        Csv::where('supplier_code',$code)->delete();
+        $csv = new Csv();
+        $csv->supplier_code = $code;
+        $csv->save();
+    }
+
+    private function pb(){
+        DB::beginTransaction();
         try{
             $this->cleanProductCscByCode('pb');
-            Excel::filter('chunk')->load('storage/app/pb.csv')->chunk(10, function($results)
+            Excel::filter('chunk')->load('storage/app/pb.csv')->chunk(100, function($results)
             {
                 foreach($results as $row)
                 {
 
-                    $this->importSingleProduct($row->manufacturers_code,$row->bulk_stock,$row->your_price,'pb',$row->brand.' '.$row->product_name,$row->pb_part_number);
+                    $this->importSingleProduct($row->manufacturers_code,$row->bulk_stock,$row->your_price,'pb',$row->product_name,$row->pb_part_number);
                 }
 
             });
+            $this->recordCsv('pb');
             DB::commit();
         }catch (\Exception $e){
             DB::rollback();
             echo $e->getMessage();
         }
-
-
     }
+
 
     public function importSingleProduct($mpn,$stock,$price,$supply_code,$name,$supplier_code){
 

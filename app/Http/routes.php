@@ -212,9 +212,12 @@ Route::get('testeditProductPrice/{code}','unilityController@editProductPrice');
      Route::get('luckydraw','LuckyDrawController@index');
      Route::get('luckydrawlist','LuckyDrawController@clinetList');
      Route::post('luckyydraw/register','LuckyDrawController@register');
+     Route::get('csv/import','CsvController@index');
+     Route::post('csv/import/run','CsvController@run');
+     Route::get('csv/import/{code}/start','CsvController@startImport');
 
  });
 
- Route::get('csv/import','CsvController@import');
+
 
 
