@@ -14,8 +14,8 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\View\View;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\View;
 
 Define('NOCATEGORY',381);
 class CsvController extends Controller
@@ -24,7 +24,8 @@ class CsvController extends Controller
     public function __construct()
     {
         $this->category = Ex_category::find(NOCATEGORY);
-        View::share('csvRecords',Csv::all());
+
+        View::share('csvRecords',Csv::all()->toArray());
     }
 
     public function index(){
