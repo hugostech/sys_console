@@ -8,6 +8,6 @@ class Lucky_draw_client_list extends Model
 {
     protected $table='lucky_draw_list';
     protected $fillable = array(
-        'name','email'
+        'name','email','phone'
     );
 }

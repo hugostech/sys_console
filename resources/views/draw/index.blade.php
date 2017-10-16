@@ -22,6 +22,10 @@
         {!! Form::input('email','email',null,['class'=>'form-control']) !!}
     </div>
     <div class="form-group">
+        <label>Phone <small>(optional)</small></label>
+        {!! Form::text('phone',null,['class'=>'form-control']) !!}
+    </div>
+    <div class="form-group">
         {!! Form::submit('Sign up',['class'=>'btn btn-primary']) !!}
     </div>
     {!! Form::close() !!}

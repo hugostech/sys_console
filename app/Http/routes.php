@@ -208,15 +208,17 @@ Route::get('run12promotion','unilityController@run12Promotion');
 Route::get('run10promotion','unilityController@run10Promotion');
 Route::get('runpromotion/{category_id}/{percentage}','unilityController@runPromotion');
 Route::get('testeditProductPrice/{code}','unilityController@editProductPrice');
- Route::group(['middleware' => ['web']], function () {
-     Route::get('luckydraw','LuckyDrawController@index');
-     Route::get('luckydrawlist','LuckyDrawController@clinetList');
-     Route::post('luckyydraw/register','LuckyDrawController@register');
-     Route::get('csv/import','CsvController@index');
-     Route::post('csv/import/run','CsvController@run');
-     Route::get('csv/import/{code}/start','CsvController@startImport');
+Route::group(['middleware' => ['web']], function () {
+ Route::get('luckydraw','LuckyDrawController@index');
+ Route::get('luckydrawlist','LuckyDrawController@clinetList');
+ Route::get('luckydrawExport','LuckyDrawController@exportCsv');
+ Route::get('dryPool','LuckyDrawController@dryPool');
+ Route::post('luckyydraw/register','LuckyDrawController@register');
+ Route::get('csv/import','CsvController@index');
+ Route::post('csv/import/run','CsvController@run');
+ Route::get('csv/import/{code}/start','CsvController@startImport');
 
- });
+});
 
 
 

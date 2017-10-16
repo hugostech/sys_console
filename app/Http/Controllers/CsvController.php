@@ -90,7 +90,7 @@ class CsvController extends Controller
 
 
     public function importSingleProduct($mpn,$stock,$price,$supply_code,$name,$supplier_code){
-
+        $mpn = trim($mpn);
         if ($products = $this->mapProductByMpn($mpn)){
             foreach ($products as $product_id){
                 $this->recordProductCsv($product_id,$stock,$price,$supply_code,$supplier_code);
@@ -102,12 +102,18 @@ class CsvController extends Controller
 
     }
 
-    public function mapProductByMpn($mpn){
+    private function mapProductByMpn($mpn){
         $products = Ex_product::where('mpn',$mpn)->get();
         if(count($products)>0){
             return $products->pluck('product_id');
         }else{
             return false;
+        }
+    }
+
+    private function generatePrice($price){
+        if ($price < 20){
+
         }
     }
 

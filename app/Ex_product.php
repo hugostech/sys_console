@@ -44,4 +44,8 @@ class Ex_product extends Model
     public function description(){
         return $this->hasOne('App\Ex_product_description','product_id');
     }
+
+    public function csvs(){
+        return $this->hasMany('App\Csv','product_id');
+    }
 }
