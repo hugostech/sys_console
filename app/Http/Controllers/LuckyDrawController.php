@@ -20,7 +20,7 @@ class LuckyDrawController extends Controller
     public function register(Request $request){
         $this->validate($request,[
             'name'=>'required',
-            'email'=>'required'
+            'email'=>'required | email'
         ]);
         $email = Lucky_draw_client_list::where('email',$request->input('email'))->get();
         if (count($email)<1){
