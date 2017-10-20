@@ -137,9 +137,8 @@ class CsvController extends Controller
     }
     private function stock_status_update($product_id){
         $product_stock = Ex_product_csv::select(DB::raw('MAX(stock) as stock'))->where('product_id',$product_id)->first();
-        dd($product_stock);
         $product = Ex_product::find($product_id);
-        $product->stock_status_id =$product_stock>0?ONLINEONLY:OUTOFSTOCK;
+        $product->stock_status_id =$product_stock->stock>0?ONLINEONLY:OUTOFSTOCK;
         $product->save();
 
     }
