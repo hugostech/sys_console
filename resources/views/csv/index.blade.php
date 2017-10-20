@@ -28,6 +28,13 @@
                         <label>First Sheet</label>
                         <table class="table table-bordered">
                             <tr>
+                                <th class="text-capitalize">mpn</th>
+                                <th class="text-capitalize">stock</th>
+                                <th class="text-capitalize">price</th>
+                                <th class="text-capitalize">name</th>
+                                <th class="text-capitalize">supplier code</th>
+                            </tr>
+                            <tr>
                                 @foreach($firstsheet as $row)
                                     <td>{{$row}}</td>
                                 @endforeach

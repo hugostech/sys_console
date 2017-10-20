@@ -18,14 +18,27 @@ use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\View;
 
 Define('NOCATEGORY',381);
+Define('OUTOFSTOCK',5);
+Define('ONLINEONLY',9);
 class CsvController extends Controller
 {
     private $category;
+    private $map;
     public function __construct()
     {
         $this->category = Ex_category::find(NOCATEGORY);
 
         View::share('csvRecords',Csv::all()->toArray());
+
+        $this->map = array(
+            'pb'=>[
+                'mpn'=>'manufacturers_code',
+                'stock'=>'bulk_stock',
+                'price'=>'your_price',
+                'name'=>'product_name',
+                'supplier_code' =>'pb_part_number'
+            ],
+        );
     }
 
     public function index(){
@@ -43,15 +56,31 @@ class CsvController extends Controller
        try{
            $firstsheet = 'test';
            Excel::load('storage/app/'.$filename,function ($render) use(&$firstsheet){
-               $firstsheet = $render->first()->toArray();
+               $firstsheet = $render->first();
+
 
            });
+           $firstsheet = $this->dataMap($supply_code,$firstsheet);
+
            return view('csv.index',compact('firstsheet','supply_code'));
        }catch (\Exception $e){
            $firstsheet = $e->getMessage();
            return view('csv.index',compact('firstsheet'));
        }
 
+    }
+
+    private function dataMap($code,$data){
+        if(isset($this->map[$code])){
+            $result = [];
+            $map = $this->map[$code];
+            foreach ($map as $value){
+                $result[]=$data->$value;
+            }
+            return $result;
+        }else{
+            return ['error'=>'Supplier code not varified'];
+        }
     }
 
     public function startImport($supply_code){
@@ -91,17 +120,29 @@ class CsvController extends Controller
 
     public function importSingleProduct($mpn,$stock,$price,$supply_code,$name,$supplier_code){
         $mpn = trim($mpn);
+
         if ($products = $this->mapProductByMpn($mpn)){
-            foreach ($products as $product_id){
-                $this->recordProductCsv($product_id,$stock,$price,$supply_code,$supplier_code);
-            }
+
         }else{
             $product_id = $this->generateProduct($mpn,$name,$price);
+            $products = [$product_id];
+        }
+
+        foreach ($products as $product_id){
             $this->recordProductCsv($product_id,$stock,$price,$supply_code,$supplier_code);
+            $this->stock_status_update($product_id);
+
         }
 
     }
+    private function stock_status_update($product_id){
+        $product_stock = Ex_product_csv::select(DB::raw('MAX(stock) as stock'))->where('product_id',$product_id)->first();
+        dd($product_stock);
+        $product = Ex_product::find($product_id);
+        $product->stock_status_id =$product_stock>0?ONLINEONLY:OUTOFSTOCK;
+        $product->save();
 
+    }
     private function mapProductByMpn($mpn){
         $products = Ex_product::where('mpn',$mpn)->get();
         if(count($products)>0){
@@ -112,8 +153,17 @@ class CsvController extends Controller
     }
 
     private function generatePrice($price){
+        if ($price < 0){
+            return 99999;
+        }
         if ($price < 20){
-
+            return $price+2;
+        }elseif ($price < 100){
+            return $price*1.15;
+        }elseif ($price < 300){
+            return $price*1.12;
+        }else{
+            return $price*1.1;
         }
     }
 
@@ -126,16 +176,15 @@ class CsvController extends Controller
     }
 
     private function generateProduct($mpn,$name,$price){
-        //to do price edit
-        //out of stock status edit
         //brand
+        $price = $this->generatePrice($price);
         $tem = array(
             'model' => $mpn,
             'mpn' => $mpn,
             'quantity' => 0,
             'stock_status_id' => 9,
             'shipping' => 1,
-            'price' => $price*1.1,
+            'price' => $price,
             'tax_class_id' => 9,
             'weight' => 1,
             'weight_class_id' => 1,
