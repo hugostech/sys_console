@@ -90,6 +90,7 @@ class CsvController extends Controller
 //        try{
             $this->cleanProductCscByCode($supply_code);
             $map = $this->map[$supply_code];
+            dd($map);
             Excel::filter('chunk')->load('storage/app/pb.csv')->chunk(100, function($results) use ($supply_code,$map)
             {
 
