@@ -85,8 +85,34 @@ class CsvController extends Controller
 
     public function startImport($supply_code){
 
-        $this->$supply_code();
-        return redirect('csv/import');
+//        $this->$supply_code();
+        DB::beginTransaction();
+        try{
+            $this->cleanProductCscByCode('pb');
+            Excel::filter('chunk')->load('storage/app/pb.csv')->chunk(100, function($results) use ($supply_code)
+            {
+
+                foreach($results as $row)
+                {
+
+                    $this->importSingleProduct($row->$this->map[$supply_code]['mpn'],$row->$this->map[$supply_code]['stock'],$row->$this->map[$supply_code]['price'],$supply_code,$row->$this->map[$supply_code]['name'].' '.$row->$this->map[$supply_code]['mpn'],$row->$this->map[$supply_code]['supplier_code']);
+                }
+
+            });
+            $this->recordCsv('pb');
+            $category = Ex_category::find(NOCATEGORY);
+            $category->products()->chunk(100,function ($products){
+                foreach ($products as $product){
+                    $this->price_update($product);
+                }
+            });
+            DB::commit();
+            return redirect('csv/import');
+        }catch (\Exception $e){
+            DB::rollback();
+            echo $e->getMessage();
+        }
+
     }
 
     private function recordCsv($code){
@@ -133,6 +159,14 @@ class CsvController extends Controller
             $this->stock_status_update($product_id);
 
         }
+
+    }
+
+    private function price_update($product){
+        $product_price = Ex_product_csv::select(DB::raw('MIN(price) as price'))->where('product_id',$product->product_id)->first();
+        $product->price = $this->generatePrice($product_price->price);
+        $product->save();
+
 
     }
     private function stock_status_update($product_id){
