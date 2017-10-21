@@ -89,19 +89,23 @@ class CsvController extends Controller
         DB::beginTransaction();
 //        try{
             $this->cleanProductCscByCode($supply_code);
-            $map = $this->map[$supply_code];
-            $mpn = $map['mpn'];
-            Excel::filter('chunk')->load('storage/app/'.$supply_code.'.csv')->chunk(100, function($results) use ($supply_code,$map,$mpn)
+
+            $mpn_map = $this->map[$supply_code]['mpn'];
+            $stock_map = $this->map[$supply_code]['stock'];
+            $name_map = $this->map[$supply_code]['name'];
+            $price_map = $this->map[$supply_code]['price'];
+            $supply_code_map  = $this->map[$supply_code]['supplier_code'];
+            Excel::filter('chunk')->load('storage/app/'.$supply_code.'.csv')->chunk(100, function($results) use ($supply_code,$mpn_map,$stock_map,$name_map,$price_map,$supply_code_map)
             {
 
                 foreach($results as $row)
                 {
-                    dd($row->$mpn);
-                    $this->importSingleProduct($row->$map['mpn'],$row->$map['stock'],$row->$map['price'],$supply_code,$row->$map['name'].' '.$row->$map['mpn'],$row->$map['supplier_code']);
+
+                    $this->importSingleProduct($row->$mpn_map,$row->$stock_map,$row->$price_map,$supply_code,$row->$name_map.' '.$row->$mpn_map,$row->$supply_code_map);
                 }
 
             });
-            $this->recordCsv('pb');
+            $this->recordCsv($supply_code);
             $category = Ex_category::find(NOCATEGORY);
             $category->products()->chunk(100,function ($products){
                 foreach ($products as $product){
