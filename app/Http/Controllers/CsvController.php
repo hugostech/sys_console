@@ -87,7 +87,7 @@ class CsvController extends Controller
 
 //        $this->$supply_code();
         DB::beginTransaction();
-//        try{
+        try{
             $this->cleanProductCscByCode($supply_code);
 
             $mpn_map = $this->map[$supply_code]['mpn'];
@@ -114,10 +114,10 @@ class CsvController extends Controller
             });
             DB::commit();
             return redirect('csv/import');
-//        }catch (\Exception $e){
-//            DB::rollback();
-//            echo $e->getTraceAsString();
-//        }
+        }catch (\Exception $e){
+            DB::rollback();
+            echo $e->getFile().' '.$e->getLine().'-'.$e->getMessage();
+        }
 
     }
 
