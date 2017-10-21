@@ -88,14 +88,15 @@ class CsvController extends Controller
 //        $this->$supply_code();
         DB::beginTransaction();
         try{
-            $this->cleanProductCscByCode('pb');
-            Excel::filter('chunk')->load('storage/app/pb.csv')->chunk(100, function($results) use ($supply_code)
+            $this->cleanProductCscByCode($supply_code);
+            $map = $this->map[$supply_code];
+            Excel::filter('chunk')->load('storage/app/pb.csv')->chunk(100, function($results) use ($supply_code,$map)
             {
 
                 foreach($results as $row)
                 {
 
-                    $this->importSingleProduct($row->$this->map[$supply_code]['mpn'],$row->$this->map[$supply_code]['stock'],$row->$this->map[$supply_code]['price'],$supply_code,$row->$this->map[$supply_code]['name'].' '.$row->$this->map[$supply_code]['mpn'],$row->$this->map[$supply_code]['supplier_code']);
+                    $this->importSingleProduct($row->$map['mpn'],$row->$map['stock'],$row->$map['price'],$supply_code,$row->$map['name'].' '.$row->$map['mpn'],$row->$map['supplier_code']);
                 }
 
             });
@@ -128,6 +129,7 @@ class CsvController extends Controller
             $this->cleanProductCscByCode('pb');
             Excel::filter('chunk')->load('storage/app/pb.csv')->chunk(100, function($results)
             {
+
                 foreach($results as $row)
                 {
 
