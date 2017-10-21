@@ -87,7 +87,7 @@ class CsvController extends Controller
 
 //        $this->$supply_code();
         DB::beginTransaction();
-        try{
+//        try{
             $this->cleanProductCscByCode($supply_code);
             $map = $this->map[$supply_code];
             Excel::filter('chunk')->load('storage/app/pb.csv')->chunk(100, function($results) use ($supply_code,$map)
@@ -109,10 +109,10 @@ class CsvController extends Controller
             });
             DB::commit();
             return redirect('csv/import');
-        }catch (\Exception $e){
-            DB::rollback();
-            echo $e->getTraceAsString();
-        }
+//        }catch (\Exception $e){
+//            DB::rollback();
+//            echo $e->getTraceAsString();
+//        }
 
     }
 
