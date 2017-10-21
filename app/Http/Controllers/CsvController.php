@@ -111,7 +111,7 @@ class CsvController extends Controller
             return redirect('csv/import');
         }catch (\Exception $e){
             DB::rollback();
-            echo $e->getMessage();
+            echo $e->getTraceAsString();
         }
 
     }
