@@ -29,6 +29,9 @@ class CsvController extends Controller
         $this->category = Ex_category::find(NOCATEGORY);
 
         View::share('csvRecords',Csv::all()->toArray());
+//        View::share('csvRecords',[]);
+        View::share('supplier_list',['pb' => 'PB', 'im' => 'Ingram micro','aw'=>'Anywhere','do'=>'Dove','sy'=>'Synnex']);
+
 
         $this->map = array(
             'pb'=>[
@@ -38,6 +41,35 @@ class CsvController extends Controller
                 'name'=>'product_name',
                 'supplier_code' =>'pb_part_number'
             ],
+            'aw'=>[
+                'mpn'=>'manufacturer_code',
+                'stock'=>'quantityonhand',
+                'price'=>'sellingprice',
+                'name'=>'itemname',
+                'supplier_code' =>'itemnumber'
+            ],
+            'do'=>[
+                'mpn'=>'mftr_code',
+                'stock'=>'qty',
+                'price'=>'price',
+                'name'=>'description',
+                'supplier_code' =>'dove_code'
+            ],
+            'im'=>[
+                'mpn'=>'vendor_part_number',
+                'stock'=>'available_quantity',
+                'price'=>'customer_price',
+                'name'=>'ingram_part_description',
+                'supplier_code' =>'ingram_part_number'
+            ],
+            'sy'=>[
+                'mpn'=>'partno',
+                'stock'=>'stock',
+                'price'=>'block1_price',
+                'name'=>'description',
+                'supplier_code' =>'gcode'
+            ],
+
         );
     }
 
@@ -56,6 +88,7 @@ class CsvController extends Controller
        try{
            $firstsheet = 'test';
            Excel::load('storage/app/'.$filename,function ($render) use(&$firstsheet){
+
                $firstsheet = $render->first();
 
 
@@ -153,6 +186,9 @@ class CsvController extends Controller
 
     public function importSingleProduct($mpn,$stock,$price,$supply_code,$name,$supplier_code){
         $mpn = trim($mpn);
+        if (!is_numeric($stock)){
+            $stock=0;
+        }
 
         if ($products = $this->mapProductByMpn($mpn)){
 

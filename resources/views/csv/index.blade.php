@@ -12,7 +12,7 @@
                 {!! Form::open(['url'=>'csv/import/run','method'=>'post','files'=>true]) !!}
                 <div class="form-group col-md-4">
                     {{--<label>Supplier</label>--}}
-                    {!! Form::select('supply_code', ['pb' => 'PB', 'im' => 'Ingram micro'], null, ['placeholder' => 'Pick supplier','class'=>'form-control','required']) !!}
+                    {!! Form::select('supply_code', $supplier_list, null, ['placeholder' => 'Pick supplier','class'=>'form-control','required']) !!}
                 </div>
                 <div class="form-group col-md-4">
                     {!! Form::input('file','csv') !!}
