@@ -95,7 +95,7 @@ class CsvController extends Controller
 
                 foreach($results as $row)
                 {
-
+                    dd($row->$map['mpn']);
                     $this->importSingleProduct($row->$map['mpn'],$row->$map['stock'],$row->$map['price'],$supply_code,$row->$map['name'].' '.$row->$map['mpn'],$row->$map['supplier_code']);
                 }
 
