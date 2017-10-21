@@ -195,7 +195,8 @@ class unilityController extends Controller
             'special_end'=>$special_end,
             'img'=>$product->image,
             'bottom_cost'=>$averageCost,
-            'kill_price_status'=>$killp_price_status
+            'kill_price_status'=>$killp_price_status,
+            'product'=>$product
         );
         return $data;
     }

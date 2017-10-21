@@ -121,7 +121,14 @@
                     <td>
                         {!! str_limit($data['price'],2000) !!}<br>
                         Viewed:<label>{{$data['view']}}</label><br>
+                        @if($data['product']->csvs()->count()>0)
+                            <ul class="list-group">
 
+                            </ul>
+                            @foreach($data['product']->csvs as $item)
+                                <li class="list-group-item">{{$item->supply_code}}:{{$item->price}} | {{$item->date_added}}<span class="badge">{{$item->stock}}</span></li>
+                            @endforeach
+                        @endif
                     </td>
                 </tr>
 

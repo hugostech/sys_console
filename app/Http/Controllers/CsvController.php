@@ -107,6 +107,16 @@ class CsvController extends Controller
 
     }
 
+    public function clear(){
+        $this->category->products()->chunk(100,function ($products){
+            foreach ($products as $product){
+                if($product->csvs()->count()<1){
+                    $product->delete();
+                }
+            }
+        });
+    }
+
     private function dataMap($code,$data){
         if(isset($this->map[$code])){
             $result = [];
@@ -188,7 +198,7 @@ class CsvController extends Controller
     }
 
 
-    public function importSingleProduct($mpn,$stock,$price,$supply_code,$name,$supplier_code){
+    private function importSingleProduct($mpn,$stock,$price,$supply_code,$name,$supplier_code){
         if (!is_numeric($price)){
             return false;
         }
@@ -237,7 +247,7 @@ class CsvController extends Controller
     }
 
     private function generatePrice($price){
-        if ($price < 0){
+        if ($price < 0 || !is_numeric($price)){
             return 99999;
         }
         if ($price < 20){

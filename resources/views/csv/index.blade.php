@@ -5,6 +5,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h3>CSV import</h3>
+                <button type="button" class="btn btn-danger btn-xs" onclick="doClear()">Clean Products</button>
             </div>
             <div class="panel-body">
 
@@ -82,6 +83,12 @@
     <script>
         function run() {
             $('#progress_bar').removeClass('sr-only');
+        }
+
+        function doClear() {
+            if (confirm('Are you sure to start clean the csv products?')){
+                window.location = '{{url('csv/import/clear')}}';
+            }
         }
     </script>
 @endsection
