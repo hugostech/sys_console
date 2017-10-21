@@ -200,9 +200,10 @@ class CsvController extends Controller
 
 
     private function importSingleProduct($mpn,$stock,$price,$supply_code,$name,$supplier_code){
-        if (!is_numeric($price)){
+        if (!is_numeric($price) || trim($mpn)==''){
             return false;
         }
+
         $mpn = trim($mpn);
         if (!is_numeric($stock)){
             $stock=0;
