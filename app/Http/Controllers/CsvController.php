@@ -30,7 +30,7 @@ class CsvController extends Controller
 
         View::share('csvRecords',Csv::all()->toArray());
 //        View::share('csvRecords',[]);
-        View::share('supplier_list',['pb' => 'PB', 'im' => 'Ingram micro','aw'=>'Anywhere','do'=>'Dove','sy'=>'Synnex']);
+        View::share('supplier_list',['pb' => 'PB', 'im' => 'Ingram micro','aw'=>'Anywhere','do'=>'Dove','sy'=>'Synnex','cd'=>'Computer Dynamics']);
 
 
         $this->map = array(
@@ -69,6 +69,13 @@ class CsvController extends Controller
                 'name'=>'description',
                 'supplier_code' =>'gcode'
             ],
+            'cd'=>[
+                'mpn'=>0,
+                'stock'=>'qty_in_stock',
+                'price'=>'dealer',
+                'name'=>'description',
+                'supplier_code' =>'part_code'
+            ],
 
         );
     }
@@ -88,10 +95,7 @@ class CsvController extends Controller
        try{
            $firstsheet = 'test';
            Excel::load('storage/app/'.$filename,function ($render) use(&$firstsheet){
-
                $firstsheet = $render->first();
-
-
            });
            $firstsheet = $this->dataMap($supply_code,$firstsheet);
 
@@ -139,8 +143,8 @@ class CsvController extends Controller
 
             });
             $this->recordCsv($supply_code);
-            $category = Ex_category::find(NOCATEGORY);
-            $category->products()->chunk(100,function ($products){
+//            $category = Ex_category::find(NOCATEGORY);
+            $this->category->products()->chunk(100,function ($products){
                 foreach ($products as $product){
                     $this->price_update($product);
                 }
@@ -185,10 +189,14 @@ class CsvController extends Controller
 
 
     public function importSingleProduct($mpn,$stock,$price,$supply_code,$name,$supplier_code){
+        if (!is_numeric($price)){
+            return false;
+        }
         $mpn = trim($mpn);
         if (!is_numeric($stock)){
             $stock=0;
         }
+
 
         if ($products = $this->mapProductByMpn($mpn)){
 
