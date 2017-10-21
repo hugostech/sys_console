@@ -90,13 +90,13 @@ class CsvController extends Controller
 //        try{
             $this->cleanProductCscByCode($supply_code);
             $map = $this->map[$supply_code];
-            dd($map);
-            Excel::filter('chunk')->load('storage/app/pb.csv')->chunk(100, function($results) use ($supply_code,$map)
+            $mpn = $map['mpn'];
+            Excel::filter('chunk')->load('storage/app/'.$supply_code.'.csv')->chunk(100, function($results) use ($supply_code,$map,$mpn)
             {
 
                 foreach($results as $row)
                 {
-                    dd($row->$map['mpn']);
+                    dd($row->$mpn);
                     $this->importSingleProduct($row->$map['mpn'],$row->$map['stock'],$row->$map['price'],$supply_code,$row->$map['name'].' '.$row->$map['mpn'],$row->$map['supplier_code']);
                 }
 
