@@ -46,6 +46,6 @@ class Ex_product extends Model
     }
 
     public function csvs(){
-        return $this->hasMany('App\Csv','product_id');
+        return $this->hasMany('App\Ex_product_csv','product_id');
     }
 }
