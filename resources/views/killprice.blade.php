@@ -126,7 +126,7 @@
 
                             </ul>
                             @foreach($data['product']->csvs as $item)
-                                <li class="list-group-item">{{$item->supply_code}}:{{$item->price}} | {{$item->date_added}}<span class="badge">{{$item->stock}}</span></li>
+                                <li class="list-group-item">{{$item->supply_code}}:{{$item->price}}<span class="badge">{{$item->stock}}</span></li>
                             @endforeach
                         @endif
                     </td>
