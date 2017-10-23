@@ -95,7 +95,7 @@
                 @foreach($csvRecords as $key=>$item)
                     <tr>
                         <td>{{$key+1}}</td>
-                        <td>{{$item['supplier_code']}}</td>
+                        <td>{{$supplier_list[$item['supplier_code']]}}</td>
                         <td><label class="text-danger">{{$item['updated_at']}}</label></td>
                     </tr>
                 @endforeach
