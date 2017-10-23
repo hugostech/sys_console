@@ -6,6 +6,30 @@
             <div class="panel-heading">
                 <h3>CSV import</h3>
                 <button type="button" class="btn btn-danger btn-xs" onclick="doClear()">Clean Products</button>
+                <button type="button" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#myModal">Delete All Disabled Products</button>
+                <!-- Modal -->
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title text-danger" id="myModalLabel">Delete Confirm</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label>Please Type "DELETE"</label>
+                                    <input type="text" class="form-control" id="del_input">
+                                </div>
+
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" onclick="runDel()">Confirm</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="panel-body">
 
@@ -88,6 +112,11 @@
         function doClear() {
             if (confirm('Are you sure to start clean the csv products?')){
                 window.location = '{{url('csv/import/clear')}}';
+            }
+        }
+        function runDel() {
+            if ($('#del_input').val()==='DELETE'){
+                window.location = '{{url('csv/import/del')}}';
             }
         }
     </script>

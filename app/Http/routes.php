@@ -218,6 +218,7 @@ Route::group(['middleware' => ['web']], function () {
  Route::post('csv/import/run','CsvController@run');
  Route::get('csv/import/{code}/start','CsvController@startImport');
  Route::get('csv/import/clear','CsvController@clear');
+ Route::get('csv/import/del','CsvController@deleteDisable');
 
 });
 

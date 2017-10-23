@@ -108,11 +108,32 @@ class CsvController extends Controller
     }
 
     public function clear(){
-        $this->category->products()->chunk(100,function ($products){
+        Ex_product::whereNotNull('mpn')->where('mpn','<>','')->chunk(100,function ($products){
             foreach ($products as $product){
                 if($product->csvs()->count()<1){
-                    $product->delete();
+                    $product->status=0;
+                    $product->save();
                 }
+            }
+        });
+//        $this->category->products()->chunk(100,function ($products){
+//            foreach ($products as $product){
+//                if($product->csvs()->count()<1){
+////                    $product->description()->delete();
+////                    $product->delete();
+//                    $product->status=0;
+//                    $product->save();
+//                }
+//            }
+//        });
+        return 'success!';
+    }
+
+    public function deleteDisable(){
+        Ex_product::where('status',0)->chunk(100,function ($products){
+            foreach ($products as $product){
+                $product->description()->delete();
+                $product->delete();
             }
         });
         return 'success!';
@@ -155,7 +176,7 @@ class CsvController extends Controller
             });
             $this->recordCsv($supply_code);
 //            $category = Ex_category::find(NOCATEGORY);
-            $this->category->products()->chunk(100,function ($products){
+            $this->category->products()->where('status',1)->chunk(100,function ($products){
                 foreach ($products as $product){
                     $this->price_update($product);
                 }
@@ -240,7 +261,7 @@ class CsvController extends Controller
 
     }
     private function mapProductByMpn($mpn){
-        $products = Ex_product::where('mpn',$mpn)->get();
+        $products = Ex_product::where('mpn',$mpn)->where('status',1)->get();
         if(count($products)>0){
             return $products->pluck('product_id');
         }else{
