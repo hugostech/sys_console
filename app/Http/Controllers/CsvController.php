@@ -176,7 +176,8 @@ class CsvController extends Controller
             });
             $this->recordCsv($supply_code);
 //            $category = Ex_category::find(NOCATEGORY);
-            $this->category->products()->where('status',1)->chunk(100,function ($products){
+//            $this->category->products()->where('status',1)->chunk(100,function ($products){
+            Ex_product::where('status',1)->whereNotNull('mpn')->where('quantity','>',0)->chunk(100,function ($products){
                 foreach ($products as $product){
                     $this->price_update($product);
                 }
@@ -248,8 +249,11 @@ class CsvController extends Controller
 
     private function price_update($product){
         $product_price = Ex_product_csv::select(DB::raw('MIN(price) as price'))->where('product_id',$product->product_id)->first();
-        $product->price = $this->generatePrice($product_price->price);
-        $product->save();
+        if (!is_null($product_price)){
+            $product->price = $this->generatePrice($product_price->price);
+            $product->save();
+        }
+
 
 
     }

@@ -65,14 +65,17 @@
                                 @endforeach
                             </tr>
                         </table>
-                        <a href="{{url('csv/import',[$supply_code,'start'])}}" class="btn btn-primary text-capitalize" onclick="run()">{{$supply_code}} Import!</a>
+                        @if(count($firstsheet)>0)
+                        <a href="{{url('csv/import',[$supply_code,'start'])}}" class="btn btn-primary text-capitalize" onclick="run()">Start Import!</a>
                         <br>
+
                         <div class="progress sr-only" id="progress_bar">
                             <div class="progress-bar progress-bar-striped active" role="progressbar"
                                  aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:40%">
                                 Importing...
                             </div>
                         </div>
+                        @endif
                     </div>
 
 
