@@ -220,7 +220,13 @@ class CsvController extends Controller
         }
     }
     public function testPrice($id){
-        return $this->price_update(Ex_product::find($id));
+//        return $this->price_update(Ex_product::find($id));
+        Ex_product::where('status',1)->whereNotNull('mpn')->where('mpn','<>','')->where('quantity','<',1)->chunk(100,function ($products){
+            foreach ($products as $product){
+                var_dump($product->mpn);
+                echo '-';
+            }
+        });
     }
     private function importSingleProduct($mpn,$stock,$price,$supply_code,$name,$supplier_code){
         if (!is_numeric($price) || trim($mpn)==''){
@@ -252,14 +258,14 @@ class CsvController extends Controller
 //        $product_price = Ex_product_csv::select(DB::raw('MIN(price) as price'))->where('product_id',$product->product_id)->first();
         $product_price = Ex_product_csv::where('product_id',$product->product_id)->min('price');
 //        var_dump($product_price->price);
-        dd($product_price);
-        if (isset($product_price->price)){
-            if (is_numeric($product_price->price)){
-                $product->price = $this->generatePrice($product_price->price);
+
+//        if (isset($product_price->price)){
+            if (is_numeric($product_price)){
+                $product->price = $this->generatePrice($product_price);
                 $product->save();
             }
 
-        }
+//        }
 
 
 
