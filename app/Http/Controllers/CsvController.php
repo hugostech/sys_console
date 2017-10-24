@@ -235,12 +235,17 @@ class CsvController extends Controller
 //
 //            }
 //        });
-        $products = Ex_product::where('status',1)->where('price','>',99990)->limit(5)->get();
-        foreach ($products as $product){
-            echo $product->model;
-            echo '-'.$this->grabProductCost($product->model);
-            echo '<br>';
-        }
+        Ex_product::where('status',1)->where('price','>',99990)->chunk(50,function ($products){
+            foreach ($products as $product){
+                echo $product->model;
+                echo '-'.$product->description->name;
+                echo '-'.$product->price;
+                echo '-<label style="color: red;">'.$this->grabProductCost($product->model).'</label>';
+                echo '<br>';
+            }
+            sleep(1);
+        });
+
     }
     private function importSingleProduct($mpn,$stock,$price,$supply_code,$name,$supplier_code){
         if (!is_numeric($price) || trim($mpn)==''){
