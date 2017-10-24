@@ -223,8 +223,11 @@ class CsvController extends Controller
 //        return $this->price_update(Ex_product::find($id));
         Ex_product::where('status',1)->whereNotNull('mpn')->where('mpn','<>','')->where('quantity','<',1)->chunk(100,function ($products){
             foreach ($products as $product){
-                var_dump($product->mpn);
+                echo $product->mpn;
                 echo '-';
+                $this->price_update($product);
+                echo '<br>';
+
             }
         });
     }
@@ -261,8 +264,11 @@ class CsvController extends Controller
 
 //        if (isset($product_price->price)){
             if (is_numeric($product_price)){
-                $product->price = $this->generatePrice($product_price);
-                $product->save();
+                echo $this->generatePrice($product_price);
+//                $product->price = $this->generatePrice($product_price);
+//                $product->save();
+            }else{
+                echo 'null';
             }
 
 //        }
