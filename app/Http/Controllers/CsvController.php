@@ -223,7 +223,12 @@ class CsvController extends Controller
 //        return $this->price_update(Ex_product::find($id));
         Ex_product::where('status',1)->whereNotNull('mpn')->where('mpn','<>','')->where('quantity','<',1)->chunk(100,function ($products){
             foreach ($products as $product){
-                echo $product->mpn;
+                if($product->quantity>0){
+                    echo '<label style="color:red">'.$product->mpn.'</label>';
+                }else{
+                    echo $product->mpn;
+                }
+
                 echo '-';
                 $this->price_update($product);
                 echo '<br>';
