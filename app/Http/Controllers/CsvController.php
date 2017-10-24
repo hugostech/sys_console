@@ -219,8 +219,9 @@ class CsvController extends Controller
             echo $e->getMessage();
         }
     }
-
-
+    public function testPrice($id){
+        return $this->price_update(Ex_product::find($id));
+    }
     private function importSingleProduct($mpn,$stock,$price,$supply_code,$name,$supplier_code){
         if (!is_numeric($price) || trim($mpn)==''){
             return false;
@@ -249,6 +250,8 @@ class CsvController extends Controller
 
     private function price_update($product){
         $product_price = Ex_product_csv::select(DB::raw('MIN(price) as price'))->where('product_id',$product->product_id)->first();
+        var_dump($product_price->price);
+        dd($product_price);
         if (isset($product_price->price)){
             if (is_numeric($product_price->price)){
                 $product->price = $this->generatePrice($product_price->price);
