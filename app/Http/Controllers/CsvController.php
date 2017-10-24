@@ -177,7 +177,7 @@ class CsvController extends Controller
             $this->recordCsv($supply_code);
 //            $category = Ex_category::find(NOCATEGORY);
 //            $this->category->products()->where('status',1)->chunk(100,function ($products){
-            Ex_product::where('status',1)->whereNotNull('mpn')->where('quantity','>',0)->chunk(100,function ($products){
+            Ex_product::where('status',1)->whereNotNull('mpn')->where('quantity','<',1)->chunk(100,function ($products){
                 foreach ($products as $product){
                     $this->price_update($product);
                 }
