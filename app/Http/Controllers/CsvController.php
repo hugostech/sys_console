@@ -237,15 +237,26 @@ class CsvController extends Controller
 //        });
         Ex_product::where('status',1)->where('price','>',99990)->chunk(50,function ($products){
             foreach ($products as $product){
-                echo $product->model;
-                echo '-'.$product->description->name;
-                echo '-'.$product->price;
-                echo '-<label style="color: red;">'.$this->grabProductCost($product->model).'</label>';
-                echo '<br>';
+                $ap = $this->grabProductCost($product->model);
+                if ($ap<1){
+                    echo $product->model;
+                    echo '<br>';
+                }else{
+                    $product->price = $this->pricePrettify($ap*1.5);
+                    $product->save();
+                }
+
             }
-            sleep(1);
+
         });
 
+    }
+    private function pricePrettify($price){
+        $price = $price*1.15;
+        $price = $price/10;
+        $price = floor($price);
+        $price = $price*10+9;
+        return $price/1.15;
     }
     private function importSingleProduct($mpn,$stock,$price,$supply_code,$name,$supplier_code){
         if (!is_numeric($price) || trim($mpn)==''){
