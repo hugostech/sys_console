@@ -130,7 +130,6 @@ class CsvController extends Controller
     }
 
     public function deleteDisable(){
-        dd('here');
         Ex_product::where('status',0)->chunk(100,function ($products){
             foreach ($products as $product){
                 $product->description()->delete();
