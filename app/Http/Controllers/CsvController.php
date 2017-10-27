@@ -108,7 +108,7 @@ class CsvController extends Controller
     }
 
     public function clear(){
-        Ex_product::whereNotNull('mpn')->where('mpn','<>','')->chunk(100,function ($products){
+        Ex_product::whereNotNull('mpn')->where('mpn','<>','')->where('quantity','<',1)->chunk(100,function ($products){
             foreach ($products as $product){
                 if($product->csvs()->count()<1){
                     $product->status=0;
