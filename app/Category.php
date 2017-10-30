@@ -10,5 +10,9 @@ class Category extends Model
 
     protected $fillable = array('name');
 
+    public function suppliers(){
+        return $this->belongsToMany('App\Category_warranty','supplier_warranty','category_id','warranty_detail_id');
+    }
+
 
 }

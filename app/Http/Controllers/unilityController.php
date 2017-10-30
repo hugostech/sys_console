@@ -295,15 +295,9 @@ class unilityController extends Controller
 
     public function warrantySubCategory($id)
     {
-        $category = Category::find($id)->name;
-        $category_items = category_item::where('category_id', $id)->get();
-        $suppliers = array();
+        $category = Category::find($id);
 
-        foreach ($category_items as $item) {
-            $suppliers[] = Category_warranty::find($item->warranty_detail_id);
-        }
-
-        return view('warranty_subcategory', compact('category', 'suppliers'));
+        return view('warranty_subcategory', compact('category'));
     }
 
     /*

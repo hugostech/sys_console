@@ -73,7 +73,15 @@ Route::put('killprice','unilityController@killPrice_edit');
 Route::get('addWarrantyGuide',function (){
     $suppliers = \App\Category::all();
     $category_warrantys = \App\Category_warranty::all();
-    return view('category_warranty',compact('suppliers','category_warrantys'));
+    $selected = [];
+    foreach ($suppliers as $i){
+        $selected[$i->id] = $i->suppliers()->pluck('id');
+    }
+    return view('category_warranty',compact('suppliers','category_warrantys','selected'));
+});
+Route::get('delWarrantyGuide/{id}',function ($id){
+    \App\Category_warranty::find($id)->delete();
+    return redirect()->back();
 });
 
 Route::patch('addWarrantyGuide',function (\Illuminate\Http\Request $request){

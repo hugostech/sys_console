@@ -15,7 +15,11 @@
     </div>
     <div class="col-md-12" style="border-top: solid 1px grey;padding: 10px;border-bottom: solid 1px grey">
         @foreach($category_warrantys as $warranty)
-            <a type="button" class="btn btn-success" href="#">{{$warranty->supplier}}</a>
+            @if($warranty->categorys()->count()>0)
+            <a type="button" class="btn btn-info" href="#">{{$warranty->supplier}}</a>
+            @else
+            <a type="button" class="btn btn-danger" href="delWarrantyGuide/{{$warranty->id}}">{{$warranty->supplier}}</a>
+            @endif
         @endforeach
 
     </div>
