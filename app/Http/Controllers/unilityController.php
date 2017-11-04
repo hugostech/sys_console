@@ -743,16 +743,21 @@ class unilityController extends Controller
 
     public function dailySync()
     {
-        self::checkOrder();
-        self::categoryarrange();
+        try{
+            self::checkOrder();
+            self::categoryarrange();
 
 //        self::listnewclient();
-        self::specialCheck();
-        self::selfClearSpecial();
+            self::specialCheck();
+            self::selfClearSpecial();
 //        self::producttosales();
 //        self::categoryarrange();
-        self::changeOrderStatus();
-        return self::syncQuantity(); //sync quantity
+            self::changeOrderStatus();
+            return self::syncQuantity();
+        }catch (\Exception $e){
+            echo $e->getMessage();
+        }
+
     }
     private function specialCheck(){
         $specials = Ex_speceal::all();
