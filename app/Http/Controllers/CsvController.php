@@ -138,6 +138,8 @@ class CsvController extends Controller
 //        });
         foreach (Ex_product::where('status',0)->cursor() as $product){
             $product->description()->delete();
+            $product->special()->delete();
+            DB::table('oc_ex_url_alias')->where('query','product_id='.$product->product_id)->delete();
             $product->delete();
         }
         return 'success!';

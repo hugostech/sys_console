@@ -319,7 +319,7 @@ class KillPriceController extends Controller
     }
     public function run(){
 
-        Kill_price_product::where('status','y')->chunk(20,function($products){
+        Kill_price_product::where('status','y')->chunk(30,function($products){
             $warrany = [];
 
             foreach ($products as $product){
@@ -396,6 +396,7 @@ class KillPriceController extends Controller
                 }
 
             }
+            sleep(rand(1,5));
         });
 
         return view('killprice.run');
