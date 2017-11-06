@@ -395,6 +395,9 @@ class unilityController extends Controller
 //                }
 
                     $feed[$product->product_id] = $tem;
+                    echo \GuzzleHttp\json_encode($feed[$product->product_id]);
+                    die('te');
+
 
 
                 }
