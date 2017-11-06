@@ -264,11 +264,16 @@ class CsvController extends Controller
         });
 
     }
-    private function pricePrettify($price){
+    private function pricePrettify($price,$skip=true){
         $price = $price*1.15;
-        $price = $price/10;
-        $price = floor($price);
-        $price = $price*10+9;
+        if ($skip){
+            $price = $price/10;
+            $price = floor($price);
+            $price = $price*10+9;
+        }else{
+            $price = ceil($price);
+        }
+
         return $price/1.15;
     }
     private function importSingleProduct($mpn,$stock,$price,$supply_code,$name,$supplier_code){
@@ -301,7 +306,7 @@ class CsvController extends Controller
         $product_price = Ex_product_csv::where('product_id',$product->product_id)->min('price');
 
             if (is_numeric($product_price)){
-                $product->price = $this->generatePrice($product_price);
+                $product->price = $this->pricePrettify($this->generatePrice($product_price),false);
                 $product->save();
             }
 
