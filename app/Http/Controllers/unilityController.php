@@ -333,9 +333,9 @@ class unilityController extends Controller
             Ex_product::where('status',1)->chunk(5000,function ($products) use (&$feed){
 
                 foreach ($products as $product) {
-//                if (!is_numeric($product->model)){
-//                    continue;
-//                }
+                if (!is_numeric($product->model)){
+                    continue;
+                }
                     $stock_status = 'Yes';
                     $special = Ex_speceal::where('product_id', $product->product_id)->first();
                     $product_name = isset(Ex_product_description::find($product->product_id)->name) ? Ex_product_description::find($product->product_id)->name : '';
