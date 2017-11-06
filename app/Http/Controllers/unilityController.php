@@ -329,8 +329,9 @@ class unilityController extends Controller
     {
         try {
 
-            $feed = array();
-            Ex_product::where('status',1)->chunk(5000,function ($products) use (&$feed){
+//            $feed = array();
+            echo "{";
+            Ex_product::where('status',1)->chunk(5000,function ($products){
 
                 foreach ($products as $product) {
                 if (!is_numeric($product->model)){
@@ -394,15 +395,18 @@ class unilityController extends Controller
 //                    $tem['Freight'] = 3.5;
 //                }
 
-                    $feed[$product->product_id] = $tem;
+//                    $feed[$product->product_id] = $tem;
 
 
-
+                    echo '"'.$product->product_id.'":';
+                    echo \GuzzleHttp\json_encode($tem);
+                    echo ',';
 
                 }
 
             });
-            echo \GuzzleHttp\json_encode($feed);
+//            echo \GuzzleHttp\json_encode($feed);
+            echo '}';
 
         } catch (Exception $e) {
             echo $e->getMessage();
