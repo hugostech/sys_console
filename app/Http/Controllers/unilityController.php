@@ -329,79 +329,83 @@ class unilityController extends Controller
     {
         try {
 
-
-            $products = Ex_product::where('status',1)->get();
             $feed = array();
-            foreach ($products as $product) {
-                if (!is_numeric($product->model)){
-                    continue;
-                }
-                $stock_status = 'Yes';
-                $special = Ex_speceal::where('product_id', $product->product_id)->first();
-                $product_name = isset(Ex_product_description::find($product->product_id)->name) ? Ex_product_description::find($product->product_id)->name : '';
+            Ex_product::where('status',1)->chunk(5000,function ($products) use (&$feed){
 
-                if ($product->quantity <= 0) {
-                    if ($product->stock_status_id == 5) {
-                        $stock_status = 'No';
-                    } else {
-                        $stock_status = 'Incoming';
-                    }
-                }
-                $categorys = null;
-                $categorys = $product->categorys;
+                foreach ($products as $product) {
+//                if (!is_numeric($product->model)){
+//                    continue;
+//                }
+                    $stock_status = 'Yes';
+                    $special = Ex_speceal::where('product_id', $product->product_id)->first();
+                    $product_name = isset(Ex_product_description::find($product->product_id)->name) ? Ex_product_description::find($product->product_id)->name : '';
 
-                $categorytree = null;
-                $categorytree = "";
-                if (count($categorys) > 0) {
-                    foreach ($categorys as $category) {
-                        $desc = $category->description;
-                        $categorytree .= $desc->name;
-                        $categorytree .= "/";
+                    if ($product->quantity <= 0) {
+                        if ($product->stock_status_id == 5) {
+                            $stock_status = 'No';
+                        } else {
+                            $stock_status = 'Incoming';
+                        }
                     }
-                }
+                    $categorys = null;
+                    $categorys = $product->categorys;
+
+                    $categorytree = null;
+                    $categorytree = "";
+                    if (count($categorys) > 0) {
+                        foreach ($categorys as $category) {
+                            $desc = $category->description;
+                            $categorytree .= $desc->name;
+                            $categorytree .= "/";
+                        }
+                    }
 
 //           echo  htmlspecialchars_decode($categorytree);
 
 
-                $tem = array(
-                    'Product name' => $product_name,
-                    'Article number' => $product->mpn,
-                    'Manufacturer' => $product->manufacturer_id == 0 ? 'null' : Ex_manufacturer::find($product->manufacturer_id)->name,
-                    'URL to the product page' => "http://www.extremepc.co.nz/index.php?route=product/product&product_id=$product->product_id",
-                    'Product category' => $categorytree,
-                    'Price' => round($product->price * 1.15, 2),
-                    'Status' => 'Normal',
-                    'Stock status' => $stock_status,
-                    'Freight'=>3.5
+                    $tem = array(
+                        'Product name' => $product_name,
+                        'Article number' => $product->mpn,
+                        'Manufacturer' => $product->manufacturer_id == 0 ? 'null' : Ex_manufacturer::find($product->manufacturer_id)->name,
+                        'URL to the product page' => "http://www.extremepc.co.nz/index.php?route=product/product&product_id=$product->product_id",
+                        'Product category' => $categorytree,
+                        'Price' => round($product->price * 1.15, 2),
+                        'Status' => 'Normal',
+                        'Stock status' => $stock_status,
+                        'Freight'=>3.5
 
 
-                );
-                if (isset($special->date_end)) {
-                    if ($special->date_end <> '0000-00-00') {
-                        $enddate = Carbon::parse($special->date_end);
-                        $startdate = Carbon::parse($special->date_start);
-                        $now = Carbon::now();
-                        if ($now->between($startdate, $enddate)) {
+                    );
+                    if (isset($special->date_end)) {
+                        if ($special->date_end <> '0000-00-00') {
+                            $enddate = Carbon::parse($special->date_end);
+                            $startdate = Carbon::parse($special->date_start);
+                            $now = Carbon::now();
+                            if ($now->between($startdate, $enddate)) {
+                                $tem['Price'] = round($special->price * 1.15, 2);
+                            }
+
+                        } else {
                             $tem['Price'] = round($special->price * 1.15, 2);
                         }
-
-                    } else {
-                        $tem['Price'] = round($special->price * 1.15, 2);
                     }
-                }
 
 //                if($tem['Price']<299){
 //                    $tem['Freight'] = 3.5;
 //                }
 
-                $feed[$product->product_id] = $tem;
+                    $feed[$product->product_id] = $tem;
 
 
-            }
+                }
+
+            });
+            echo \GuzzleHttp\json_encode($feed);
+
         } catch (Exception $e) {
             echo $e->getMessage();
         }
-        echo \GuzzleHttp\json_encode($feed);
+
     }
 
     /*
