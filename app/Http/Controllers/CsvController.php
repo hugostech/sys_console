@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Csv;
+use App\Ex_alias;
 use App\Ex_category;
 use App\Ex_product;
 use App\Ex_product_csv;
@@ -139,7 +140,7 @@ class CsvController extends Controller
         foreach (Ex_product::where('status',0)->cursor() as $product){
             $product->description()->delete();
             $product->special()->delete();
-            DB::table('oc_ex_url_alias')->where('query','product_id='.$product->product_id)->delete();
+            Ex_alias::where('query','product_id='.$product->product_id)->delete();
             $product->delete();
         }
         return 'success!';
@@ -428,7 +429,7 @@ class CsvController extends Controller
     }
 
     public function delSeo(){
-        foreach (DB::table("oc_ex_url_alias")->cursor() as $item){
+        foreach (Ex_alias::all()->cursor() as $item){
             $id = str_replace('product_id=','',$item->query);
             if (is_numeric(trim($id))){
                 var_dump($item->keyword);
