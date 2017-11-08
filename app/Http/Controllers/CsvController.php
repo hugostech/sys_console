@@ -436,7 +436,7 @@ class CsvController extends Controller
                 $id = str_replace('product_id=','',$item->query);
                 if (is_numeric(trim($id))){
                     if(is_null(Ex_product::find($id))){
-                        var_dump($id);
+                        $item->delete();
                     }
                 }
 
