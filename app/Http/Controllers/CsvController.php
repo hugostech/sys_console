@@ -436,6 +436,7 @@ class CsvController extends Controller
                 if (is_numeric(trim($id))){
                     var_dump($item->keyword);
                 }
+                var_dump($id);
             }
         });
     }
