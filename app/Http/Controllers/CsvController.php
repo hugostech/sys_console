@@ -426,4 +426,13 @@ class CsvController extends Controller
 
         return $output;
     }
+
+    public function delSeo(){
+        foreach (DB::table('oc_ex_url_alias')->cursor() as $item){
+            $id = str_replace('product_id=','',$item->query);
+            if (is_numeric(trim($id))){
+                var_dump($item->keyword);
+            }
+        }
+    }
 }
