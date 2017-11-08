@@ -429,7 +429,7 @@ class CsvController extends Controller
     }
 
     public function delSeo(){
-        foreach (Ex_alias::all()->cursor() as $item){
+        foreach (Ex_alias::where(1,1)->cursor() as $item){
             $id = str_replace('product_id=','',$item->query);
             if (is_numeric(trim($id))){
                 var_dump($item->keyword);
