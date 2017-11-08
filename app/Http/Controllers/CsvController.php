@@ -432,6 +432,7 @@ class CsvController extends Controller
 
         Ex_alias::all()->chunk(400,function ($items){
             foreach ($items as $item){
+                var_dump($item);
                 $id = str_replace('product_id=','',$item->query);
                 if (is_numeric(trim($id))){
                     var_dump($item->keyword);
