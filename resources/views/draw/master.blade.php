@@ -12,7 +12,7 @@
     <script src="{{url('',['js','angular.min.js'])}}"></script>
     <style>
         body{
-            background: url("{{url('image/luckybg.jpg')}}") no-repeat ;
+            background: url("http://www.extremepc.co.nz/image/catalog/extremepc_info/7VRKTHP9()%25IHN.jpg") no-repeat ;
             /*background: no-repeat;*/
             /*background-position: center;*/
         }
