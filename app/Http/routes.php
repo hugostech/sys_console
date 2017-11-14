@@ -229,6 +229,7 @@ Route::group(['middleware' => ['web']], function () {
  Route::get('csv/import/del','CsvController@deleteDisable');
  Route::get('csv/import/{productID}/test','CsvController@testPrice');
  Route::get('csv/delSeo','CsvController@delSeo');
+ Route::get('csv/selfcheck','CsvController@selfcheck');
 
 });
 

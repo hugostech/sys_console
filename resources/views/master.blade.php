@@ -109,6 +109,7 @@
                                     <li><a href="{{url('/',['findMissProduct'])}}">findMissProduct</a></li>
                                     <li><a href="{{url('/',['ex_order_confirm'])}}">ex_order_finder</a></li>
                                     <li><a href="{{url('/csv',['import'])}}">Csv Import</a></li>
+                                    <li><a href="{{url('/csv',['selfcheck'])}}">Csv Check Error</a></li>
                                     <li role="separator" class="divider"></li>
                                     <li><a href="{{url('/',['createLabel'])}}">Create Label</a></li>
                                     <li><a href="{{url('/',['luckydrawlist'])}}">lucky draw list</a></li>

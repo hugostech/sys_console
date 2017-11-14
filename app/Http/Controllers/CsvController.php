@@ -282,6 +282,10 @@ class CsvController extends Controller
             return false;
         }
 
+        if(stripos('#ra',$supplier_code)!==false){
+            return false;
+        }
+
         $mpn = trim($mpn);
         if (!is_numeric($stock)){
             $stock=0;
@@ -301,6 +305,26 @@ class CsvController extends Controller
 
         }
 
+    }
+
+    public function selfCheck(){
+        echo "<h3>Special Error</h3>";
+        Ex_product::where('status',1)->chunk(5000,function ($products){
+            foreach ($products as $product){
+                if (!is_null($special = $product->special) && $special->price>=$product->price){
+                    echo $product->model.'<br>';
+                }
+            }
+        });
+        echo '<hr>';
+        echo "<h3>Disable but still has quatity</h3>";
+        Ex_product::where('status',0)->chunk(5000,function ($products){
+            foreach ($products as $product){
+                if ($product->quantity!=0){
+                    echo $product->model.'<br>';
+                }
+            }
+        });
     }
 
     private function price_update($product){
