@@ -67,6 +67,9 @@ class ExtremepcProduct
                 $special->price = $price;
                 $special->save();
             }
+            if (round($special->price*1.15,2) >= round($this->product->price*1.15,2)){
+                $special->delete();
+            }
         }
 
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Ex_speceal;
 use App\Kill_price_product;
+use backend\ExtremepcProduct;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
@@ -271,42 +272,38 @@ class KillPriceController extends Controller
     }
     private function edit_price(Ex_product $product,$price,$bottom,$warrany){
         $new_price = $this->price_generate($price);
-//        echo "<br>".$new_price."-".$bottom;
-//        dd($product);
-//        dd($new_price);
-//        dd($bottom);
-//        dd($this->price_generate($price));
-
-        $special = $product->special;
-//        echo is_null($special)."<br>";
-        if(is_null($special)){
-            $special = new Ex_speceal();
-//            $special = new Ex_speceal();
-            $special->product_id = $product->product_id;
-            $special->customer_group_id = 1;
-            $special->priority = 0;
-//                    dd($this->price_generate($price));
-
-            $special->price = $new_price / 1.15;
-            $special->save();
-
-        }
-
-        if ($new_price>$bottom){
-            $special->price = ($new_price)/1.15;
-        }else{
-            $special->price = $bottom/1.15;
+        if ($new_price<=$bottom){
+            $new_price = $bottom;
             $warrany[] = $product->model;
-
-//            $this->add_note($product,'<font color="yellow">Warning: Price below bottom price</font>');
-
         }
-        $special->save();
+        $exproduct = ExtremepcProduct::find($product->product_id);
+        $exproduct->setSpecial($new_price,true);
+//        $special = $product->special;
+//        if(is_null($special)){
+//            $special = new Ex_speceal();
+//            $special->product_id = $product->product_id;
+//            $special->customer_group_id = 1;
+//            $special->priority = 0;
+//            $special->price = $new_price / 1.15;
+//            $special->save();
+//
+//        }
+
+//        if ($new_price>$bottom){
+//            $special->price = ($new_price)/1.15;
+//        }else{
+//            $special->price = $bottom/1.15;
+//            $warrany[] = $product->model;
+//
+////            $this->add_note($product,'<font color="yellow">Warning: Price below bottom price</font>');
+//
+//        }
+//        $special->save();
 
 
-        if (round($special->price,2) >= round($product->price,2)){
-            $special->delete();
-        }
+//        if (round($special->price,2) >= round($product->price,2)){
+//            $special->delete();
+//        }
 //        dd($product);
         return $warrany;
     }

@@ -9,6 +9,7 @@ use App\Ex_product;
 use App\Ex_product_csv;
 use App\Ex_product_description;
 use App\Ex_product_store;
+use backend\ExtremepcProduct;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -205,27 +206,27 @@ class CsvController extends Controller
         $csv->save();
     }
 
-    private function pb(){
-        DB::beginTransaction();
-        try{
-            $this->cleanProductCscByCode('pb');
-            Excel::filter('chunk')->load('storage/app/pb.csv')->chunk(100, function($results)
-            {
-
-                foreach($results as $row)
-                {
-
-                    $this->importSingleProduct($row->manufacturers_code,$row->bulk_stock,$row->your_price,'pb',$row->product_name.' '.$row->manufacturers_code,$row->pb_part_number);
-                }
-
-            });
-            $this->recordCsv('pb');
-            DB::commit();
-        }catch (\Exception $e){
-            DB::rollback();
-            echo $e->getMessage();
-        }
-    }
+//    private function pb(){
+//        DB::beginTransaction();
+//        try{
+//            $this->cleanProductCscByCode('pb');
+//            Excel::filter('chunk')->load('storage/app/pb.csv')->chunk(100, function($results)
+//            {
+//
+//                foreach($results as $row)
+//                {
+//
+//                    $this->importSingleProduct($row->manufacturers_code,$row->bulk_stock,$row->your_price,'pb',$row->product_name.' '.$row->manufacturers_code,$row->pb_part_number);
+//                }
+//
+//            });
+//            $this->recordCsv('pb');
+//            DB::commit();
+//        }catch (\Exception $e){
+//            DB::rollback();
+//            echo $e->getMessage();
+//        }
+//    }
     public function testPrice($id){
 //        return $this->price_update(Ex_product::find($id));
 //        Ex_product::where('status',1)->where('price','>',99990)->chunk(100,function ($products){
@@ -331,8 +332,10 @@ class CsvController extends Controller
         $product_price = Ex_product_csv::where('product_id',$product->product_id)->min('price');
 
             if (is_numeric($product_price)){
-                $product->price = $this->pricePrettify($this->generatePrice($product_price),false);
-                $product->save();
+                $exproduct = ExtremepcProduct::find($product->product_id);
+                $exproduct->setPrice($this->pricePrettify($this->generatePrice($product_price),false));
+//                $product->price = $this->pricePrettify($this->generatePrice($product_price),false);
+//                $product->save();
             }
 
 
