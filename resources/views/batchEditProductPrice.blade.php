@@ -70,7 +70,8 @@
                             <tbody ng-repeat="y in result">
                                 <input type="hidden" name="product_id[]" value="@{{ y.product_id }}">
                                 <td>@{{y.code}}</td>
-                                <td>@{{y.name}} @{{ y.lock | lockstatus}}</td>
+                                <td>@{{y.name}} <button ng-if="y.lock==1" ng-click="unlock(y.product_id,$index)" class="btn btn-xs btn-success">Unlock</button>
+                                    <button ng-click="lock(y.product_id,$index)" ng-if="y.lock==1" class="btn btn-danger btn-xs">Lock</button></td>
                                 <td>@{{y.quantity}}</td>
                                 <td>@{{y.average_cost * 1.15 | number:2}}</td>
                                 <td>@{{y.price * 1.15 | number:2}}</td>
@@ -144,21 +145,26 @@
                 return input;
             };
         });
-        myapp.filter('lockstatus', function() {
-            return function(input) {
-                var result = '';
-                if(input == 1){
-                    result = '<label class="text-danger">Lock</label>';
-                }
-
-                return result;
-            };
-        });
-        myapp.controller('autoComplete',function($scope){
+        myapp.controller('autoComplete',function($scope,$http){
            $scope.categorys = {!! $categorys !!};
             $scope.base_rate = 0;
             $scope.special_rate = 1.1;
             $scope.result = {!! $result !!};
+            $scope.unlock = function (id,index) {
+                var url = '{{url('exproduct')}}/'+id+'/priceunlock';
+                $http.get(url)
+                    .then(function(response) {
+                        $scope.result[index].lock = 0;
+                    });
+
+            };
+            $scope.lock = function (id,index) {
+                var url = '{{url('exproduct')}}/'+id+'/pricelock';
+                $http.get(url)
+                    .then(function(response) {
+                        $scope.result[index].lock = 1;
+                    });
+            }
         });
         function clearVar(btn_self){
             $(btn_self).parents('.input-group').children('input.form-control').val(0);
