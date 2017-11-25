@@ -172,8 +172,8 @@
 
         function axjx(url) {
             $.axjx({url: url, success: function(result){
-                $location.reload();
-            }})
+//                $location.reload();
+            }});
         }
 
 
