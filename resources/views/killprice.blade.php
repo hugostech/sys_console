@@ -108,6 +108,12 @@
                                 <label class="text-success">Product in killprice list</label>
                             @endif
 
+                            @if($data['product']->pricelock==0)
+                                <button class="btn btn-danger" onclick="lock({{$data['product']->product_id}})">Price Lock</button>
+                            @else
+                                <button class="btn btn-success" onclick="unlock({{$data['product']->product_id}})">Price UgitnLock</button>
+                            @endif
+
 
 
                         </div>
@@ -151,6 +157,21 @@
         function killpriceStart(){
             $('#price_url').val(parent.document.getElementById("if_pricespy").contentWindow.location.href);
             $('#killprice_form').submit();
+        }
+
+        function unlock(id) {
+            var url = '{{url('exproduct')}}/'+id+'priceunlock';
+            axjx(url);
+        }
+        function lock(id) {
+            var url = '{{url('exproduct')}}/'+id+'pricelock';
+            axjx(url);
+        }
+
+        function axjx(url) {
+            $.axjx({url: url, success: function(result){
+                $location.reload();
+            }})
         }
 
 

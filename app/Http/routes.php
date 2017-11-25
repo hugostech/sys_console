@@ -230,6 +230,9 @@ Route::group(['middleware' => ['web']], function () {
  Route::get('csv/import/{productID}/test','CsvController@testPrice');
  Route::get('csv/delSeo','CsvController@delSeo');
  Route::get('csv/selfcheck','CsvController@selfcheck');
+ Route::get('exproduct/{id}/pricelock','LockPriceController@priceLock');
+ Route::get('exproduct/{id}/priceunlock','LockPriceController@priceUnlock');
+
 
 });
 
