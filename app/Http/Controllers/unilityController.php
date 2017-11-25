@@ -1969,11 +1969,16 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
     private function selfClearSpecial(){
         $specials = Ex_speceal::all();
         foreach ($specials as $item){
-            $product = Ex_product::find($item->product_id);
-
-            if(is_null($product) || $product->quantity<1){
+//            $product = Ex_product::find($item->product_id);
+            $product = ExtremepcProduct::find($item->product_id);
+            if ($product){
+                if($product->product->quantity<1){
+                    $product->cleanSpecial();
+                }
+            }else{
                 $item->delete();
             }
+
         }
     }
 

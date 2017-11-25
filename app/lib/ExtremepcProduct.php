@@ -14,7 +14,7 @@ use App\Ex_speceal;
 
 class ExtremepcProduct
 {
-    private $product;
+    public $product;
     public static function find($id){
         $self = new static($id);
         if ($self->check()){
