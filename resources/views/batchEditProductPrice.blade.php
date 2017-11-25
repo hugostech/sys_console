@@ -70,8 +70,8 @@
                             <tbody ng-repeat="y in result">
                                 <input type="hidden" name="product_id[]" value="@{{ y.product_id }}">
                                 <td>@{{y.code}}</td>
-                                <td>@{{y.name}} <button ng-if="y.lock==1" ng-click="unlock(y.product_id,$index)" class="btn btn-xs btn-success">Unlock</button>
-                                    <button ng-click="lock(y.product_id,$index)" ng-if="y.lock==0" class="btn btn-danger btn-xs">Lock</button></td>
+                                <td>@{{y.name}} <button type="button" ng-if="y.lock==1" ng-click="unlock(y.product_id,$index)" class="btn btn-xs btn-success">Unlock</button>
+                                    <button type="button" ng-click="lock(y.product_id,$index)" ng-if="y.lock==0" class="btn btn-danger btn-xs">Lock</button></td>
                                 <td>@{{y.quantity}}</td>
                                 <td>@{{y.average_cost * 1.15 | number:2}}</td>
                                 <td>@{{y.price * 1.15 | number:2}}</td>
