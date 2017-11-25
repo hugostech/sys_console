@@ -70,4 +70,10 @@ class ExtremepcProduct
         }
 
     }
+
+    public function cleanSpecial(){
+        if ($this->product->price_lock==0){
+            Ex_speceal::where('product_id', $this->product->product_id)->delete();
+        }
+    }
 }

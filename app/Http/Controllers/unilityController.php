@@ -27,6 +27,7 @@ use App\Label;
 use App\News_letter;
 use App\Product;
 use App\adminLogin;
+use backend\ExtremepcProduct;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -217,36 +218,48 @@ class unilityController extends Controller
 
         if ($request->has('code')) {
             $product = Ex_product::where('model', $request->input('code'))->first();
-            $product->price = $request->price / 1.15;
-            $product->save();
-
-                Ex_speceal::where('product_id', $product->product_id)->delete();
-            if (empty($request->input('special') * 1.0)) {
-                if(!empty($product->jan)){
-                    $product->stock_status_id = $product->jan;
-                    $product->jan = '';
-                    $product->save();
-                }
-            } else {
-                $special = new Ex_speceal();
-                $special->product_id = $product->product_id;
-                $special->customer_group_id = 1;
-                $special->priority = 0;
-                $special->price = $request->input('special') / 1.15;
-                $special->date_start = "0000-00-00";
-                if(!empty($request->input('starttime'))){
-                    $special->date_start = Carbon::parse($request->input('starttime'))->format('Y-m-d');
-                }
-                    $special->date_end = "0000-00-00";
-                if(!empty($request->input('endtime'))){
-                    $special->date_end = Carbon::parse($request->input('endtime'))->format('Y-m-d');
-                    $product->jan = $product->stock_status_id;
-                    $product->stock_status_id = 31;
-                    $product->save();
-                }
-                $special->save();
-
+            $exproduct = ExtremepcProduct::find($product->product_id);
+            if (!$exproduct){
+                $categorys = null;
+                $categorys = \GuzzleHttp\json_encode(self::categorysFullPath());
+                $data = self::getData($request->input('code'));
+                return view('killprice', compact('data','categorys'));
             }
+            $exproduct->setPrice($request->input('price'),true);
+            if(!empty($request->input('special'))){
+                $exproduct->setSpecial($request->input('special'),true);
+            }else{
+                $exproduct->cleanSpecial();
+            }
+
+
+//                Ex_speceal::where('product_id', $product->product_id)->delete();
+//            if (empty($request->input('special') * 1.0)) {
+//                if(!empty($product->jan)){
+//                    $product->stock_status_id = $product->jan;
+//                    $product->jan = '';
+//                    $product->save();
+//                }
+//            } else {
+//                $special = new Ex_speceal();
+//                $special->product_id = $product->product_id;
+//                $special->customer_group_id = 1;
+//                $special->priority = 0;
+//                $special->price = $request->input('special') / 1.15;
+//                $special->date_start = "0000-00-00";
+//                if(!empty($request->input('starttime'))){
+//                    $special->date_start = Carbon::parse($request->input('starttime'))->format('Y-m-d');
+//                }
+//                    $special->date_end = "0000-00-00";
+//                if(!empty($request->input('endtime'))){
+//                    $special->date_end = Carbon::parse($request->input('endtime'))->format('Y-m-d');
+//                    $product->jan = $product->stock_status_id;
+//                    $product->stock_status_id = 31;
+//                    $product->save();
+//                }
+//                $special->save();
+//
+//            }
 
             if ($request->has('product_status')) {
                 if ($request->input('product_status') == 'Disable') {
