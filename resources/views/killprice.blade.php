@@ -177,7 +177,7 @@
                     url: url,
                     dataType: 'json',
                     success: function (result) {
-                        console.log(result);
+                        alert(JSON.parse(result).result);
                         location.reload();
                     }
                 }
