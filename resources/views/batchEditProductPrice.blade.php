@@ -70,7 +70,7 @@
                             <tbody ng-repeat="y in result">
                                 <input type="hidden" name="product_id[]" value="@{{ y.product_id }}">
                                 <td>@{{y.code}}</td>
-                                <td>@{{y.name}}</td>
+                                <td>@{{y.name}} @{{ y.lock | lock }}</td>
                                 <td>@{{y.quantity}}</td>
                                 <td>@{{y.average_cost * 1.15 | number:2}}</td>
                                 <td>@{{y.price * 1.15 | number:2}}</td>
@@ -139,6 +139,17 @@
             return function(input) {
                 if(input != 0){
                     input = Math.floor(input / 10)*10+9;
+                }
+
+                return input;
+            };
+        });
+        myapp.filter('lock', function() {
+            return function(input) {
+                if(input == 0){
+                    input == '';
+                }else{
+                    input == '<label class="text-danger">Lock</label>';
                 }
 
                 return input;

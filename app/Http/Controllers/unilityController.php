@@ -1765,6 +1765,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
             $product_detail = $product->description;
             $name = $product_detail->name;
             $product_id = $product->product_id;
+            $lock = $product->price_lock;
             $special = Ex_speceal::where('product_id', $product->product_id)->first();
             $price = $product->price;
             if (isset($special->price)) {
@@ -1789,7 +1790,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
                 $quantity = $content[$product->model][1];
                 $average_cost = $content[$product->model][0];
             }
-            $result[] = compact('special','quantity','average_cost','code','name','price','product_id');
+            $result[] = compact('special','quantity','average_cost','code','name','price','product_id','lock');
         }
 
         $category_name = self::categoryFullPath($categorySpecific);
@@ -1821,29 +1822,33 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
 
             for($i = 0;$i<$num;$i++){
 
-                $product = Ex_product::find($product_id_array[$i]);
+//                $product = Ex_product::find($product_id_array[$i]);
+                $product = ExtremepcProduct::find($product_id_array[$i]);
                 if(!empty($product_base_price_array[$i])){
-                    $product->price = $product_base_price_array[$i] / 1.15;
-                    $product->save();
+//                    $product->price = $product_base_price_array[$i] / 1.15;
+//                    $product->save();
+                    $product->setPrice($product_base_price_array[$i],true);
                 }
 
                 if(!empty($product_special_price_array[$i])){
-                        Ex_speceal::where('product_id', $product_id_array[$i])->delete();
-
-                        $special = new Ex_speceal();
-                        $special->product_id = $product_id_array[$i];
-                        $special->customer_group_id = 1;
-                        $special->priority = 0;
-                        $special->price = $product_special_price_array[$i] / 1.15;
-                        $special->date_start = "0000-00-00";
-
-                        $special->date_end = "0000-00-00";
-
-                        $special->save();
+                        $product->setSpecial($product_special_price_array[$i],true);
+//                        Ex_speceal::where('product_id', $product_id_array[$i])->delete();
+//
+//                        $special = new Ex_speceal();
+//                        $special->product_id = $product_id_array[$i];
+//                        $special->customer_group_id = 1;
+//                        $special->priority = 0;
+//                        $special->price = $product_special_price_array[$i] / 1.15;
+//                        $special->date_start = "0000-00-00";
+//
+//                        $special->date_end = "0000-00-00";
+//
+//                        $special->save();
 
 
                 }else if(($product_special_price_array[$i]=='')){
-                    Ex_speceal::where('product_id', $product_id_array[$i])->delete();
+                    $product->cleanSpecial();
+//                    Ex_speceal::where('product_id', $product_id_array[$i])->delete();
                 }
             }
         }
