@@ -171,9 +171,17 @@
         }
 
         function axjx(url) {
-            $.axjx({url: url, success: function(result){
-//                $location.reload();
-            }});
+            $.axjx(
+                {
+                    type: 'get',
+                    url: url,
+                    data: postedData,
+                    dataType: 'json',
+                    success: function (result) {
+                        console.log(result);
+                    }
+                }
+            );
         }
 
 
