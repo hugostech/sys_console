@@ -160,11 +160,11 @@
         }
 
         function unlock(id) {
-            var url = '{{url('exproduct')}}/'+id+'priceunlock';
+            var url = '{{url('exproduct')}}/'+id+'/priceunlock';
             axjx(url);
         }
         function lock(id) {
-            var url = '{{url('exproduct')}}/'+id+'pricelock';
+            var url = '{{url('exproduct')}}/'+id+'/pricelock';
             axjx(url);
         }
 
