@@ -39,7 +39,11 @@
                 <tr>
                     {{--<td class="col-md-1">Code</td>--}}
                     <td class="col-md-3">Name</td>
-                    <td class="col-md-5" colspan="2">Extemepc Price(inc GST)</td>
+                    <td class="col-md-5" colspan="2">Extemepc Price(inc GST)
+                        @if($data['product']->price_lock==1)
+                            <label class="text-danger">Locked</label>
+                        @endif
+                    </td>
                     <td class="col-md-4">Detail:</td>
                     {{--<td class="col-md-8"></td>--}}
                 </tr>

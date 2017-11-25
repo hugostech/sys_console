@@ -1231,7 +1231,8 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
 
                 return $product->model . ' <font color="green">Insert Sucessed</font>';
             } else {
-                return $data->model . ' <font color="red">No Name</font>';
+                return $code . ' <font color="red">No Name</font>';
+//                return $data->model . ' <font color="red">No Name</font>';
             }
         }
 
