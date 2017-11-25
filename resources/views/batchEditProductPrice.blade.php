@@ -148,7 +148,7 @@
             return function(input) {
                 var result = '';
                 if(input == 1){
-                    result == '<label class="text-danger">Lock</label>';
+                    result = '<label class="text-danger">Lock</label>';
                 }
 
                 return result;
