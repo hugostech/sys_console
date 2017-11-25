@@ -171,13 +171,14 @@
         }
 
         function axjx(url) {
-            $.axjx(
+            $.ajax(
                 {
                     type: 'get',
                     url: url,
                     dataType: 'json',
                     success: function (result) {
                         console.log(result);
+                        location.reload();
                     }
                 }
             );
