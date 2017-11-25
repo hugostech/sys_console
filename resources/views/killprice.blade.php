@@ -111,7 +111,7 @@
                             @if($data['product']->price_lock==0)
                                 <button class="btn btn-danger" onclick="lock('{{$data['product']->product_id}}')">Price Lock</button>
                             @else
-                                <button class="btn btn-success" onclick="unlock('{{$data['product']->product_id}}')">Price UgitnLock</button>
+                                <button class="btn btn-success" onclick="unlock('{{$data['product']->product_id}}')">Price UnLock</button>
                             @endif
 
 
@@ -161,10 +161,12 @@
 
         function unlock(id) {
             var url = '{{url('exproduct')}}/'+id+'/priceunlock';
+            console.log(url);
             axjx(url);
         }
         function lock(id) {
             var url = '{{url('exproduct')}}/'+id+'/pricelock';
+            console.log(url);
             axjx(url);
         }
 
