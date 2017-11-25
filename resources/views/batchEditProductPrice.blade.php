@@ -146,13 +146,12 @@
         });
         myapp.filter('lockstatus', function() {
             return function(input) {
-                if(input == 0){
-                    input == '';
-                }else{
-                    input == '<label class="text-danger">Lock</label>';
+                var result = '';
+                if(input == 1){
+                    result == '<label class="text-danger">Lock</label>';
                 }
 
-                return input;
+                return result;
             };
         });
         myapp.controller('autoComplete',function($scope){
