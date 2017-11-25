@@ -175,7 +175,6 @@
                 {
                     type: 'get',
                     url: url,
-                    data: postedData,
                     dataType: 'json',
                     success: function (result) {
                         console.log(result);
