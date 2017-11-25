@@ -22,9 +22,9 @@
                     <td>{{$key + 1}}</td>
                     <td id="product_detail_{{$product->model}}">
                         {{\App\Ex_product::find($product->product_id)->description->name}}
-                        {{--@if($product->price_lock==1)--}}
-                            <label class="text-danger">{{$product->price_lock}}Locked</label>
-                        {{--@endif--}}
+                        @if(\App\Ex_product::find($product->product_id)->price_lock==1)
+                            <label class="text-danger">Locked</label>
+                        @endif
                         <hr>
                         {{$kill_list}}
                     </td>
