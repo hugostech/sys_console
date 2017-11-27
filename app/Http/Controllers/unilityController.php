@@ -358,7 +358,7 @@ class unilityController extends Controller
                         if ($product->stock_status_id == 5) {
                             $stock_status = 'No';
                         } else {
-                            $stock_status = 'Incoming';
+                            $stock_status = 'Yes';
                         }
                     }
                     $categorys = null;
