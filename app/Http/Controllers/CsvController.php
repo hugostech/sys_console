@@ -329,7 +329,7 @@ class CsvController extends Controller
     }
 
     private function price_update($product){
-        $product_price = Ex_product_csv::where('product_id',$product->product_id)->min('price');
+        $product_price = Ex_product_csv::where('product_id',$product->product_id)->where('stock','>',0)->min('price');
 
             if (is_numeric($product_price)){
                 $exproduct = ExtremepcProduct::find($product->product_id);
