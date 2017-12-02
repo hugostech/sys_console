@@ -32,7 +32,7 @@ class CsvController extends Controller
 
         View::share('csvRecords',Csv::all()->toArray());
 //        View::share('csvRecords',[]);
-        View::share('supplier_list',['pb' => 'PB', 'im' => 'Ingram micro','aw'=>'Anywhere','do'=>'Dove','sy'=>'Synnex','cd'=>'Computer Dynamics']);
+        View::share('supplier_list',['pb' => 'PB', 'im' => 'Ingram micro','aw'=>'Anywhere','do'=>'Dove','sy'=>'Synnex','cd'=>'Computer Dynamics','dj'=>'DJI','re'=>'RTEP']);
 
 
         $this->map = array(
@@ -78,6 +78,20 @@ class CsvController extends Controller
                 'name'=>'description',
                 'supplier_code' =>'part_code'
             ],
+            'dj'=>[
+                'mpn'=>'part',
+                'stock'=>'qty_in_stock',
+                'price'=>'12_margin_buy',
+                'name'=>'item_name',
+                'supplier_code' =>'part'
+            ],
+            're'=>[
+                'mpn'=>'manufacturerproductcode',
+                'stock'=>'stockonhand',
+                'price'=>'priceexgst',
+                'name'=>'productdescription',
+                'supplier_code' =>'productcode'
+            ],
 
         );
     }
@@ -99,6 +113,7 @@ class CsvController extends Controller
            Excel::load('storage/app/'.$filename,function ($render) use(&$firstsheet){
                $firstsheet = $render->first();
            });
+//           dd($firstsheet);
            $firstsheet = $this->dataMap($supply_code,$firstsheet);
 
            return view('csv.index',compact('firstsheet','supply_code'));
