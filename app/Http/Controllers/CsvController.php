@@ -80,7 +80,7 @@ class CsvController extends Controller
             ],
             'dj'=>[
                 'mpn'=>'part',
-                'stock'=>'qty_in_stock',
+                'stock'=>'stock',
                 'price'=>'12_margin_buy',
                 'name'=>'item_name',
                 'supplier_code' =>'part'
