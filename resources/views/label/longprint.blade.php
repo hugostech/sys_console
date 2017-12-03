@@ -297,7 +297,7 @@
                 </span>
                         <span class="long-tape-top-right">
                     {{--<h2><sup>$</sup>{{number_format($label->price)}}</h2>--}}
-                    <h2><sup>$</sup>{{umber_format($label->price, 0, '.', '')}}</h2>
+                    <h2><sup>$</sup>{{number_format($label->price, 0, '.', '')}}</h2>
                 </span>
 
 
