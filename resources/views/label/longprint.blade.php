@@ -90,7 +90,7 @@
             }
 
             .long-tape-top-left {
-                padding-left: 5px;
+                padding-left: 2px;
                 padding-top: 5px;
                 width: 370px;
 
@@ -220,7 +220,7 @@
         }
 
         .long-tape-top-left {
-            padding-left: 10px;
+            padding-left: 2px;
             padding-top: 5px;
             width: 370px;
 
