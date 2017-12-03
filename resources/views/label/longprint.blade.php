@@ -27,7 +27,7 @@
                 /*float: left;*/
             }
             .tape-top{
-                height: 107px;
+                height: 96px;
             }
             .tape-top-left{
                 padding-left: 5px;
@@ -86,13 +86,13 @@
             }
 
             .long-label{
-                width: 580px;
+                width: 570px;
             }
 
             .long-tape-top-left {
-                padding-left: 10px;
+                padding-left: 5px;
                 padding-top: 5px;
-                width: 395px;
+                width: 370px;
 
                 float: left;
                 font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;
@@ -107,16 +107,16 @@
                 text-align: right;
                 float: left;
                 font-family: "Arial Black";
-                padding-top: 5px;
+                /*padding-top: 5px;*/
             }
 
             .long-tape-top-right h2 {
                 font-family: "Arial";
                 /*font-family: "Cordia New";*/
-                font-size: 70px;
+                font-size: 90px;
                 margin: 0;
                 padding: 0;
-                letter-spacing: -3px;
+                letter-spacing: -5px;
 
                 /*position: relative;*/
 
@@ -162,7 +162,7 @@
             /*float: left;*/
         }
         .tape-top{
-            height: 107px;
+            height: 96px;
         }
         .tape-top-left{
             padding-left: 5px;
@@ -215,13 +215,13 @@
             padding-right: 3px;
         }
         .long-label{
-            width: 580px;
+            width: 570px;
         }
 
         .long-tape-top-left {
             padding-left: 10px;
             padding-top: 5px;
-            width: 395px;
+            width: 370px;
 
             float: left;
             font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;
@@ -236,16 +236,16 @@
             text-align: right;
             float: left;
             font-family: "Arial Black";
-            padding-top: 4px;
+            /*padding-top: 4px;*/
         }
 
         .long-tape-top-right h2 {
             font-family: "Arial";
             /*font-family: "Cordia New";*/
-            font-size: 70px;
+            font-size: 90px;
             margin: 0;
             padding: 0;
-            letter-spacing: -3px;
+            letter-spacing: -5px;
 
             /*position: relative;*/
 
