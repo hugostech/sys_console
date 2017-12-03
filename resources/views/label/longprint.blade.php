@@ -86,7 +86,7 @@
             }
 
             .long-label{
-                width: 600px;
+                width: 580px;
             }
 
             .long-tape-top-left {
@@ -102,7 +102,7 @@
             }
 
             .long-tape-top-right {
-                width: 185px;
+                width: 170px;
 
                 text-align: right;
                 float: left;
@@ -140,7 +140,7 @@
                 font-family: "Microsoft YaHei UI";
                 font-size: 16px;
                 padding-right: 3px;
-                width: 600px;
+                width: 580px;
             }
 
         }
@@ -296,7 +296,8 @@
                     @endif
                 </span>
                         <span class="long-tape-top-right">
-                    <h2><sup>$</sup>{{number_format($label->price)}}</h2>
+                    {{--<h2><sup>$</sup>{{number_format($label->price)}}</h2>--}}
+                    <h2><sup>$</sup>{{$label->price}}</h2>
                 </span>
 
 
