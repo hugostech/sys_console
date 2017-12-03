@@ -116,6 +116,7 @@
                 font-size: 90px;
                 margin: 0;
                 padding: 0;
+                margin-bottom: -3px;
                 letter-spacing: -5px;
 
                 /*position: relative;*/
@@ -140,7 +141,7 @@
                 font-family: "Microsoft YaHei UI";
                 font-size: 16px;
                 padding-right: 3px;
-                width: 580px;
+                width: 570px;
             }
 
         }
@@ -245,6 +246,7 @@
             font-size: 90px;
             margin: 0;
             padding: 0;
+            margin-bottom: -3px;
             letter-spacing: -5px;
 
             /*position: relative;*/
@@ -269,7 +271,7 @@
             font-family: "Microsoft YaHei UI";
             font-size: 16px;
             padding-right: 3px;
-            width: 580px;
+            width: 570px;
         }
 
     </style>
