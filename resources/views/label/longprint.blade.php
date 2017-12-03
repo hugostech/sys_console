@@ -92,7 +92,7 @@
             .long-tape-top-left {
                 padding-left: 10px;
                 padding-top: 5px;
-                width: 400px;
+                width: 395px;
 
                 float: left;
                 font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;
@@ -107,7 +107,7 @@
                 text-align: right;
                 float: left;
                 font-family: "Arial Black";
-                padding-top: 8px;
+                padding-top: 5px;
             }
 
             .long-tape-top-right h2 {
@@ -221,7 +221,7 @@
         .long-tape-top-left {
             padding-left: 10px;
             padding-top: 5px;
-            width: 400px;
+            width: 395px;
 
             float: left;
             font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;
@@ -231,7 +231,7 @@
         }
 
         .long-tape-top-right {
-            width: 175px;
+            width: 170px;
 
             text-align: right;
             float: left;
