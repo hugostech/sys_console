@@ -6,6 +6,7 @@ use App\Ex_product;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Illuminate\Support\Facades\Input;
 
 class LockPriceController extends Controller
 {
@@ -14,6 +15,9 @@ class LockPriceController extends Controller
         if (!is_null($product)){
             $product->price_lock = 1;
             $product->save();
+            if (Input::has('r')){
+                return redirect()->back();
+            }
             return \GuzzleHttp\json_encode(['Resule'=>'Price Locked']);
         }else{
             return abort(403, 'Product cannot find');
@@ -25,6 +29,9 @@ class LockPriceController extends Controller
         if (!is_null($product)){
             $product->price_lock = 0;
             $product->save();
+            if (Input::has('r')){
+                return redirect()->back();
+            }
             return \GuzzleHttp\json_encode(['Resule'=>'Price Unlocked']);
         }else{
             return abort(403, 'Product cannot find');

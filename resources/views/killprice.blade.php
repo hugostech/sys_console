@@ -112,10 +112,15 @@
                                 <label class="text-success">Product in killprice list</label>
                             @endif
 
+                            {{--@if($data['product']->price_lock==0)--}}
+                                {{--<button class="btn btn-danger" onclick="lock('{{$data['product']->product_id}}')">Price Lock</button>--}}
+                            {{--@else--}}
+                                {{--<button class="btn btn-success" onclick="unlock('{{$data['product']->product_id}}')">Price UnLock</button>--}}
+                            {{--@endif--}}
                             @if($data['product']->price_lock==0)
-                                <button class="btn btn-danger" onclick="lock('{{$data['product']->product_id}}')">Price Lock</button>
+                                <a class="btn btn-danger" href="{{url('exproduct'),[$data['product']->product_id,'pricelock']}}?r=g" target="_blank">Price Lock</a>
                             @else
-                                <button class="btn btn-success" onclick="unlock('{{$data['product']->product_id}}')">Price UnLock</button>
+                                <a class="btn btn-success" href="{{url('exproduct'),[$data['product']->product_id,'priceunlock']}}?r=g" target="_blank">Price UnLock</a>
                             @endif
 
 
