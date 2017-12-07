@@ -111,16 +111,18 @@
                             @else
                                 <label class="text-success">Product in killprice list</label>
                             @endif
-
-                            {{--@if($data['product']->price_lock==0)--}}
-                                {{--<button class="btn btn-danger" onclick="lock('{{$data['product']->product_id}}')">Price Lock</button>--}}
-                            {{--@else--}}
-                                {{--<button class="btn btn-success" onclick="unlock('{{$data['product']->product_id}}')">Price UnLock</button>--}}
-                            {{--@endif--}}
-                            @if($data['product']->price_lock==0)
-                                <a class="btn btn-danger" href="{{url('exproduct',[$data['product']->product_id,'pricelock'])}}?r=g">Price Lock</a>
+                            @if(strlen($data['des'])<2000)
+                                @if($data['product']->price_lock==0)
+                                    <button class="btn btn-danger" onclick="lock('{{$data['product']->product_id}}')">Price Lock</button>
+                                @else
+                                    <button class="btn btn-success" onclick="unlock('{{$data['product']->product_id}}')">Price UnLock</button>
+                                @endif
                             @else
-                                <a class="btn btn-success" href="{{url('exproduct',[$data['product']->product_id,'priceunlock'])}}?r=g">Price UnLock</a>
+                                @if($data['product']->price_lock==0)
+                                    <a class="btn btn-danger" href="{{url('exproduct',[$data['product']->product_id,'pricelock'])}}?r=g">Price Lock</a>
+                                @else
+                                    <a class="btn btn-success" href="{{url('exproduct',[$data['product']->product_id,'priceunlock'])}}?r=g">Price UnLock</a>
+                                @endif
                             @endif
 
 
