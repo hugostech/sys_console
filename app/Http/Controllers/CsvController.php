@@ -294,6 +294,9 @@ class CsvController extends Controller
         return $price/1.15;
     }
     private function importSingleProduct($mpn,$stock,$price,$supply_code,$name,$supplier_code){
+        if ($stock<1){
+            return false;
+        }
         if (!is_numeric($price) || trim($mpn)==''){
             return false;
         }
