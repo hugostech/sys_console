@@ -111,7 +111,7 @@
                             @else
                                 <label class="text-success">Product in killprice list</label>
                             @endif
-                            @if(strlen($data['des'])<2000)
+                            @if(strlen($data['des'])<500)
                                 @if($data['product']->price_lock==0)
                                     <button class="btn btn-danger" onclick="lock('{{$data['product']->product_id}}')">Price Lock</button>
                                 @else
