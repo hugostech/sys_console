@@ -338,11 +338,11 @@ class KillPriceController extends Controller
                 }
                 echo $ex_product->model.'<br>';
                 if($ex_product->quantity<1) {
-
+                    $exproduct = ExtremepcProduct::find($ex_product->product_id);
                     $special = $ex_product->special;
 
                     if (!is_null($special)){
-                        $special->delete();
+                        $exproduct->cleanSpecial();
                     }
                     $this->add_note($product,'<font color="red">Stop: product no stock</font>');
                     DB::commit();
