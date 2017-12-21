@@ -102,6 +102,7 @@
                                     <li><a href="{{url('/',['sales_list'])}}">Sales</a></li>
                                     <li><a href="{{url('/',['flash_sale'])}}">Flash Sale</a></li>
                                     <li><a href="{{url('/',['categoryArrange'])}}">categoryArrange</a></li>
+                                    <li><a href="{{url('/category',['shade'])}}">categorySale</a></li>
                                     <li><a href="{{url('/',['listAllKillProduct'])}}">listAllKillingProducts</a></li>
                                     {{--<li><a href="{{url('/',['sync'])}}">Sync</a></li>--}}
                                     <li><a href="{{url('/',['putProducts2Base'])}}">putProducts2Base</a></li>
