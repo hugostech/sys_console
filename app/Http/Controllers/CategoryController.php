@@ -66,11 +66,11 @@ class CategoryController extends Controller
                 $l50[] = $item->product_id;
             }
         }
-        Ex_category::find(415)->sync($g1000);
-        Ex_category::find(314)->sync($b1000500);
-        Ex_category::find(315)->sync($b500100);
-        Ex_category::find(316)->sync($b10050);
-        Ex_category::find(317)->sync($l50);
+        Ex_category::find(415)->products()->sync($g1000);
+        Ex_category::find(314)->products()->sync($b1000500);
+        Ex_category::find(315)->products()->sync($b500100);
+        Ex_category::find(316)->products()->sync($b10050);
+        Ex_category::find(317)->products()->sync($l50);
 
     }
 
