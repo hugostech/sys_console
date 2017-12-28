@@ -407,5 +407,14 @@ class KillPriceController extends Controller
         return $product->model.' price:'.$product->bottomPrice.' Success!';
     }
 
+    //one-off kill all price
+    public function batchEditPrice(){
+        foreach (Ex_speceal::all() as $special){
+            $price = $special->price*0.95;
+            $product = ExtremepcProduct::find($special->product_id);
+            $product->setSpecial($price);
+        }
+    }
+
 
 }
