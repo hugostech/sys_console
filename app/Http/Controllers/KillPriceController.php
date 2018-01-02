@@ -410,9 +410,10 @@ class KillPriceController extends Controller
     //one-off kill all price
     public function batchEditPrice(){
         foreach (Ex_speceal::all() as $special){
-            $price = $special->price*0.95;
+            $price = $special->price/0.95;
+            $price=ceil($price*1.15);
             $product = ExtremepcProduct::find($special->product_id);
-            $product->setSpecial($price);
+            $product->setSpecial($price,true);
         }
     }
 
