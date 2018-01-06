@@ -3,6 +3,12 @@
 @section('mainContent')
     <div class="col-md-12">
         <div class="panel panel-default">
+            @if(\Illuminate\Support\Facades\Session::has('success'))
+            <div class="alert alert-success alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>Success!</strong> {{\Illuminate\Support\Facades\Session::get('success')}}
+            </div>
+            @endif
             <div class="panel-heading">
                 <h3>CSV import</h3>
                 <button type="button" class="btn btn-danger btn-xs" onclick="doClear()">Clean Products</button>
@@ -32,7 +38,22 @@
                 </div>
             </div>
             <div class="panel-body">
+                <div class="page-header">
+                    <h3>Multipe Files Upload</h3>
+                </div>
+                {!! Form::open(['url'=>'csv/batchUpload','method'=>'post','files'=>true,'class'=>'form-inline']) !!}
+                <div class="form-group">
+                    {!! Form::file('csvs[]',['multiple']) !!}
 
+                </div>
+                <div class="form-group">
+                    {!! Form::submit('Upload',['class'=>'btn btn-primary']) !!}
+                </div>
+                {!! Form::close() !!}
+                <hr>
+                <div class="page-header">
+                    <h3>Single File Upload</h3>
+                </div>
 
                 {!! Form::open(['url'=>'csv/import/run','method'=>'post','files'=>true]) !!}
                 <div class="form-group col-md-4">

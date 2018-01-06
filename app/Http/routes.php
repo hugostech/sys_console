@@ -234,6 +234,8 @@ Route::group(['middleware' => ['web']], function () {
  Route::get('exproduct/{id}/priceunlock','LockPriceController@unlockPrice');
  Route::get('category/shade','CategoryController@shade');
  Route::get('batchpriceedit','KillPriceController@batchEditPrice');
+ Route::post('csv/batchUpload','CsvController@batchUpload');
+ Route::get('csv/batchImport','CsvController@batchImport');
 
 
 });
