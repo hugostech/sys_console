@@ -241,7 +241,7 @@ class CsvController extends Controller
                 }
             });
             DB::commit();
-            unlink($path.$supply_code.'.csv');
+            Storage::delete($path.$supply_code.'.csv');
             return redirect('csv/import');
         }catch (\Exception $e){
             DB::rollback();
