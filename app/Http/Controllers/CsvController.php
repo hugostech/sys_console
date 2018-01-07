@@ -130,7 +130,7 @@ class CsvController extends Controller
         ]);
         $supply_code = $request->input('supply_code');
         $filename = "$supply_code.csv";
-       $request->file('csv')->move(storage_path('app'),$filename);
+       $request->file('csv')->move(storage_path('app/csv'),$filename);
        try{
            $firstsheet = 'test';
            Excel::load('storage/app/'.$filename,function ($render) use(&$firstsheet){
@@ -210,7 +210,7 @@ class CsvController extends Controller
 
     }
 
-    public function startImport($supply_code,$path='storage/app/'){
+    public function startImport($supply_code,$path=storage_path('app/csv/')){
 
 //        $this->$supply_code();
         DB::beginTransaction();
