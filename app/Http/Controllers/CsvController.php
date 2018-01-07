@@ -29,11 +29,11 @@ class CsvController extends Controller
     private $map;
     public function __construct()
     {
-        $this->category = Ex_category::find(NOCATEGORY);
-
-        View::share('csvRecords',Csv::all()->toArray());
-//        View::share('csvRecords',[]);
-        View::share('supplier_list',['pb' => 'PB', 'im' => 'Ingram micro','aw'=>'Anywhere','do'=>'Dove','sy'=>'Synnex','cd'=>'Computer Dynamics','dj'=>'DJI','re'=>'RTEP']);
+//        $this->category = Ex_category::find(NOCATEGORY);
+//
+//        View::share('csvRecords',Csv::all()->toArray());
+        View::share('csvRecords',[]);
+        View::share('supplier_list',['pb' => 'PB', 'im' => 'Ingram micro','aw'=>'Anywhere','do'=>'Dove','sy'=>'Synnex','cd'=>'Computer Dynamics','dj'=>'DJI','ex'=>'RTEP']);
 
 
         $this->map = array(
