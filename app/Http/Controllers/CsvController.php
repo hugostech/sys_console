@@ -203,7 +203,7 @@ class CsvController extends Controller
         foreach(glob(storage_path('app/csv/*.csv')) as $file){
             $file = str_replace(storage_path('app/csv/'),'',$file);
             $file = str_replace('.csv','',$file);
-            $this->startImport($file,'storage/app/csv/');
+            $this->startImport($file,storage_path('app/csv/'));
         }
 
 
