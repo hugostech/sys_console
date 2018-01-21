@@ -422,7 +422,10 @@ class CsvController extends Controller
             return $price*1.08;
         }elseif ($price < 300){
             return $price*1.06;
-        }else{
+        }elseif ($price < 1000){
+            return $price*1.05;
+            }
+        else{
             return $price*1.04;
         }
     }

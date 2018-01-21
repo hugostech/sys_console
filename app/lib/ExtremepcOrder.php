@@ -55,7 +55,7 @@ class ExtremepcOrder
             $tansaction = array(
                 'customer_id'=>$this->order->customer_id,
                 'order_id'=>0,
-                'description'=>'Royal Point from Order:'.$this->order->order_id,
+                'description'=>'Loyalty Points from Order:'.$this->order->order_id,
                 'amount'=>$amount,
                 'date_added'=>Carbon::now()
             );
