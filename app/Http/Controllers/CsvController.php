@@ -133,7 +133,7 @@ class CsvController extends Controller
        $request->file('csv')->move(storage_path('app/csv'),$filename);
        try{
            $firstsheet = 'test';
-           Excel::load('storage/app/'.$filename,function ($render) use(&$firstsheet){
+           Excel::load('storage/app/csv/'.$filename,function ($render) use(&$firstsheet){
                $firstsheet = $render->first();
            });
 //           dd($firstsheet);
@@ -210,7 +210,7 @@ class CsvController extends Controller
 
     }
 
-    public function startImport($supply_code,$path='storage/app/'){
+    public function startImport($supply_code,$path='storage/app/csv/'){
 
 //        $this->$supply_code();
         DB::beginTransaction();
