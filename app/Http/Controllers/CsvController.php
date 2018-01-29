@@ -342,6 +342,8 @@ class CsvController extends Controller
             return false;
         }
 
+        echo $mpn."\r\n";
+
         $mpn = trim($mpn);
         if (!is_numeric($stock)){
             $stock=0;
