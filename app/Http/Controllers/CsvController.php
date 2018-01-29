@@ -335,10 +335,12 @@ class CsvController extends Controller
         return $price/1.15;
     }
     private function importSingleProduct($mpn,$stock,$price,$supply_code,$name,$supplier_code){
-        echo $mpn.PHP_EOL;
+
         if ($stock<1){
             return false;
         }
+        $price = str_replace('$','',$price);
+        $price = trim($price);
         if (!is_numeric($price) || trim($mpn)==''){
             return false;
         }
@@ -347,7 +349,7 @@ class CsvController extends Controller
             return false;
         }
 
-        echo $mpn."\r\n";
+
 
         $mpn = trim($mpn);
         if (!is_numeric($stock)){
