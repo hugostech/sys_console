@@ -240,6 +240,7 @@ class CsvController extends Controller
                     $this->price_update($product);
                 }
             });
+            var_dump($path.$supply_code.'.csv');
             DB::commit();
             unlink($path.$supply_code.'.csv');
             return redirect('csv/import');
