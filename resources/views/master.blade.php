@@ -10,6 +10,8 @@
     <script src="{{url('',['js','special.js'])}}"></script>
     <script src="{{url('',['js','angular.min.js'])}}"></script>
     <script charset="utf-8" src="{{url('',['js','ckeditor','ckeditor.js'])}}"></script>
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>
     {{--<script charset="utf-8" src="{{url('',['js','kindeditor','kindeditor-all-min.js'])}}"></script>--}}
     {{--<script charset="utf-8" src="{{url('',['js','kindeditor','lang','zh-CN.js'])}}"></script>--}}
     {{--<script>--}}
@@ -97,6 +99,7 @@
                                     {{--<li><a href="#">Something else here</a></li>--}}
                                     <li role="separator" class="divider"></li>
                                     <li><a href="{{url('/',['killprice'])}}">Kill price</a></li>
+                                    <li><a href="{{url('/',['lockProducts'])}}">Lock List</a></li>
 
                                     <li><a href="{{url('/',['eta_list'])}}">ETA</a></li>
                                     <li><a href="{{url('/',['sales_list'])}}">Sales</a></li>

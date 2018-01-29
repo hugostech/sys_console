@@ -37,4 +37,9 @@ class LockPriceController extends Controller
             return abort(403, 'Product cannot find');
         }
     }
+
+    public function listProduct(){
+        $products = Ex_product::where('status',1)->where('price_lock',1)->get();
+        return view('lockprice.index',compact('products'));
+    }
 }
