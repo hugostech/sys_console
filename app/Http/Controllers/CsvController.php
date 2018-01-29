@@ -210,8 +210,10 @@ class CsvController extends Controller
 
     }
 
-    public function startImport($supply_code,$path='storage/app/csv/'){
-
+    public function startImport($supply_code,$path=''){
+        if ($path===''){
+            $path = storage_path('app/csv/');
+        }
 //        $this->$supply_code();
         DB::beginTransaction();
         try{
@@ -245,7 +247,7 @@ class CsvController extends Controller
             unlink($path.$supply_code.'.csv');
             return redirect('csv/import');
         }catch (\Exception $e){
-//            DB::rollback();
+            DB::rollback();
             print_r($e->getMessage());
 //            echo $e->getFile().' '.$e->getLine().'-'.$e->getMessage();
         }
@@ -332,6 +334,7 @@ class CsvController extends Controller
         return $price/1.15;
     }
     private function importSingleProduct($mpn,$stock,$price,$supply_code,$name,$supplier_code){
+        echo $mpn.PHP_EOL;
         if ($stock<1){
             return false;
         }
