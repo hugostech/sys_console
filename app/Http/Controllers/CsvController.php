@@ -248,6 +248,7 @@ class CsvController extends Controller
             return redirect('csv/import');
         }catch (\Exception $e){
             DB::rollback();
+            print_r($e->getLine());
             print_r($e->getMessage());
 //            echo $e->getFile().' '.$e->getLine().'-'.$e->getMessage();
         }
