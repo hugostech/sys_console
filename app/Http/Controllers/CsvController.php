@@ -151,7 +151,7 @@ class CsvController extends Controller
     public function clear(){
 
         if (Input::has('type')&&Input::get("type")==1){
-            Ex_category::find(NOCATEGORY)->products()->chunkchunk(100,function ($products){
+            Ex_category::find(NOCATEGORY)->products()->chunk(100,function ($products){
                 foreach ($products as $product){
                     if($product->csvs()->count()<1){
                         $product->status=0;
