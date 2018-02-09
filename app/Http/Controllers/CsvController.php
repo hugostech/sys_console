@@ -364,6 +364,7 @@ class CsvController extends Controller
         }
 
         foreach ($products as $product_id){
+
             $this->recordProductCsv($product_id,$stock,$price,$supply_code,$supplier_code);
             $this->stock_status_update($product_id);
 
@@ -412,8 +413,13 @@ class CsvController extends Controller
 
     }
     private function mapProductByMpn($mpn){
-        $products = Ex_product::where('mpn',$mpn)->where('status',1)->get();
+        $products = Ex_product::where('mpn',$mpn)->get();
+
         if(count($products)>0){
+            foreach ($products as $product){
+                $product->status=1;
+                $product->save();
+            }
             return $products->pluck('product_id');
         }else{
             return false;
