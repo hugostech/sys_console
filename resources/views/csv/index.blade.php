@@ -11,7 +11,11 @@
             @endif
             <div class="panel-heading">
                 <h3>CSV import</h3>
-                <button type="button" class="btn btn-danger btn-xs" onclick="doClear()">Clean Products</button>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-danger btn-xs" onclick="doClear(0)">Clean Products</button>
+                    <button type="button" class="btn btn-danger btn-xs" onclick="doClear(1)">Clean Imported Products</button>
+                </div>
+
                 <button type="button" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#myModal">Delete All Disabled Products</button>
                 <!-- Modal -->
                 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -133,9 +137,9 @@
             $('#progress_bar').removeClass('sr-only');
         }
 
-        function doClear() {
+        function doClear(type) {
             if (confirm('Are you sure to start clean the csv products?')){
-                window.location = '{{url('csv/import/clear')}}';
+                window.location = '{{url('csv/import/clear')}}?type='+type;
             }
         }
         function runDel() {

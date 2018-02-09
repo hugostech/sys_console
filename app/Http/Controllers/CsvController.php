@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\View;
@@ -148,41 +149,38 @@ class CsvController extends Controller
     }
 
     public function clear(){
-        Ex_product::whereNotNull('mpn')->where('mpn','<>','')->where('quantity','<',1)->chunk(100,function ($products){
-            foreach ($products as $product){
-                if($product->csvs()->count()<1){
-                    $product->status=0;
-                    $product->save();
+
+        if (Input::has('type')&&Input::get("type")==1){
+            Ex_category::find(NOCATEGORY)->products()->chunkchunk(100,function ($products){
+                foreach ($products as $product){
+                    if($product->csvs()->count()<1){
+                        $product->status=0;
+                        $product->save();
+                    }
                 }
-            }
-        });
-//        $this->category->products()->chunk(100,function ($products){
-//            foreach ($products as $product){
-//                if($product->csvs()->count()<1){
-////                    $product->description()->delete();
-////                    $product->delete();
-//                    $product->status=0;
-//                    $product->save();
-//                }
-//            }
-//        });
-        return 'success!';
+            });
+        }else{
+            Ex_product::whereNotNull('mpn')->where('mpn','<>','')->where('quantity','<',1)->chunk(100,function ($products){
+                foreach ($products as $product){
+                    if($product->csvs()->count()<1){
+                        $product->status=0;
+                        $product->save();
+                    }
+                }
+            });
+        }
+
+        return Carbon::now().': success!';
     }
 
     public function deleteDisable(){
-//        Ex_product::where('status',0)->chunk(100,function ($products){
-//            foreach ($products as $product){
-//                $product->description()->delete();
-//                $product->delete();
-//            }
-//        });
         foreach (Ex_product::where('status',0)->cursor() as $product){
             $product->description()->delete();
             $product->special()->delete();
             Ex_alias::where('query','product_id='.$product->product_id)->delete();
             $product->delete();
         }
-        return 'success!';
+        return Carbon::now().': success!';
     }
 
     private function dataMap($code,$data){
@@ -205,6 +203,7 @@ class CsvController extends Controller
             $file = str_replace('.csv','',$file);
             $this->startImport($file,storage_path('app/csv/'));
         }
+        $this->clear();
 
 
 
