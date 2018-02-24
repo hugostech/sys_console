@@ -675,7 +675,9 @@ class unilityController extends Controller
             "AMD A8"=>'AMD A8',
             "AMD A9"=>'AMD A9',
             "AMD A10"=>'AMD A10',
-            "AMD E1"=>'AMD E1'
+            "AMD A12"=>'AMD A12',
+            "AMD E1"=>'AMD E1',
+            "AMD E2"=>'AMD E2',
         );
         $os = array(
             'Windows 10 home'=>'Windows 10 home',

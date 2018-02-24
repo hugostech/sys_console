@@ -105,7 +105,7 @@ class CsvController extends Controller
     public function batchUpload(Request $request){
         $lists = [
             "141970.CSV" => "im",
-            "AnywareNZ price list  3.csv" => "aw",
+            "AnywareNZ price list 3.csv" => "aw",
             "CDL daily Pricefile.csv" => "cd",
             "dealerpricelist.csv" => "do",
             "PB Price List_ROS0179.csv" => "pb",
