@@ -639,6 +639,7 @@ class unilityController extends Controller
             "GTX1060"=>"GTX1060",
             "GTX1070"=>"GTX1070",
             "GTX1080"=>"GTX1080",
+            "MX150"=>"MX150",
             "NVIDIA Quadro"=>"NVIDIA Quadro",
             "Radeon R5 M230"=>"Radeon R5 M230",
             "Integrated"=>"Integrated"
