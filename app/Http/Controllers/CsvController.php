@@ -118,7 +118,8 @@ class CsvController extends Controller
             "dealerpricelist.csv" => "do",
             "PB Price List_ROS0179.csv" => "pb",
             "ROC_synnex_nz.csv" => "sy",
-            "RTEP.csv" => "ex"
+            "RTEP.csv" => "ex",
+            "0001037946.csv"=>"wc",
         ];
         $uploads = [];
         foreach($request->file('csvs') as $file){
