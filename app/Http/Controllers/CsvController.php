@@ -34,7 +34,8 @@ class CsvController extends Controller
 
         View::share('csvRecords',Csv::all()->toArray());
 //        View::share('csvRecords',[]);
-        View::share('supplier_list',['pb' => 'PB', 'im' => 'Ingram micro','aw'=>'Anywhere','do'=>'Dove','sy'=>'Synnex','cd'=>'Computer Dynamics','dj'=>'DJI','ex'=>'RTEP']);
+        View::share('supplier_list',['pb' => 'PB', 'im' => 'Ingram micro','aw'=>'Anywhere','do'=>'Dove','sy'=>'Synnex',
+            'cd'=>'Computer Dynamics','dj'=>'DJI','ex'=>'RTEP','wc'=>'Westcom']);
 
 
         $this->map = array(
@@ -94,6 +95,13 @@ class CsvController extends Controller
                 'name'=>'productdescription',
                 'supplier_code' =>'productcode'
             ],
+            'wc'=>[
+                'mpn'=>'item_number',
+                'stock'=>'qoh',
+                'price'=>'customer_price',
+                'name'=>'item_name',
+                'supplier_code' =>'item_number'
+            ],
 
         );
     }
@@ -105,12 +113,13 @@ class CsvController extends Controller
     public function batchUpload(Request $request){
         $lists = [
             "141970.CSV" => "im",
-            "AnywareNZ price list  3.csv" => "aw",
+            "AnywareNZ price list 3.csv" => "aw",
             "CDL daily Pricefile.csv" => "cd",
             "dealerpricelist.csv" => "do",
             "PB Price List_ROS0179.csv" => "pb",
             "ROC_synnex_nz.csv" => "sy",
-            "RTEP.csv" => "ex"
+            "RTEP.csv" => "ex",
+            "0001037946.csv"=>"wc",
         ];
         $uploads = [];
         foreach($request->file('csvs') as $file){
