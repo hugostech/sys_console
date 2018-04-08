@@ -882,7 +882,7 @@ class unilityController extends Controller
         }
         if (count($urgentlist) > 0) {
             Mail::send('reminder', compact('urgentlist'), function ($m) {
-                $m->from('no-reply@extremepc.co.nz', 'Extremepc Reminder');
+                $m->from('sales@extremepc.co.nz', 'Extremepc Reminder');
                 $m->bcc('tony@roctech.co.nz', 'Tony Situ');
                 $m->bcc('hugo@roctech.co.nz', 'Hugo Wang');
                 $m->to('sales@roctech.co.nz', 'Roctech')->subject('Online Order Reminder!');
@@ -898,7 +898,7 @@ class unilityController extends Controller
 //        $order = Ex_order::find($code);
 //        dd($order);
         Mail::send('email.paymentreminder', compact('order'), function ($m) use ($order){
-            $m->from('no-reply@extremepc.co.nz', 'Extremepc Payment Reminder');
+            $m->from('sales@extremepc.co.nz', 'Extremepc Payment Reminder');
             $m->bcc('tony@roctech.co.nz', 'Tony Situ');
             $m->bcc('hugo@roctech.co.nz', 'Hugo Wang');
             $email = $order->email;
@@ -980,7 +980,7 @@ class unilityController extends Controller
                     $eta->save();
 
                     Mail::raw($eta->model.' eta over due', function ($m) {
-                        $m->from('no-reply@extremepc.co.nz', 'Extremepc Reminder');
+                        $m->from('sales@extremepc.co.nz', 'Extremepc Reminder');
                         $m->bcc('tony@roctech.co.nz', 'Tony Situ');
                         $m->bcc('hugo@roctech.co.nz', 'Hugo Wang');
                         $m->to('sales@roctech.co.nz', 'Roctech')->subject('ETA Reminder!');
@@ -1422,7 +1422,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
         $adddate = Carbon::now()->day(-1)->format('Y-m-d');
         $clients = Ex_customer::where('date_added','like',$adddate.'%')->get();
         Mail::send('email.newClientReminder', compact('clients'), function ($m) {
-            $m->from('no-reply@extremepc.co.nz', 'Extremepc Reminder');
+            $m->from('sales@extremepc.co.nz', 'Extremepc Reminder');
 
 //            $m->bcc('hugo@roctech.co.nz', 'Hugo Wang');
 
@@ -1557,7 +1557,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
         //$newsletters = News_letter::where('email','hugowangchn@gmail.com')->get();
         foreach ($newsletters as $user) {
             Mail::send('newsletter', compact('user'), function ($m) use ($user) {
-                $m->from('no-reply@extremepc.co.nz', 'Extreme PC');
+                $m->from('sales@extremepc.co.nz', 'Extreme PC');
                 $m->replyTo('sales@roctech.co.nz', 'Sales Department');
                 $m->to($user->email)->subject('New Website Launch Deal Extreme PC');
             });
@@ -2266,7 +2266,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
         $order = Ex_order::find($orderid);
 
         Mail::send('email.payment1000dreminder', compact('order'), function ($m) use ($order) {
-            $m->from('no-reply@extremepc.co.nz', 'ExtremePC');
+            $m->from('sales@extremepc.co.nz', 'ExtremePC');
             $m->replyTo('sales@roctech.co.nz','ExtremePC Team');
 
             $m->bcc('sales@roctech.co.nz', 'ExtremePC Team');

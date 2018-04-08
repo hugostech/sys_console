@@ -14,7 +14,7 @@ class RoyalPointController extends Controller
     public function sendNewRoyalPointReminder($order_id){
         $order = Ex_order::find($order_id);
         Mail::send('email.royalpoint.addpointnotice', compact('order'), function ($m) use ($order){
-            $m->from('no-reply@extremepc.co.nz', 'ROC TECH LTD T/A ExtremePC');
+            $m->from('sales@extremepc.co.nz', 'ROC TECH LTD T/A ExtremePC');
 //            $m->bcc('tony@roctech.co.nz', 'Tony Situ');
 //            $m->bcc('hugo@roctech.co.nz', 'Hugo Wang');
             $email = $order->email;
