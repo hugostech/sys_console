@@ -11,10 +11,12 @@ namespace backend;
 
 use App\Ex_product;
 use App\Ex_speceal;
+use GuzzleHttp\Client;
 
 class ExtremepcProduct
 {
     public $product;
+    public $client;
     public static function find($id){
         $self = new static($id);
         if ($self->check()){
@@ -32,6 +34,9 @@ class ExtremepcProduct
             $this->product = $product;
 
         }
+        $this->client = new Client();
+
+
     }
 
     public function check(){
@@ -82,5 +87,30 @@ class ExtremepcProduct
         if ($this->product->price_lock==0){
             Ex_speceal::where('product_id', $this->product->product_id)->delete();
         }
+    }
+
+    public function info(){
+        $url = env('SNPORT') . "?action=test&code=".$this->product->model;
+        $res = $this->client->get($url);
+        if ($res->getReasonPhrase()=='OK'){
+            $content = $res->getBody()->getContents();
+        }
+        $data = [];
+        dd($content);
+        if (str_contains($content, 'Average price inc')){
+
+        }
+        return $data;
+        $pricedetail = $this->getContent($url);
+        $averageCost = 0;
+        if(str_contains($pricedetail,'Average price inc')){
+            $productDetailArray = explode('<br>',$pricedetail);
+            $averageCost = str_replace('Average Cost: $','',$productDetailArray[4]);
+            $averageCost = str_replace(',','',$averageCost);
+            $averageCost = floatval($averageCost);
+//            $averageCost = number_format($averageCost, 2, '.', '');
+//            $averageCost = round($averageCost,2);
+        }
+        return $averageCost;
     }
 }

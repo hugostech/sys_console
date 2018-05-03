@@ -240,6 +240,8 @@ Route::group(['middleware' => ['web']], function () {
 
 
 });
-
+ Route::group(['prefix' => 'weekendsale','middleware' => ['web']], function () {
+    Route::get('/product/{id}','WeekendController@get');
+ });
 
 
