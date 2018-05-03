@@ -42,7 +42,7 @@ class ExtremepcProduct
     }
 
     public function check(){
-        return !is_null($this->product);
+        return !is_null($this->product) && $this->product->status==1;
     }
 
     public function setPrice($price,$incgst=false){
