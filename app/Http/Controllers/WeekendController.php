@@ -15,7 +15,7 @@ class WeekendController extends Controller
 
     public function get($id){
         $product = ExtremepcProduct::find($id);
-        $product->info();
+        dd($product->info());
     }
 
 

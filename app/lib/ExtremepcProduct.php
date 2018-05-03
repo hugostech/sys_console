@@ -96,21 +96,18 @@ class ExtremepcProduct
             $content = $res->getBody()->getContents();
         }
         $data = [];
-        dd($content);
         if (str_contains($content, 'Average price inc')){
-
+            foreach (explode('<br>',$content) as $item){
+                if (str_contains($item, 'font')) continue;
+                $row = explode(':', $item);
+                $value = str_replace('$','',$row[1]);
+                $value = str_replace(',','',$value);
+                $value = floatval(trim($value));
+                $key = strtolower(str_replace(' ', '', $row[0]));
+                $data[$key] = $value;
+            }
         }
         return $data;
-        $pricedetail = $this->getContent($url);
-        $averageCost = 0;
-        if(str_contains($pricedetail,'Average price inc')){
-            $productDetailArray = explode('<br>',$pricedetail);
-            $averageCost = str_replace('Average Cost: $','',$productDetailArray[4]);
-            $averageCost = str_replace(',','',$averageCost);
-            $averageCost = floatval($averageCost);
-//            $averageCost = number_format($averageCost, 2, '.', '');
-//            $averageCost = round($averageCost,2);
-        }
-        return $averageCost;
+
     }
 }
