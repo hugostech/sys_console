@@ -11,7 +11,9 @@ namespace backend;
 
 use App\Ex_product;
 use App\Ex_speceal;
+use App\ProductRecord;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\DB;
 
 class ExtremepcProduct
 {
@@ -83,12 +85,29 @@ class ExtremepcProduct
 
     }
 
+    public function getSpecial(){
+        $special = $this->product->special;
+        if (is_null($special)){
+            return 0;
+        }
+        return $special->price;
+    }
+
     public function cleanSpecial(){
         if ($this->product->price_lock==0){
             Ex_speceal::where('product_id', $this->product->product_id)->delete();
         }
     }
 
+    /**
+     * @return array
+    "runrate(1month)" => 0.0
+    "stock" => 3.0
+    "lastcost" => 465.0
+    "sellprice" => 607.83
+    "averagecost" => 465.0
+    "manualcost" => 500.0
+     */
     public function info(){
         $url = env('SNPORT') . "?action=test&code=".$this->product->model;
         $res = $this->client->get($url);
@@ -108,6 +127,59 @@ class ExtremepcProduct
             }
         }
         return $data;
+    }
+
+    public function recordExists(){
+        $record = ProductRecord::where('product_id',$this->product->product_id)->first();
+        return !is_null($record);
+    }
+
+    public function record(){
+        if ($this->recordExists()){
+            throw new \Exception('Product Model: '.$this->product->model.' record exists, please restore first');
+        }else{
+            ProductRecord::create([
+                'product_id'=>$this->product->product_id,
+                'model'=>$this->product->model,
+                'price'=>$this->product->price,
+                'special'=>$this->getSpecial()
+            ]);
+            return true;
+        }
+    }
+
+    public function restore(){
+        if ($this->recordExists()){
+            $record = ProductRecord::where('product_id',$this->product->product_id)->first();
+            $this->setPrice($record->price);
+            if ($record->special>0){
+                $this->setSpecial($record->special);
+            }
+            $record->delete();
+        }
+        return true;
+    }
+
+    public function lock(){
+        try{
+            $this->product->price_lock = 1;
+            $this->save();
+            return $this;
+        }catch (\Exception $e){
+            return false;
+        }
+
+    }
+
+    public function unlock(){
+        try{
+            $this->product->price_lock = 0;
+            $this->save();
+            return $this;
+        }catch (\Exception $e){
+            return false;
+        }
+
 
     }
 }
