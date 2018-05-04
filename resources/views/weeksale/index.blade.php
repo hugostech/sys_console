@@ -50,6 +50,7 @@
 
             render(){
                 const {error, isLoaded, products} = this.state;
+                console.log(products);
                 if (error){
                     return <div>Error: {error.message}</div>;
                 }else if(!isLoaded){
