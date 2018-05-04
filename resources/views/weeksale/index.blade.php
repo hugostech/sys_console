@@ -79,7 +79,7 @@
                         </thead>
                         <tbody>
                         {
-                            products.map( (key,data) => (<Product detail={data} id={key} />))
+                            Object.keys(products).map( (key) => (<Product detail={products[key]} id={key} />))
                         }
                         </tbody>
                     </table>;
