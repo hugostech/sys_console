@@ -9,8 +9,9 @@
     <script type="text/babel">
         class Product extends React.Component{
             render(){
+                const product_info = this.props.detail;
                 return <tr>{
-                    this.props.detail.map((key,value)=><td>{value}</td>)
+                    Object.keys(product_info).map((key)=><td>{product_info[key]}</td>)
                 }</tr>
             }
         }
