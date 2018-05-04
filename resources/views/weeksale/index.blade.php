@@ -55,7 +55,7 @@
                     return <div>Loading...</div>;
                 }else{
                     return <table className="table table-bordered">{
-                        this.state.products.map((key,data)=><Product sid={key} detail={data} />)
+                        products.map((key,data)=><Product sid={key} detail={data} />)
                     }</table>;
                 }
 
