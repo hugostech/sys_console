@@ -50,14 +50,13 @@
 
             render(){
                 const {error, isLoaded, products} = this.state;
-                console.log(products);
                 if (error){
                     return <div>Error: {error.message}</div>;
                 }else if(!isLoaded){
                     return <div>Loading...</div>;
                 }else{
                     return <table className="table table-bordered">{
-                        products.map((key,data)=><Product sid={key} detail={data} />)
+                        products.map( (data) => (<Product detail={data} />))
                     }</table>;
                 }
 
