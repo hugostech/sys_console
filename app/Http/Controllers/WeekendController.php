@@ -33,7 +33,7 @@ class WeekendController extends Controller
             $item['cost'] = round($tem['averagecost']*1.15,2);
             $item['stock'] = $tem['stock'];
             $item['lock_status'] = $product->product->price_lock;
-            $products[$id] = $item;
+            $products[] = $item;
         }
         return \GuzzleHttp\json_encode($products);
     }
