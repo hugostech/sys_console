@@ -31,14 +31,14 @@
                     .then(
                         (result)=>{
                             this.setState({
-                                isLoaded: True,
+                                isLoaded: true,
                                 products: result
                             });
 
                         },
                         (error)=>{
                             this.setState({
-                                isLoaded: False,
+                                isLoaded: false,
                                 error: error
                             });
                         }
