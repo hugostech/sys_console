@@ -34,7 +34,7 @@ class WeekendController extends Controller
             $item['lock_status'] = $product->product->price_lock;
             $products[$id] = $item;
         }
-        return \GuzzleHttp\json_encode($products);
+        return \GuzzleHttp\json_encode(compact('products'));
     }
 
 

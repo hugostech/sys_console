@@ -43,7 +43,7 @@
                             console.log(result);
                             this.setState({
                                 isLoaded: true,
-                                products: result
+                                products: result.products
                             });
 
                         },
