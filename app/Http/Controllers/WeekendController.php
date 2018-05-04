@@ -11,7 +11,7 @@ const TARGETCATEGORY=423;
 class WeekendController extends Controller
 {
     public function index(){
-
+        return view('weeksale.index');
     }
 
     public function get($id){
@@ -33,7 +33,7 @@ class WeekendController extends Controller
             $item['cost'] = round($tem['averagecost']*1.15,2);
             $item['stock'] = $tem['stock'];
             $item['lock_status'] = $product->product->price_lock;
-            $products[] = $item;
+            $products[$id] = $item;
         }
         return \GuzzleHttp\json_encode($products);
     }

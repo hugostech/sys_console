@@ -7,16 +7,15 @@
 @section('mainContent')
     <div id="root"></div>
     <script type="text/babel">
-        class product extends ReactDOM.component{
-
+        class Product extends React.Component{
             render(){
                 return <tr>{
-                    this.props.data-detail.map((key,value)=><td>{value}</td>)
+                    this.props.detail.map((key,value)=><td>{value}</td>)
                 }</tr>
             }
         }
 
-        class sales extends ReactDOM.component {
+        class Sales extends React.Component {
             constructor(props){
                 super(props);
                 this.state = {
@@ -27,19 +26,47 @@
             }
 
             componentDidMount(){
-                fetch("{{url('')}}")
+                fetch(this.props.url)
+                    .then(res => res.json())
+                    .then(
+                        (result)=>{
+                            this.setState({
+                                isLoaded: True,
+                                products: result
+                            });
+
+                        },
+                        (error)=>{
+                            this.setState({
+                                isLoaded: False,
+                                error: error
+                            });
+                        }
+
+                    )
             }
 
 
             render(){
-                return <table className="table table-bordered">{
-                    this.state.products.map((key,data)=><product data-id={key} data-detail={data} />)
-                }</table>;
+                const {error, isLoaded, products} = this.state;
+                if (error){
+                    return <div>Error: {error.message}</div>;
+                }else if(!isLoaded){
+                    return <div>Loading...</div>;
+                }else{
+                    return <table className="table table-bordered">{
+                        this.state.products.map((key,data)=><Product sid={key} detail={data} />)
+                    }</table>;
+                }
+
+
+
+
             }
         }
 
         ReactDOM.render(
-            <h1>Hello, world!</h1>,
+            <Sales url="http://italker.info/warranty/weekendsale/products"/>,
             document.getElementById('root')
         );
 
