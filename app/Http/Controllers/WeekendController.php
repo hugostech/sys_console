@@ -24,7 +24,6 @@ class WeekendController extends Controller
         foreach (Ex_category::find(TARGETCATEGORY)->products()->where('status',1)->pluck('oc_ex_product.product_id')->all() as $id){
             $product = ExtremepcProduct::find($id);
             $item = [];
-            $item['product_id'] = $id;
             $item['model'] = $product->product->model;
             $item['name'] = $product->product->description->name;
             $item['price_current'] = round($product->product->price*1.15,2);
@@ -33,7 +32,7 @@ class WeekendController extends Controller
             $item['cost'] = round($tem['averagecost']*1.15,2);
             $item['stock'] = $tem['stock'];
             $item['lock_status'] = $product->product->price_lock;
-            $products[] = $item;
+            $products[$id] = $item;
         }
         return \GuzzleHttp\json_encode($products);
     }
