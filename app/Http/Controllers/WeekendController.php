@@ -91,7 +91,7 @@ class WeekendController extends Controller
         foreach ($request->base as $id=>$price){
             $products[$id] = [$price,$request->special[$id]];
         }
-        $sale = WeekendSale::find($request->sale_id);
+        $sale = WeekendSale::find($request->get('sale_id'));
         $sale->products = \GuzzleHttp\json_encode($products);
         $sale->save();
         return redirect('weekendsale');
@@ -99,7 +99,7 @@ class WeekendController extends Controller
 
     public function del($id){
         WeekendSale::find($id)->delete();
-        return redirect()->back();
+        return redirect('weekendsale');
     }
 
 
