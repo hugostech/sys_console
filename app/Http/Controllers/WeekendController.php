@@ -16,7 +16,7 @@ class WeekendController extends Controller
     public function index(){
         $products = [];
         if (Input::has('a') && Input::get('a')=='import'){
-            $products = \GuzzleHttp\json_decode($this->all(),true)['products'];
+            $products = $this->all();
         }
         $weekendsale = WeekendSale::all();
         $editing_model = false;
@@ -29,18 +29,11 @@ class WeekendController extends Controller
     }
 
     public function all(){
-        return <<<JSON
-{"products":
-{"121578":{"model":"179742","name":"Samsung EP-N5100 Fast Wireless Charging Stand (2018) Black, Fast Wireless Charging Galaxy S9 Series, Note 8, S8 Series, S7 Series, Compatible with Qi-enabled devices EP-N5100BBEGWW","price_current":99,"special_current":89,"cost":59.16,"stock":13,"lock_status":0,"sale_base":250,"sale_special":220},
-"121909":{"model":"179758","name":"Samsung Galaxy S9 Smartphone 256GB Midnight Black","price_current":1599,"special_current":1499,"cost":1349,"stock":2,"lock_status":0,"sale_base":250,"sale_special":220}
-}}
-JSON;
-
         $products = [];
         foreach (Ex_category::find(TARGETCATEGORY)->products()->where('status',1)->pluck('oc_ex_product.product_id')->all() as $id){
             $products[$id] = $this->findProductData($id);
         }
-        return \GuzzleHttp\json_encode(compact('products'));
+        return $products;
     }
 
     private function findProductData($id){
