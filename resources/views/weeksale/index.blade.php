@@ -18,7 +18,9 @@
                     <div class="thumbnail">
                         <div class="caption">
                             @if($editing_model)
-                                <label class="text-danger">Editing</label>
+                                @if($sale_id==$sale->id)
+                                <h3 class="text-danger">Editing</h3>
+                                @endif
                             @else
                                 <p>
                                     <a href="{{route('weekendsale_up', ['id' => $sale->id])}}" onclick="return confirm('Are you sure?')" class="btn btn-primary btn-sm" role="button">Up</a>
@@ -36,8 +38,10 @@
                                 <label class="text-danger">Stop</label>
                             @endif
                             </p>
+                            @if($editing_model)
                             <a href="{{url('weekendsale',['sale',$sale->id])}}" class="btn btn-info btn-xs btn-block">Edit</a>
                             <a href="{{url('weekendsale',['del',$sale->id])}}" onclick="return confirm('Are you sure?')" class="btn btn-danger btn-xs btn-block">Del</a>
+                            @endif
                         </div>
                     </div>
                 </div>
