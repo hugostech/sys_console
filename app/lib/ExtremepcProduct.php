@@ -157,7 +157,7 @@ class ExtremepcProduct
                 $this->setSpecial($record->special);
             }
             $this->product->price_lock = $record->lock;
-            $this->save();
+            $this->product->save();
             $record->delete();
         }
         return true;

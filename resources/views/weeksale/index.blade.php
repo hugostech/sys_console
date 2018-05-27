@@ -28,8 +28,8 @@
                     <div class="thumbnail">
                         <div class="caption">
                             <p>
-                                <a href="{{route('weekendsale_up', ['id' => $sale->id])}}" class="btn btn-primary btn-sm" role="button">Up</a>
-                                <a href="{{route('weekendsale_down', ['id' => $sale->id])}}" class="btn btn-danger btn-sm" role="button">Down</a></p>
+                                <a href="{{route('weekendsale_up', ['id' => $sale->id])}}" onclick="return confirm('Are you sure?')" class="btn btn-primary btn-sm" role="button">Up</a>
+                                <a href="{{route('weekendsale_down', ['id' => $sale->id])}}" onclick="return confirm('Are you sure?')" class="btn btn-danger btn-sm" role="button">Down</a></p>
                             <p>Start Date: {{$sale->start_date}}</p>
                             <p>Last Update: {{$sale->updated_at}}</p>
                             <p>Status:
