@@ -19,7 +19,7 @@ class CreateProductRecordsTable extends Migration
             $table->string('model')->nullable();
             $table->float('price');
             $table->float('special')->default(0);
-            $table->integer('lock');
+
         });
     }
 
