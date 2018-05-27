@@ -68,6 +68,7 @@ class WeekendController extends Controller
 
     public function show($id){
         $sale = WeekendSale::find($id);
+        $sale_id = $id;
         $products = [];
         foreach (json_decode($sale->products,true) as $id=>$prices){
             $product = $this->findProductData($id);
@@ -77,7 +78,7 @@ class WeekendController extends Controller
         }
         $weekendsale = WeekendSale::all();
         $editing_model = true;
-        $sale_id = $id;
+
         return view('weeksale.index',compact('products','weekendsale','editing_model','sale_id'));
     }
 

@@ -6,7 +6,7 @@
         <div class="panel-heading">
             <h3>Weekend Sales
                 @if($editing_model)
-                    <strong>Editing Model</strong>
+                    <small class="text-muted">Editing Model</small>
                 @endif
             </h3>
         </div>
