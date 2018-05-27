@@ -1,100 +1,110 @@
 @extends('master')
-@section('script')
-    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
-    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
-@endsection
+
 @section('mainContent')
-    <div class="col-md-12">
 
-        <div class="panel panel-info" id="root">
-            <div class="panel-heading">
-                <h3>Product List</h3>
-            </div>
-            <div class="panel-body">
-            </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3>Weekend Sales
+                @if($editing_model)
+                    <strong>Editing Model</strong>
+                @endif
+            </h3>
         </div>
+        <div class="panel-body">
+            <h3>Current Weekend Sales</h3>
+            <p class="text-muted text-capitalize text-danger"><span class="glyphicon glyphicon-alert"></span> All prices include GST</p>
+            <p class="text-right">
+                @if(\Illuminate\Support\Facades\Input::has('a') || $editing_model)
+                    <a href="{{url('weekendsale')}}" class="btn btn-warning btn-xs">Back</a>
+                    <button type="button" class="btn btn-success btn-xs" onclick="submitForm()">Confirm</button>
+                @else
+                    <a href="{{url('weekendsale')}}?a=import" class="btn btn-primary btn-xs">Import</a>
+                @endif
+            </p>
+            <hr>
+            <div class="row">
+                @foreach($weekendsale as $sale)
+                <div class="col-sm-6 col-md-3">
+                    <div class="thumbnail">
+                        <div class="caption">
+                            <p>
+                                <a href="#" class="btn btn-primary btn-sm" role="button">Up</a>
+                                <a href="#" class="btn btn-danger btn-sm" role="button">Down</a></p>
+                            <p>Start Date: {{$sale->start_date}}</p>
+                            <p>Last Update: {{$sale->updated_at}}</p>
+                            <p>Status:
+                            @if($sale->status == 1)
+                                <label class="text-success">Running</label>
+                            @else
+                                <label class="text-danger">Stop</label>
+                            @endif
+                            </p>
+                            <a href="{{url('weekendsale',['sale',$sale->id])}}" class="btn btn-info btn-xs btn-block">Edit</a>
+                            <a href="{{url('weekendsale',['del',$sale->id])}}" onclick="return confirm('Are you sure?')" class="btn btn-danger btn-xs btn-block">Del</a>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+
+        </div>
+        @if(count($products)>0)
+            @if($editing_model)
+            {!! Form::open(['route'=>'weekendsale_update','id'=>'form_weekendsale']) !!}
+            {!! Form::hidden('sale_id',$sale_id) !!}
+            @else
+            {!! Form::open(['route'=>'weekendsale_create','id'=>'form_weekendsale']) !!}
+            @endif
+        <table class="table table-bordered" id="product_table">
+            <thead>
+            <tr>
+                <th class="col-sm-1">Model</th>
+                <th class="col-sm-1">Status</th>
+                <th class="col-sm-3">Name</th>
+                <th class="col-sm-1">Price(Cr)</th>
+                <th class="col-sm-1">Special(Cr)</th>
+                <th class="col-sm-1">Cost(Cr)</th>
+                <th class="col-sm-2">Base Price</th>
+                <th class="col-sm-2">Sale Price</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach($products as $id=>$product)
+            <tr>
+                <td>{{$product['model']}}</td>
+                <td class="text-center">
+                @if($product['lock_status']==1)
+                    <button type="button" class="btn btn-danger btn-xs">Locked</button>
+                @else
+                    <button type="button" class="btn btn-info btn-xs">Unlocked</button>
+                @endif
+                    <br>
+                    <label>Stock: {{$product['stock']}}</label>
+                </td>
+                <td>{{$product['name']}}</td>
+                <td>${{$product['price_current']}}</td>
+                <td>${{$product['special_current']}}</td>
+                <td>${{$product['cost']}}</td>
+                <td>{!! Form::number('base['.$id.']',$product['sale_base'],['class'=>'form-control','step'=>0.01]) !!}</td>
+                <td>{!! Form::number('special['.$id.']',$product['sale_special'],['class'=>'form-control','step'=>0.01]) !!}</td>
+            </tr>
+            @endforeach
+            </tbody>
+        </table>
+        {!! Form::close() !!}
+        @endif
     </div>
-    <script type="text/babel">
-        class Product extends React.Component{
-            render(){
-                const product_info = this.props.detail;
-                return <tr>{
-                    Object.keys(product_info).map((key)=><td>{product_info[key]}</td>)
-                }</tr>
-            }
+
+    <script>
+        $(document).ready(function () {
+            console.log('table init');
+            $('#product_table').dataTable({
+                'paging': false
+            });
+        })
+        function submitForm() {
+            $('#form_weekendsale').submit();
         }
-
-        class Sales extends React.Component {
-            constructor(props){
-                super(props);
-                this.state = {
-                    error: null,
-                    isLoaded: false,
-                    products: []
-                }
-            }
-
-            componentDidMount(){
-                fetch(this.props.url)
-                    .then(res => res.json())
-                    .then(
-                        (result)=>{
-                            console.log(result);
-                            this.setState({
-                                isLoaded: true,
-                                products: result.products
-                            });
-
-                        },
-                        (error)=>{
-                            this.setState({
-                                isLoaded: false,
-                                error: error
-                            });
-                        }
-
-                    )
-            }
-
-
-            render(){
-                const {error, isLoaded, products} = this.state;
-                if (error){
-                    return <div>Error: {error.message}</div>;
-                }else if(!isLoaded){
-                    return <div>Loading...</div>;
-                }else{
-                    return <table className="table table-bordered">
-                        <thead>
-                        <tr>
-                            <th>Model</th>
-                            <th>Name</th>
-                            <th>price_current</th>
-                            <th>special_current</th>
-                            <th>cost</th>
-                            <th>stock</th>
-                            <th>lock_status</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {
-                            Object.keys(products).map( (key) => (<Product detail={products[key]} id={key} />))
-                        }
-                        </tbody>
-                    </table>;
-                }
-
-
-
-
-            }
-        }
-
-        ReactDOM.render(
-            <Sales url="{{url('weekendsale/products')}}"/>,
-            document.getElementById('root')
-        );
-
     </script>
+
 @endsection

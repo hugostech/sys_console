@@ -242,8 +242,12 @@ Route::group(['middleware' => ['web']], function () {
 });
  Route::group(['prefix' => 'weekendsale','middleware' => ['web']], function () {
     Route::get('/','WeekendController@index');
+    Route::get('/sale/{id}','WeekendController@show');
+    Route::get('/del/{id}','WeekendController@del');
     Route::get('/product/{id}','WeekendController@get');
     Route::get('/products','WeekendController@all');
+    Route::post('/create','WeekendController@create')->name('weekendsale_create');
+    Route::post('/update','WeekendController@update')->name('weekendsale_update');
  });
 
 

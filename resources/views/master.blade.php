@@ -104,6 +104,7 @@
 
                                     <li><a href="{{url('/',['eta_list'])}}">ETA</a></li>
                                     <li><a href="{{url('/',['sales_list'])}}">Sales</a></li>
+                                    <li><a href="{{url('/',['weekendsale'])}}">Weekend Sale</a></li>
                                     <li><a href="{{url('/',['flash_sale'])}}">Flash Sale</a></li>
                                     <li><a href="{{url('/',['categoryArrange'])}}">categoryArrange</a></li>
                                     <li><a href="{{url('/category',['shade'])}}">categorySale</a></li>

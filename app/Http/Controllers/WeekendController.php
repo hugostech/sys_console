@@ -3,15 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Ex_category;
+use App\WeekendSale;
 use backend\ExtremepcProduct;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Log;
 const TARGETCATEGORY=423;
 class WeekendController extends Controller
 {
     public function index(){
-        return view('weeksale.index');
+        $products = [];
+        if (Input::has('a') && Input::get('a')=='import'){
+            $products = \GuzzleHttp\json_decode($this->all(),true)['products'];
+        }
+        $weekendsale = WeekendSale::all();
+        $editing_model = false;
+        return view('weeksale.index',compact('products','weekendsale','editing_model'));
     }
 
     public function get($id){
@@ -20,21 +29,84 @@ class WeekendController extends Controller
     }
 
     public function all(){
+        return <<<JSON
+{"products":
+{"121578":{"model":"179742","name":"Samsung EP-N5100 Fast Wireless Charging Stand (2018) Black, Fast Wireless Charging Galaxy S9 Series, Note 8, S8 Series, S7 Series, Compatible with Qi-enabled devices EP-N5100BBEGWW","price_current":99,"special_current":89,"cost":59.16,"stock":13,"lock_status":0,"sale_base":250,"sale_special":220},
+"121909":{"model":"179758","name":"Samsung Galaxy S9 Smartphone 256GB Midnight Black","price_current":1599,"special_current":1499,"cost":1349,"stock":2,"lock_status":0,"sale_base":250,"sale_special":220}
+}}
+JSON;
+
         $products = [];
         foreach (Ex_category::find(TARGETCATEGORY)->products()->where('status',1)->pluck('oc_ex_product.product_id')->all() as $id){
-            $product = ExtremepcProduct::find($id);
-            $item = [];
-            $item['model'] = $product->product->model;
-            $item['name'] = $product->product->description->name;
-            $item['price_current'] = round($product->product->price*1.15,2);
-            $item['special_current'] = round($product->getSpecial()*1.15,2);
-            $tem = $product->info();
-            $item['cost'] = round($tem['averagecost']*1.15,2);
-            $item['stock'] = $tem['stock'];
-            $item['lock_status'] = $product->product->price_lock;
-            $products[$id] = $item;
+            $products[$id] = $this->findProductData($id);
         }
         return \GuzzleHttp\json_encode(compact('products'));
+    }
+
+    private function findProductData($id){
+        $product = ExtremepcProduct::find($id);
+        $item = [];
+        $item['model'] = $product->product->model;
+        $item['name'] = $product->product->description->name;
+        $item['price_current'] = round($product->product->price*1.15,2);
+        $item['special_current'] = round($product->getSpecial()*1.15,2);
+        $tem = $product->info();
+        $item['cost'] = round($tem['averagecost']*1.15,2);
+        $item['stock'] = $tem['stock'];
+        $item['lock_status'] = $product->product->price_lock;
+        $item['sale_base'] = round($product->product->price*1.15,2);
+        $item['sale_special'] = ceil($tem['averagecost']*1.05*1.15);
+        return $item;
+    }
+    public function create(Request $request){
+        $this->validate($request, [
+            'base'=>'required',
+            'special'=>'required',
+        ]);
+        $products = [];
+        foreach ($request->base as $id=>$price){
+            $products[$id] = [$price,$request->special[$id]];
+        }
+        $sale = new WeekendSale();
+        $sale->products = \GuzzleHttp\json_encode($products);
+        $sale->save();
+        return redirect('weekendsale');
+    }
+
+    public function show($id){
+        $sale = WeekendSale::find($id);
+        $products = [];
+        foreach (json_decode($sale->products,true) as $id=>$prices){
+            $product = $this->findProductData($id);
+            $product['sale_base'] = $prices[0];
+            $product['sale_special'] = $prices[1];
+            $products[$id] = $product;
+        }
+        $weekendsale = WeekendSale::all();
+        $editing_model = true;
+        $sale_id = $id;
+        return view('weeksale.index',compact('products','weekendsale','editing_model','sale_id'));
+    }
+
+    public function update(Request $request){
+        $this->validate($request, [
+            'sale_id'=>'required',
+            'base'=>'required',
+            'special'=>'required',
+        ]);
+        $products = [];
+        foreach ($request->base as $id=>$price){
+            $products[$id] = [$price,$request->special[$id]];
+        }
+        $sale = WeekendSale::find($request->sale_id);
+        $sale->products = \GuzzleHttp\json_encode($products);
+        $sale->save();
+        return redirect('weekendsale');
+    }
+
+    public function del($id){
+        WeekendSale::find($id)->delete();
+        return redirect()->back();
     }
 
 
