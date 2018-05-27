@@ -8,6 +8,6 @@ class ProductRecord extends Model
 {
     protected $table = 'product_records';
     protected $fillable = [
-        'product_id','model','price','special'
+        'product_id','model','price','special','lock'
     ];
 }

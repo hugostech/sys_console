@@ -142,7 +142,8 @@ class ExtremepcProduct
                 'product_id'=>$this->product->product_id,
                 'model'=>$this->product->model,
                 'price'=>$this->product->price,
-                'special'=>$this->getSpecial()
+                'special'=>$this->getSpecial(),
+                'lock'=>$this->product->price_lock
             ]);
             return true;
         }
@@ -155,6 +156,8 @@ class ExtremepcProduct
             if ($record->special>0){
                 $this->setSpecial($record->special);
             }
+            $this->product->price_lock = $record->lock;
+            $this->save();
             $record->delete();
         }
         return true;

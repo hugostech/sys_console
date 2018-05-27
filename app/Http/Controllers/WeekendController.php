@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Ex_category;
 use App\WeekendSale;
 use backend\ExtremepcProduct;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -100,6 +101,45 @@ class WeekendController extends Controller
 
     public function del($id){
         WeekendSale::find($id)->delete();
+        return redirect('weekendsale');
+    }
+
+    public function up($id){
+        $sale = WeekendSale::find($id);
+        $products = json_decode($sale->products,true);
+        foreach ($products as $id=>$prices){
+            try{
+                $product = ExtremepcProduct::find($id);
+                if($product->record()){
+                    $product->unlock();
+                    $product->setPrice($prices[0],true);
+                    $product->setSpecial($prices[0],true);
+                    $product->lock();
+                }
+            }catch (\Exception $e){
+                Log::error($e->getMessage());
+            }
+        }
+        $sale->start_date = Carbon::now();
+        $sale->status = 1;
+        $sale->save();
+        return redirect('weekendsale');
+    }
+
+    public function down($id){
+        $sale = WeekendSale::find($id);
+        $products = json_decode($sale->products,true);
+        foreach ($products as $id=>$prices){
+            try{
+                $product = ExtremepcProduct::find($id);
+                $product->unlock()->restore();
+            }catch (\Exception $e){
+                Log::error($e->getMessage());
+            }
+        }
+        $sale->start_date = null;
+        $sale->status = 0;
+        $sale->save();
         return redirect('weekendsale');
     }
 
