@@ -3,6 +3,12 @@
 @section('mainContent')
 
     <div class="panel panel-default">
+        @if(\Illuminate\Support\Facades\Session::has('alert-danger'))
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>Error!</strong> {{\Illuminate\Support\Facades\Session::get('alert-danger')}}
+            </div>
+        @endif
         <div class="panel-heading">
             <h3>Weekend Sales
                 @if($editing_model)
@@ -38,7 +44,7 @@
                                 <label class="text-danger">Stop</label>
                             @endif
                             </p>
-                            @if($editing_model)
+                            @if(!$editing_model)
                             <a href="{{url('weekendsale',['sale',$sale->id])}}" class="btn btn-info btn-xs btn-block">Edit</a>
                             <a href="{{url('weekendsale',['del',$sale->id])}}" onclick="return confirm('Are you sure?')" class="btn btn-danger btn-xs btn-block">Del</a>
                             @endif

@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 const TARGETCATEGORY=423;
 class WeekendController extends Controller
 {
@@ -105,41 +106,57 @@ class WeekendController extends Controller
     }
 
     public function up($id){
+
         $sale = WeekendSale::find($id);
-        $products = json_decode($sale->products,true);
-        foreach ($products as $id=>$prices){
-            try{
-                $product = ExtremepcProduct::find($id);
-                if($product->record()){
-                    $product->unlock();
-                    $product->setPrice($prices[0],true);
-                    $product->setSpecial($prices[1],true);
-                    $product->lock();
+        if ($sale->status==1){
+            Session::flash('alert-danger','This sale is running');
+        }else{
+            if (WeekendSale::where('status',1)->count()>0){
+                Session::flash('alert-danger','There is sale running, stop it first!');
+            }else{
+                $products = json_decode($sale->products,true);
+                foreach ($products as $id=>$prices){
+                    try{
+                        $product = ExtremepcProduct::find($id);
+                        if($product->record()){
+                            $product->unlock();
+                            $product->setPrice($prices[0],true);
+                            $product->setSpecial($prices[1],true);
+                            $product->lock();
+                        }
+                    }catch (\Exception $e){
+                        Log::error($e->getMessage());
+                    }
                 }
-            }catch (\Exception $e){
-                Log::error($e->getMessage());
+                $sale->start_date = Carbon::now();
+                $sale->status = 1;
+                $sale->save();
             }
+
         }
-        $sale->start_date = Carbon::now();
-        $sale->status = 1;
-        $sale->save();
+
         return redirect('weekendsale');
     }
 
     public function down($id){
         $sale = WeekendSale::find($id);
-        $products = json_decode($sale->products,true);
-        foreach ($products as $id=>$prices){
-            try{
-                $product = ExtremepcProduct::find($id);
-                $product->unlock()->restore();
-            }catch (\Exception $e){
-                Log::error($e->getMessage());
+        if ($sale->status == 1){
+            $products = json_decode($sale->products,true);
+            foreach ($products as $id=>$prices){
+                try{
+                    $product = ExtremepcProduct::find($id);
+                    $product->unlock()->restore();
+                }catch (\Exception $e){
+                    Log::error($e->getMessage());
+                }
             }
+            $sale->start_date = null;
+            $sale->status = 0;
+            $sale->save();
+        }else{
+            Session::flash('alert-danger','This sale is not running.');
         }
-        $sale->start_date = null;
-        $sale->status = 0;
-        $sale->save();
+
         return redirect('weekendsale');
     }
 
