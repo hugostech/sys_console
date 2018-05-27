@@ -9,28 +9,25 @@
                     <small class="text-muted">Editing Model</small>
                 @endif
             </h3>
+            <p class="text-muted text-capitalize text-danger"><span class="glyphicon glyphicon-alert"></span> All prices include GST</p>
         </div>
         <div class="panel-body">
-            <h3>Current Weekend Sales</h3>
-            <p class="text-muted text-capitalize text-danger"><span class="glyphicon glyphicon-alert"></span> All prices include GST</p>
-            <p class="text-right">
-                @if(\Illuminate\Support\Facades\Input::has('a') || $editing_model)
-                    <a href="{{url('weekendsale')}}" class="btn btn-warning btn-xs">Back</a>
-                    <button type="button" class="btn btn-success btn-xs" onclick="submitForm()">Confirm</button>
-                @else
-                    <a href="{{url('weekendsale')}}?a=import" class="btn btn-primary btn-xs">Import</a>
-                @endif
-            </p>
-            <hr>
             <div class="row">
                 @foreach($weekendsale as $sale)
                 <div class="col-sm-6 col-md-3">
                     <div class="thumbnail">
                         <div class="caption">
-                            <p>
-                                <a href="{{route('weekendsale_up', ['id' => $sale->id])}}" onclick="return confirm('Are you sure?')" class="btn btn-primary btn-sm" role="button">Up</a>
-                                <a href="{{route('weekendsale_down', ['id' => $sale->id])}}" onclick="return confirm('Are you sure?')" class="btn btn-danger btn-sm" role="button">Down</a></p>
+                            @if($editing_model)
+                                <label class="text-danger">Editing</label>
+                            @else
+                                <p>
+                                    <a href="{{route('weekendsale_up', ['id' => $sale->id])}}" onclick="return confirm('Are you sure?')" class="btn btn-primary btn-sm" role="button">Up</a>
+                                    <a href="{{route('weekendsale_down', ['id' => $sale->id])}}" onclick="return confirm('Are you sure?')" class="btn btn-danger btn-sm" role="button">Down</a>
+                                </p>
+                            @endif
+
                             <p>Start Date: {{$sale->start_date}}</p>
+                            <p>End Date: {{$sale->end_date}}</p>
                             <p>Last Update: {{$sale->updated_at}}</p>
                             <p>Status:
                             @if($sale->status == 1)
@@ -46,7 +43,17 @@
                 </div>
                 @endforeach
             </div>
+            <hr>
 
+
+            <p class="text-right">
+                @if(\Illuminate\Support\Facades\Input::has('a') || $editing_model)
+                    <a href="{{url('weekendsale')}}" class="btn btn-warning btn-sm">Back</a>
+                    <button type="button" class="btn btn-success btn-sm" onclick="submitForm()">Confirm</button>
+                @else
+                    <a href="{{url('weekendsale')}}?a=import" class="btn btn-primary btn-sm">Import</a>
+                @endif
+            </p>
         </div>
         @if(count($products)>0)
             @if($editing_model)
