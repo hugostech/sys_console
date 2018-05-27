@@ -113,7 +113,7 @@ class WeekendController extends Controller
                 if($product->record()){
                     $product->unlock();
                     $product->setPrice($prices[0],true);
-                    $product->setSpecial($prices[0],true);
+                    $product->setSpecial($prices[1],true);
                     $product->lock();
                 }
             }catch (\Exception $e){
