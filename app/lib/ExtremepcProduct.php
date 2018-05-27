@@ -166,7 +166,7 @@ class ExtremepcProduct
     public function lock(){
         try{
             $this->product->price_lock = 1;
-            $this->save();
+            $this->product->save();
             return $this;
         }catch (\Exception $e){
             return false;
@@ -177,7 +177,7 @@ class ExtremepcProduct
     public function unlock(){
         try{
             $this->product->price_lock = 0;
-            $this->save();
+            $this->product->save();
             return $this;
         }catch (\Exception $e){
             return false;
