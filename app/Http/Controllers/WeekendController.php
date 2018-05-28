@@ -64,6 +64,7 @@ class WeekendController extends Controller
         }
         $sale = new WeekendSale();
         $sale->products = \GuzzleHttp\json_encode($products);
+        $sale->end_date = $request->has('end_date')?Carbon::parse($request->end_date):Carbon::now()->next(Carbon::MONDAY);
         $sale->save();
         return redirect('weekendsale');
     }
@@ -71,6 +72,7 @@ class WeekendController extends Controller
     public function show($id){
         $sale = WeekendSale::find($id);
         $sale_id = $id;
+        $end_date = $sale->end_date;
         $products = [];
         foreach (json_decode($sale->products,true) as $id=>$prices){
             $product = $this->findProductData($id);
@@ -81,7 +83,7 @@ class WeekendController extends Controller
         $weekendsale = WeekendSale::all();
         $editing_model = true;
 
-        return view('weeksale.index',compact('products','weekendsale','editing_model','sale_id'));
+        return view('weeksale.index',compact('products','weekendsale','editing_model','sale_id','end_date'));
     }
 
     public function update(Request $request){
@@ -121,7 +123,7 @@ class WeekendController extends Controller
                         if($product->record()){
                             $product->unlock();
                             $product->setPrice($prices[0],true);
-                            $product->setSpecial($prices[1],true);
+                            $product->setSpecial($prices[1],true,$sale->end_date);
                             $product->lock();
                         }
                     }catch (\Exception $e){

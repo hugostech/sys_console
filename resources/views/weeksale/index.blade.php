@@ -69,8 +69,16 @@
             @if($editing_model)
             {!! Form::open(['route'=>'weekendsale_update','id'=>'form_weekendsale']) !!}
             {!! Form::hidden('sale_id',$sale_id) !!}
+            <div class="form-group col-sm-4">
+                <label>End Date</label>
+                {!! Form::input('date','end_date',$end_date,['class'=>'form-control']) !!}
+            </div>
             @else
             {!! Form::open(['route'=>'weekendsale_create','id'=>'form_weekendsale']) !!}
+            <div class="form-group col-sm-4">
+                <label>End Date</label>
+                {!! Form::input('date','end_date',null,['class'=>'form-control']) !!}
+            </div>
             @endif
         <table class="table table-bordered" id="product_table">
             <thead>
@@ -114,7 +122,6 @@
 
     <script>
         $(document).ready(function () {
-            console.log('table init');
             $('#product_table').dataTable({
                 'paging': false
             });
