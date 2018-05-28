@@ -12,6 +12,7 @@ namespace backend;
 use App\Ex_product;
 use App\Ex_speceal;
 use App\ProductRecord;
+use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\DB;
 
@@ -75,7 +76,7 @@ class ExtremepcProduct
                 $special->save();
             }
             if (!is_null($duedate)){
-                $special->date_end = $duedate;
+                $special->date_end = Carbon::parse($duedate)->format('Y-m-d');
             }
             if (round($special->price*1.15,2) >= round($this->product->price*1.15,2)){
                 $special->delete();
