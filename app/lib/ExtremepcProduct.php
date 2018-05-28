@@ -77,6 +77,7 @@ class ExtremepcProduct
             }
             if (!is_null($duedate)){
                 $special->date_end = Carbon::parse($duedate)->format('Y-m-d');
+                $special->save();
             }
             if (round($special->price*1.15,2) >= round($this->product->price*1.15,2)){
                 $special->delete();
