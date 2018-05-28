@@ -104,7 +104,17 @@ class WeekendController extends Controller
     }
 
     public function del($id){
-        WeekendSale::find($id)->delete();
+        $sale = WeekendSale::find($id);
+        if (is_null($sale)){
+            Session::flash('alert-danger','The sales is not existing!');
+            return redirect('weekendsale');
+        }
+
+        if ($sale->status == 1){
+            Session::flash('alert-danger','The sale is running, stop it first!');
+        }else{
+            $sale->delete();
+        }
         return redirect('weekendsale');
     }
 
