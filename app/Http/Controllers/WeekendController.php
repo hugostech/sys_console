@@ -72,7 +72,7 @@ class WeekendController extends Controller
     public function show($id){
         $sale = WeekendSale::find($id);
         $sale_id = $id;
-        $end_date = Carbon::parse($sale->end_date)->format('d/m/Y');
+        $end_date = Carbon::parse($sale->end_date)->format('Y-m-d');
         $products = [];
         foreach (json_decode($sale->products,true) as $id=>$prices){
             $product = $this->findProductData($id);
