@@ -45,7 +45,9 @@
                             @endif
                             </p>
                             @if(!$editing_model)
-                            <a href="{{url('weekendsale',['sale',$sale->id])}}" class="btn btn-info btn-xs btn-block">Edit</a>
+                                @if($sale->status == 0)
+                                    <a href="{{url('weekendsale',['sale',$sale->id])}}" class="btn btn-info btn-xs btn-block">Edit</a>
+                                @endif
                             <a href="{{url('weekendsale',['del',$sale->id])}}" onclick="return confirm('Are you sure?')" class="btn btn-danger btn-xs btn-block">Del</a>
                             @endif
                         </div>
@@ -96,7 +98,7 @@
             <tbody>
             @foreach($products as $id=>$product)
             <tr>
-                <td>{{$product['model']}}</td>
+                <td>{{$product['model']}}<br><button type="button" class="btn btn-danger btn-xs" onclick="removeItem(this)">Remove</button> </td>
                 <td class="text-center">
                 @if($product['lock_status']==1)
                     <button type="button" class="btn btn-danger btn-xs">Locked</button>
@@ -128,6 +130,10 @@
         })
         function submitForm() {
             $('#form_weekendsale').submit();
+        }
+
+        function removeItem(target) {
+            $(target).closest('tr').remove();
         }
     </script>
 

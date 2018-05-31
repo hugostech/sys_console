@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
 use App\Ex_category;
 use App\WeekendSale;
 use backend\ExtremepcProduct;
@@ -12,7 +13,8 @@ use App\Http\Requests;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
-const TARGETCATEGORY=423;
+const TARGETCATEGORY=425;
+const DISPLAYCATEGORY=423;
 class WeekendController extends Controller
 {
     public function index(){
@@ -128,6 +130,8 @@ class WeekendController extends Controller
                 Session::flash('alert-danger','There is sale running, stop it first!');
             }else{
                 $products = json_decode($sale->products,true);
+                $product_ids = array_keys($products);
+                Category::find(DISPLAYCATEGORY)->products()->sync($product_ids);
                 foreach ($products as $id=>$prices){
                     try{
                         $product = ExtremepcProduct::find($id);
@@ -163,6 +167,7 @@ class WeekendController extends Controller
                     Log::error($e->getMessage());
                 }
             }
+            Category::find(DISPLAYCATEGORY)->products()->sync([]);
             $sale->start_date = null;
             $sale->status = 0;
             $sale->save();
