@@ -248,6 +248,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/del/{id}','WeekendController@del');
     Route::get('/product/{model}','WeekendController@get');
     Route::get('/products','WeekendController@all');
+    Route::post('/product/add','WeekendController@addProduct')->name('weekendsale_addproduct');
     Route::post('/create','WeekendController@create')->name('weekendsale_create');
     Route::post('/update','WeekendController@update')->name('weekendsale_update');
  });

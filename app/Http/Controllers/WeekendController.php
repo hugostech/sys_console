@@ -30,13 +30,13 @@ class WeekendController extends Controller
 
     public function get($model){
         $target = Ex_product::where('model',$model)->first();
-        $result = 'Error! Find not find product.';
+
         $product = [];
         if (!is_null($target)){
-            $product = $this->findProductData($target->product_id);
-            $result = 'Found Product!';
+            $product = [$this->findProductData($target->product_id)];
+
         }
-        return \GuzzleHttp\json_encode(compact('result','product'));
+        return $product;
 
     }
 
@@ -94,6 +94,32 @@ class WeekendController extends Controller
         $editing_model = true;
 
         return view('weeksale.index',compact('products','weekendsale','editing_model','sale_id','end_date'));
+    }
+
+    public function addProduct(Request $request){
+        $this->validate($request, [
+            'product_new'=>'required'
+        ]);
+        $id = $request->get('sale_id');
+        $sale = WeekendSale::find($id);
+        $sale_id = $id;
+        $end_date = Carbon::parse($sale->end_date)->format('Y-m-d');
+        $products = [];
+        foreach (json_decode($sale->products,true) as $id=>$prices){
+            $product = $this->findProductData($id);
+            $product['sale_base'] = $prices[0];
+            $product['sale_special'] = $prices[1];
+            $products[$id] = $product;
+        }
+        $new_product = $this->get(trim($request->get('product_new')));
+        if (count($new_product)>0 && !array_key_exists($new_product[0], $products)){
+            $products[$new_product[0]] = $this->findProductData($new_product[0]);
+        }
+        $weekendsale = WeekendSale::all();
+        $editing_model = true;
+
+        return view('weeksale.index',compact('products','weekendsale','editing_model','sale_id','end_date'));
+
     }
 
     public function update(Request $request){

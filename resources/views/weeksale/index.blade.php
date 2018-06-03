@@ -69,21 +69,25 @@
         </div>
         @if(count($products)>0)
             @if($editing_model)
+            <div class="form-group col-sm-4">
+                {!! Form::open(['route'=>'weekendsale_addproduct']) !!}
+                {!! Form::hidden('sale_id',$sale_id) !!}
+                <label>Add Product</label>
+                <div class="input-group">
+                    {!! Form::text('product_new',null,['class'=>'form-control','id'=>'txt_model_product']) !!}
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-default">Add</button>
+                    </span>
+                </div>
+                {!! Form::close() !!}
+            </div>
             {!! Form::open(['route'=>'weekendsale_update','id'=>'form_weekendsale']) !!}
             {!! Form::hidden('sale_id',$sale_id) !!}
             <div class="form-group col-sm-4">
                 <label>End Date</label>
                 {!! Form::input('date','end_date',$end_date,['class'=>'form-control']) !!}
             </div>
-            <div class="form-group col-sm-4">
-                <label>Add Product <span class="sr-only text-success" id="result_new"></span></label>
-                <div class="input-group">
-                    {!! Form::text('product_new',null,['class'=>'form-control','id'=>'txt_model_product']) !!}
-                    <span class="input-group-btn">
-                        <button type="button" class="btn btn-default" onclick="addProduct()">Add</button>
-                    </span>
-                </div>
-            </div>
+
             @else
             {!! Form::open(['route'=>'weekendsale_create','id'=>'form_weekendsale']) !!}
             <div class="form-group col-sm-4">
@@ -144,18 +148,7 @@
         function removeItem(target) {
             $(target).closest('tr').remove();
         }
-        function addProduct() {
-            var model = $('#txt_model_product').val();
-            var message = $('#result_new');
-            var url = '{{url('weekendsale/product')}}/'+model;
-            $.get(url,function (data) {
-                data = JSON.parse(data);
-                message.html(data.result);
-                var product = data.product;
-                var node = 'a';
-                $('#product_table').appendChild();
-            });
-        }
+
     </script>
 
 @endsection
