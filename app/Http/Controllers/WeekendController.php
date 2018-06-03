@@ -33,7 +33,7 @@ class WeekendController extends Controller
 
         $product = [];
         if (!is_null($target)){
-            $product = [$this->findProductData($target->product_id)];
+            $product = [$target->product_id];
 
         }
         return $product;
