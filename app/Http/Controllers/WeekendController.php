@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Ex_category;
+use App\Ex_product;
 use App\WeekendSale;
 use backend\ExtremepcProduct;
 use Carbon\Carbon;
@@ -27,9 +28,16 @@ class WeekendController extends Controller
         return view('weeksale.index',compact('products','weekendsale','editing_model'));
     }
 
-    public function get($id){
-        $product = ExtremepcProduct::find($id);
-        dd($product->info());
+    public function get($model){
+        $target = Ex_product::where('model',$model)->first();
+        $result = 'Error! Find not find product.';
+        $product = [];
+        if (!is_null($target)){
+            $product = $this->findProductData($target->product_id);
+            $result = 'Found Product!';
+        }
+        return \GuzzleHttp\json_encode(compact('result','product'));
+
     }
 
     public function all(){

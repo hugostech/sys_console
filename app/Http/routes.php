@@ -246,7 +246,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/up/{id}','WeekendController@up')->name('weekendsale_up');
     Route::get('/down/{id}','WeekendController@down')->name('weekendsale_down');
     Route::get('/del/{id}','WeekendController@del');
-    Route::get('/product/{id}','WeekendController@get');
+    Route::get('/product/{model}','WeekendController@get');
     Route::get('/products','WeekendController@all');
     Route::post('/create','WeekendController@create')->name('weekendsale_create');
     Route::post('/update','WeekendController@update')->name('weekendsale_update');
