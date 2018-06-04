@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Category;
 use App\Ex_category;
 use App\Ex_product;
 use App\WeekendSale;
@@ -165,7 +164,7 @@ class WeekendController extends Controller
             }else{
                 $products = json_decode($sale->products,true);
                 $product_ids = array_keys($products);
-                Category::find(DISPLAYCATEGORY)->products()->sync($product_ids);
+                Ex_category::find(DISPLAYCATEGORY)->products()->sync($product_ids);
                 foreach ($products as $id=>$prices){
                     try{
                         $product = ExtremepcProduct::find($id);
@@ -201,7 +200,7 @@ class WeekendController extends Controller
                     Log::error($e->getMessage());
                 }
             }
-            Category::find(DISPLAYCATEGORY)->products()->sync([]);
+            Ex_category::find(DISPLAYCATEGORY)->products()->sync([]);
             $sale->start_date = null;
             $sale->status = 0;
             $sale->save();
