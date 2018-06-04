@@ -213,9 +213,6 @@ class CsvController extends Controller
             $this->startImport($file,storage_path('app/csv/'));
         }
         $this->clear();
-
-
-
     }
 
     public function startImport($supply_code,$path=''){
@@ -234,23 +231,18 @@ class CsvController extends Controller
             $supply_code_map  = $this->map[$supply_code]['supplier_code'];
             Excel::filter('chunk')->load($path.$supply_code.'.csv')->chunk(5000, function($results) use ($supply_code,$mpn_map,$stock_map,$name_map,$price_map,$supply_code_map)
             {
-
                 foreach($results as $row)
                 {
 
                     $this->importSingleProduct($row->$mpn_map,$row->$stock_map,$row->$price_map,$supply_code,$row->$name_map.' '.$row->$mpn_map,$row->$supply_code_map);
                 }
-
             });
             $this->recordCsv($supply_code);
-//            $category = Ex_category::find(NOCATEGORY);
-//            $this->category->products()->where('status',1)->chunk(100,function ($products){
             Ex_product::where('status',1)->whereNotNull('mpn')->where('mpn','<>','')->where('quantity','<',1)->chunk(100,function ($products){
                 foreach ($products as $product){
                     $this->price_update($product);
                 }
             });
-
             DB::commit();
             unlink($path.$supply_code.'.csv');
             return redirect('csv/import');
@@ -258,7 +250,6 @@ class CsvController extends Controller
             DB::rollback();
             print_r($e->getLine());
             print_r($e->getMessage());
-//            echo $e->getFile().' '.$e->getLine().'-'.$e->getMessage();
         }
 
     }
