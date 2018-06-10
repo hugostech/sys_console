@@ -35,7 +35,7 @@ class CsvController extends Controller
         View::share('csvRecords',Csv::all()->toArray());
 //        View::share('csvRecords',[]);
         View::share('supplier_list',['pb' => 'PB', 'im' => 'Ingram micro','aw'=>'Anywhere','do'=>'Dove','sy'=>'Synnex',
-            'cd'=>'Computer Dynamics','dj'=>'DJI','ex'=>'RTEP','wc'=>'Westcom']);
+            'cd'=>'Computer Dynamics','dj'=>'DJI','ex'=>'RTEP','wc'=>'Westcom','gw'=>'Go Wireless NZ','dd'=>'Dicker DATA']);
 
 
         $this->map = array(
@@ -102,6 +102,20 @@ class CsvController extends Controller
                 'name'=>'item_name',
                 'supplier_code' =>'item_number'
             ],
+            'dd'=>[
+                'mpn'=>'stockcode',
+                'stock'=>'stockavailable',
+                'price'=>'dealerex',
+                'name'=>'stockdescription',
+                'supplier_code' =>'stockcode'
+            ],
+            'gw'=>[
+                'mpn'=>'mpn',
+                'stock'=>'stock_status',
+                'price'=>'your_price',
+                'name'=>'product_name',
+                'supplier_code' =>'unique_internal_code'
+            ],
 
         );
     }
@@ -120,6 +134,8 @@ class CsvController extends Controller
             "ROC_synnex_nz.csv" => "sy",
             "RTEP.csv" => "ex",
             "0001037946.csv"=>"wc",
+            "pricelist.csv"=>"gw",
+            "datafeed.csv"=>"dd",
         ];
         $uploads = [];
         foreach($request->file('csvs') as $file){
@@ -334,7 +350,7 @@ class CsvController extends Controller
         return $price/1.15;
     }
     private function importSingleProduct($mpn,$stock,$price,$supply_code,$name,$supplier_code){
-
+        $stock = intval(str_replace('+', '', trim($stock)));
         if ($stock<1){
             return false;
         }
@@ -348,13 +364,7 @@ class CsvController extends Controller
             return false;
         }
 
-
-
         $mpn = trim($mpn);
-        if (!is_numeric($stock)){
-            $stock=0;
-        }
-
 
         if ($products = $this->mapProductByMpn($mpn)){
 
