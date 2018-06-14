@@ -160,6 +160,8 @@ class ExtremepcProduct
             $this->setPrice($record->price);
             if ($record->special>0){
                 $this->setSpecial($record->special);
+            }else{
+                $this->cleanSpecial();
             }
             $this->product->price_lock = $record->lock;
             $this->product->save();
