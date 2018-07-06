@@ -344,7 +344,7 @@ class unilityController extends Controller
 
 //            $feed = array();
             echo "{";
-            Ex_product::where('status',1)->chunk(5000,function ($products){
+            Ex_product::where('status',1)->chunk(1000,function ($products){
 
                 foreach ($products as $product) {
 //                if (!is_numeric($product->model)){

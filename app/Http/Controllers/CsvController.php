@@ -228,7 +228,7 @@ class CsvController extends Controller
             $file = str_replace('.csv','',$file);
             $this->startImport($file,storage_path('app/csv/'));
         }
-        $this->clear();
+        return $this->clear();
     }
 
     public function startImport($supply_code,$path=''){

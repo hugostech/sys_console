@@ -5,6 +5,7 @@ use App\Ex_speceal;
 use App\Kill_price_product;
 use backend\ExtremepcProduct;
 use Carbon\Carbon;
+use GuzzleHttp\Client;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
@@ -22,10 +23,10 @@ class KillPriceController extends Controller
     public function __construct()
     {
         $this->killlist = array(
-            "PB Technologies ","Playtech ","Computer Lounge ",
-            "DTC Systems ","XP Computers Warehouse ","PC Force ",
-            "Just Laptops ","Global PC ","Noel Leeming ","JB Hi-Fi ",
-            "The Warehouse ","Mighty Ape "
+            "PB Technologies","Playtech","Computer Lounge",
+            "DTC Systems","XP Computers Warehouse","PC Force",
+            "Just Laptops","Global PC","Noel Leeming","JB Hi-Fi",
+            "The Warehouse","Mighty Ape"
         );
 
         View::share('kill_list',\GuzzleHttp\json_encode($this->killlist));
@@ -66,7 +67,7 @@ class KillPriceController extends Controller
         $page = HtmlDomParser::file_get_html($url);
         $info = $page->find('div[id=product_content]',0);
         if (isset($info)){
-            $priceList = self::getPriceList($page);
+            $priceList = self::getPriceList2($page);
             $product_name = $info->find('h1[class=intro_header]',0)->plaintext;
 
         }else{
@@ -166,7 +167,7 @@ class KillPriceController extends Controller
             $page = HtmlDomParser::file_get_html($url);
 //            $dom->loadFromUrl($url);
 //            echo $dom->outerHtml;
-            $priceList = self::getPriceList($page);
+            $priceList = self::getPriceList2($page);
 
             $info = $page->find('div[id=product_content]',0);
             if (isset($info)){
@@ -349,7 +350,7 @@ class KillPriceController extends Controller
                     continue;
                 }
                 $page = HtmlDomParser::file_get_html($product->url);
-                $compantlist = $this->getPriceList($page);
+                $compantlist = $this->getPriceList2($page);
                 if (is_null($compantlist)){
                     $this->add_note($product,'<font color="red">Stop: Page Error</font>');
                     DB::commit();
@@ -415,6 +416,46 @@ class KillPriceController extends Controller
             $product = ExtremepcProduct::find($special->product_id);
             $product->setSpecial($price,true);
         }
+    }
+
+    public function testGetPrice(){
+        $url = 'https://pricespy.co.nz/product.php?q=i7&p=4447774';
+        $client = new Client();
+        $response = $client->get($url);
+        if ($response->getStatusCode()==200){
+            $page = $response->getBody()->getContents();
+            $page = HtmlDomParser::str_get_html($page);
+        }else{
+            $page = '';
+        }
+        $this->getPriceList2($page);
+//        $compantlist = $this->getPriceList($page);
+
+
+    }
+    public function getPriceList2($page){
+        $rows = $page->find('div[class=pj-ui-price-row]');
+        $result = [];
+        foreach ($rows as $row){
+            $company = $row->find('span[class=pj-ui-store-logo]',0);
+            $img = $company->find('.pj-ui-store-logo--image',0);
+            if (is_null($img)){
+                $company = $company->find('.pj-ui-store-logo--text',0);
+                $company = $company->plaintext;
+            }else{
+                $company = $img->alt;
+            }
+            $price = $row->find('span[class=pj-ui-price-label]',0);
+            if (is_null($price)){
+                continue;
+            }
+            $price = $price->plaintext;
+            $price = str_replace(',','',$price);
+            $price = floatval(str_replace('$','',trim($price)));
+            $result[] = [trim($company),$price];;
+        }
+        return $result;
+
     }
 
 
