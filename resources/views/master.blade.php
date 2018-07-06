@@ -121,6 +121,8 @@
                                     <li><a href="{{url('/',['luckydrawlist'])}}">lucky draw list</a></li>
                                     <li><a href="http://italker.info/lunch">Lunch</a></li>
                                     <li role="separator" class="divider"></li>
+
+                                    <li><a href="{{url('runKillPrice')}}">SyncAutoKill</a></li>
                                     {{--<li><a href="{{url('/',['syncproall'])}}">SyncAllProduct</a></li>--}}
                                     {{--<li><a href="{{url('/',['syncpro'])}}">SyncSingleProduct</a></li>--}}
                                     {{--<li><a href="{{url('/',['self_check'])}}">self_check</a></li>--}}
