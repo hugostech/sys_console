@@ -770,6 +770,10 @@ class unilityController extends Controller
 
     public function dailySync()
     {
+        Mail::raw('Extremepc Is Sync with Roctech. Status: Running', function ($message) {
+            $message->to('hugowangchn@gmail.com', 'Hk Wang');
+            $message->subject('Extremepc Sync Job start running');
+        });
         try{
             self::checkOrder();
             self::categoryarrange();
@@ -780,8 +784,18 @@ class unilityController extends Controller
 //        self::producttosales();
 //        self::categoryarrange();
             self::changeOrderStatus();
-            return self::syncQuantity();
+
+            $result = self::syncQuantity();
+            Mail::raw($result, function ($message) {
+                $message->to('hugowangchn@gmail.com', 'Hk Wang');
+                $message->subject('Extremepc Sync Job Succeeded');
+            });
+            return $result;
         }catch (\Exception $e){
+            Mail::raw($e->getMessage(), function ($message) {
+                $message->to('hugowangchn@gmail.com', 'Hk Wang');
+                $message->subject('Extremepc Sync Job failed');
+            });
             echo $e->getMessage();
         }
 
