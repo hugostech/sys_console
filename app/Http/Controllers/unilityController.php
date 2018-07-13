@@ -32,7 +32,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Input;
-use Mail;
+use Illuminate\Support\Facades\Mail;
 use Mockery\CountValidator\Exception;
 use PhpParser\Error;
 
@@ -771,6 +771,7 @@ class unilityController extends Controller
     public function dailySync()
     {
         Mail::raw('Extremepc Is Sync with Roctech. Status: Running', function ($message) {
+            $message->from('sales@extremepc.co.nz');
             $message->to('hugowangchn@gmail.com', 'Hk Wang');
             $message->subject('Extremepc Sync Job start running');
         });
@@ -787,12 +788,14 @@ class unilityController extends Controller
 
             $result = self::syncQuantity();
             Mail::raw($result, function ($message) {
+                $message->from('sales@extremepc.co.nz');
                 $message->to('hugowangchn@gmail.com', 'Hk Wang');
                 $message->subject('Extremepc Sync Job Succeeded');
             });
             return $result;
         }catch (\Exception $e){
             Mail::raw($e->getMessage(), function ($message) {
+                $message->from('sales@extremepc.co.nz');
                 $message->to('hugowangchn@gmail.com', 'Hk Wang');
                 $message->subject('Extremepc Sync Job failed');
             });

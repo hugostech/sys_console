@@ -253,4 +253,6 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('/update','WeekendController@update')->name('weekendsale_update');
  });
 
+ Route::get('testnewpricespy','KillPriceController@testGetPrice');
+
 
