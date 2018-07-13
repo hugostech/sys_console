@@ -770,11 +770,11 @@ class unilityController extends Controller
 
     public function dailySync()
     {
-        Mail::raw('Extremepc Is Sync with Roctech. Status: Running', function ($message) {
+        Mail::raw('Extremepc Is Sync with Roctech. Status: Running '.Carbon::now(), function ($message) {
             $message->from('sales@extremepc.co.nz');
             $message->to('hugowangchn@gmail.com', 'Hk Wang');
             $message->cc('tony@extremepc.co.nz', 'Tony Situ');
-            $message->subject('Extremepc Sync Job start running');
+            $message->subject('Extremepc Sync Job start running '.Carbon::now());
         });
         try{
             self::checkOrder();
@@ -788,11 +788,11 @@ class unilityController extends Controller
             self::changeOrderStatus();
 
             $result = self::syncQuantity();
-            Mail::raw(html_entity_decode($result), function ($message) {
+            Mail::raw(Carbon::now().' Sync Job Complete! You\'re safe, thanks Hugo!', function ($message) {
                 $message->from('sales@extremepc.co.nz');
                 $message->to('hugowangchn@gmail.com', 'Hk Wang');
                 $message->cc('tony@extremepc.co.nz', 'Tony Situ');
-                $message->subject('Extremepc Sync Job Succeeded');
+                $message->subject('Extremepc Sync Job Succeeded '.Carbon::now());
             });
             return $result;
         }catch (\Exception $e){
@@ -800,7 +800,7 @@ class unilityController extends Controller
                 $message->from('sales@extremepc.co.nz');
                 $message->to('hugowangchn@gmail.com', 'Hk Wang');
                 $message->cc('tony@extremepc.co.nz', 'Tony Situ');
-                $message->subject('Extremepc Sync Job failed');
+                $message->subject('Extremepc Sync Job failed '.Carbon::now());
             });
             echo $e->getMessage();
         }
