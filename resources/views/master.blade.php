@@ -123,6 +123,7 @@
                                     <li role="separator" class="divider"></li>
 
                                     <li><a href="{{url('runKillPrice')}}">SyncAutoKill</a></li>
+                                    <li><a href="{{url('self_sync')}}">SyncRoc</a></li>
                                     {{--<li><a href="{{url('/',['syncproall'])}}">SyncAllProduct</a></li>--}}
                                     {{--<li><a href="{{url('/',['syncpro'])}}">SyncSingleProduct</a></li>--}}
                                     {{--<li><a href="{{url('/',['self_check'])}}">self_check</a></li>--}}
