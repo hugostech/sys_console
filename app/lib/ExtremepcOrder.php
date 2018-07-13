@@ -51,15 +51,17 @@ class ExtremepcOrder
     public function giveRoyalPoint(){
 
         if ($this->order->order_status_id == 5 && $this->order->royal_point==0){
-            $amount = $this->order->payment_code=='bank_transfer'?round($this->order->total/50,4):round($this->order->total/100,4);
-            $tansaction = array(
-                'customer_id'=>$this->order->customer_id,
-                'order_id'=>0,
-                'description'=>'Loyalty Points from Order:'.$this->order->order_id,
-                'amount'=>$amount,
-                'date_added'=>Carbon::now()
-            );
-            Ex_transaction::create($tansaction);
+            if (in_array($this->order->payment_code, ['bank_transfer','poli'])){
+                $amount = $this->order->payment_code=='bank_transfer'?round($this->order->total/50,4):round($this->order->total/100,4);
+                $tansaction = array(
+                    'customer_id'=>$this->order->customer_id,
+                    'order_id'=>0,
+                    'description'=>'Loyalty Points from Order:'.$this->order->order_id,
+                    'amount'=>$amount,
+                    'date_added'=>Carbon::now()
+                );
+                Ex_transaction::create($tansaction);
+            }
             $this->order->royal_point = 1;
             $this->order->save();
         }
