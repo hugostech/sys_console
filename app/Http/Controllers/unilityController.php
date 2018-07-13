@@ -907,9 +907,9 @@ class unilityController extends Controller
         if (count($urgentlist) > 0) {
             Mail::send('reminder', compact('urgentlist'), function ($m) {
                 $m->from('sales@extremepc.co.nz', 'Extremepc Reminder');
-                $m->bcc('tony@roctech.co.nz', 'Tony Situ');
-                $m->bcc('hugo@roctech.co.nz', 'Hugo Wang');
-                $m->to('sales@roctech.co.nz', 'Roctech')->subject('Online Order Reminder!');
+                $m->bcc('tony@extremepc.co.nz', 'Tony Situ');
+                $m->bcc('hugo@extremepc.co.nz', 'Hugo Wang');
+                $m->to('sales@extremepc.co.nz', 'Roctech')->subject('Online Order Reminder!');
             });
         }
 
@@ -923,8 +923,8 @@ class unilityController extends Controller
 //        dd($order);
         Mail::send('email.paymentreminder', compact('order'), function ($m) use ($order){
             $m->from('sales@extremepc.co.nz', 'Extremepc Payment Reminder');
-            $m->bcc('tony@roctech.co.nz', 'Tony Situ');
-            $m->bcc('hugo@roctech.co.nz', 'Hugo Wang');
+            $m->bcc('tony@extremepc.co.nz', 'Tony Situ');
+            $m->bcc('hugo@extremepc.co.nz', 'Hugo Wang');
             $email = $order->email;
             $name = $order->firstname.' '.$order->lastname;
             $m->to($email,$name)->subject('ExtremePC Online Order Reminder!');
@@ -1005,9 +1005,9 @@ class unilityController extends Controller
 
                     Mail::raw($eta->model.' eta over due', function ($m) {
                         $m->from('sales@extremepc.co.nz', 'Extremepc Reminder');
-                        $m->bcc('tony@roctech.co.nz', 'Tony Situ');
-                        $m->bcc('hugo@roctech.co.nz', 'Hugo Wang');
-                        $m->to('sales@roctech.co.nz', 'Roctech')->subject('ETA Reminder!');
+                        $m->bcc('tony@extremepc.co.nz', 'Tony Situ');
+                        $m->bcc('hugo@extremepc.co.nz', 'Hugo Wang');
+                        $m->to('sales@extremepc.co.nz', 'Roctech')->subject('ETA Reminder!');
                     });
 
 
@@ -1448,7 +1448,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
         Mail::send('email.newClientReminder', compact('clients'), function ($m) {
             $m->from('sales@extremepc.co.nz', 'Extremepc Reminder');
 
-//            $m->bcc('hugo@roctech.co.nz', 'Hugo Wang');
+//            $m->bcc('hugo@extremepc.co.nz', 'Hugo Wang');
 
             $m->to('stmssky@hotmail.com', 'Tony Situ')->subject('Extremepc Reminder!');
 
@@ -1582,7 +1582,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
         foreach ($newsletters as $user) {
             Mail::send('newsletter', compact('user'), function ($m) use ($user) {
                 $m->from('sales@extremepc.co.nz', 'Extreme PC');
-                $m->replyTo('sales@roctech.co.nz', 'Sales Department');
+                $m->replyTo('sales@extremepc.co.nz', 'Sales Department');
                 $m->to($user->email)->subject('New Website Launch Deal Extreme PC');
             });
 
@@ -2291,9 +2291,9 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
 
         Mail::send('email.payment1000dreminder', compact('order'), function ($m) use ($order) {
             $m->from('sales@extremepc.co.nz', 'ExtremePC');
-            $m->replyTo('sales@roctech.co.nz','ExtremePC Team');
+            $m->replyTo('sales@extremepc.co.nz','ExtremePC Team');
 
-            $m->bcc('sales@roctech.co.nz', 'ExtremePC Team');
+            $m->bcc('sales@extremepc.co.nz', 'ExtremePC Team');
             $m->to($order->email, $order->firstname.' '.$order->lastname)->subject('ExtremePC Online Order Payment Check');
 
 //            $m->to($user->email, $user->name)->subject('Your Reminder!');
