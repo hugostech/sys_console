@@ -419,7 +419,7 @@ class KillPriceController extends Controller
     }
 
     public function testGetPrice(){
-        $url = 'https://pricespy.co.nz/product.php?q=i7&p=4447774';
+        $url = 'https://pricespy.co.nz/product.php?p=3499389';
         $client = new Client();
         $response = $client->get($url);
         if ($response->getStatusCode()==200){
@@ -428,7 +428,7 @@ class KillPriceController extends Controller
         }else{
             $page = '';
         }
-        $this->getPriceList2($page);
+        return $this->getPriceList2($page);
 //        $compantlist = $this->getPriceList($page);
 
 
@@ -437,6 +437,13 @@ class KillPriceController extends Controller
         $rows = $page->find('div[class=pj-ui-price-row]');
         $result = [];
         foreach ($rows as $row){
+            $status = $row->find('span[class=pj-ui-stock-status]',0);
+            if (!is_null($status)){
+                $status = $status->find('svg',0);
+                if (str_contains($status->class, 'out-of-stock')){
+                    continue;
+                }
+            }
             $company = $row->find('span[class=pj-ui-store-logo]',0);
             $img = $company->find('.pj-ui-store-logo--image',0);
             if (is_null($img)){
@@ -452,7 +459,7 @@ class KillPriceController extends Controller
             $price = $price->plaintext;
             $price = str_replace(',','',$price);
             $price = floatval(str_replace('$','',trim($price)));
-            $result[] = [trim($company),$price];;
+            $result[] = [trim($company),$price];
         }
         return $result;
 
