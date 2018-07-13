@@ -908,7 +908,7 @@ class unilityController extends Controller
             Mail::send('reminder', compact('urgentlist'), function ($m) {
                 $m->from('sales@extremepc.co.nz', 'Extremepc Reminder');
                 $m->bcc('tony@extremepc.co.nz', 'Tony Situ');
-                $m->bcc('hugo@extremepc.co.nz', 'Hugo Wang');
+                $m->bcc('hugowangchn@gmail.com', 'Hugo Wang');
                 $m->to('sales@extremepc.co.nz', 'Roctech')->subject('Online Order Reminder!');
             });
         }
@@ -924,7 +924,7 @@ class unilityController extends Controller
         Mail::send('email.paymentreminder', compact('order'), function ($m) use ($order){
             $m->from('sales@extremepc.co.nz', 'Extremepc Payment Reminder');
             $m->bcc('tony@extremepc.co.nz', 'Tony Situ');
-            $m->bcc('hugo@extremepc.co.nz', 'Hugo Wang');
+            $m->bcc('hugowangchn@gmail.com', 'Hugo Wang');
             $email = $order->email;
             $name = $order->firstname.' '.$order->lastname;
             $m->to($email,$name)->subject('ExtremePC Online Order Reminder!');
@@ -1006,7 +1006,7 @@ class unilityController extends Controller
                     Mail::raw($eta->model.' eta over due', function ($m) {
                         $m->from('sales@extremepc.co.nz', 'Extremepc Reminder');
                         $m->bcc('tony@extremepc.co.nz', 'Tony Situ');
-                        $m->bcc('hugo@extremepc.co.nz', 'Hugo Wang');
+                        $m->bcc('hugowangchn@gmail.com', 'Hugo Wang');
                         $m->to('sales@extremepc.co.nz', 'Roctech')->subject('ETA Reminder!');
                     });
 
@@ -1448,7 +1448,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
         Mail::send('email.newClientReminder', compact('clients'), function ($m) {
             $m->from('sales@extremepc.co.nz', 'Extremepc Reminder');
 
-//            $m->bcc('hugo@extremepc.co.nz', 'Hugo Wang');
+//            $m->bcc('hugowangchn@gmail.com', 'Hugo Wang');
 
             $m->to('stmssky@hotmail.com', 'Tony Situ')->subject('Extremepc Reminder!');
 
