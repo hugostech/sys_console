@@ -773,6 +773,7 @@ class unilityController extends Controller
         Mail::raw('Extremepc Is Sync with Roctech. Status: Running', function ($message) {
             $message->from('sales@extremepc.co.nz');
             $message->to('hugowangchn@gmail.com', 'Hk Wang');
+            $message->cc('tony@extremepc.co.nz', 'Tony Situ');
             $message->subject('Extremepc Sync Job start running');
         });
         try{
@@ -787,9 +788,10 @@ class unilityController extends Controller
             self::changeOrderStatus();
 
             $result = self::syncQuantity();
-            Mail::raw($result, function ($message) {
+            Mail::raw(html_entity_decode($result), function ($message) {
                 $message->from('sales@extremepc.co.nz');
                 $message->to('hugowangchn@gmail.com', 'Hk Wang');
+                $message->cc('tony@extremepc.co.nz', 'Tony Situ');
                 $message->subject('Extremepc Sync Job Succeeded');
             });
             return $result;
@@ -797,6 +799,7 @@ class unilityController extends Controller
             Mail::raw($e->getMessage(), function ($message) {
                 $message->from('sales@extremepc.co.nz');
                 $message->to('hugowangchn@gmail.com', 'Hk Wang');
+                $message->cc('tony@extremepc.co.nz', 'Tony Situ');
                 $message->subject('Extremepc Sync Job failed');
             });
             echo $e->getMessage();
