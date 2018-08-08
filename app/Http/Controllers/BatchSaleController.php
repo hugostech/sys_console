@@ -47,7 +47,13 @@ class BatchSaleController extends Controller
         $bottom_cost = $info['averagecost']*(1+$margin_rate);
         $p = 1 - $special/$base;
         if ($p==1 || $p<$target_percentage){
-            $special = $bottom_cost>$special?$special:$bottom_cost;
+            $tem_special = $base*(1-$target_percentage);
+            if ($tem_special<$special && $tem_special>=$bottom_cost){
+                $special = $tem_special;
+            }else{
+                $special = $bottom_cost>$special?$special:$bottom_cost;
+            }
+
             $special = $this->prettyPirce($special, $pretty_price);
             $p = 1 - $special/$base;
             if ($p < $target_percentage){
