@@ -48,7 +48,7 @@ class BatchSaleController extends Controller
         $p = 1 - $special/$base;
         if ($p==1 || $p<$target_percentage){
             $tem_special = $base*(1-$target_percentage);
-            if ($tem_special<$special && $tem_special>=$bottom_cost){
+            if (($tem_special<$special && $tem_special>=$bottom_cost) || $special==0){
                 $special = $tem_special;
             }else{
                 $special = $bottom_cost>$special?$special:$bottom_cost;
