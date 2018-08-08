@@ -237,6 +237,8 @@ Route::group(['middleware' => ['web']], function () {
  Route::post('csv/batchUpload','CsvController@batchUpload');
  Route::get('csv/batchImport','CsvController@batchImport');
  Route::get('lockProducts','LockPriceController@listProduct');
+ Route::get('lockbybrand','LockPriceController@lockByBrand')->name('lockbybrand_index');
+ Route::post('lockbybrand','LockPriceController@lockProductsByBrand')->name('lockbybrand_update');
 
 
 });
@@ -251,6 +253,11 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('/product/add','WeekendController@addProduct')->name('weekendsale_addproduct');
     Route::post('/create','WeekendController@create')->name('weekendsale_create');
     Route::post('/update','WeekendController@update')->name('weekendsale_update');
+ });
+
+ Route::group(['prefix' => 'batchsale','middleware' => ['web']], function () {
+     Route::get('/','BatchSaleController@index')->name('batchsale_index');
+     Route::post('/report','BatchSaleController@report')->name('batchsale_report');
  });
 
  Route::get('testnewpricespy','KillPriceController@testGetPrice');

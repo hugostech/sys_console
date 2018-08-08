@@ -101,6 +101,8 @@
                                     <li role="separator" class="divider"></li>
                                     <li><a href="{{url('/',['killprice'])}}">Kill price</a></li>
                                     <li><a href="{{url('/',['lockProducts'])}}">Lock List</a></li>
+                                    <li><a href="{{route('lockbybrand_index')}}">Lock by brand</a></li>
+                                    <li><a href="{{route('batchsale_index')}}">Storewide Sale</a></li>
 
                                     <li><a href="{{url('/',['eta_list'])}}">ETA</a></li>
                                     <li><a href="{{url('/',['sales_list'])}}">Sales</a></li>
