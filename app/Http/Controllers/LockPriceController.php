@@ -56,6 +56,7 @@ class LockPriceController extends Controller
         ]);
         try{
             $this->updateProductsByBrand($request->get('brand'),$request->get('status'));
+            $request->session()->flash('status', 'Task was successful!');
             return redirect()->back();
         }catch (\Exception $e){
             return $e->getMessage();
