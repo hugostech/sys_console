@@ -58,7 +58,7 @@ class BatchSaleController extends Controller
             }
             if ($test == 1){
                 $final = [$base, $special];
-                $model = $product->product->name;
+                $model = $product->product->model;
                 dd(compact('model','target_percentage','base_changeable','margin_rate','pretty_price','init_base','final'));
             }else{
                 $product->setPrice($base);
