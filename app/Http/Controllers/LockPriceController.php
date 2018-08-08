@@ -45,7 +45,7 @@ class LockPriceController extends Controller
     }
 
     public function lockByBrand(){
-        $manufacturers = Ex_manufacturer::pluck('name','manufacturer_id');
+        $manufacturers = Ex_manufacturer::orderBy('name')->pluck('name','manufacturer_id');
         return view('lockprice.lockByBrand',compact('manufacturers'));
     }
 
@@ -63,7 +63,7 @@ class LockPriceController extends Controller
     }
 
     public function updateProductsByBrand($id, $status){
-        Ex_manufacturer::where('manufacturer_id',$id)->update(['price_lock'=>$status]);
+        Ex_product::where('manufacturer_id',$id)->update(['price_lock'=>$status]);
 
     }
 }
