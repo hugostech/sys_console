@@ -98,6 +98,10 @@ class ExtremepcProduct
         return $special->price;
     }
 
+    public function getBasePrice(){
+        return $this->product->price;
+    }
+
     public function cleanSpecial(){
         if ($this->product->price_lock==0){
             Ex_speceal::where('product_id', $this->product->product_id)->delete();
