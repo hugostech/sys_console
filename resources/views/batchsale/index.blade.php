@@ -46,7 +46,7 @@
                 </div>
                 <div class="form-group col-md-2">
                     <label> </label>
-                    {!! Form::submit('Report',['class'=>'btn btn-primary btn-block','onclick'=>"return confirm('Are you sure?')"]) !!}
+                    {!! Form::submit('Run',['class'=>'btn btn-primary btn-block','onclick'=>"return confirm('Are you sure?')"]) !!}
                 </div>
                 {!! Form::close() !!}
             </div>
