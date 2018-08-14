@@ -1,4 +1,4 @@
-<table>
+<table border="1">
     <tr>
         <th>Model</th>
         <th>Base</th>
