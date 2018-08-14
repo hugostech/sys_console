@@ -91,4 +91,28 @@ class BatchSaleController extends Controller
         }
 
     }
+
+    public function check(){
+        $products = Ex_product::where('quantity','>',0)->pluck('product_id');
+        $list = [];
+        foreach ($products as $id){
+            $product = ExtremepcProduct::find($id);
+            $model = $product->product->model;
+            if (is_numeric($model)){
+                $price = $product->getSpecial();
+                $base = $product->getBasePrice();
+                $cost = $product->info()['averagecost'];
+                if ($price != 0 && $cost < $price){
+                    $list[] = compact('model','base','price','cost');
+                }elseif($price == 0 ){
+                    $list[] = compact('model','base','price','cost');
+                }elseif (empty($cost)){
+                    $list[] = compact('model','base','price','cost');
+                }
+
+            }
+
+        }
+        return view('batchsale.report',compact('list'));
+    }
 }
