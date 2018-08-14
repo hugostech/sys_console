@@ -37,6 +37,9 @@ class BatchSaleController extends Controller
     }
 
     public function updateProduct(ExtremepcProduct $product, $target_percentage, $base_changeable, $margin_rate, $pretty_price, $test=1){
+        if (!is_numeric($product->product->model)){
+            return;
+        }
         $special = $product->getSpecial();
         $base = $product->getBasePrice();
         $init_base = [$base, $special];
@@ -44,7 +47,11 @@ class BatchSaleController extends Controller
         if (count($info)<1){
             return;
         }
+        if (empty($info['averagecost'])){
+            return;
+        }
         $bottom_cost = $info['averagecost']*(1+$margin_rate);
+
         $p = 1 - $special/$base;
         if ($p==1 || $p<$target_percentage){
             $tem_special = $base*(1-$target_percentage);
