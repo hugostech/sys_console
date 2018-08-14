@@ -102,7 +102,7 @@ class BatchSaleController extends Controller
                 $price = $product->getSpecial();
                 $base = $product->getBasePrice();
                 $cost = $product->info()['averagecost'];
-                if ($price != 0 && $cost < $price){
+                if ($price != 0 && $cost > $price){
                     $list[] = compact('model','base','price','cost');
                 }elseif($price == 0 ){
                     $list[] = compact('model','base','price','cost');
