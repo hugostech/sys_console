@@ -258,7 +258,7 @@ Route::group(['middleware' => ['web']], function () {
  Route::group(['prefix' => 'batchsale','middleware' => ['web']], function () {
      Route::get('/','BatchSaleController@index')->name('batchsale_index');
      Route::post('/report','BatchSaleController@report')->name('batchsale_report');
-     Route::get('check','BatchSaleController@check');
+     Route::get('check','BatchSaleController@check')->name('batchsale_check');
  });
 
  Route::get('testnewpricespy','KillPriceController@testGetPrice');

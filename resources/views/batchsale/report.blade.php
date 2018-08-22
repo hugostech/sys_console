@@ -1,3 +1,4 @@
+<label>{{count($list)}}</label>
 <table border="1">
     <tr>
         <th>Model</th>

@@ -10,6 +10,7 @@
         @endif
         <div class="panel-heading">
             <h3>Storewide Sale</h3>
+            <a href="{{route('batchsale_check')}}">Check</a>
         </div>
         <div class="panel-body">
             <div class="row">
