@@ -11,9 +11,9 @@ use Illuminate\Support\Facades\Mail;
 
 class RoyalPointController extends Controller
 {
-    public function sendNewRoyalPointReminder($order_id){
+    public function sendNewRoyalPointReminder($order_id, $amount){
         $order = Ex_order::find($order_id);
-        Mail::send('email.royalpoint.addpointnotice', compact('order'), function ($m) use ($order){
+        Mail::send('email.royalpoint.addpointnotice', compact('order','amount'), function ($m) use ($order){
             $m->from('sales@extremepc.co.nz', 'ROC TECH LTD T/A ExtremePC');
 //            $m->bcc('tony@roctech.co.nz', 'Tony Situ');
 //            $m->bcc('hugo@roctech.co.nz', 'Hugo Wang');
@@ -26,8 +26,11 @@ class RoyalPointController extends Controller
     public function send_royal_point($order_id){
         $ex_order = ExtremepcOrder::loadById($order_id);
         if (!is_null($ex_order)){
-            $ex_order->giveRoyalPoint();
-            $this->sendNewRoyalPointReminder($order_id);
+            $amount = $ex_order->giveRoyalPoint();
+            if($amount!=0){
+                $this->sendNewRoyalPointReminder($order_id, $amount);
+            }
+
         }
     }
 

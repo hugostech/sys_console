@@ -51,6 +51,7 @@ class ExtremepcOrder
     public function giveRoyalPoint(){
 
         if ($this->order->order_status_id == 5 && $this->order->royal_point==0){
+            $amount = 0;
             if (in_array($this->order->payment_code, ['bank_transfer','poli'])){
                 $amount = $this->order->payment_code=='bank_transfer'?round($this->order->total/50,4):round($this->order->total/100,4);
                 $tansaction = array(
@@ -64,6 +65,9 @@ class ExtremepcOrder
             }
             $this->order->royal_point = 1;
             $this->order->save();
+            return $amount;
+        }else{
+            return 0;
         }
     }
 

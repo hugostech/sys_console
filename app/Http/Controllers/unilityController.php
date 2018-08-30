@@ -790,8 +790,7 @@ class unilityController extends Controller
             $result = self::syncQuantity();
             Mail::raw(Carbon::now().' Sync Job Complete! You\'re safe, thanks Hugo!', function ($message) {
                 $message->from('sales@extremepc.co.nz');
-                $message->to('hugowangchn@gmail.com', 'Hk Wang');
-                $message->cc('tony@extremepc.co.nz', 'Tony Situ');
+                $message->to('tony@extremepc.co.nz', 'Tony Situ');
                 $message->subject('Extremepc Sync Job Succeeded '.Carbon::now());
             });
             return $result;
