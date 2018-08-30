@@ -2,6 +2,7 @@
 <table border="1">
     <tr>
         <th>Model</th>
+        <th>Name</th>
         <th>Base</th>
         <th>Price</th>
         <th>Cost</th>
@@ -9,6 +10,7 @@
     @foreach($list as $item)
         <tr>
             <td>{{$item['model']}}</td>
+            <td>{{$item['name']}}</td>
             <td>{{$item['base']}}</td>
             <td>{{$item['price']}}</td>
             <td>{{$item['cost']}}</td>
