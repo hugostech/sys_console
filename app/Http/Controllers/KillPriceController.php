@@ -65,10 +65,10 @@ class KillPriceController extends Controller
 
         $url = $request->input('pricespy_url');
         $page = HtmlDomParser::file_get_html($url);
-        $info = $page->find('div[id=product_content]',0);
+        $info = $page->find('div[class=page-header--content]',0);
         if (isset($info)){
             $priceList = self::getPriceList2($page);
-            $product_name = $info->find('h1[class=intro_header]',0)->plaintext;
+            $product_name = $info->find('h1[class=page-header--title]',0)->plaintext;
 
         }else{
             return redirect()->back()->withErrors(['pricespy', 'Price spy url not correct']);;
