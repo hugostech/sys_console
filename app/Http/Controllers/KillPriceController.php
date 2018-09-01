@@ -64,9 +64,16 @@ class KillPriceController extends Controller
         }
 
         $url = $request->input('pricespy_url');
-        $page = HtmlDomParser::file_get_html($url);
+        $client = new Client();
+        $response = $client->get($url);
+        if ($response->getStatusCode()==200){
+            $page = $response->getBody()->getContents();
+            $page = HtmlDomParser::str_get_html($page);
+        }else{
+            $page = '';
+        }
         $info = $page->find('div[class=page-header--content]',0);
-        dd($info);
+
         if (isset($info)){
             $priceList = self::getPriceList2($page);
             $product_name = $info->find('h1[class=page-header--title]',0)->plaintext;
@@ -464,6 +471,21 @@ class KillPriceController extends Controller
         }
         return $result;
 
+    }
+
+    public function testIf(){
+        $url = 'https://pricespy.co.nz/product.php?p=4903177';
+        $client = new Client();
+        $response = $client->get($url);
+        if ($response->getStatusCode()==200){
+            $page = $response->getBody()->getContents();
+            $page = HtmlDomParser::str_get_html($page);
+        }else{
+            $page = '';
+        }
+        $info = $page->find('div[class=page-header--content]',0);
+        $product_name = $info->find('h1[class=page-header--title]',0)->plaintext;
+        dd($product_name);
     }
 
 
