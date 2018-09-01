@@ -128,4 +128,29 @@ class BatchSaleController extends Controller
         }
         return view('batchsale.report',compact('list'));
     }
+
+    public function tem_10_change(){
+        $products = Ex_product::where('quantity','>',0)->pluck('product_id');
+        foreach ($products as $id){
+            $product = ExtremepcProduct::find($id);
+            if (!is_numeric($product->product->model)) {
+                continue;
+            }
+            $info = $product->info();
+            if (count($info)<1 || !isset($info['averagecost'])){
+                continue;
+            }
+            $special = $product->getSpecial();
+            $base = $product->getBasePrice();
+            $cost = $info['averagecost']*1.03;
+            $tem = $base*0.9;
+            if ($tem<$special){
+                if ($tem<$cost){
+                    $tem = $cost;
+                }
+            }
+            $product->setSpecial($this->prettyPirce($tem, 1));
+
+        }
+    }
 }
