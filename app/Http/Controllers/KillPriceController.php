@@ -66,6 +66,7 @@ class KillPriceController extends Controller
         $url = $request->input('pricespy_url');
         $page = HtmlDomParser::file_get_html($url);
         $info = $page->find('div[class=page-header--content]',0);
+        dd($info);
         if (isset($info)){
             $priceList = self::getPriceList2($page);
             $product_name = $info->find('h1[class=page-header--title]',0)->plaintext;
