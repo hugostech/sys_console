@@ -37,11 +37,16 @@
             $('#lockPrice_table').DataTable();
         });
         function unlock(btn) {
-            var url = "{{url('exproduct')}}";
-            var id = $(btn).data('id');
-            url = url + `/${id}/priceunlock`;
-            console.log(url);
-            $(btn).closest('tr').remove();
+            if(confirm('Are you sure?')){
+                var url = "{{url('exproduct')}}";
+                var id = $(btn).data('id');
+                url = url + `/${id}/priceunlock`;
+                $.get(url,function (data) {
+                    $(btn).closest('tr').remove();
+                })
+            }
+
+
         }
     </script>
 
