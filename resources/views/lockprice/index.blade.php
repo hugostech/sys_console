@@ -39,9 +39,9 @@
         function unlock(btn) {
             var url = "{{url('exproduct')}}";
             var id = $(btn).data('id');
-            url = url + `\${id}\priceunlock`;
+            url = url + `/${id}/priceunlock`;
             console.log(url);
-            $(btn).remove();
+            $(btn).closest('tr').remove();
         }
     </script>
 
