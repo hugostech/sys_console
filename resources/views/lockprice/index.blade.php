@@ -22,7 +22,9 @@
             <td>{{$product->quantity}}</td>
             <td>{{round($product->price*1.15,2)}}</td>
             <td>{{is_null($product->special)?0:round($product->special->price*1.15,2)}}</td>
-            <td><a href="{{url('exproduct',[$product->product_id,'priceunlock'])}}?r=true" class="btn btn-danger btn-sm">Unlock</a></td>
+            <td>
+                <button onclick="unlock(this)" data-id="{{$product->product_id}}" class="btn btn-danger btn-sm">Unlock</button>
+            </td>
         </tr>
     @endforeach
     </tbody>
@@ -34,6 +36,13 @@
         $(document).ready( function () {
             $('#lockPrice_table').DataTable();
         });
+        function unlock(btn) {
+            var url = "{{url('exproduct')}}";
+            var id = $(btn).data('id');
+            url = url + `\${id}\priceunlock`;
+            console.log(url);
+            $(btn).remove();
+        }
     </script>
 
 @endsection
