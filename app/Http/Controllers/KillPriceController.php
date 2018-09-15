@@ -63,7 +63,7 @@ class KillPriceController extends Controller
             return redirect()->back();
         }
 
-        $url = $request->input('pricespy_url');
+        $url = 'https://pricespy.co.nz/product.php?p='.$request->input('pricespy_url');
         $client = new Client();
         $response = $client->get($url);
         if ($response->getStatusCode()==200){
