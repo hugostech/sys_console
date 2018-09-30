@@ -625,21 +625,15 @@ class unilityController extends Controller
      * sign laptop attribute*/
     public function laptop_attribute($id){
         $graphics_card = array(
-            "GT720M"=>"GT720M",
-            "GTX860M"=>"GTX860M",
             "GTX920M"=>"GTX920M",
             "GTX930M"=>"GTX930M",
             "GTX940M"=>"GTX940M",
-            "GTX950M"=>"GTX950M",
-            "GTX960M"=>"GTX960M",
-            "GTX965M"=>"GTX965M",
-            "GTX970M"=>"GTX970M",
-            "GTX980M"=>"GTX980M",
             "GTX1050"=>"GTX1050",
             "GTX1050Ti"=>"GTX1050Ti",
             "GTX1060"=>"GTX1060",
             "GTX1070"=>"GTX1070",
             "GTX1080"=>"GTX1080",
+            "MX130"=>"MX130",
             "MX150"=>"MX150",
             "NVIDIA Quadro"=>"NVIDIA Quadro",
             "Radeon R5 M230"=>"Radeon R5 M230",
