@@ -64,8 +64,6 @@ class KillPriceController extends Controller
         }
 
         $url = 'https://pricespy.co.nz/product.php?p='.$request->input('pricespy_url');
-        echo $url;
-        echo '<br>';
         $client = new Client();
         $response = $client->get($url);
         if ($response->getStatusCode()==200){
@@ -81,7 +79,7 @@ class KillPriceController extends Controller
             $product_name = $info->find('h1[class=product-header--title]',0)->plaintext;
 
         }else{
-            echo $page;
+            dd($info);
             dd($page);
 //            return redirect()->back()->withErrors(['pricespy', 'Price spy url not correct']);
         }
