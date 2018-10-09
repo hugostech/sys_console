@@ -74,11 +74,11 @@ class KillPriceController extends Controller
         }else{
             $page = '';
         }
-        $info = $page->find('div[class=page-header--content]',0);
+        $info = $page->find('div[product-header--content]',0);
 
         if (isset($info)){
             $priceList = self::getPriceList2($page);
-            $product_name = $info->find('h1[class=page-header--title]',0)->plaintext;
+            $product_name = $info->find('h1[class=product-header--title]',0)->plaintext;
 
         }else{
             echo $page;
