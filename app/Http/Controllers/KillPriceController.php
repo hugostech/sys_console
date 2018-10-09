@@ -72,18 +72,19 @@ class KillPriceController extends Controller
         }else{
             $page = '';
         }
-        $info = $page->find('div[product-header--content]',0);
+//        $info = $page->find('div[product-header--content]',0);
+        $info = $page->find('h1[class=product-header--title]',0)->plaintext;
 
-        if (isset($info)){
+        if (!empty($info)){
             $priceList = self::getPriceList2($page);
-            $product_name = $info->find('h1[class=product-header--title]',0)->plaintext;
+            $product_name = $info;
 
         }else{
 //            dd($info);
-            print_r($info);
-            print_r($page->find('h1[class=product-header--title]',0)->plaintext);
-            dd($page);
-//            return redirect()->back()->withErrors(['pricespy', 'Price spy url not correct']);
+//            print_r($info);
+//            print_r($page->find('h1[class=product-header--title]',0)->plaintext);
+//            dd($page);
+            return redirect()->back()->withErrors(['pricespy', 'Price spy url not correct']);
         }
         $product_detail = $this->grabProductDetail($product->model);
         $averageCost = null;
