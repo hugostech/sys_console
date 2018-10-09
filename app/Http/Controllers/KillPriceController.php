@@ -79,7 +79,9 @@ class KillPriceController extends Controller
             $product_name = $info->find('h1[class=product-header--title]',0)->plaintext;
 
         }else{
-            dd($info);
+//            dd($info);
+            print_r($info);
+            print_r($page->find('h1[class=product-header--title]',0)->plaintext);
             dd($page);
 //            return redirect()->back()->withErrors(['pricespy', 'Price spy url not correct']);
         }
