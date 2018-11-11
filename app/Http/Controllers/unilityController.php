@@ -1779,8 +1779,12 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
                     continue;
                 }
             }
-            $code = $product->model;
             $product_detail = $product->description;
+            if (is_null($product_detail)){
+                continue;
+            }
+            $code = $product->model;
+
             $name = $product_detail->name;
             $product_id = $product->product_id;
             $lock = $product->price_lock;
