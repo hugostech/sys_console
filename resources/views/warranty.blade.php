@@ -77,14 +77,13 @@
                         <label for="staff">Staff</label>
                         <select class="form-control" name="staff" id="staff">
                             <option value="kelvin">Kelvin</option>
-                            <option value="jimmy">Jimmy</option>
+                            <option value="david">David</option>
                             <option value="piero">Piero</option>
                             <option value="tony">Tony</option>
-                            <option value="tony">Elfa</option>
+                            <option value="garry">Garry</option>
                             <option selected value="Jack">Jack</option>
-                            <option value="matt">Matt</option>
+                            <option value="james">James</option>
                             <option value="John">John</option>
-                            <option value="hugo">Hugo</option>
                         </select>
                     </div>
                     {{--<input type="checkbox" onselect="selfStorage()" value="Roc">--}}
