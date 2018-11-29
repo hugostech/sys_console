@@ -767,8 +767,7 @@ class unilityController extends Controller
     {
         Mail::raw('Extremepc Is Sync with Roctech. Status: Running '.Carbon::now(), function ($message) {
             $message->from('sales@extremepc.co.nz');
-            $message->to('hugowangchn@gmail.com', 'Hk Wang');
-            $message->cc('tony@extremepc.co.nz', 'Tony Situ');
+            $message->to('tony@extremepc.co.nz', 'Tony Situ');
             $message->subject('Extremepc Sync Job start running '.Carbon::now());
         });
         try{
@@ -792,8 +791,7 @@ class unilityController extends Controller
         }catch (\Exception $e){
             Mail::raw($e->getMessage(), function ($message) {
                 $message->from('sales@extremepc.co.nz');
-                $message->to('hugowangchn@gmail.com', 'Hk Wang');
-                $message->cc('tony@extremepc.co.nz', 'Tony Situ');
+                $message->to('tony@extremepc.co.nz', 'Tony Situ');
                 $message->subject('Extremepc Sync Job failed '.Carbon::now());
             });
             echo $e->getMessage();
@@ -902,7 +900,6 @@ class unilityController extends Controller
             Mail::send('reminder', compact('urgentlist'), function ($m) {
                 $m->from('sales@extremepc.co.nz', 'Extremepc Reminder');
                 $m->bcc('tony@extremepc.co.nz', 'Tony Situ');
-                $m->bcc('hugowangchn@gmail.com', 'Hugo Wang');
                 $m->to('sales@extremepc.co.nz', 'Roctech')->subject('Online Order Reminder!');
             });
         }
@@ -918,7 +915,6 @@ class unilityController extends Controller
         Mail::send('email.paymentreminder', compact('order'), function ($m) use ($order){
             $m->from('sales@extremepc.co.nz', 'Extremepc Payment Reminder');
             $m->bcc('tony@extremepc.co.nz', 'Tony Situ');
-            $m->bcc('hugowangchn@gmail.com', 'Hugo Wang');
             $email = $order->email;
             $name = $order->firstname.' '.$order->lastname;
             $m->to($email,$name)->subject('ExtremePC Online Order Reminder!');
@@ -1000,7 +996,6 @@ class unilityController extends Controller
                     Mail::raw($eta->model.' eta over due', function ($m) {
                         $m->from('sales@extremepc.co.nz', 'Extremepc Reminder');
                         $m->bcc('tony@extremepc.co.nz', 'Tony Situ');
-                        $m->bcc('hugowangchn@gmail.com', 'Hugo Wang');
                         $m->to('sales@extremepc.co.nz', 'Roctech')->subject('ETA Reminder!');
                     });
 
