@@ -260,7 +260,7 @@
 
                                     <div align="center" class="img-container center  autowidth  " style="padding-right: 0px;  padding-left: 0px;">
                                         <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr style="line-height:0px;line-height:0px;"><td style="padding-right: 0px; padding-left: 0px;" align="center"><![endif]-->
-                                        <img class="center  autowidth " align="center" border="0" src="https://www.extremepc.co.nz/image/catalog/extremepc/logo1 .png" alt="Image" title="Image" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: 0;height: auto;float: none;width: 100%;max-width: 300px" width="300">
+                                        <img class="center  autowidth " align="center" border="0" src="https://www.extremepc.co.nz/image/catalog/extremepc/logo1 .png" alt="extremepc　logo" title="Image" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: 0;height: auto;float: none;width: 100%;max-width: 300px" width="300">
                                         <!--[if mso]></td></tr></table><![endif]-->
                                     </div>
 
@@ -356,7 +356,7 @@
                                     <div class="">
                                         <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 10px;"><![endif]-->
                                         <div style="color:#555555;line-height:120%;font-family:'Montserrat', 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif; padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 10px;">
-                                            <div style="font-size:12px;line-height:14px;color:#555555;font-family:'Montserrat', 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;text-align:left;"><p style="margin: 0;font-size: 14px;line-height: 17px">I'm a new Text block ready for your content.</p></div>
+                                            <div style="font-size:12px;line-height:14px;color:#555555;font-family:'Montserrat', 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;text-align:left;"><p style="margin: 0;font-size: 14px;line-height: 17px"></p></div>
                                         </div>
                                         <!--[if mso]></td></tr></table><![endif]-->
                                     </div>
