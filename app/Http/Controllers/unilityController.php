@@ -652,6 +652,7 @@ class unilityController extends Controller
             "2560 X 1600"=>"2560 X 1600",
             "2736 X 1824"=>"2736 X 1824",
             "2880 X 1620"=>"2880 X 1620",
+            "2880 X 1800"=>"2880 X 1800",
             "3000 X 2000"=>"3000 X 2000",
             "3200 X 1800"=>"3200 X 1800",
             "3840 X 2160"=>"3840 X 2160"
@@ -1094,7 +1095,8 @@ class unilityController extends Controller
         $ship_fee = $order->shipfee();
         $ship_postcode = $order->shipping_postcode;
         $ship_name = addslashes($order->shipping_firstname.' '.$order->shipping_lastname);
-        $data = compact('phone', 'company', 'address1', 'address2', 'city', 'orderid', 'ship_status', 'clientId', 'comment','ship_fee','ship_postcode','ship_name');
+        $data = compact('phone', 'company', 'address1', 'address2', 'city',
+            'orderid', 'ship_status', 'clientId', 'comment','ship_fee','ship_postcode','ship_name');
 //        dd($data);
         return self::sendData($url, $data);
     }
