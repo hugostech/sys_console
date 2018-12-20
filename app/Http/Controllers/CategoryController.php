@@ -26,7 +26,16 @@ class CategoryController extends Controller
             14=>355,
             4=>409,
 //            408=>411,
-            1=>410
+            1=>410,
+
+
+            256=>462,
+            101=>460,
+            103=>458,
+            104=>461,
+            15=>457,
+            109=>463,
+
         ];
         foreach ($map as $r=>$s){
             Ex_category::find($s)->products()->sync($this->onSaleProduct($r));
