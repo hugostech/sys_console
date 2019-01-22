@@ -404,9 +404,9 @@ class unilityController extends Controller
                         }
                     }
 
-                    if($tem['Price']>200){
-                        $tem['Freight'] = 0;
-                    }
+//                    if($tem['Price']>200){
+//                        $tem['Freight'] = 0;
+//                    }
 
 //                    $feed[$product->product_id] = $tem;
 
