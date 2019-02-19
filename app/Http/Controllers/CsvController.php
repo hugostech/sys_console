@@ -171,6 +171,7 @@ class CsvController extends Controller
            Excel::load('storage/app/csv/'.$filename,function ($render) use(&$firstsheet){
                $firstsheet = $render->first();
            });
+           dd($firstsheet);
            $firstsheet = $this->dataMap($supply_code,$firstsheet);
 
            return view('csv.index',compact('firstsheet','supply_code'));
