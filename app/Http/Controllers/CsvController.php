@@ -118,11 +118,11 @@ class CsvController extends Controller
                 'supplier_code' =>'unique_internal_code'
             ],
             'ts'=>[
-                'mpn'=>'item_no',
+                'mpn'=>'item_no.',
                 'stock'=>'units_on_hand',
                 'price'=>'current_price',
                 'name'=>'item_description',
-                'supplier_code' =>'item_no'
+                'supplier_code' =>'item_no.'
             ],
 
         );
@@ -171,7 +171,7 @@ class CsvController extends Controller
            Excel::load('storage/app/csv/'.$filename,function ($render) use(&$firstsheet){
                $firstsheet = $render->first();
            });
-           dd($firstsheet);
+//           dd($firstsheet);
            $firstsheet = $this->dataMap($supply_code,$firstsheet);
 
            return view('csv.index',compact('firstsheet','supply_code'));
@@ -412,11 +412,14 @@ class CsvController extends Controller
     }
 
     private function price_update($product){
-        $product_price = Ex_product_csv::where('product_id',$product->product_id)->where('stock','>',0)->min('price');
+        $csv = Ex_product_csv::where('product_id',$product->product_id)->where('stock','>',0)->orderBy('price','asc')->first();
+//        $product_price = Ex_product_csv::where('product_id',$product->product_id)->where('stock','>',0)->min('price');
+        $product_price = $csv->price;
 
             if (is_numeric($product_price)){
                 $exproduct = ExtremepcProduct::find($product->product_id);
-                $exproduct->setPrice($this->pricePrettify($this->generatePrice($product_price),false));
+                $is_ts = $csv->supply_code == "ts";
+                $exproduct->setPrice($this->pricePrettify($this->generatePrice($product_price, $is_ts),false));
 //                $product->price = $this->pricePrettify($this->generatePrice($product_price),false);
 //                $product->save();
             }
@@ -445,22 +448,35 @@ class CsvController extends Controller
         }
     }
 
-    private function generatePrice($price){
-        if ($price < 0 || !is_numeric($price)){
-            return 99999;
-        }
-        if ($price < 20){
-            return $price+2;
-        }elseif ($price < 100){
-            return $price*1.1;
-        }elseif ($price < 300){
-            return $price*1.08;
-        }elseif ($price < 1000){
-            return $price*1.07;
+    private function generatePrice($price, $is_ts=false){
+        if ($is_ts){
+            if ($price < 0 || !is_numeric($price)){
+                return 99999;
             }
-        else{
-            return $price*1.06;
+
+            if ($price < 10){
+                return $price+2;
+            }else{
+                return $price/0.6;
+            }
+        }else{
+            if ($price < 0 || !is_numeric($price)){
+                return 99999;
+            }
+            if ($price < 20){
+                return $price+2;
+            }elseif ($price < 100){
+                return $price*1.1;
+            }elseif ($price < 300){
+                return $price*1.08;
+            }elseif ($price < 1000){
+                return $price*1.07;
+            }
+            else{
+                return $price*1.06;
+            }
         }
+
     }
 
     private function recordProductCsv($product_id,$stock,$price,$supply_code,$supplier_code){
