@@ -365,10 +365,17 @@ class CsvController extends Controller
         }
         $price = str_replace('$','',$price);
         $price = trim($price);
+
         if (!is_numeric($price) || trim($mpn)==''){
             return false;
         }
-
+        if($supply_code=='ts'){
+            if ($price < 10){
+                return $price+2;
+            }else{
+                return $price/0.6;
+            }
+        }
         if(stripos('#ra',$supplier_code)!==false){
             return false;
         }
@@ -412,16 +419,10 @@ class CsvController extends Controller
     }
 
     private function price_update($product){
-        $csv = Ex_product_csv::where('product_id',$product->product_id)->where('stock','>',0)->orderBy('price','asc')->first();
-//        $product_price = Ex_product_csv::where('product_id',$product->product_id)->where('stock','>',0)->min('price');
-        $product_price = $csv->price;
-
+        $product_price = Ex_product_csv::where('product_id',$product->product_id)->where('stock','>',0)->min('price');
             if (is_numeric($product_price)){
                 $exproduct = ExtremepcProduct::find($product->product_id);
-                $is_ts = $csv->supply_code == "ts";
-                $exproduct->setPrice($this->pricePrettify($this->generatePrice($product_price, $is_ts),false));
-//                $product->price = $this->pricePrettify($this->generatePrice($product_price),false);
-//                $product->save();
+                $exproduct->setPrice($this->pricePrettify($this->generatePrice($product_price),false));
             }
 
 
@@ -448,35 +449,21 @@ class CsvController extends Controller
         }
     }
 
-    private function generatePrice($price, $is_ts=false){
-        if ($is_ts){
-            if ($price < 0 || !is_numeric($price)){
-                return 99999;
-            }
-
-            if ($price < 10){
-                return $price+2;
-            }else{
-                return $price/0.6;
-            }
-        }else{
-            if ($price < 0 || !is_numeric($price)){
-                return 99999;
-            }
-            if ($price < 20){
-                return $price+2;
-            }elseif ($price < 100){
-                return $price*1.1;
-            }elseif ($price < 300){
-                return $price*1.08;
-            }elseif ($price < 1000){
-                return $price*1.07;
-            }
-            else{
-                return $price*1.06;
-            }
+    private function generatePrice($price){
+        if ($price < 0 || !is_numeric($price)){
+            return 99999;
         }
-
+        if ($price < 20){
+            return $price+2;
+        }elseif ($price < 100){
+            return $price*1.1;
+        }elseif ($price < 300){
+            return $price*1.08;
+        }elseif ($price < 1000){
+            return $price*1.07;
+        }else{
+            return $price*1.06;
+        }
     }
 
     private function recordProductCsv($product_id,$stock,$price,$supply_code,$supplier_code){
