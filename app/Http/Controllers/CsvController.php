@@ -371,9 +371,9 @@ class CsvController extends Controller
         }
         if($supply_code=='ts'){
             if ($price < 10){
-                return $price+2;
+                $price = $price+2;
             }else{
-                return $price/0.6;
+                $price = $price/0.6;
             }
         }
         if(stripos('#ra',$supplier_code)!==false){
