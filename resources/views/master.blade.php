@@ -166,8 +166,7 @@
 
         <div class="container">
             <div class="col-md-10 text-right" style="padding-top:8px ">
-            <label>Powered by <a href="https://nz.linkedin.com/in/hankunwang
-">HugoW</a></label>
+            <label>Powered by Roctech</label>
             </div>
         </div>
 
