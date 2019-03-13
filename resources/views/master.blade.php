@@ -166,7 +166,7 @@
 
         <div class="container">
             <div class="col-md-10 text-right" style="padding-top:8px ">
-            <label>Powered by Roctech</label>
+            {{--<label>Powered by Roctech</label>--}}
             </div>
         </div>
 
