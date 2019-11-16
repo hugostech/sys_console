@@ -133,6 +133,10 @@ Route::get('categoryArrange','unilityController@categoryarrange');
 Route::get('showauckland','unilityController@showAucklandCustomer');
 Route::get('saveClient','unilityController@addNewClient');
 Route::get('createorder/{id}','unilityController@createRoctechOrder');
+
+Route::get('createneworder/{id}','unilityController@createNewRoctechOrder');
+
+
 Route::get('changeOrderStatus','unilityController@changeOrderStatus');
 Route::get('cleanOnSaleCategory','unilityController@cleanOnSaleCategory');
 Route::get('eta_list','unilityController@eta_list');

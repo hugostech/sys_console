@@ -34,9 +34,21 @@ class CsvController extends Controller
 
         View::share('csvRecords',Csv::all()->toArray());
 //        View::share('csvRecords',[]);
-        View::share('supplier_list',['pb' => 'PB', 'im' => 'Ingram micro','aw'=>'Anywhere','do'=>'Dove','sy'=>'Synnex',
-            'cd'=>'Computer Dynamics','dj'=>'DJI','ex'=>'RTEP','wc'=>'Westcom','gw'=>'Go Wireless NZ','dd'=>'Dicker DATA',
-            'ts'=>'TechStar']);
+        View::share('supplier_list',[
+            'pb' => 'PB', 
+            'im' => 'Ingram micro',
+            'aw'=>'Anywhere',
+            'do'=>'Dove',
+            'sy'=>'Synnex', 
+            'cd'=>'Computer Dynamics',
+            'snap'=>'Snapper Network',
+            'dj'=>'DJI',
+            'ex'=>'RTEP',
+            'wc'=>'Westcom',
+            'gw'=>'Go Wireless NZ',
+            'dd'=>'Dicker DATA',
+            'ts'=>'TechStar',
+            'ag'=>'Atlas Gentech']);
 
 
         $this->map = array(
@@ -82,12 +94,19 @@ class CsvController extends Controller
                 'name'=>'description',
                 'supplier_code' =>'part_code'
             ],
-            'dj'=>[
-                'mpn'=>'part',
-                'stock'=>'stock',
-                'price'=>'12_margin_buy',
-                'name'=>'item_name',
-                'supplier_code' =>'part'
+            'snap'=>[
+                'mpn'=>0,
+                'stock'=>'Stock',
+                'price'=>'Reseller_Buy',
+                'name'=>'Product_Name',
+                'supplier_code' =>'Product_Code'
+            ],
+            'ag'=>[
+                'mpn'=>'manufacturer_code',
+                'stock'=>'quantityonhand',
+                'price'=>'sellingprice',
+                'name'=>'itemname',
+                'supplier_code' =>'itemnumber'
             ],
             'ex'=>[
                 'mpn'=>'manufacturerproductcode',
@@ -124,6 +143,13 @@ class CsvController extends Controller
                 'name'=>'item_description',
                 'supplier_code' =>'item_no.'
             ],
+            'dj'=>[
+                'mpn'=>'part',
+                'stock'=>'stock',
+                'price'=>'12_margin_buy',
+                'name'=>'item_name',
+                'supplier_code' =>'part'
+            ],
 
         );
     }
@@ -137,6 +163,7 @@ class CsvController extends Controller
             "141970.CSV" => "im",
             "AnywareNZ price list 3.csv" => "aw",
             "CDL daily Pricefile.csv" => "cd",
+            "snappernet2.csv" => "snap",
             "dealerpricelist.csv" => "do",
             "PB Price List_ROS0179.csv" => "pb",
             "ROC_synnex_nz.csv" => "sy",
@@ -145,6 +172,8 @@ class CsvController extends Controller
             "pricelist.csv"=>"gw",
             "datafeed.csv"=>"dd",
             "Item List (Summary).csv"=>"ts",
+            "09072019.csv"=>"ag"
+            
         ];
         $uploads = [];
         foreach($request->file('csvs') as $file){
@@ -453,7 +482,7 @@ class CsvController extends Controller
         if ($price < 0 || !is_numeric($price)){
             return 99999;
         }
-        if ($price < 20){
+        /*if ($price < 20){
             return $price+2;
         }elseif ($price < 100){
             return $price*1.1;
@@ -463,6 +492,18 @@ class CsvController extends Controller
             return $price*1.07;
         }else{
             return $price*1.06;
+        }*/
+
+         if ($price < 20){
+            return $price+2
+;        }elseif ($price < 100){
+            return $price*1.15;
+        }elseif ($price < 300){
+            return $price*1.13;
+        }elseif ($price < 1000){
+            return $price*1.12;
+        }else{
+            return $price*1.11;
         }
     }
 

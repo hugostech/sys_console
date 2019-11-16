@@ -22,11 +22,21 @@ class KillPriceController extends Controller
 
     public function __construct()
     {
-        $this->killlist = array(
+       /* $this->killlist = array(
             "PB Technologies","Playtech","Computer Lounge",
             "DTC Systems","XP Computers Warehouse","PC Force",
             "Just Laptops","Global PC","Noel Leeming","JB Hi-Fi",
             "The Warehouse","Mighty Ape"
+        );
+
+        $this->killlist = array(
+            "PB Technologies","Playtech","Computer Lounge",
+            "DTC Systems","Just Laptops","Global PC","Mighty Ape"
+        );*/
+
+        $this->killlist = array(
+            "PB Technologies","Playtech","Computer Lounge",
+            "DTC Systems","Just Laptops","Mighty Ape"
         );
 
         View::share('kill_list',\GuzzleHttp\json_encode($this->killlist));
@@ -56,14 +66,15 @@ class KillPriceController extends Controller
         ]);
         $product = null;
         if($request->has('code')){
-            $product = Ex_product::where('model',$request->input('code'))->first();
+            $product = Ex_product::where('sku',$request->input('code'))->first();
         }elseif ($request->has('product_id')){
             $product = Ex_product::find($request->input('product_id'));
         }else{
             return redirect()->back();
         }
 
-        $url = 'https://pricespy.co.nz/product.php?p='.$request->input('pricespy_url');
+        //$url = 'https://pricespy.co.nz/product.php?p='.$request->input('pricespy_url');
+        $url = $request->input('pricespy_url');
         $client = new Client();
         $response = $client->get($url);
         if ($response->getStatusCode()==200){
@@ -73,7 +84,8 @@ class KillPriceController extends Controller
             $page = '';
         }
 //        $info = $page->find('div[product-header--content]',0);
-        $info = $page->find('h1[class=product-header--title]',0)->plaintext;
+        //$info = $page->find('h1[class=product-header--title]',0)->plaintext;
+        $info = $page->find('h1[class*=Title-]',0)->plaintext;
 
         if (!empty($info)){
             $priceList = self::getPriceList2($page);
@@ -84,9 +96,9 @@ class KillPriceController extends Controller
 //            print_r($info);
 //            print_r($page->find('h1[class=product-header--title]',0)->plaintext);
 //            dd($page);
-            return redirect()->back()->withErrors(['pricespy', 'Price spy url not correct']);
+            return redirect()->back()->withErrors(['pricespy', 'Pricespy url is not correct']);
         }
-        $product_detail = $this->grabProductDetail($product->model);
+        $product_detail = $this->grabProductDetail($product->sku);
         $averageCost = null;
         if(str_contains($product_detail,'Average price inc')){
             $productDetailArray = explode('<br>',$product_detail);
@@ -182,9 +194,9 @@ class KillPriceController extends Controller
 //            echo $dom->outerHtml;
             $priceList = self::getPriceList2($page);
 
-            $info = $page->find('div[id=product_content]',0);
+            $info = $page->find('div[class*="ProductPage]',0);
             if (isset($info)){
-                return $product_name = $info->find('h1[class=intro_header]',0)->plaintext;
+                return $product_name = $info->find('h1[class*=Title-sc]',0)->plaintext;
 
             }else{
                 return null;
@@ -212,13 +224,15 @@ class KillPriceController extends Controller
         return $pricedetail;
     }
 
-    public function getPriceList($page){
+    /*public function getPriceList($page){
 
-        $table = $page->find('div[id=tabcontentdiv]',0);
+        //$table = $page->find('div[id=tabcontentdiv]',0);
+        $table = $page->find('div[class*=TabContent]',0);
         if (is_null($table)) return null;
         $table = $table->find('table',0);
         if (is_null($table)) return null;
 
+        //$table = $table->find('tr[data-pris_typ=normal]');
         $table = $table->find('tr[data-pris_typ=normal]');
         if (is_null($table)) return null;
 
@@ -250,11 +264,49 @@ class KillPriceController extends Controller
         }
         return $result;
 
+    }*/
+
+    /*public function getPriceList($page){
+
+        //$table = $page->find('div[id=tabcontentdiv]',0);
+        //$table = $page->find('div[class*=TabContent]',0);
+        //if (is_null($table)) return null;
+        //$table = $table->find('table',0);
+        //if (is_null($table)) return null;
+
+        //$table = $table->find('tr[data-pris_typ=normal]');
+        $table = $table->find('li[data-test=PriceRow]', 0);
+        if (is_null($table)) return null;
+
+        $result = [];
+
+
+        foreach ($table as $item){
+            try{
+
+                $company = $item->find('div[class*=StoreLogo]',0);
+                if (is_null($company)) continue;
+                $company = $company->find('span[class*=StoreLogoText]',0)->plaintext;
+
+                $price = $item->find('span[data-test=PriceLabel]',4);
+                if(is_null($price)){
+                    continue;
+                }
+                $price = $price->children(1)->plaintext;
+                $price = str_replace(',','',$price);
+                $price = floatval(str_replace('$','',trim($price)));
+
+                $result[] = [$company,$price];
+            }catch (\Exception $e){
+                continue;
+            }
 
 
 
+        }
+        return $result;
 
-    }
+    }*/
 
     private function getContent($url)
     {
@@ -288,7 +340,7 @@ class KillPriceController extends Controller
         $new_price = $this->price_generate($price);
         if ($new_price<=$bottom){
             $new_price = $bottom;
-            $warrany[] = $product->model;
+            $warrany[] = $product->sku;
         }
         $exproduct = ExtremepcProduct::find($product->product_id);
         $exproduct->setSpecial($new_price,true);
@@ -325,7 +377,7 @@ class KillPriceController extends Controller
 
         $product->note = $note;
         $product->save();
-        echo $product->model.'<br>';
+        echo $product->sku.'<br>';
 
     }
     public function run(){
@@ -345,12 +397,12 @@ class KillPriceController extends Controller
 
                     $product->status = 'n';
                     $product->save();
-                    echo '____________1231231_____________'.$product->model;
+                    echo '____________1231231_____________'.$product->sku;
                     DB::commit();
 
                     continue;
                 }
-                echo $ex_product->model.'<br>';
+                echo $ex_product->sku.'<br>';
                 if($ex_product->quantity<1) {
                     $exproduct = ExtremepcProduct::find($ex_product->product_id);
                     $special = $ex_product->special;
@@ -397,7 +449,7 @@ class KillPriceController extends Controller
                         }
                     }
                 }
-                echo $ex_product->model.'step2<br>';
+                echo $ex_product->sku.'step2<br>';
                 $this->add_note($product,'<font color="#228b22">Normal: update at '.Carbon::now().'</font>');
                 DB::commit();
                 }catch(\Exception $e){
@@ -418,7 +470,7 @@ class KillPriceController extends Controller
         $product = Kill_price_product::find($request->input('product_id'));
         $product->bottomPrice = $request->input('bottomPrice');
         $product->save();
-        return $product->model.' price:'.$product->bottomPrice.' Success!';
+        return $product->sku.' price:'.$product->bottomPrice.' Success!';
     }
 
     //one-off kill all price
@@ -438,34 +490,39 @@ class KillPriceController extends Controller
         if ($response->getStatusCode()==200){
             $page = $response->getBody()->getContents();
             $page = HtmlDomParser::str_get_html($page);
-        }else{
+        }
+        else{
             $page = '';
         }
         return $this->getPriceList2($page);
-//        $compantlist = $this->getPriceList($page);
-
-
     }
+
+
+    //main function 
     public function getPriceList2($page){
-        $rows = $page->find('div[class=pj-ui-price-row]');
+        $rows = $page->find('tr[class*=pj-ui-price-row]');
         $result = [];
         foreach ($rows as $row){
-            $status = $row->find('span[class=pj-ui-stock-status]',0);
+           // $status = $row->find('span[class*=pj-ui-stock-status]',0);
+             $status = $row->find('div[class*=StockStatusWrapper]',0);
             if (!is_null($status)){
                 $status = $status->find('svg',0);
                 if (str_contains($status->class, 'out-of-stock')){
                     continue;
                 }
             }
-            $company = $row->find('span[class=pj-ui-store-logo]',0);
-            $img = $company->find('.pj-ui-store-logo--image',0);
+          
+            $company = $row->find('div[class*=StoreLogo]',0);
+            $img = $company->find('img',0);
+           
             if (is_null($img)){
-                $company = $company->find('.pj-ui-store-logo--text',0);
+                //$company = $company->find('span[class*=StoreLogoText',0);
                 $company = $company->plaintext;
-            }else{
+            }
+            else{
                 $company = $img->alt;
             }
-            $price = $row->find('span[class=pj-ui-price-label]',0);
+            $price = $row->find('span[class*=PriceLabel]',0);
             if (is_null($price)){
                 continue;
             }
@@ -473,6 +530,7 @@ class KillPriceController extends Controller
             $price = str_replace(',','',$price);
             $price = floatval(str_replace('$','',trim($price)));
             $result[] = [trim($company),$price];
+            
         }
         return $result;
 
