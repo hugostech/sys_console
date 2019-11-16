@@ -6,7 +6,7 @@
     <br />
 </p>
 <p class="MsoNormal" style="font-size:11pt;font-family:Calibri, sans-serif;">
-    Thanks for purchasing from ExtremePC – your trusted IT supplier for over 13 years (Order No: <strong>{{$order->order_id}}</strong>,
+    Thanks for purchasing from ExtremePC – your trusted IT supplier for over <b><span style="color:#007D00;">14 years </span></b>(Order No: <strong>{{$order->order_id}}</strong>,
     Amount: $<strong>{{round($order->total,2)}}</strong>). As an added pre-caution we perform a credit check for first time purchases from our website for high value transactions to protect our customers from fraudulent transactions.
 </p>
 <p class="MsoNormal" style="font-size:11pt;font-family:Calibri, sans-serif;">

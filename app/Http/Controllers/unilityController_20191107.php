@@ -481,10 +481,10 @@ class unilityController extends Controller
 
                 $image_array = array();
 
-                $image_array[] = 'http://www.xpcomputers.co.nz/image/'.$product->image;
+                $image_array[] = 'http://www.extremepc.co.nz/image/'.$product->image;
 
                 foreach($images as $image){
-                    $image_array[] = 'http://www.xpcomputers.co.nz/image/'.$image->image;
+                    $image_array[] = 'http://www.extremepc.co.nz/image/'.$image->image;
                 }
 
 //           echo  htmlspecialchars_decode($categorytree);
@@ -496,7 +496,7 @@ class unilityController extends Controller
                     'Quantity' => $product_quantity,
                     'Article number' => $product->model,
                     'Manufacturer' => $product->manufacturer_id == 0 ? 'null' : Ex_manufacturer::find($product->manufacturer_id)->name,
-                    'URL to the product page' => "http://www.xpcomputers.co.nz/index.php?route=product/product&product_id=$product->product_id",
+                    'URL to the product page' => "http://www.extremepc.co.nz/index.php?route=product/product&product_id=$product->product_id",
                     'Product category' => $categorytree,
                     'Price' => round($content[$product->model] * 1.05, 2),
                     'Stock status' => $stock_status,
@@ -1084,6 +1084,30 @@ class unilityController extends Controller
 
     }
 
+
+    public function createNewRoctechOrder($id)
+    {
+
+        $order = Ex_Neworder::find($id);
+        echo $order;
+       /* $clientid = self::addNewClient($id);
+        if (trim($clientid) == 'Error') {
+            $clientid = 0;
+        }
+
+        $roctech_order_id = self::addOrder($id, $clientid);
+
+        if (trim($roctech_order_id) == 'Error') {
+            echo 'Error';
+            return false;
+        }
+        self::insertNewOrderItem($id, $roctech_order_id);
+        return redirect("http://192.168.1.3/admin/olist.aspx?r=&id=$roctech_order_id");
+        */
+
+
+    }
+
     public function addNewClient($id)
     {
         $url = env('SNPORT') . "?action=newclient";
@@ -1100,7 +1124,9 @@ class unilityController extends Controller
         $city = $order->shipping_city;
         $province = $order->shipping_zone;
         $data = compact('name', 'email', 'phone', 'company', 'address1', 'address2', 'city', 'province');
-        return self::sendData($url, $data);
+        echo $url;
+        echo $data;
+        //return self::sendData($url, $data);
     }
 
     private function sendData($url, $data)
@@ -1162,6 +1188,26 @@ class unilityController extends Controller
             $name = addslashes($item->name);
             $price_ex = $item->price;
             $data = compact('order_id', 'model', 'quantity', 'name', 'price_ex', 'data');
+            self::sendData($url, $data);
+        }
+    }
+
+
+    public function insertNewOrderItem($id, $roctech_id)
+    {
+        $url = env('new_SNPORT') . "?action=orderitemm";
+
+
+
+        $order = Ex_order::find($id);
+        $order_id = $roctech_id;
+        $items = $order->items;
+        foreach ($items as $item) {
+            $sku = $item->sku;
+            $quantity = $item->quantity;
+            $name = addslashes($item->name);
+            $price_ex = $item->price;
+            $data = compact('order_id', 'sku', 'quantity', 'name', 'price_ex', 'data');
             self::sendData($url, $data);
         }
     }
@@ -1344,7 +1390,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
     {
         $url = env('IMGREMOTE') . $code . '.jpg';
         if (self::imageExist($url)) {
-            copy($url, "/var/www/xpcomputers.co.nz/public_html/image/catalog/autoEx/$code.jpg");
+            copy($url, "/var/www/extremepc.co.nz/public_html/image/catalog/autoEx/$code.jpg");
         }
     }
 
