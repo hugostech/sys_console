@@ -41,7 +41,7 @@ class WeekendController extends Controller
 
     public function all(){
         $products = [];
-        foreach (Ex_category::find(TARGETCATEGORY)->products()->where('status',1)->pluck('oc_ex_product.product_id')->all() as $id){
+        foreach (Ex_category::find(TARGETCATEGORY)->products()->where('status',1)->pluck('oc_product.product_id')->all() as $id){
             $products[$id] = $this->findProductData($id);
         }
         return $products;

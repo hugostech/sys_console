@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Ex_order_product extends Model
 {
     protected $connection = 'extremepc_mysql';
-    protected $table = 'oc_ex_order_product';
+    protected $table = 'oc_order_product';
     protected $primaryKey = 'order_product_id';
 
     public $timestamps = false;

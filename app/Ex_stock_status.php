@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Ex_stock_status extends Model
 {
     protected $connection = 'extremepc_mysql';
-    protected $table = 'oc_ex_stock_status';
+    protected $table = 'oc_stock_status';
     protected $primaryKey = 'stock_status_id';
     public $timestamps = false;
 

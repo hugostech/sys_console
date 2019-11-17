@@ -9,7 +9,7 @@ return [
     |
     | This value determines the "environment" your application is currently
     | running in. This may determine how you prefer to configure various
-    | services your application utilizes. Set this in your ".env" file.
+    | services your application utilizes. Set this in your ".env.sample" file.
     |
     */
 
@@ -120,6 +120,7 @@ return [
     | this array to grant expanded functionality to your applications.
     |
     */
+    'roctech_endpoint' => 'http://roctech.co.nz/admin/snport.aspx',
 
     'providers' => [
 

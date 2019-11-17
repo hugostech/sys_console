@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Ex_order_history extends Model
 {
     protected $connection = 'extremepc_mysql';
-    protected $table = 'oc_ex_order_history';
+    protected $table = 'oc_order_history';
     protected $primaryKey = 'order_history_id';
 
     public $timestamps = false;

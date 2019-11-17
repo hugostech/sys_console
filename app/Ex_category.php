@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Ex_category extends Model
 {
     protected $connection = 'extremepc_mysql';
-    protected $table = 'oc_ex_category';
+    protected $table = 'oc_category';
     protected $primaryKey = 'category_id';
 
     public $timestamps = false;
@@ -23,7 +23,7 @@ class Ex_category extends Model
         return $this->hasOne('App\Ex_category_description','category_id');
     }
     public function products(){
-        return $this->belongsToMany('App\Ex_product','oc_ex_product_to_category','category_id','product_id');
+        return $this->belongsToMany('App\Ex_product','oc_product_to_category','category_id','product_id');
     }
 
     public function equal(Ex_category $other){

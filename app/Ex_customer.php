@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Ex_customer extends Model
 {
     protected $connection = 'extremepc_mysql';
-    protected $table = 'oc_ex_customer';
+    protected $table = 'oc_customer';
     protected $primaryKey = 'customer_id';
 
     public $timestamps = false;

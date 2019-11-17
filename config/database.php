@@ -86,9 +86,9 @@ return [
         ],
         'extremepc_mysql' => [
             'driver'    => 'mysql',
-            'host'      => env('DB_HOST_Ex', 'extremepc.co.nz'),
-            'database'  => env('DB_DATABASE_Ex', 'forge'),
-            'username'  => env('DB_USERNAME_Ex', 'root'),
+            'host'      => 'db',
+            'database'  => 'roctech',
+            'username'  => 'root',
             'password'  => getenv('EXTREMEPC_PASSWORD'),
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',

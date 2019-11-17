@@ -102,7 +102,7 @@ class unilityController extends Controller
         $data = array();
         if ($request->has('code')) {
             $code = trim($request->input('code'));
-            self::addNewProduct($code);
+//            self::addNewProduct($code);
             $data = self::getData($code);
             $categorys = \GuzzleHttp\json_encode(self::categorysFullPath());
         }
@@ -124,11 +124,11 @@ class unilityController extends Controller
 
     private function getData($code)
     {
-        $url = env('SNPORT') . "?action=test&code=$code";
+        $url = config('app.roctech_endpoint') . "?action=test&code=$code";
         $pricedetail = $this->getContent($url);
-        $url = env("SNPORT") . "?action=c&code=$code";
+        $url = config('app.roctech_endpoint') . "?action=c&code=$code";
         $des = self::getContent($url);
-        $product = Ex_product::where('model', $code)->first();
+        $product = Ex_product::where('sku', $code)->first();
         $viewed = $product->viewed;
         $product_id = $product->product_id;
         $special = 0;
@@ -168,7 +168,7 @@ class unilityController extends Controller
             $extremepc = "Cannot find the product";
         }
 
-        $url = env("SNPORT") . "?action=sc&code=$code";
+        $url = config('app.roctech_endpoint')  . "?action=sc&code=$code";
         $supplier_code = self::getContent($url);
         $averageCost = 0;
         if(str_contains($pricedetail,'Average price inc')){
@@ -1199,7 +1199,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
                 $data->spec = str_replace('{!@!}', '"', $spec);
 
                 $tem = array(
-                    'model' => $data->code,
+                    'sku' => $data->code,
                     'quantity' => 0,
                     'stock_status_id' => 9,
                     'shipping' => 1,
@@ -1257,7 +1257,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
 
     private function checkCodeEx($code)
     {
-        if (count(Ex_product::where('model', $code)->get()) > 0) {
+        if (count(Ex_product::where('sku', $code)->get()) > 0) {
             return true;
         } else {
             return false;
@@ -1299,7 +1299,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
     {
         $url = env('IMGREMOTE') . $code . '.jpg';
         if (self::imageExist($url)) {
-            copy($url, "/var/www/extremepc.co.nz/public_html/image/catalog/autoEx/$code.jpg");
+            copy($url, "/image/catalog/autoEx/$code.jpg");
         }
     }
 
@@ -1728,6 +1728,9 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
         $categorys = array();
         $categorylist = Ex_category::all();
         foreach ($categorylist as $item){
+            if (is_null($item->description)){
+                continue;
+            }
             $tem = array();
             $tem['id'] = $item->category_id;
 
@@ -1735,6 +1738,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
             $tem['status'] = $item->status==0?'list-group-item-danger':'';
             $categorys[] = $tem;
         }
+
         return $categorys;
     }
     /*
