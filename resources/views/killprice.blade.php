@@ -50,7 +50,7 @@
                 <tr>
                     {{--<td>{{$data['code']}}</td>--}}
                     <td>{{str_limit($data['des'],2000)}}
-                    <br><img src="http://www.extremepc.co.nz/image/{{$data['img']}}" width="150px">
+                    <br><img src="https://www.extremepc.co.nz/image/{{$data['img']}}" width="150px">
                     </td>
                     <td>
                         {!! Form::open(['url'=>'/killprice','method'=>'put']) !!}

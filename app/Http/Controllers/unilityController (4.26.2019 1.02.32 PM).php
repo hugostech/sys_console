@@ -102,7 +102,7 @@ class unilityController extends Controller
         $data = array();
         if ($request->has('code')) {
             $code = trim($request->input('code'));
-//            self::addNewProduct($code);
+            self::addNewProduct($code);
             $data = self::getData($code);
             $categorys = \GuzzleHttp\json_encode(self::categorysFullPath());
         }
@@ -124,11 +124,11 @@ class unilityController extends Controller
 
     private function getData($code)
     {
-        $url = config('app.roctech_endpoint') . "?action=test&code=$code";
+        $url = env('SNPORT') . "?action=test&code=$code";
         $pricedetail = $this->getContent($url);
-        $url = config('app.roctech_endpoint') . "?action=c&code=$code";
+        $url = env("SNPORT") . "?action=c&code=$code";
         $des = self::getContent($url);
-        $product = Ex_product::where('sku', $code)->first();
+        $product = Ex_product::where('model', $code)->first();
         $viewed = $product->viewed;
         $product_id = $product->product_id;
         $special = 0;
@@ -168,7 +168,7 @@ class unilityController extends Controller
             $extremepc = "Cannot find the product";
         }
 
-        $url = config('app.roctech_endpoint')  . "?action=sc&code=$code";
+        $url = env("SNPORT") . "?action=sc&code=$code";
         $supplier_code = self::getContent($url);
         $averageCost = 0;
         if(str_contains($pricedetail,'Average price inc')){
@@ -481,10 +481,10 @@ class unilityController extends Controller
 
                 $image_array = array();
 
-                $image_array[] = 'http://www.xpcomputers.co.nz/image/'.$product->image;
+                $image_array[] = 'http://www.extremepc.co.nz/image/'.$product->image;
 
                 foreach($images as $image){
-                    $image_array[] = 'http://www.xpcomputers.co.nz/image/'.$image->image;
+                    $image_array[] = 'http://www.extremepc.co.nz/image/'.$image->image;
                 }
 
 //           echo  htmlspecialchars_decode($categorytree);
@@ -496,7 +496,7 @@ class unilityController extends Controller
                     'Quantity' => $product_quantity,
                     'Article number' => $product->model,
                     'Manufacturer' => $product->manufacturer_id == 0 ? 'null' : Ex_manufacturer::find($product->manufacturer_id)->name,
-                    'URL to the product page' => "http://www.xpcomputers.co.nz/index.php?route=product/product&product_id=$product->product_id",
+                    'URL to the product page' => "http://www.extremepc.co.nz/index.php?route=product/product&product_id=$product->product_id",
                     'Product category' => $categorytree,
                     'Price' => round($content[$product->model] * 1.05, 2),
                     'Stock status' => $stock_status,
@@ -631,17 +631,13 @@ class unilityController extends Controller
             "GTX1050"=>"GTX1050",
             "GTX1050Ti"=>"GTX1050Ti",
             "GTX1060"=>"GTX1060",
-            "GTX1660Ti"=>"GTX1660Ti",
-            "GTX1650"=>"GTX1650",
             "GTX1070"=>"GTX1070",
             "GTX1080"=>"GTX1080",
             "RTX2060"=>"RTX2060",
             "RTX2070"=>"RTX2070",
             "RTX2080"=>"RTX2080",
-            "MX110"=>"MX110",
             "MX130"=>"MX130",
             "MX150"=>"MX150",
-            "MX250"=>"MX250",
             "NVIDIA Quadro"=>"NVIDIA Quadro",
             "Radeon R5 M230"=>"Radeon R5 M230",
             "Integrated"=>"Integrated"
@@ -672,7 +668,6 @@ class unilityController extends Controller
             "Intel Core i3"=>'Intel Core i3',
             "Intel Core i5"=>'Intel Core i5',
             "Intel Core i7"=>'Intel Core i7',
-            "Intel Core i9"=>'Intel Core i9',
             "Intel Core M"=>'Intel Core M',
             "Intel Pentium"=>'Intel Pentium',
             "Intel Xeon E3"=>'Intel Xeon E3',
@@ -685,8 +680,6 @@ class unilityController extends Controller
             "AMD R5"=>'AMD R5',
             "AMD E1"=>'AMD E1',
             "AMD E2"=>'AMD E2',
-            "AMD Ryzen 5"=>'AMD Ryzen 5',
-            "AMD Ryzen 7"=>'AMD Ryzen 7'
         );
         $os = array(
             'Windows 10 home'=>'Windows 10 home',
@@ -933,7 +926,7 @@ class unilityController extends Controller
         });
     }
 
-    /*public function syncQuantity()
+    public function syncQuantity()
     {
         $products = Ex_product::all();
         $roctech_array = self::syncqty();
@@ -948,40 +941,6 @@ class unilityController extends Controller
                     $disable[] = $product->model;
                 } else {
                     $product->quantity = $roctech_array[$product->model][1];
-                    $product->status = 1;
-                }
-                $product->save();
-            } else {
-                $unsync[] = $product->model;
-            }
-
-        }
-
-        self::checkEta($roctech_array);
-
-        $total_enable = count(Ex_product::where('status', 1)->get());
-        $total_disable = count(Ex_product::where('status', 0)->get());
-
-        $content = 'Last sync is at' . date(' jS \of F Y h:i:s A');
-        return view('self_sync', compact('content', 'unsync', 'disable', 'total_enable', 'total_disable'));
-    }*/
-    public function syncQuantity()
-    {
-        $products = Ex_product::all();
-        $roctech_array = self::syncqty();
-        $unsync = array();
-        $disable = array();
-//        dd($roctech_array);
-        foreach ($products as $product) {
-            if (isset($roctech_array[$product->model])) {
-//               
-                if ($roctech_array[$product->model][0] == 'True') {
-                    $product->status = 0;
-                    $disable[] = $product->model;
-                } else {
-                    $product->quantity = $roctech_array[$product->model][1];
-                    $product->ean = $roctech_array[$product->model][2];    //EAN used for Auckland stock detail
-                    $product->jan = $roctech_array[$product->model][3]; //JAN used for Wellington stock detail
                     $product->status = 1;
                 }
                 $product->save();
@@ -1089,8 +1048,7 @@ class unilityController extends Controller
         $url = env('SNPORT') . "?action=newclient";
 
         $order = Ex_order::find($id);
-        //$name = $order->firstname . ' ' . $order->lastname;
-        $name = $order->payment_firstname . ' ' . $order->payment_lastname;
+        $name = $order->firstname . ' ' . $order->lastname;
         $name = str_replace('\'','\'\'',$name);
         $email = $order->email;
         $phone = $order->telephone;
@@ -1244,7 +1202,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
                 $data->spec = str_replace('{!@!}', '"', $spec);
 
                 $tem = array(
-                    'sku' => $data->code,
+                    'model' => $data->code,
                     'quantity' => 0,
                     'stock_status_id' => 9,
                     'shipping' => 1,
@@ -1302,7 +1260,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
 
     private function checkCodeEx($code)
     {
-        if (count(Ex_product::where('sku', $code)->get()) > 0) {
+        if (count(Ex_product::where('model', $code)->get()) > 0) {
             return true;
         } else {
             return false;
@@ -1344,7 +1302,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
     {
         $url = env('IMGREMOTE') . $code . '.jpg';
         if (self::imageExist($url)) {
-            copy($url, "/image/catalog/autoEx/$code.jpg");
+            copy($url, "/var/www/extremepc.co.nz/public_html/image/catalog/autoEx/$code.jpg");
         }
     }
 
@@ -1773,9 +1731,6 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
         $categorys = array();
         $categorylist = Ex_category::all();
         foreach ($categorylist as $item){
-            if (is_null($item->description)){
-                continue;
-            }
             $tem = array();
             $tem['id'] = $item->category_id;
 
@@ -1783,7 +1738,6 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
             $tem['status'] = $item->status==0?'list-group-item-danger':'';
             $categorys[] = $tem;
         }
-
         return $categorys;
     }
     /*

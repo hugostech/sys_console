@@ -95,6 +95,18 @@ return [
             'prefix'    => '',
             'strict'    => false,
         ],
+
+        'new_extremepc_mysql' => [
+            'driver'    => 'mysql',
+            'host'      => env('DB_HOST', 'xpcomputers.co.nz'),
+            'database'  => env('DB_DATABASE', 'forge'),
+            'username'  => env('DB_USERNAME', 'forge'),
+            'password'  => env('DB_PASSWORD', ''),
+            'charset'   => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix'    => '',
+            'strict'    => false,
+        ],
         'roctech_sqlsrv' => [
             'driver'   => 'sqlsrv',
             'host'     => env('DB_HOST', '192.168.1.3'),

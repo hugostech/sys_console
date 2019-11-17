@@ -10,7 +10,7 @@ class Ex_product extends Model
     protected $table = 'oc_product';
     protected $primaryKey = 'product_id';
     protected $fillable = array(
-        'model', 'quantity', 'stock_status_id', 'shipping', 'price',
+        'sku', 'quantity', 'stock_status_id', 'shipping', 'price',
         'tax_class_id', 'weight', 'weight_class_id', 'subtract', 'sort_order', 'status','date_added','mpn'
     );
     public $timestamps = false;

@@ -3,6 +3,10 @@
 @section('mainContent')
 
 
+<style>
+td:hover{ background-color: #A4E5DD; }
+</style>
+
 
             {{--<a href="/warranty"><button type="button" class="btn btn-default">New Warranty</button> </a>--}}
 
@@ -25,10 +29,11 @@
             <th class="col-sm-1"></th>
             <th class="col-sm-1">Code</th>
             <th class="col-sm-1">Client</th>
+            <th class="col-sm-1">Operator</th>
             <th class="col-sm-1">Date</th>
             <th class="col-sm-1">Ref</th>
-            <th class="col-sm-4">Model detail</th>
-            <th class="col-sm-2">Status</th>
+            <th class="col-sm-3">Model detail</th>
+            <th class="col-sm-3">Status</th>
         </tr>
         @foreach($warrantys as $warranty)
 
@@ -44,6 +49,7 @@
                 </td>
                 <td>{{$warranty->model_code }}</td>
                 <td>{{$warranty->client_name }}</td>
+                <td>{{$warranty->staff }}</td>
 
                 <td>{{$warranty->created_at }}</td>
                 <td>{{empty($rates[$warranty->id]['delivery']->reference_no)?'N/A':$rates[$warranty->id]['delivery']->reference_no}}</td>
