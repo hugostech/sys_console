@@ -135,7 +135,7 @@ class unilityController extends Controller
         $status = 0;
         if (isset($product->price)) {
 
-            $extremepc = $product->price * 1.15;
+            $extremepc = $product->price;
             $extremepc = round($extremepc, 2);
 
 
@@ -148,13 +148,13 @@ class unilityController extends Controller
                     $startdate = Carbon::parse($special->date_start);
                     $now = Carbon::now();
                     if ($now->between($startdate, $enddate)) {
-                        $special = $special->price * 1.15;
+                        $special = $special->price;
                     } else {
                         $special = 0;
                     }
 
                 } else {
-                    $special = $special->price * 1.15;
+                    $special = $special->price;
                 }
             }
 
@@ -217,7 +217,7 @@ class unilityController extends Controller
     {
 
         if ($request->has('code')) {
-            $product = Ex_product::where('model', $request->input('code'))->first();
+            $product = Ex_product::where('sku', $request->input('code'))->first();
             $exproduct = ExtremepcProduct::find($product->product_id);
             if (!$exproduct){
                 $categorys = null;

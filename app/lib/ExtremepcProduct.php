@@ -49,9 +49,9 @@ class ExtremepcProduct
     public function setPrice($price,$incgst=false){
         if ($this->product->price_lock==0){
             if ($incgst){
-                $this->product->price = $price/1.15;
-            }else{
                 $this->product->price = $price;
+            }else{
+                $this->product->price = $price/1.15;
             }
             return $this->product->save();
         }
@@ -59,7 +59,7 @@ class ExtremepcProduct
 
     public function setSpecial($price,$incgst=false,$duedate = null){
         if ($this->product->price_lock==0){
-            if ($incgst){
+            if (!$incgst){
                 $price = $price/1.15;
             }
             $special = $this->product->special;
@@ -82,9 +82,9 @@ class ExtremepcProduct
                 $special->date_end = null;
             }
             $special->save();
-            if (round($special->price*1.15,2) >= round($this->product->price*1.15,2)){
-                $special->delete();
-            }
+//            if (round($special->price*1.15,2) >= round($this->product->price*1.15,2)){
+//                $special->delete();
+//            }
 
         }
 
