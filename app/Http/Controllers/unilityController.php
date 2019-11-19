@@ -70,7 +70,7 @@ class unilityController extends Controller
 
     private function getCat($cat)
     {
-        $url = env('SNPORT') . "?action=ds&cat=$cat";
+        $url = config('app.roctech_endpoint') . "?action=ds&cat=$cat";
         $data = $this->getContent($url);
         return json_decode($data);
     }
@@ -102,7 +102,7 @@ class unilityController extends Controller
         $data = array();
         if ($request->has('code')) {
             $code = trim($request->input('code'));
-//            self::addNewProduct($code);
+            self::addNewProduct($code);
             $data = self::getData($code);
             $categorys = \GuzzleHttp\json_encode(self::categorysFullPath());
         }
@@ -434,7 +434,7 @@ class unilityController extends Controller
     {
         try {
 
-            $url = $url = env('SNPORT') . "?action=tsa";
+            $url = config('app.roctech_endpoint') . "?action=tsa";
 
             $content = self::getContent($url);
 
@@ -745,7 +745,7 @@ class unilityController extends Controller
         $unfound = array();
         foreach ($products as $product) {
             $code = $product->model;
-            $url = env('SNPORT') . "?action=sync&code=$code";
+            $url = config('app.roctech_endpoint') . "?action=sync&code=$code";
             $quantity = $this->getContent($url);
             $pos = strpos($quantity, 'Error');
             if ($pos === false) {
@@ -1056,7 +1056,7 @@ class unilityController extends Controller
 
     public function syncqty()
     {
-        $url = env('SNPORT') . "?action=allqty";
+        $url = config('app.roctech_endpoint') . "?action=allqty";
         $content = self::getContent($url);
 //        $content = str_replace(':,', ':0,', $content);
         $content = str_replace(',}', '}', $content);
@@ -1086,7 +1086,7 @@ class unilityController extends Controller
 
     public function addNewClient($id)
     {
-        $url = env('SNPORT') . "?action=newclient";
+        $url = config('app.roctech_endpoint') . "?action=newclient";
 
         $order = Ex_order::find($id);
         //$name = $order->firstname . ' ' . $order->lastname;
@@ -1125,7 +1125,7 @@ class unilityController extends Controller
 
     public function addOrder($id, $clientId)
     {
-        $url = env('SNPORT') . "?action=createorder";
+        $url = config('app.roctech_endpoint') . "?action=createorder";
 
         $order = Ex_order::find($id);
 
@@ -1151,7 +1151,7 @@ class unilityController extends Controller
 
     public function insertOrderItem($id, $roctech_id)
     {
-        $url = env('SNPORT') . "?action=orderitem";
+        $url = config('app.roctech_endpoint') . "?action=orderitem";
 
         $order = Ex_order::find($id);
         $order_id = $roctech_id;
@@ -1180,7 +1180,7 @@ class unilityController extends Controller
         foreach ($products as $product) {
 
             $code = $product->model;
-            $url = env('SNPORT') . "?action=sync&code=$code";
+            $url = config('app.roctech_endpoint') . "?action=sync&code=$code";
             $quantity = $this->getContent($url);
             $pos = strpos($quantity, 'Error');
             if (!$pos === false) {
@@ -1198,7 +1198,7 @@ class unilityController extends Controller
 
     public function grabProducts()
     {
-        $url = env('SNPORT') . "?action=products";
+        $url = config('app.roctech_endpoint') . "?action=products";
         $content = self::getContent($url);
         $content = str_replace(',]', ']', $content);
         $codes = \GuzzleHttp\json_decode($content);
@@ -1212,10 +1212,14 @@ class unilityController extends Controller
 
     public function addNewProduct($code)
     {
+
         if (self::checkCodeEx($code)) {
             echo $code . ' <font color="red">code exist</font>';
         } else {
-            $url = env('SNPORT') . "?action=prosync&code=$code";
+
+            $url = config('app.roctech_endpoint') . "?action=prosync&code=$code";
+
+
             try{
                 $data = self::getContent($url);
                     for ($i = 0; $i <= 31; ++$i) {
@@ -1223,12 +1227,12 @@ class unilityController extends Controller
                     }
                 $data = str_replace(chr(127), "", $data);
 
-// This is the most common part
-// Some file begins with 'efbbbf' to mark the beginning of the file. (binary level)
-// here we detect it and we remove it, basically it's the first 3 characters
-if (0 === strpos(bin2hex($data), 'efbbbf')) {
-    $data = substr($data, 3);
-}
+                // This is the most common part
+                // Some file begins with 'efbbbf' to mark the beginning of the file. (binary level)
+                // here we detect it and we remove it, basically it's the first 3 characters
+                if (0 === strpos(bin2hex($data), 'efbbbf')) {
+                    $data = substr($data, 3);
+                }
                 $data = \GuzzleHttp\json_decode($data);
 
             }catch (\League\Flysystem\Exception $e){
@@ -1246,12 +1250,13 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
                 $tem = array(
                     'sku' => $data->code,
                     'quantity' => 0,
-                    'stock_status_id' => 9,
+                    'stock_status_id' => 6,
                     'shipping' => 1,
                     'price' => $data->price,
-                    'tax_class_id' => 9,
+                    'tax_class_id' => 0,
                     'weight' => $data->weight,
                     'weight_class_id' => 1,
+                    'length_class_id' => 1,
                     'subtract' => 1,
                     'sort_order' => 1,
                     'status' => 1,
@@ -1816,7 +1821,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
 
         $categorySpecific = Ex_category::find($category_id);
         $products = $categorySpecific->products()->where('status',1)->get();
-        $url = env('SNPORT') . "?action=proprice";
+        $url = config('app.roctech_endpoint') . "?action=proprice";
         $content = self::getContent($url);
         $content = str_replace(',}', '}', $content);
         $content = \GuzzleHttp\json_decode($content, true);
@@ -2235,7 +2240,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
         $end = Carbon::parse('2017-01-01');
         $total = 0;
         while($start->lt($end)){
-            $url = env('SNPORT') . "?action=invtotal&start=".$start->format('Y-m-d')."&end=".$start->addDay()->format('Y-m-d');
+            $url = config('app.roctech_endpoint') . "?action=invtotal&start=".$start->format('Y-m-d')."&end=".$start->addDay()->format('Y-m-d');
 
             $subtotal = floatval($this->getContent($url));
 
@@ -2432,7 +2437,7 @@ if (0 === strpos(bin2hex($data), 'efbbbf')) {
     }
 
     public function getProductAvarageCost($code){
-        $url = env('SNPORT') . "?action=test&code=$code";
+        $url = config('app.roctech_endpoint') . "?action=test&code=$code";
         $pricedetail = $this->getContent($url);
         $averageCost = 0;
         if(str_contains($pricedetail,'Average price inc')){
