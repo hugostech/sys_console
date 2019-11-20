@@ -114,7 +114,7 @@ class unilityController extends Controller
         if(Input::has('id')){
             $category = Ex_category::find(Input::get('id'));
             $category->products()->attach($product_id);
-            $code = Ex_product::find($product_id)->model;
+            $code = Ex_product::find($product_id)->sku;
             $data = self::getData($code);
             $categorys = \GuzzleHttp\json_encode(self::categorysFullPath());
             return view('killprice', compact('data','categorys'));
@@ -1243,16 +1243,15 @@ class unilityController extends Controller
 
             if (!empty(trim($data->name))) {
 
-
                 $spec = $data->spec;
                 $data->spec = str_replace('{!@!}', '"', $spec);
 
                 $tem = array(
                     'sku' => $data->code,
                     'quantity' => 0,
-                    'stock_status_id' => 6,
+                    'stock_status_id' => 9,
                     'shipping' => 1,
-                    'price' => $data->price,
+                    'price' => round($data->price*1.15,2),
                     'tax_class_id' => 0,
                     'weight' => $data->weight,
                     'weight_class_id' => 1,
@@ -1265,7 +1264,6 @@ class unilityController extends Controller
 
                 );
                 $product = Ex_product::create($tem);
-                //        dd($product);
                 self::imageCopy($data->code);
                 $product->image = 'catalog/autoEx/' . $data->code . '.jpg';
                 $product->save();
@@ -1280,22 +1278,18 @@ class unilityController extends Controller
                 $description->description = str_replace('{!@!}', '"', $data->spec);
                 $description->meta_title = $data->name;
                 $description->save();
-//                $category = new Ex_product_category();
-//                $category->product_id = $product->product_id;
-//                $category->category_id = 267;
-//                $category->save();
-                $label = Label::where('code',$product->model)->first();
+                $label = Label::where('code',$product->sku)->first();
                 if(is_null($label)){
                     $label = new Label();
-                    $label->code = $product->model;
+                    $label->code = $product->sku;
                     $label->description = $description->name;
-                    $label->price = round($product->price*1.15,2);
+                    $label->price = round($product->price,2);
                     $label->prepare2print = 1;
                     $label->save();
                 }
 
 
-                return $product->model . ' <font color="green">Insert Sucessed</font>';
+                return $product->sku . ' <font color="green">Insert Sucessed</font>';
             } else {
                 return $code . ' <font color="red">No Name</font>';
 //                return $data->model . ' <font color="red">No Name</font>';
@@ -1347,7 +1341,7 @@ class unilityController extends Controller
 
     private function imageCopy($code)
     {
-        $url = env('IMGREMOTE') . $code . '.jpg';
+        $url = config('filesystems.imageroute') . $code . '.jpg';
         if (self::imageExist($url)) {
             copy($url, "/image/catalog/autoEx/$code.jpg");
         }

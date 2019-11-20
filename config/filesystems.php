@@ -40,7 +40,7 @@ return [
     | been setup for each driver as an example of the required options.
     |
     */
-
+    'imageroute' => 'http://roctech.co.nz/pi/',
     'disks' => [
 
         'local' => [
