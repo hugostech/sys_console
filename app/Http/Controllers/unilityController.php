@@ -17,6 +17,7 @@ use App\Ex_product_attribute;
 use App\Ex_product_category;
 use App\Ex_product_description;
 use App\Ex_product_related;
+use App\Ex_product_stock;
 use App\Ex_product_store;
 use App\Ex_speceal;
 use App\Ex_stock_status;
@@ -1278,6 +1279,14 @@ class unilityController extends Controller
                 $description->description = str_replace('{!@!}', '"', $data->spec);
                 $description->meta_title = $data->name;
                 $description->save();
+                Ex_product_stock::create([
+                    'product_id'=>$product->product_id,
+                    'branch_akl'=>0,
+                    'warning_akl'=>0,
+                    'branch_wlg'=>0,
+                    'warning_wlg'=>0,
+                    'supplier'=>0
+                ]);
                 $label = Label::where('code',$product->sku)->first();
                 if(is_null($label)){
                     $label = new Label();
