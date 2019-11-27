@@ -776,7 +776,7 @@ class unilityController extends Controller
     /* grab sync qty array end*/
     /*daily sync quantity*/
 
-    public function dailySync()
+    /*public function dailySync()
     {
         Mail::raw('Extremepc Is Sync with Roctech. Status: Running '.Carbon::now(), function ($message) {
             $message->from('sales@extremepc.co.nz');
@@ -809,6 +809,22 @@ class unilityController extends Controller
             });
             echo $e->getMessage();
         }
+
+    }*/
+
+
+    public function dailySync()
+    {
+       
+        try{        
+
+            $result = self::syncQuantity();
+        }
+        catch (\Exception $e){
+            
+            echo $e->getMessage();
+        }
+     
 
     }
     private function specialCheck(){
@@ -966,7 +982,7 @@ class unilityController extends Controller
         $content = 'Last sync is at' . date(' jS \of F Y h:i:s A');
         return view('self_sync', compact('content', 'unsync', 'disable', 'total_enable', 'total_disable'));
     }*/
-    public function syncQuantity()
+    /*public function syncQuantity()
     {
         $products = Ex_product::all();
         $roctech_array = self::syncqty();
@@ -988,6 +1004,81 @@ class unilityController extends Controller
                 $product->save();
             } else {
                 $unsync[] = $product->model;
+            }
+
+        }*/
+
+    /*public function syncQuantity()
+    {
+        $products = Ex_product::all();
+        $roctech_array = self::syncqty();
+        $unsync = array();
+        $disable = array();
+//        dd($roctech_array);
+        foreach ($products as $product) {
+            if (isset($roctech_array[$product->sku])) {
+//               
+                if ($roctech_array[$product->sku][0] == 'True') {
+                    $product->status = 0;
+                    $disable[] = $product->sku;
+                } else {
+                    $product->quantity = $roctech_array[$product->sku][1];
+                    $product->branch_akl = $roctech_array[$product->sku][2];    //EAN used for Auckland stock detail
+                    $product->branch_wlg = $roctech_array[$product->sku][3]; //JAN used for Wellington stock detail
+                    $product->status = 1;
+                }
+                $product->save();
+            } else {
+                $unsync[] = $product->sku;
+            }
+
+        }
+
+        self::checkEta($roctech_array);
+
+        $total_enable = count(Ex_product::where('status', 1)->get());
+        $total_disable = count(Ex_product::where('status', 0)->get());
+
+        $content = 'Last sync is at' . date(' jS \of F Y h:i:s A');
+        return view('self_sync', compact('content', 'unsync', 'disable', 'total_enable', 'total_disable'));
+    }*/
+
+
+    public function syncQuantity()
+    {
+        $products = Ex_product::all();
+       // $products_stock = Ex_product_stock::all();
+        $roctech_array = self::syncqty();
+        $unsync = array();
+        $disable = array();
+//        dd($roctech_array);
+        foreach ($products as $product) {
+            if (isset($roctech_array[$product->sku])) {
+//               
+                if ($roctech_array[$product->sku][0] == 'True') {
+                    $product->status = 0;
+                    $disable[] = $product->sku;
+                } else {
+                    $product->quantity = $roctech_array[$product->sku][1];
+                    $product->status = 1;
+
+                    $stock = Ex_product_stock::find($product->product_id);
+                    $stock->branch_akl =  $roctech_array[$product->sku][2]; 
+                    $stock->branch_wlg =  $roctech_array[$product->sku][3]; 
+                    $stock->save();
+
+                    /*Ex_product_stock::update([
+                    'product_id'=>$product->product_id,
+                    'branch_akl'=>$roctech_array[$product->sku][2],                    
+                    'branch_wlg'=>$roctech_array[$product->sku][3],                    
+                ]);*/
+                    //$products->branch_akl = $roctech_array[$product->sku][2];    //EAN used for Auckland stock detail
+                   // $products->branch_wlg = $roctech_array[$product->sku][3]; //JAN used for Wellington stock detail
+                   
+                }
+                $product->save();
+            } else {
+                $unsync[] = $product->sku;
             }
 
         }
@@ -1068,22 +1159,19 @@ class unilityController extends Controller
 
     public function createRoctechOrder($id)
     {
-
         $clientid = self::addNewClient($id);
-
         if (trim($clientid) == 'Error') {
             $clientid = 0;
         }
 
         $roctech_order_id = self::addOrder($id, $clientid);
-
         if (trim($roctech_order_id) == 'Error') {
             echo 'Error';
             return false;
         }
         self::insertOrderItem($id, $roctech_order_id);
-
         return redirect(config('app.roctech_admin')."/olist.aspx?r=&id=$roctech_order_id");
+
 
     }
 
@@ -1131,8 +1219,6 @@ class unilityController extends Controller
         $url = config('app.roctech_endpoint') . "?action=createorder";
 
         $order = Ex_order::find($id);
-
-
         $phone = $order->telephone;
         $company = isset($order->shipping_company)?addslashes($order->shipping_company):" ";
         $address1 = addslashes($order->shipping_address_1);
@@ -1142,10 +1228,11 @@ class unilityController extends Controller
         $comment = str_replace("'","^",$order->comment);
         $ship_status = $order->shipping_method == 'Free Shipping' ? 1 : 0;
         $ship_fee = $order->shipfee();
+ dd($address2);
         $ship_postcode = $order->shipping_postcode;
         $ship_name = addslashes($order->shipping_firstname.' '.$order->shipping_lastname);
         $data = compact('phone', 'company', 'address1', 'address2', 'city',
-            'orderid', 'ship_status', 'clientId', 'comment','ship_fee','ship_postcode','ship_name');
+           'orderid', 'ship_status', 'clientId', 'comment','ship_fee','ship_postcode','ship_name');
         return self::sendData($url, $data);
     }
 

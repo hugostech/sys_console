@@ -14,4 +14,6 @@ class Ex_product_stock extends Model
     );
     public $timestamps = false;
 
+   
+
 }
