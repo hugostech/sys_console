@@ -120,7 +120,8 @@ return [
     | this array to grant expanded functionality to your applications.
     |
     */
-    'roctech_endpoint' => 'http://roctech.co.nz/admin/snport.aspx',
+    'roctech_endpoint' => getenv('ROCTECH_REMOTE').'/admin/snport.aspx',
+    'roctech_admin' => getenv('ROCTECH_REMOTE').'/admin',
 
     'providers' => [
 

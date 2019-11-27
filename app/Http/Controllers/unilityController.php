@@ -1068,7 +1068,9 @@ class unilityController extends Controller
 
     public function createRoctechOrder($id)
     {
+
         $clientid = self::addNewClient($id);
+
         if (trim($clientid) == 'Error') {
             $clientid = 0;
         }
@@ -1080,8 +1082,8 @@ class unilityController extends Controller
             return false;
         }
         self::insertOrderItem($id, $roctech_order_id);
-        return redirect("http://192.168.1.3/admin/olist.aspx?r=&id=$roctech_order_id");
 
+        return redirect(config('app.roctech_admin')."/olist.aspx?r=&id=$roctech_order_id");
 
     }
 
@@ -1144,7 +1146,6 @@ class unilityController extends Controller
         $ship_name = addslashes($order->shipping_firstname.' '.$order->shipping_lastname);
         $data = compact('phone', 'company', 'address1', 'address2', 'city',
             'orderid', 'ship_status', 'clientId', 'comment','ship_fee','ship_postcode','ship_name');
-//        dd($data);
         return self::sendData($url, $data);
     }
 
@@ -1158,10 +1159,10 @@ class unilityController extends Controller
         $order_id = $roctech_id;
         $items = $order->items;
         foreach ($items as $item) {
-            $model = $item->model;
+            $model = $item->sku;
             $quantity = $item->quantity;
             $name = addslashes($item->name);
-            $price_ex = $item->price;
+            $price_ex = round($item->price/1.15,4);
             $data = compact('order_id', 'model', 'quantity', 'name', 'price_ex', 'data');
             self::sendData($url, $data);
         }
