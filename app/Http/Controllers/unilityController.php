@@ -1163,7 +1163,7 @@ class unilityController extends Controller
         if (trim($clientid) == 'Error') {
             $clientid = 0;
         }
-
+//        dd($clientid);
         $roctech_order_id = self::addOrder($id, $clientid);
         if (trim($roctech_order_id) == 'Error') {
             echo 'Error';
@@ -1220,16 +1220,17 @@ class unilityController extends Controller
 
         $order = Ex_order::find($id);
         $phone = $order->telephone;
-        $company = isset($order->shipping_company)?addslashes($order->shipping_company):" ";
-        $address1 = addslashes($order->shipping_address_1);
-        $address2 = addslashes($order->shipping_address_2);
-        $city = addslashes($order->shipping_city) . ' ' . addslashes($order->shipping_zone);
+        $prefix = $order->shipping_address_1?'shipping':'payment';
+        $company = isset($order->{$prefix.'_company'})?addslashes($order->{$prefix.'_company'}):" ";
+        $address1 = addslashes($order->{$prefix.'_address_1'});
+        $address2 = addslashes($order->{$prefix.'_address_2'});
+        $city = addslashes($order->{$prefix.'_city'}) . ' ' . addslashes($order->{$prefix.'_zone'});
         $orderid = '#' . $id;
         $comment = str_replace("'","^",$order->comment);
         $ship_status = $order->shipping_method == 'Free Shipping' ? 1 : 0;
         $ship_fee = $order->shipfee();
-        $ship_postcode = $order->shipping_postcode;
-        $ship_name = addslashes($order->shipping_firstname.' '.$order->shipping_lastname);
+        $ship_postcode = $order->{$prefix.'_postcode'};
+        $ship_name = addslashes($order->{$prefix.'_firstname'}.' '.$order->{$prefix.'_lastname'});
         $data = compact('phone', 'company', 'address1', 'address2', 'city',
            'orderid', 'ship_status', 'clientId', 'comment','ship_fee','ship_postcode','ship_name');
         return self::sendData($url, $data);
