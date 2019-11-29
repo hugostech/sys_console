@@ -1160,10 +1160,11 @@ class unilityController extends Controller
     public function createRoctechOrder($id)
     {
         $clientid = self::addNewClient($id);
+
         if (trim($clientid) == 'Error') {
             $clientid = 0;
         }
-//        dd($clientid);
+
         $roctech_order_id = self::addOrder($id, $clientid);
         if (trim($roctech_order_id) == 'Error') {
             echo 'Error';
@@ -1233,6 +1234,7 @@ class unilityController extends Controller
         $ship_name = addslashes($order->{$prefix.'_firstname'}.' '.$order->{$prefix.'_lastname'});
         $data = compact('phone', 'company', 'address1', 'address2', 'city',
            'orderid', 'ship_status', 'clientId', 'comment','ship_fee','ship_postcode','ship_name');
+        dd($data);
         return self::sendData($url, $data);
     }
 
