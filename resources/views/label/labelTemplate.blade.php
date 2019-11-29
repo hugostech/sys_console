@@ -37,9 +37,9 @@
                             {{Form::input('number','price',$label->price,['class'=>'form-control','step'=>0.01])}}
                         </div>
                         <div class="form-group">
-                            Origin price:<label class="text-info"> {{round($product->price*1.15,2)}}</label><br>
+                            Origin price:<label class="text-info"> {{$product->price}}</label><br>
                             @if(!is_null($special))
-                                Special price:<label class="text-danger"> {{round($special->price*1.15,2)}}</label>
+                                Special price:<label class="text-danger"> {{$special->price}}</label>
                             @endif
                         </div>
                         <div class="form-group">
@@ -197,9 +197,9 @@
                             {{Form::input('number','price',$label->price,['class'=>'form-control','step'=>0.01])}}
                         </div>
                         <div class="form-group">
-                            Origin price:<label class="text-info"> {{round($product->price*1.15,2)}}</label><br>
+                            Origin price:<label class="text-info"> {{$product->price}}</label><br>
                             @if(!is_null($special))
-                                Special price:<label class="text-danger"> {{round($special->price*1.15,2)}}</label>
+                                Special price:<label class="text-danger"> {{round($special->price,2)}}</label>
                             @endif
                         </div>
                         <div class="form-group">
