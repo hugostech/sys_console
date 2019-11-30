@@ -1234,7 +1234,6 @@ class unilityController extends Controller
         $ship_name = addslashes($order->{$prefix.'_firstname'}.' '.$order->{$prefix.'_lastname'});
         $data = compact('phone', 'company', 'address1', 'address2', 'city',
            'orderid', 'ship_status', 'clientId', 'comment','ship_fee','ship_postcode','ship_name');
-        dd($data);
         return self::sendData($url, $data);
     }
 
