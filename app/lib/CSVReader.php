@@ -9,6 +9,7 @@
 namespace backend;
 
 
+use App\Ex_product;
 use App\Ex_product_csv;
 use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
 use Illuminate\Support\Facades\DB;
@@ -22,6 +23,20 @@ class CSVReader
     private $id;
 
     private $mapping;
+
+    private $productRaw;
+
+    /**
+     * @param mixed $productRaw
+     */
+    public function setProductRaw($productRaw)
+    {
+
+        array_walk($productRaw, function(&$value){
+            $value = strtolower(str_replace(' ', '', trim(html_entity_decode($value))));
+        });
+        $this->productRaw = array_flip($productRaw);
+    }
 
     /**
      * @param mixed $mapping
@@ -85,10 +100,13 @@ class CSVReader
 
             ini_set('memory_limit', -1);
 
+            $this->setProductRaw(Ex_product::whereNotNull('model')->pluck('model', 'product_id')->all());
+
+
             $reader = ReaderEntityFactory::createCSVReader();
 
             $file = storage_path('csv/'.$this->format[$this->id][1]);
-            rename($file, $file.'.processing');
+            copy($file, $file.'.processing');
 
             $reader->open($file.'.processing');
 
@@ -111,7 +129,6 @@ class CSVReader
 
             $reader->close();
 
-            print_r(count($data));
             unset($data[0]);
             DB::connection('extremepc_mysql')->disableQueryLog();
             Ex_product_csv::insert($data);
@@ -125,9 +142,12 @@ class CSVReader
     }
 
     private function dataTransformer($cells){
+        $model = $cells[$this->mapping['model']]->getValue();
+        $model_clean = strtolower(str_replace(' ', '', trim(html_entity_decode($model))));
         return [
+            'product_id' => isset($this->productRaw[$model_clean])?$this->productRaw[$model_clean]:-1,
             'supplier' => $this->id,
-            'model' => $cells[$this->mapping['model']]->getValue(),
+            'model' => $model,
             'stock' => $cells[$this->mapping['stock']]->getValue(),
             'price' => $cells[$this->mapping['price']]->getValue(),
 //            'name' => $cells[$this->mapping['name']].' '.$cells[$this->mapping['mpn']],
