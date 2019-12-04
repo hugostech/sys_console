@@ -1350,8 +1350,6 @@ class unilityController extends Controller
                     'sort_order' => 1,
                     'status' => 1,
                     'date_added' => Carbon::now()
-
-
                 );
                 $product = Ex_product::create($tem);
                 self::imageCopy($data->code);

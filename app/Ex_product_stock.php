@@ -14,6 +14,10 @@ class Ex_product_stock extends Model
     );
     public $timestamps = false;
 
+    public function product(){
+        return $this->belongsTo(Ex_product::class, 'product_id', 'product_id');
+    }
+
    
 
 }

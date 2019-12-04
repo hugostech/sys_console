@@ -49,5 +49,9 @@ class Ex_product extends Model
         return $this->hasMany('App\Ex_product_csv','product_id');
     }
 
+    public function stock(){
+        return $this->hasOne(Ex_product_stock::class, 'product_id', 'product_id');
+    }
+
    
 }

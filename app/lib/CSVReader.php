@@ -11,6 +11,7 @@ namespace backend;
 
 use App\Ex_product;
 use App\Ex_product_csv;
+use App\Jobs\CreateProdcut;
 use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -118,6 +119,10 @@ class CSVReader
 
                         if ($this->dataVerification($rowData)){
                             $data[] = $rowData;
+                            if ($rowData['product_id'] == -1){
+                                dispatch(new CreateProdcut($this->newProductFactory($rowData)));
+                                break;
+                            }
                         }
 
                     }catch (\Exception $e){
@@ -130,8 +135,8 @@ class CSVReader
             $reader->close();
 
             unset($data[0]);
-            DB::connection('extremepc_mysql')->disableQueryLog();
-            Ex_product_csv::insert($data);
+//            DB::connection('extremepc_mysql')->disableQueryLog();
+//            Ex_product_csv::insert($data);
 
             unlink($file.'.processing');
 
@@ -150,7 +155,7 @@ class CSVReader
             'model' => $model,
             'stock' => $cells[$this->mapping['stock']]->getValue(),
             'price' => $cells[$this->mapping['price']]->getValue(),
-//            'name' => $cells[$this->mapping['name']].' '.$cells[$this->mapping['mpn']],
+            'name' => $cells[$this->mapping['name']].' '.$model,
             'supplier_code' => $cells[$this->mapping['supplier_code']]->getValue(),
         ];
     }
@@ -165,6 +170,36 @@ class CSVReader
 
     private function clearOldRecords(){
         Ex_product_csv::where('supplier', $this->id)->delete();
+    }
+
+    private function newProductFactory($rawData){
+        return [
+            'model' => $rawData['model'],
+            'price' => $this->priceTransformer($rawData['price']),
+            'name' => $rawData['name'],
+        ];
+    }
+
+    private function priceTransformer($price){
+        switch ($this->id)
+        {
+            default:
+                if ($price <= 20){
+                    $priceTransformed = ($price+5) * 1.2;
+                }elseif ($price <= 100){
+                    $priceTransformed = $price * 1.15;
+                }elseif ($price <= 500){
+                    $priceTransformed = $price * 1.1;
+                }elseif ($price <= 1000){
+                    $priceTransformed = $price * 1.08;
+                }elseif ($price <= 2000){
+                    $priceTransformed = $price * 1.06;
+                }else{
+                    $priceTransformed = $price * 1.05;
+                }
+                return ceil($priceTransformed*1.15);
+        }
+
     }
 
 }
