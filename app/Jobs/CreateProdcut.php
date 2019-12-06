@@ -31,8 +31,8 @@ class CreateProdcut extends Job implements ShouldQueue
      */
     public function handle()
     {
-        Log::info($this->data);
-        Product::create($this->data);
+        $product = Product::create($this->data);
+        $product->associateCsv();
 
     }
 }

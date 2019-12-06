@@ -118,10 +118,11 @@ class CSVReader
                         $rowData = $this->dataTransformer($row->getCells());
 
                         if ($this->dataVerification($rowData)){
-                            $data[] = $rowData;
+                            $data[] = array_filter($rowData, function($k){
+                                return in_array($k, [ 'supplier_code','price','stock','model','supplier', 'product_id']);
+                            }, 2);
                             if ($rowData['product_id'] == -1){
                                 dispatch(new CreateProdcut($this->newProductFactory($rowData)));
-                                break;
                             }
                         }
 
@@ -135,8 +136,8 @@ class CSVReader
             $reader->close();
 
             unset($data[0]);
-//            DB::connection('extremepc_mysql')->disableQueryLog();
-//            Ex_product_csv::insert($data);
+            DB::connection('extremepc_mysql')->disableQueryLog();
+            Ex_product_csv::insert($data);
 
             unlink($file.'.processing');
 

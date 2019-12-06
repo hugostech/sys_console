@@ -10,15 +10,20 @@ namespace backend;
 
 
 use App\Ex_product;
+use App\Ex_product_csv;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class Product
 {
+    const MORECATORY=957;
+    const STORE=0;
     private $product;
     private $description;
     private $stock;
     private $special;
+    private $store;
+    private $category;
 
     private function __construct(Ex_product $product)
     {
@@ -42,7 +47,7 @@ class Product
             DB::beginTransaction();
             $product = Ex_product::create([
                 'sku' => isset($data['sku'])?$data['sku']:'',
-                'model' => isset($data['model'])?$data['model']:null,
+                'mpn' => isset($data['model'])?$data['model']:null,
                 'quantity' => isset($data['quantity'])?$data['quantity']:0,
                 'stock_status_id' => 9,
                 'shipping' => 1,
@@ -71,6 +76,12 @@ class Product
                 'warning_wlg'=>0,
                 'supplier'=>0
             ]);
+
+            $product->store()->create([
+                'store_id'=>self::STORE,
+            ]);
+
+
             DB::commit();
             return new self($product);
         }catch (\Exception $e){
@@ -93,6 +104,12 @@ class Product
             'supplier' => $quantity
         ]);
         return $this;
+    }
+
+    public function associateCsv(){
+        if (!empty($this->product->mpn)){
+            Ex_product_csv::where('product_id', -1)->where('model',$this->product->mpn)->update(['product_id'=>$this->product->product_id]);
+        }
     }
 
 

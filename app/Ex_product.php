@@ -11,7 +11,7 @@ class Ex_product extends Model
     protected $primaryKey = 'product_id';
     protected $fillable = array(
         'sku', 'quantity', 'stock_status_id', 'shipping', 'price',
-        'tax_class_id', 'weight', 'weight_class_id', 'subtract', 'sort_order', 'status','date_added','mpn'
+        'tax_class_id', 'weight', 'weight_class_id', 'subtract', 'sort_order', 'status','date_added','mpn', 'model'
     );
     public $timestamps = false;
 
@@ -51,6 +51,10 @@ class Ex_product extends Model
 
     public function stock(){
         return $this->hasOne(Ex_product_stock::class, 'product_id', 'product_id');
+    }
+
+    public function store(){
+        return $this->hasMany(Ex_product_store::class, 'product_id', 'product_id');
     }
 
    
