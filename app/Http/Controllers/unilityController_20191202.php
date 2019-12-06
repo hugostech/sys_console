@@ -1051,7 +1051,7 @@ class unilityController extends Controller
         $roctech_array = self::syncqty();
         $unsync = array();
         $disable = array();
-       
+//        dd($roctech_array);
         foreach ($products as $product) {
             if (isset($roctech_array[$product->sku])) {
 //               
@@ -1062,20 +1062,19 @@ class unilityController extends Controller
                     $product->quantity = $roctech_array[$product->sku][1];
                     $product->status = 1;
 
-                    //$stock = Ex_product_stock::where('product_id',$product->product_id)->get();
-                    //$stock = Ex_product_stock::find($product->product_id);
-                    //echo $stock;
+                    $stock = Ex_product_stock::find($product->product_id);
+                    $stock->branch_akl =  $roctech_array[$product->sku][2]; 
+                    $stock->branch_wlg =  $roctech_array[$product->sku][3]; 
+                    $stock->save();
 
-                    //$stock->branch_akl =  $roctech_array[$product->sku][2]; 
-                   // $stock->branch_wlg =  $roctech_array[$product->sku][3]; 
-                    //$stock->save();
-
-                    Ex_product_stock::where('product_id', $product->product_id)->update([ 
+                    /*Ex_product_stock::update([
+                    'product_id'=>$product->product_id,
                     'branch_akl'=>$roctech_array[$product->sku][2],                    
-                    'branch_wlg'=>$roctech_array[$product->sku][3]
-                ]);
-
-                                       
+                    'branch_wlg'=>$roctech_array[$product->sku][3],                    
+                ]);*/
+                    //$products->branch_akl = $roctech_array[$product->sku][2];    //EAN used for Auckland stock detail
+                   // $products->branch_wlg = $roctech_array[$product->sku][3]; //JAN used for Wellington stock detail
+                   
                 }
                 $product->save();
             } else {
