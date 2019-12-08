@@ -59,7 +59,13 @@ class CSVReader
     {
         // format: ['id'=>['name', 'filename', [mapping info]]]
         $this->format = [
-            'pb' => ['PB', "PB Price List_ROS0179.csv", []],
+            'pb' => ['PB', "PB Price List_ROS0179.csv", [
+                'model'=>1,
+                'stock'=>3,
+                'price'=>4,
+                'name'=>2,
+                'supplier_code' =>0
+            ]],
             'im' => ['Ingram micro', "141970.CSV", [
                 'model'=>2,
                 'stock'=>7,
@@ -67,18 +73,78 @@ class CSVReader
                 'name'=>1,
                 'supplier_code' =>0
             ]],
-            'aw'=>['Anywhere', 'AnywareNZ price list 3.csv'],
-            'do'=>['Dove', "dealerpricelist.csv"],
-            'sy'=>['Synnex', 'ROC_synnex_nz.csv'],
-            'cd'=>['Computer Dynamics', 'CDL daily Pricefile.csv'],
-            'snap'=>['Snapper Network', "snappernet2.csv"],
+            'aw'=>['Anywhere', 'AnywareNZ price list 3.csv', [
+                'model'=>6,
+                'stock'=>3,
+                'price'=>4,
+                'name'=>1,
+                'supplier_code' =>0
+            ]],
+            'do'=>['Dove', "dealerpricelist.csv",[
+                'model'=>1,
+                'stock'=>5,
+                'price'=>4,
+                'name'=>2,
+                'supplier_code' =>3
+            ]],
+            'sy'=>['Synnex', 'ROC_synnex_nz.csv', [
+                'model'=>3,
+                'stock'=>11,
+                'price'=>7,
+                'name'=>4,
+                'supplier_code' =>1
+            ]],
+            'cd'=>['Computer Dynamics', 'cdl roctec.csv', [
+                'model'=>1,
+                'stock'=>10,
+                'price'=>8,
+                'name'=>2,
+                'supplier_code' =>0
+            ]],
+            'snap'=>['Snapper Network', "snappernet2.csv", [
+                'model'=>0,
+                'stock'=>9,
+                'price'=>6,
+                'name'=>4,
+                'supplier_code' =>0
+            ]],
 //            'dj'=>['DJI', null, []],
-            'ex'=>['RTEP', "RTEP.csv"],
-            'wc'=>['Westcom', "0001037946.csv"],
-            'gw'=>['Go Wireless NZ', 'pricelist.csv'],
-            'dd'=>['Dicker DATA', "datafeed.csv"],
+            'ex'=>['RTEP', "RTEP.csv", [
+                'model'=>1,
+                'stock'=>6,
+                'price'=>3,
+                'name'=>7,
+                'supplier_code' =>0
+            ]],
+            'wc'=>['Westcom', "0001037946.csv", [
+                'model'=>1,
+                'stock'=>8,
+                'price'=>7,
+                'name'=>2,
+                'supplier_code' =>1
+            ]],
+            'gw'=>['Go Wireless NZ', 'pricelist.csv', [
+                'model'=>0,
+                'stock'=>9,
+                'price'=>5,
+                'name'=>3,
+                'supplier_code' =>2
+            ]],
+            'dd'=>['Dicker DATA', "datafeed.csv", [
+                'model'=>0,
+                'stock'=>9,
+                'price'=>8,
+                'name'=>3,
+                'supplier_code' =>0
+            ]],
             'ts'=>['TechStar', "Item List (Summary).csv"],
-            'ag'=>['Atlas Gentech', '09072019.csv']
+            'ag'=>['Atlas Gentech', '09072019.csv', [
+                'model'=>0,
+                'stock'=>4,
+                'price'=>3,
+                'name'=>2,
+                'supplier_code' =>1
+            ]]
         ];
     }
 
@@ -94,7 +160,7 @@ class CSVReader
         return null;
     }
 
-    public function process(){
+    public function process($leaveCsvCopy=true){
 
         if (isset($this->id)){
             $this->clearOldRecords();
@@ -107,7 +173,12 @@ class CSVReader
             $reader = ReaderEntityFactory::createCSVReader();
 
             $file = storage_path('csv/'.$this->format[$this->id][1]);
-            copy($file, $file.'.processing');
+            if ($leaveCsvCopy){
+                copy($file, $file.'.processing');
+
+            }else{
+                rename($file, $file.'.processing');
+            }
 
             $reader->open($file.'.processing');
 
@@ -122,7 +193,7 @@ class CSVReader
                                 return in_array($k, [ 'supplier_code','price','stock','model','supplier', 'product_id']);
                             }, 2);
                             if ($rowData['product_id'] == -1){
-                                dispatch(new CreateProdcut($this->newProductFactory($rowData)));
+                                dispatch((new CreateProdcut($this->newProductFactory($rowData)))->delay(60*3));
                             }
                         }
 
@@ -134,13 +205,9 @@ class CSVReader
             }
 
             $reader->close();
-
-            unset($data[0]);
             DB::connection('extremepc_mysql')->disableQueryLog();
             Ex_product_csv::insert($data);
-
             unlink($file.'.processing');
-
             return true;
         }else{
             return false;
@@ -162,7 +229,7 @@ class CSVReader
     }
 
     private function dataVerification($row){
-        if ($row['stock'] < 1){
+        if (!is_numeric($row['stock']) || $row['stock'] < 1){
             return false;
         }
 

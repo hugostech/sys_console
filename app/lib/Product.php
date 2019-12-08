@@ -13,6 +13,7 @@ use App\Ex_product;
 use App\Ex_product_csv;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use phpDocumentor\Reflection\Types\Self_;
 
 class Product
 {
@@ -23,14 +24,14 @@ class Product
     private $stock;
     private $special;
     private $store;
-    private $category;
 
-    private function __construct(Ex_product $product)
+    public function __construct(Ex_product $product)
     {
         $this->product = $product;
         $this->description = $product->description;
         $this->stock = $product->stock;
         $this->special = $product->special;
+        $this->store = $product->store;
     }
 
     public static function find($product_id){
@@ -80,7 +81,7 @@ class Product
             $product->store()->create([
                 'store_id'=>self::STORE,
             ]);
-
+            $product->categorys()->attach(self::MORECATORY);
 
             DB::commit();
             return new self($product);
@@ -111,6 +112,18 @@ class Product
             Ex_product_csv::where('product_id', -1)->where('model',$this->product->mpn)->update(['product_id'=>$this->product->product_id]);
         }
     }
+
+    public function updateStock(){
+        $this->stock->update(['supplier'=>$this->product->csvs()->sum('stock')]);
+    }
+
+    // to do add column in csv table called price_to_sell
+    public function updatePrice(){
+        $this->product->update([
+            'price' => $this->product->csvs()->min('price')
+        ]);
+    }
+
 
 
 }
