@@ -10,6 +10,6 @@ class Ex_product_csv extends Model
     protected $table = 'oc_product_csv';
     public $timestamps = false;
     protected $fillable = array(
-        'supplier_code','price','stock','model','supplier', 'product_id'
+        'supplier_code','price','stock','model','supplier', 'product_id', 'price_to_sell'
     );
 }

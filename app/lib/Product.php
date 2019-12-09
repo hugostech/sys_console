@@ -124,6 +124,8 @@ class Product
         ]);
     }
 
-
+    public function getProductId(){
+        return $this->product->product_id;
+    }
 
 }

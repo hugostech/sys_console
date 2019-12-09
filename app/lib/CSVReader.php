@@ -73,7 +73,7 @@ class CSVReader
                 'name'=>1,
                 'supplier_code' =>0
             ]],
-            'aw'=>['Anywhere', 'AnywareNZ price list 3.csv', [
+            'aw'=>['Anywhere', 'AnywareNZ price list  3.csv', [
                 'model'=>6,
                 'stock'=>3,
                 'price'=>4,
@@ -167,7 +167,7 @@ class CSVReader
 
             ini_set('memory_limit', -1);
 
-            $this->setProductRaw(Ex_product::whereNotNull('model')->pluck('model', 'product_id')->all());
+            $this->setProductRaw(Ex_product::whereNotNull('mpn')->pluck('mpn', 'product_id')->all());
 
 
             $reader = ReaderEntityFactory::createCSVReader();
@@ -189,12 +189,14 @@ class CSVReader
                         $rowData = $this->dataTransformer($row->getCells());
 
                         if ($this->dataVerification($rowData)){
-                            $data[] = array_filter($rowData, function($k){
-                                return in_array($k, [ 'supplier_code','price','stock','model','supplier', 'product_id']);
-                            }, 2);
                             if ($rowData['product_id'] == -1){
-                                dispatch((new CreateProdcut($this->newProductFactory($rowData)))->delay(60*3));
+                                $product = Product::create($this->newProductTransformer($rowData));
+                                $rowData['product_id'] = $product->getProductId();
                             }
+                            $data[] = array_filter($rowData, function($k){
+                                return in_array($k, [ 'supplier_code','price','stock','model','supplier', 'product_id', 'price_to_sell']);
+                            }, 2);
+
                         }
 
                     }catch (\Exception $e){
@@ -216,13 +218,15 @@ class CSVReader
 
     private function dataTransformer($cells){
         $model = $cells[$this->mapping['model']]->getValue();
+        $price = $cells[$this->mapping['price']]->getValue();
         $model_clean = strtolower(str_replace(' ', '', trim(html_entity_decode($model))));
         return [
             'product_id' => isset($this->productRaw[$model_clean])?$this->productRaw[$model_clean]:-1,
             'supplier' => $this->id,
             'model' => $model,
             'stock' => $cells[$this->mapping['stock']]->getValue(),
-            'price' => $cells[$this->mapping['price']]->getValue(),
+            'price' => $price,
+            'price_to_sell' => $this->priceTransformer($price),
             'name' => $cells[$this->mapping['name']].' '.$model,
             'supplier_code' => $cells[$this->mapping['supplier_code']]->getValue(),
         ];
@@ -240,10 +244,10 @@ class CSVReader
         Ex_product_csv::where('supplier', $this->id)->delete();
     }
 
-    private function newProductFactory($rawData){
+    private function newProductTransformer($rawData){
         return [
             'model' => $rawData['model'],
-            'price' => $this->priceTransformer($rawData['price']),
+            'price' => $rawData['price_to_sell'],
             'name' => $rawData['name'],
         ];
     }
