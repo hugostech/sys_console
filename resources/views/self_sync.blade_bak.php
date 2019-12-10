@@ -48,7 +48,7 @@
         </thead>
     </table>
 </div>
-<!--<iframe src="{{url('royalpoint/run')}}"></iframe>-->
+<iframe src="{{url('royalpoint/run')}}"></iframe>
 
 <script language="JavaScript">
     /*function myrefresh(){
@@ -81,14 +81,15 @@ function setRegular(targetHour, targetMinutes){
  
   setTimeout(Sync, timeInterval * 1000);
 
-   // document.write (nowSeconds+"<br>");
-    //document.write (targetSeconds+"<br>");
+    document.write (nowSeconds+"<br>");
+    document.write (targetSeconds+"<br>");
 
 }
  
 function Sync(){
   window.location.reload();  
   setTimeout(Sync, 24*3600 * 1000);//之后每天调用一次
+  //setTimeout(Sync, 60 * 1000);//之后每分钟调用一次
 }
 
 

@@ -775,8 +775,8 @@ class unilityController extends Controller
     }
     /* grab sync qty array end*/
     /*daily sync quantity*/
-
-    /*public function dailySync()
+/*
+    public function dailySync()
     {
         Mail::raw('Extremepc Is Sync with Roctech. Status: Running '.Carbon::now(), function ($message) {
             $message->from('sales@extremepc.co.nz');
@@ -784,7 +784,7 @@ class unilityController extends Controller
             $message->subject('Extremepc Sync Job start running '.Carbon::now());
         });
         try{
-            self::checkOrder();
+            //self::checkOrder();
             self::categoryarrange();
 
 //        self::listnewclient();
@@ -810,15 +810,17 @@ class unilityController extends Controller
             echo $e->getMessage();
         }
 
-    }*/
-
+    }
+*/
 
     public function dailySync()
     {
        
         try{        
+            self::changeOrderStatus();
 
             $result = self::syncQuantity();
+            return $result;
         }
         catch (\Exception $e){
             
@@ -827,6 +829,7 @@ class unilityController extends Controller
      
 
     }
+
     private function specialCheck(){
         $specials = Ex_speceal::all();
         foreach($specials as $item){
@@ -1053,35 +1056,23 @@ class unilityController extends Controller
         $disable = array();
        
         foreach ($products as $product) {
-            if (isset($roctech_array[$product->sku])) {
-//               
+            if (isset($roctech_array[$product->sku])) {             
                 if ($roctech_array[$product->sku][0] == 'True') {
                     $product->status = 0;
                     $disable[] = $product->sku;
                 } else {
                     $product->quantity = $roctech_array[$product->sku][1];
-                    $product->status = 1;
-
-                    //$stock = Ex_product_stock::where('product_id',$product->product_id)->get();
-                    //$stock = Ex_product_stock::find($product->product_id);
-                    //echo $stock;
-
-                    //$stock->branch_akl =  $roctech_array[$product->sku][2]; 
-                   // $stock->branch_wlg =  $roctech_array[$product->sku][3]; 
-                    //$stock->save();
+                    $product->status = 1;                   
 
                     Ex_product_stock::where('product_id', $product->product_id)->update([ 
                     'branch_akl'=>$roctech_array[$product->sku][2],                    
                     'branch_wlg'=>$roctech_array[$product->sku][3]
-                ]);
-
-                                       
+                ]);                                       
                 }
                 $product->save();
             } else {
                 $unsync[] = $product->sku;
             }
-
         }
 
         self::checkEta($roctech_array);
@@ -1104,7 +1095,6 @@ class unilityController extends Controller
                 }
             }
 
-
             $date = Carbon::parse($eta->available_time);
             if($date->lte(Carbon::now())){
 
@@ -1122,12 +1112,10 @@ class unilityController extends Controller
                 $products = Ex_product::where('model',$eta->model)->get();
                 if(count($products)>0){
 
-
                     foreach($products as $product){
                         $product->stock_status_id = $stock_status->stock_status_id;
                         $product->save();
                     }
-
 
                     $eta->available_time = $date;
                     $eta->save();
@@ -1137,13 +1125,8 @@ class unilityController extends Controller
                         $m->bcc('tony@extremepc.co.nz', 'Tony Situ');
                         $m->to('sales@extremepc.co.nz', 'Roctech')->subject('ETA Reminder!');
                     });
-
-
                 }
-
             }
-
-
         }
     }
 
@@ -1157,6 +1140,7 @@ class unilityController extends Controller
 
         return $content;
     }
+
 
     public function createRoctechOrder($id)
     {
@@ -1208,8 +1192,6 @@ class unilityController extends Controller
         $server_output = curl_exec($ch);
 
         curl_close($ch);
-
-
 
         return $server_output;
 
@@ -1310,7 +1292,6 @@ class unilityController extends Controller
 
             $url = config('app.roctech_endpoint') . "?action=prosync&code=$code";
 
-
             try{
                 $data = self::getContent($url);
                     for ($i = 0; $i <= 31; ++$i) {
@@ -1370,9 +1351,9 @@ class unilityController extends Controller
                 Ex_product_stock::create([
                     'product_id'=>$product->product_id,
                     'branch_akl'=>0,
-                    'warning_akl'=>0,
+                    'warning_akl'=>1,
                     'branch_wlg'=>0,
-                    'warning_wlg'=>0,
+                    'warning_wlg'=>1,
                     'supplier'=>0
                 ]);
                 $label = Label::where('code',$product->sku)->first();
@@ -1392,8 +1373,6 @@ class unilityController extends Controller
 //                return $data->model . ' <font color="red">No Name</font>';
             }
         }
-
-
     }
 
     private function checkCodeEx($code)
