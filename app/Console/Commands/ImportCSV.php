@@ -44,7 +44,9 @@ class ImportCSV extends Command
     public function handle()
     {
 
+
         if (!$this->option('readonly')){
+            ini_set('memory_limit', -1);
             Ex_category::find(Product::MORECATORY)->products()->update(['status'=>0]);
             foreach (glob(storage_path('csv').'/*.*') as $file){
                 $csv = CSVReader::loadCSVByFile(last(explode('/', $file)));
