@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\View;
@@ -604,5 +605,12 @@ class CsvController extends Controller
 
             }
         });
+    }
+
+    public function saveCsv(Request $request){
+        Log::info(\GuzzleHttp\json_encode($request->all()));
+//        foreach ($request->allFiles() as $file){
+//            if ($file->)
+//        }
     }
 }

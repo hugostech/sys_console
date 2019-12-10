@@ -9,6 +9,7 @@
 namespace backend;
 
 
+use App\Csv;
 use App\Ex_product;
 use App\Ex_product_csv;
 use App\Jobs\CreateProdcut;
@@ -210,9 +211,54 @@ class CSVReader
             DB::connection('extremepc_mysql')->disableQueryLog();
             Ex_product_csv::insert($data);
             unlink($file.'.processing');
+            $this->recordCsv();
             return true;
         }else{
             return false;
+        }
+    }
+
+    public function read($limit = 5){
+        if (isset($this->id)){
+
+            $this->setProductRaw(Ex_product::whereNotNull('mpn')->pluck('mpn', 'product_id')->all());
+
+            $reader = ReaderEntityFactory::createCSVReader();
+
+            $file = storage_path('csv/'.$this->format[$this->id][1]);
+
+            copy($file, $file.'.reading');
+
+            $reader->open($file.'.reading');
+
+            $data = [];
+            foreach ($reader->getSheetIterator() as $sheet){
+                foreach ($sheet->getRowIterator() as $row){
+                    try{
+                        $rowData = $this->dataTransformer($row->getCells());
+
+                        if ($this->dataVerification($rowData)){
+
+                            $data[] = $rowData;
+                            if ($limit-- <= 0){
+                                break;
+                            }
+
+                        }
+
+
+                    }catch (\Exception $e){
+                        Log::error($e);
+                    }
+                }
+                break;
+            }
+
+            $reader->close();
+            unlink($file.'.reading');
+            return $data;
+        }else{
+            return null;
         }
     }
 
@@ -234,6 +280,10 @@ class CSVReader
 
     private function dataVerification($row){
         if (!is_numeric($row['stock']) || $row['stock'] < 1){
+            return false;
+        }
+
+        if (trim($row['name']) == ''){
             return false;
         }
 
@@ -272,6 +322,13 @@ class CSVReader
                 return ceil($priceTransformed*1.15);
         }
 
+    }
+
+    private function recordCsv(){
+        Csv::where('supplier_code',$this->id)->delete();
+        $csv = new Csv();
+        $csv->supplier_code = $this->id;
+        $csv->save();
     }
 
 }

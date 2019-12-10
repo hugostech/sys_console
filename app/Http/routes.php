@@ -235,6 +235,7 @@ Route::group(['middleware' => ['web']], function () {
  Route::get('csv/import/{productID}/test','CsvController@testPrice');
  Route::get('csv/delSeo','CsvController@delSeo');
  Route::get('csv/selfcheck','CsvController@selfcheck');
+ Route::post('webhooks/email','CsvController@saveCsv');
  Route::get('exproduct/{id}/pricelock','LockPriceController@lockPrice');
  Route::get('exproduct/{id}/priceunlock','LockPriceController@unlockPrice');
  Route::get('category/shade','CategoryController@shade');
