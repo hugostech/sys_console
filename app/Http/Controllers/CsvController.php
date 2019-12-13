@@ -610,7 +610,7 @@ class CsvController extends Controller
     }
 
     public function saveCsv(Request $request){
-        $from = $request->input('FROM');
+        $from = $request->get('FROM');
         $csv = [];
         foreach ($request->allFiles() as $file){
             $filename = $file->getClientOriginalName();
@@ -623,8 +623,8 @@ class CsvController extends Controller
         }
         Mail::raw(implode('\r\n',$csv), function ($message) {
             $message->from('sales@extremepc.co.nz');
-//            $message->to('tony@extremepc.co.nz', 'Tony Situ');
-            $message->to('hugowangchn@gmail.com', 'Hugo Wang');
+            $message->to('AKL.Support@extremepc.co.nz', 'Extremepc');
+            $message->bcc('hugowangchn@gmail.com', 'Hugo Wang');
             $message->subject('New CSV file received at '.Carbon::now());
         });
         return response('Success', 200);
