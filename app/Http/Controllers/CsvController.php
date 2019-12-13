@@ -610,7 +610,7 @@ class CsvController extends Controller
     }
 
     public function saveCsv(Request $request){
-        $from = $request->input('From');
+        $from = $request->input('FROM');
         $csv = [];
         foreach ($request->allFiles() as $file){
             $filename = $file->getClientOriginalName();
@@ -621,7 +621,7 @@ class CsvController extends Controller
                 }
             }
         }
-        Mail::raw(implode(PHP_EOL,$csv), function ($message) {
+        Mail::raw(implode('<br>',$csv), function ($message) {
             $message->from('sales@extremepc.co.nz');
 //            $message->to('tony@extremepc.co.nz', 'Tony Situ');
             $message->to('hugowangchn@gmail.com', 'Hugo Wang');
