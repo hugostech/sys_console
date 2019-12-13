@@ -612,6 +612,9 @@ class CsvController extends Controller
 //        foreach ($request->allFiles() as $file){
 //            if ($file->)
 //        }
+        foreach ($request->allFiles() as $file){
+            Log::info($file->getClientOriginalName());
+        }
         return response('Success', 200);
     }
 }
