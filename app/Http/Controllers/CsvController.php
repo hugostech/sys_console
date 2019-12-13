@@ -617,11 +617,11 @@ class CsvController extends Controller
             foreach (CSVReader::MAPPING as $supplier){
                 if ($filename == $supplier[1]){
                     $file->move(storage_path("csv"), $filename);
-                    $csv[] = "$supplier[0] csv file received, from $from, file name: $filename";
+                    $csv[] = "$supplier[0] csv file received, file name: $filename";
                 }
             }
         }
-        Mail::raw(implode('<br>',$csv), function ($message) {
+        Mail::raw(implode('\r\n',$csv), function ($message) {
             $message->from('sales@extremepc.co.nz');
 //            $message->to('tony@extremepc.co.nz', 'Tony Situ');
             $message->to('hugowangchn@gmail.com', 'Hugo Wang');
