@@ -28,6 +28,95 @@ class CSVReader
 
     private $productRaw;
 
+    const MAPPING = [
+        'pb' => ['PB', "PB Price List_ROS0179.csv", [
+            'model'=>1,
+            'stock'=>3,
+            'price'=>4,
+            'name'=>2,
+            'supplier_code' =>0
+        ]],
+        'im' => ['Ingram micro', "141970.CSV", [
+            'model'=>2,
+            'stock'=>7,
+            'price'=>5,
+            'name'=>1,
+            'supplier_code' =>0
+        ]],
+        'aw'=>['Anywhere', 'AnywareNZ price list  3.csv', [
+            'model'=>6,
+            'stock'=>3,
+            'price'=>4,
+            'name'=>1,
+            'supplier_code' =>0
+        ]],
+        'do'=>['Dove', "dealerpricelist.csv",[
+            'model'=>1,
+            'stock'=>5,
+            'price'=>4,
+            'name'=>2,
+            'supplier_code' =>3
+        ]],
+        'sy'=>['Synnex', 'ROC_synnex_nz.csv', [
+            'model'=>3,
+            'stock'=>11,
+            'price'=>7,
+            'name'=>4,
+            'supplier_code' =>1
+        ]],
+        'cd'=>['Computer Dynamics', 'cdl roctec.csv', [
+            'model'=>1,
+            'stock'=>10,
+            'price'=>8,
+            'name'=>2,
+            'supplier_code' =>0
+        ]],
+        'snap'=>['Snapper Network', "snappernet2.csv", [
+            'model'=>0,
+            'stock'=>9,
+            'price'=>6,
+            'name'=>4,
+            'supplier_code' =>0
+        ]],
+//            'dj'=>['DJI', null, []],
+        'ex'=>['RTEP', "RTEP.csv", [
+            'model'=>1,
+            'stock'=>6,
+            'price'=>3,
+            'name'=>7,
+            'supplier_code' =>0
+        ]],
+        'wc'=>['Westcom', "0001037946.csv", [
+            'model'=>1,
+            'stock'=>8,
+            'price'=>7,
+            'name'=>2,
+            'supplier_code' =>1
+        ]],
+        'gw'=>['Go Wireless NZ', 'pricelist.csv', [
+            'model'=>0,
+            'stock'=>9,
+            'price'=>5,
+            'name'=>3,
+            'supplier_code' =>2
+        ]],
+        'dd'=>['Dicker DATA', "datafeed.csv", [
+            'model'=>0,
+            'stock'=>9,
+            'price'=>8,
+            'name'=>3,
+            'supplier_code' =>0
+        ]],
+        'ts'=>['TechStar', "Item List (Summary).csv"],
+        'ag'=>['Atlas Gentech', '09072019.csv', [
+            'model'=>0,
+            'stock'=>4,
+            'price'=>3,
+            'name'=>2,
+            'supplier_code' =>1
+        ]]
+    ];
+
     /**
      * @param mixed $productRaw
      */
@@ -59,94 +148,7 @@ class CSVReader
     public function __construct()
     {
         // format: ['id'=>['name', 'filename', [mapping info]]]
-        $this->format = [
-            'pb' => ['PB', "PB Price List_ROS0179.csv", [
-                'model'=>1,
-                'stock'=>3,
-                'price'=>4,
-                'name'=>2,
-                'supplier_code' =>0
-            ]],
-            'im' => ['Ingram micro', "141970.CSV", [
-                'model'=>2,
-                'stock'=>7,
-                'price'=>5,
-                'name'=>1,
-                'supplier_code' =>0
-            ]],
-            'aw'=>['Anywhere', 'AnywareNZ price list  3.csv', [
-                'model'=>6,
-                'stock'=>3,
-                'price'=>4,
-                'name'=>1,
-                'supplier_code' =>0
-            ]],
-            'do'=>['Dove', "dealerpricelist.csv",[
-                'model'=>1,
-                'stock'=>5,
-                'price'=>4,
-                'name'=>2,
-                'supplier_code' =>3
-            ]],
-            'sy'=>['Synnex', 'ROC_synnex_nz.csv', [
-                'model'=>3,
-                'stock'=>11,
-                'price'=>7,
-                'name'=>4,
-                'supplier_code' =>1
-            ]],
-            'cd'=>['Computer Dynamics', 'cdl roctec.csv', [
-                'model'=>1,
-                'stock'=>10,
-                'price'=>8,
-                'name'=>2,
-                'supplier_code' =>0
-            ]],
-            'snap'=>['Snapper Network', "snappernet2.csv", [
-                'model'=>0,
-                'stock'=>9,
-                'price'=>6,
-                'name'=>4,
-                'supplier_code' =>0
-            ]],
-//            'dj'=>['DJI', null, []],
-            'ex'=>['RTEP', "RTEP.csv", [
-                'model'=>1,
-                'stock'=>6,
-                'price'=>3,
-                'name'=>7,
-                'supplier_code' =>0
-            ]],
-            'wc'=>['Westcom', "0001037946.csv", [
-                'model'=>1,
-                'stock'=>8,
-                'price'=>7,
-                'name'=>2,
-                'supplier_code' =>1
-            ]],
-            'gw'=>['Go Wireless NZ', 'pricelist.csv', [
-                'model'=>0,
-                'stock'=>9,
-                'price'=>5,
-                'name'=>3,
-                'supplier_code' =>2
-            ]],
-            'dd'=>['Dicker DATA', "datafeed.csv", [
-                'model'=>0,
-                'stock'=>9,
-                'price'=>8,
-                'name'=>3,
-                'supplier_code' =>0
-            ]],
-            'ts'=>['TechStar', "Item List (Summary).csv"],
-            'ag'=>['Atlas Gentech', '09072019.csv', [
-                'model'=>0,
-                'stock'=>4,
-                'price'=>3,
-                'name'=>2,
-                'supplier_code' =>1
-            ]]
-        ];
+        $this->format = self::MAPPING;
     }
 
     public static function loadCSVByFile($fileName){
