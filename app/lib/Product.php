@@ -60,7 +60,8 @@ class Product
                 'subtract' => 1,
                 'sort_order' => 1,
                 'status' => 1,
-                'date_added' => Carbon::now()
+                'date_added' => Carbon::now(),
+                'date_modified' => Carbon::now(),
             ]);
             $name = htmlspecialchars($data['name']);
             $product->description()->create([
