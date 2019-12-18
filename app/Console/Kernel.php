@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\GenerateProductFeed;
 use App\Console\Commands\ImportCSV;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -16,7 +17,8 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         Commands\Inspire::class,
         Commands\SendLuckyDrawEmail::class,
-        ImportCSV::class
+        ImportCSV::class,
+        GenerateProductFeed::class,
     ];
 
     /**

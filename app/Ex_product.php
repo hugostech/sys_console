@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Ex_product extends Model
@@ -18,7 +19,7 @@ class Ex_product extends Model
 
     public function special()
     {
-        return $this->hasOne('App\Ex_speceal', 'product_id');
+        return $this->hasOne('App\Ex_speceal', 'product_id')->where('date_start', '<', Carbon::today())->where('date_end', '>', Carbon::today());
     }
 
     public function categorys(){
@@ -57,5 +58,9 @@ class Ex_product extends Model
         return $this->hasMany(Ex_product_store::class, 'product_id', 'product_id');
     }
 
-   
+    public function brand(){
+        return $this->belongsTo(Ex_product_brand::class, 'manufacturer_id', 'manufacturer_id');
+    }
+
+
 }
