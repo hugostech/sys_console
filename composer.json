@@ -16,7 +16,8 @@
         "laravelcollective/bus": "^5.2",
         "paquettg/php-html-parser": "^1.7",
         "box/spout": "^3.0",
-        "predis/predis": "^1.1"
+        "predis/predis": "^1.1",
+        "hugostech/trademe-laravel": "^1.1"
 
     },
     "require-dev": {
