@@ -75,7 +75,7 @@ Route::get('addWarrantyGuide',function (){
     $category_warrantys = \App\Category_warranty::all();
     $selected = [];
     foreach ($suppliers as $i){
-        $selected[$i->id] = $i->suppliers()->pluck('id')->all();
+        $selected[$i->id] = $i->suppliers()->pluck('category_warranty.id')->all();
     }
     return view('category_warranty',compact('suppliers','category_warrantys','selected'));
 });
