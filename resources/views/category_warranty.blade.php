@@ -131,7 +131,7 @@
         selected = JSON.parse(selected);
         function sysCategory(id){
 
-            $('input[name*="warranty_id"]').val(false);
+            $('input[name*="warranty_id"]').prop('checked', false);
             selected[id].forEach((item, index)=>{
                 var cb = $(`input[name="warranty_id${item}"]`);
                cb.prop('checked', true);
