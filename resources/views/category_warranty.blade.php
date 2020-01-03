@@ -127,10 +127,11 @@
 
 @section('footer')
     <script>
+        var selected = '{!! json_encode($selected) !!}';
+        selected = JSON.parse(selected);
         function sysCategory(id){
 
-            var selected = '{!! json_encode($selected) !!}';
-            selected = JSON.parse(selected);
+            console.log(selected[id]);
             selected[id].forEach((item, index)=>{
                 var cb = $(`input[name="warranty_id${item}"]`);
                 cb.val(cb.prop('checked'));
