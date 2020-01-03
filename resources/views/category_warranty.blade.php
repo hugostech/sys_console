@@ -134,8 +134,7 @@
             $('input[name*="warranty_id"]').val(false);
             selected[id].forEach((item, index)=>{
                 var cb = $(`input[name="warranty_id${item}"]`);
-                console.log(cb.val());
-                cb.val(true);
+               cb.prop('checked', true);
             });
             $('#category_id').val(id);
         }
