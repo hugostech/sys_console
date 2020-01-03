@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bb3fdd6dab0ee6775cc337ace0bc9462",
+    "content-hash": "dafe44ab59b93fb42d76d6431af47b84",
     "packages": [
         {
             "name": "box/spout",
@@ -656,6 +656,53 @@
                 "url"
             ],
             "time": "2019-07-01T23:21:34+00:00"
+        },
+        {
+            "name": "hugostech/trademe-laravel",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hugostech/trademe-laravel.git",
+                "reference": "4157ebd1ef178206ce5da2559bf7869513af143f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hugostech/trademe-laravel/zipball/4157ebd1ef178206ce5da2559bf7869513af143f",
+                "reference": "4157ebd1ef178206ce5da2559bf7869513af143f",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.3",
+                "php": ">=7.0.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Hugostech\\Trademe\\TrademeServiceProvider"
+                    ],
+                    "aliases": {
+                        "Trademe": "Hugostech\\Trademe\\TrademeFacade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Hugostech\\Trademe\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Hugo W",
+                    "email": "hugowangchn@gmail.com"
+                }
+            ],
+            "description": "Trademe APi implement for Laravel",
+            "time": "2019-10-09T04:44:55+00:00"
         },
         {
             "name": "jakub-onderka/php-console-color",

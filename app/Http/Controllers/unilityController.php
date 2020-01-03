@@ -103,7 +103,10 @@ class unilityController extends Controller
         $data = array();
         if ($request->has('code')) {
             $code = trim($request->input('code'));
-            self::addNewProduct($code);
+            if (!$this->checkCodeEx($code)){
+                self::addNewProduct($code);
+            }
+
             $data = self::getData($code);
             $categorys = \GuzzleHttp\json_encode(self::categorysFullPath());
         }
@@ -125,11 +128,23 @@ class unilityController extends Controller
 
     private function getData($code)
     {
-        $url = config('app.roctech_endpoint') . "?action=test&code=$code";
-        $pricedetail = $this->getContent($url);
-        $url = config('app.roctech_endpoint') . "?action=c&code=$code";
-        $des = self::getContent($url);
+        if (is_numeric($code)){
+            $url = config('app.roctech_endpoint') . "?action=test&code=$code";
+            $pricedetail = $this->getContent($url);
+            $url = config('app.roctech_endpoint') . "?action=c&code=$code";
+            $des = self::getContent($url);
+            $url = config('app.roctech_endpoint')  . "?action=sc&code=$code";
+            $supplier_code = self::getContent($url);
+        }else{
+            $pricedetail = '';
+            $des = '';
+            $supplier_code = '';
+        }
+
         $product = Ex_product::where('sku', $code)->first();
+        if (is_null($product)){
+            $product = Ex_product::where('mpn', $code)->first();
+        }
         $viewed = $product->viewed;
         $product_id = $product->product_id;
         $special = 0;
@@ -159,9 +174,6 @@ class unilityController extends Controller
                 }
             }
 
-
-//            $special = isset($special->price) ? $special->price * 1.15 : 0;
-
             $status = $product->status;
 
         } else {
@@ -169,16 +181,12 @@ class unilityController extends Controller
             $extremepc = "Cannot find the product";
         }
 
-        $url = config('app.roctech_endpoint')  . "?action=sc&code=$code";
-        $supplier_code = self::getContent($url);
+
         $averageCost = 0;
         if(str_contains($pricedetail,'Average price inc')){
             $productDetailArray = explode('<br>',$pricedetail);
             $averageCost = str_replace('Average Cost: $','',$productDetailArray[4]);
             $averageCost = str_replace(',','',$averageCost);
-//            $averageCost = floatval($averageCost);
-//            $averageCost = number_format($averageCost, 2, '.', '');
-//            $averageCost = round($averageCost,2);
         }
 
         $killp_price_status = Kill_price_product::where('product_id',$product->product_id)->where('status','y')->first();
@@ -1377,7 +1385,7 @@ class unilityController extends Controller
 
     private function checkCodeEx($code)
     {
-        if (count(Ex_product::where('sku', $code)->get()) > 0) {
+        if (count(Ex_product::where('sku', $code)->orWhere('mpn', $code)->get()) > 0) {
             return true;
         } else {
             return false;
