@@ -132,7 +132,7 @@
             var selected = '{!! json_encode($selected) !!}';
             selected = JSON.parse(selected);
             selected[id].forEach((item, index)=>{
-                cp = $(`input[name="warranty_id${item}"]`);
+                var cp = $(`input[name="warranty_id${item}"]`);
                 cb.val(cb.prop('checked'));
             });
             $('#category_id').val(id);
