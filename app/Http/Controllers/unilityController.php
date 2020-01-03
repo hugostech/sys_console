@@ -817,7 +817,7 @@ class unilityController extends Controller
     {
        
         try{        
-            self::changeOrderStatus();
+           // self::changeOrderStatus();
 
             $result = self::syncQuantity();
             return $result;
@@ -1077,12 +1077,17 @@ class unilityController extends Controller
 
         self::checkEta($roctech_array);
 
-        $total_enable = count(Ex_product::where('status', 1)->get());
-        $total_disable = count(Ex_product::where('status', 0)->get());
+       // $total_enable = count(Ex_product::where('status', 1)->get());
+       // $total_disable = count(Ex_product::where('status', 0)->get());
+
+        $total_enable = 1;
+        $total_disable = 1;
 
         $content = 'Last sync is at' . date(' jS \of F Y h:i:s A');
         return view('self_sync', compact('content', 'unsync', 'disable', 'total_enable', 'total_disable'));
+        
     }
+
 
     private function checkEta($products){
         $etas = Eta::all();
