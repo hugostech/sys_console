@@ -45,7 +45,7 @@ class GenerateProductFeed extends Command
             $data[] = $this->transformer($ex_product);
 
         };
-        file_put_contents(storage_path('csv/extremepc.json'),\GuzzleHttp\json_encode($data));
+        file_put_contents('/image/feed.json',\GuzzleHttp\json_encode($data));
 
     }
 
