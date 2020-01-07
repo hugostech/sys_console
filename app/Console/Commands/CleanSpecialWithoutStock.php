@@ -38,7 +38,7 @@ class CleanSpecialWithoutStock extends Command
      */
     public function handle()
     {
-        $query = Ex_product::where('status',1)->has('special')->where('	price_lock',0)->where('quantity','<=',0);
+        $query = Ex_product::where('status',1)->has('special')->where('price_lock',0)->where('quantity','<=',0);
         $count = $query->count();
         $this->info($count);
         foreach ($query->cursor() as $product){
