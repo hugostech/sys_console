@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\CleanSpecialWithoutStock;
 use App\Console\Commands\GenerateProductFeed;
 use App\Console\Commands\ImportCSV;
 use Illuminate\Console\Scheduling\Schedule;
@@ -19,6 +20,7 @@ class Kernel extends ConsoleKernel
         Commands\SendLuckyDrawEmail::class,
         ImportCSV::class,
         GenerateProductFeed::class,
+        CleanSpecialWithoutStock::class,
     ];
 
     /**
