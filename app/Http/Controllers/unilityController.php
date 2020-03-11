@@ -1217,7 +1217,7 @@ class unilityController extends Controller
             $model = $item->sku;
             $quantity = $item->quantity;
             $name = addslashes($item->name);
-            $price_ex = round($item->price/1.15,4);
+            $price_ex = $item->price;
             $data = compact('order_id', 'model', 'quantity', 'name', 'price_ex', 'data');
             self::sendData($url, $data);
         }
