@@ -151,7 +151,7 @@ class unilityController extends Controller
         $status = 0;
         if (isset($product->price)) {
 
-            $extremepc = $product->price;
+            $extremepc = $product->price * 1.15;
             $extremepc = round($extremepc, 2);
 
 
@@ -164,13 +164,13 @@ class unilityController extends Controller
                     $startdate = Carbon::parse($special->date_start);
                     $now = Carbon::now();
                     if ($now->between($startdate, $enddate)) {
-                        $special = $special->price;
+                        $special = $special->price * 1.15;
                     } else {
                         $special = 0;
                     }
 
                 } else {
-                    $special = $special->price;
+                    $special = $special->price * 1.15;
                 }
             }
 
