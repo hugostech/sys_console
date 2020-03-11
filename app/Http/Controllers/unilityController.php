@@ -234,41 +234,12 @@ class unilityController extends Controller
                 $data = self::getData($request->input('code'));
                 return view('killprice', compact('data','categorys'));
             }
-            $exproduct->setPrice($request->input('price'),true);
+            $exproduct->setPrice($request->input('price'),false);
             if(!empty($request->input('special'))){
-                $exproduct->setSpecial($request->input('special'),true);
+                $exproduct->setSpecial($request->input('special'),false);
             }else{
                 $exproduct->cleanSpecial();
             }
-
-
-//                Ex_speceal::where('product_id', $product->product_id)->delete();
-//            if (empty($request->input('special') * 1.0)) {
-//                if(!empty($product->jan)){
-//                    $product->stock_status_id = $product->jan;
-//                    $product->jan = '';
-//                    $product->save();
-//                }
-//            } else {
-//                $special = new Ex_speceal();
-//                $special->product_id = $product->product_id;
-//                $special->customer_group_id = 1;
-//                $special->priority = 0;
-//                $special->price = $request->input('special') / 1.15;
-//                $special->date_start = "0000-00-00";
-//                if(!empty($request->input('starttime'))){
-//                    $special->date_start = Carbon::parse($request->input('starttime'))->format('Y-m-d');
-//                }
-//                    $special->date_end = "0000-00-00";
-//                if(!empty($request->input('endtime'))){
-//                    $special->date_end = Carbon::parse($request->input('endtime'))->format('Y-m-d');
-//                    $product->jan = $product->stock_status_id;
-//                    $product->stock_status_id = 31;
-//                    $product->save();
-//                }
-//                $special->save();
-//
-//            }
 
             if ($request->has('product_status')) {
                 if ($request->input('product_status') == 'Disable') {
