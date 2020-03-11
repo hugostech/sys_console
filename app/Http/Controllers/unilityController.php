@@ -1307,8 +1307,8 @@ class unilityController extends Controller
                     'quantity' => 0,
                     'stock_status_id' => 9,
                     'shipping' => 1,
-                    'price' => round($data->price*1.15,2),
-                    'tax_class_id' => 0,
+                    'price' => round($data->price,2),
+                    'tax_class_id' => 9,
                     'weight' => $data->weight,
                     'weight_class_id' => 1,
                     'length_class_id' => 1,
@@ -1332,14 +1332,14 @@ class unilityController extends Controller
                 $description->description = str_replace('{!@!}', '"', $data->spec);
                 $description->meta_title = $data->name;
                 $description->save();
-                Ex_product_stock::create([
-                    'product_id'=>$product->product_id,
-                    'branch_akl'=>0,
-                    'warning_akl'=>1,
-                    'branch_wlg'=>0,
-                    'warning_wlg'=>1,
-                    'supplier'=>0
-                ]);
+//                Ex_product_stock::create([
+//                    'product_id'=>$product->product_id,
+//                    'branch_akl'=>0,
+//                    'warning_akl'=>1,
+//                    'branch_wlg'=>0,
+//                    'warning_wlg'=>1,
+//                    'supplier'=>0
+//                ]);
                 $label = Label::where('code',$product->sku)->first();
                 if(is_null($label)){
                     $label = new Label();
