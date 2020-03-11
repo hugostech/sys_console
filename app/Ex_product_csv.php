@@ -8,9 +8,8 @@ class Ex_product_csv extends Model
 {
     protected $connection = 'extremepc_mysql';
     protected $table = 'oc_product_csv';
-    protected $primaryKey = 'product_csv_id';
     public $timestamps = false;
     protected $fillable = array(
-        'supply_code','price','stock','product_id','supplier_code'
+        'supplier_code','price','stock','model','supplier', 'product_id', 'price_to_sell'
     );
 }

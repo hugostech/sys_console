@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Ex_order extends Model
+class Ex_Neworder extends Model
 {
     protected $connection = 'new_extremepc_mysql';
     protected $table = 'oc_order';

@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Ex_order_product extends Model
+class Ex_Neworder_product extends Model
 {
     protected $connection = 'new_extremepc_mysql';
     protected $table = 'oc_order_product';

@@ -138,14 +138,14 @@
                     <td>
                         {!! str_limit($data['price'],2000) !!}<br>
                         Viewed:<label>{{$data['view']}}</label><br>
-                        {{--@if($data['product']->csvs()->count()>0)--}}
-                            {{--<ul class="list-group">--}}
+                        @if($data['product']->csvs()->count()>0)
+                            <ul class="list-group">
 
-                            {{--</ul>--}}
-                            {{--@foreach($data['product']->csvs as $item)--}}
-                                {{--<li class="list-group-item"><span class="badge">{{$item->stock}}</span>{{$item->supply_code}}:${{$item->price}} Code: {{$item->supplier_code}}</li>--}}
-                            {{--@endforeach--}}
-                        {{--@endif--}}
+                            </ul>
+                            @foreach($data['product']->csvs as $item)
+                                <li class="list-group-item"><span class="badge">{{$item->stock}}</span>{{$item->supplier}}:${{$item->price}} Code: {{$item->supplier_code}}</li>
+                            @endforeach
+                        @endif
                     </td>
                 </tr>
 

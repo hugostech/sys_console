@@ -9,6 +9,7 @@ use App\Ex_product;
 use App\Ex_product_csv;
 use App\Ex_product_description;
 use App\Ex_product_store;
+use backend\CSVReader;
 use backend\ExtremepcProduct;
 use Carbon\Carbon;
 use Faker\Provider\File;
@@ -17,6 +18,8 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\View;
@@ -604,5 +607,26 @@ class CsvController extends Controller
 
             }
         });
+    }
+
+    public function saveCsv(Request $request){
+        $from = $request->get('FROM');
+        $csv = [];
+        foreach ($request->allFiles() as $file){
+            $filename = $file->getClientOriginalName();
+            foreach (CSVReader::MAPPING as $supplier){
+                if ($filename == $supplier[1]){
+                    $file->move(storage_path("csv"), $filename);
+                    $csv[] = "$supplier[0] csv file received, file name: $filename";
+                }
+            }
+        }
+        Mail::raw(implode('\r\n',$csv), function ($message) {
+            $message->from('sales@extremepc.co.nz');
+            $message->to('AKL.Support@extremepc.co.nz', 'Extremepc');
+            $message->bcc('hugowangchn@gmail.com', 'Hugo Wang');
+            $message->subject('New CSV file received at '.Carbon::now());
+        });
+        return response('Success', 200);
     }
 }

@@ -103,7 +103,10 @@ class unilityController extends Controller
         $data = array();
         if ($request->has('code')) {
             $code = trim($request->input('code'));
-            self::addNewProduct($code);
+            if (!$this->checkCodeEx($code)){
+                self::addNewProduct($code);
+            }
+
             $data = self::getData($code);
             $categorys = \GuzzleHttp\json_encode(self::categorysFullPath());
         }
@@ -125,11 +128,23 @@ class unilityController extends Controller
 
     private function getData($code)
     {
-        $url = config('app.roctech_endpoint') . "?action=test&code=$code";
-        $pricedetail = $this->getContent($url);
-        $url = config('app.roctech_endpoint') . "?action=c&code=$code";
-        $des = self::getContent($url);
+        if (is_numeric($code)){
+            $url = config('app.roctech_endpoint') . "?action=test&code=$code";
+            $pricedetail = $this->getContent($url);
+            $url = config('app.roctech_endpoint') . "?action=c&code=$code";
+            $des = self::getContent($url);
+            $url = config('app.roctech_endpoint')  . "?action=sc&code=$code";
+            $supplier_code = self::getContent($url);
+        }else{
+            $pricedetail = '';
+            $des = '';
+            $supplier_code = '';
+        }
+
         $product = Ex_product::where('sku', $code)->first();
+        if (is_null($product)){
+            $product = Ex_product::where('mpn', $code)->first();
+        }
         $viewed = $product->viewed;
         $product_id = $product->product_id;
         $special = 0;
@@ -159,9 +174,6 @@ class unilityController extends Controller
                 }
             }
 
-
-//            $special = isset($special->price) ? $special->price * 1.15 : 0;
-
             $status = $product->status;
 
         } else {
@@ -169,16 +181,12 @@ class unilityController extends Controller
             $extremepc = "Cannot find the product";
         }
 
-        $url = config('app.roctech_endpoint')  . "?action=sc&code=$code";
-        $supplier_code = self::getContent($url);
+
         $averageCost = 0;
         if(str_contains($pricedetail,'Average price inc')){
             $productDetailArray = explode('<br>',$pricedetail);
             $averageCost = str_replace('Average Cost: $','',$productDetailArray[4]);
             $averageCost = str_replace(',','',$averageCost);
-//            $averageCost = floatval($averageCost);
-//            $averageCost = number_format($averageCost, 2, '.', '');
-//            $averageCost = round($averageCost,2);
         }
 
         $killp_price_status = Kill_price_product::where('product_id',$product->product_id)->where('status','y')->first();
@@ -775,7 +783,7 @@ class unilityController extends Controller
     }
     /* grab sync qty array end*/
     /*daily sync quantity*/
-
+/*
     public function dailySync()
     {
         Mail::raw('Extremepc Is Sync with Roctech. Status: Running '.Carbon::now(), function ($message) {
@@ -784,7 +792,7 @@ class unilityController extends Controller
             $message->subject('Extremepc Sync Job start running '.Carbon::now());
         });
         try{
-            self::checkOrder();
+            //self::checkOrder();
             self::categoryarrange();
 
 //        self::listnewclient();
@@ -811,6 +819,25 @@ class unilityController extends Controller
         }
 
     }
+*/
+
+    public function dailySync()
+    {
+       
+        try{        
+           // self::changeOrderStatus();
+
+            $result = self::syncQuantity();
+            return $result;
+        }
+        catch (\Exception $e){
+            
+            echo $e->getMessage();
+        }
+     
+
+    }
+
     private function specialCheck(){
         $specials = Ex_speceal::all();
         foreach($specials as $item){
@@ -966,7 +993,7 @@ class unilityController extends Controller
         $content = 'Last sync is at' . date(' jS \of F Y h:i:s A');
         return view('self_sync', compact('content', 'unsync', 'disable', 'total_enable', 'total_disable'));
     }*/
-    public function syncQuantity()
+    /*public function syncQuantity()
     {
         $products = Ex_product::all();
         $roctech_array = self::syncqty();
@@ -990,6 +1017,32 @@ class unilityController extends Controller
                 $unsync[] = $product->model;
             }
 
+        }*/
+
+    /*public function syncQuantity()
+    {
+        $products = Ex_product::all();
+        $roctech_array = self::syncqty();
+        $unsync = array();
+        $disable = array();
+//        dd($roctech_array);
+        foreach ($products as $product) {
+            if (isset($roctech_array[$product->sku])) {
+//               
+                if ($roctech_array[$product->sku][0] == 'True') {
+                    $product->status = 0;
+                    $disable[] = $product->sku;
+                } else {
+                    $product->quantity = $roctech_array[$product->sku][1];
+                    $product->branch_akl = $roctech_array[$product->sku][2];    //EAN used for Auckland stock detail
+                    $product->branch_wlg = $roctech_array[$product->sku][3]; //JAN used for Wellington stock detail
+                    $product->status = 1;
+                }
+                $product->save();
+            } else {
+                $unsync[] = $product->sku;
+            }
+
         }
 
         self::checkEta($roctech_array);
@@ -999,7 +1052,50 @@ class unilityController extends Controller
 
         $content = 'Last sync is at' . date(' jS \of F Y h:i:s A');
         return view('self_sync', compact('content', 'unsync', 'disable', 'total_enable', 'total_disable'));
+    }*/
+
+
+    public function syncQuantity()
+    {
+        $products = Ex_product::all();
+       // $products_stock = Ex_product_stock::all();
+        $roctech_array = self::syncqty();
+        $unsync = array();
+        $disable = array();
+       
+        foreach ($products as $product) {
+            if (isset($roctech_array[$product->sku])) {             
+                if ($roctech_array[$product->sku][0] == 'True') {
+                    $product->status = 0;
+                    $disable[] = $product->sku;
+                } else {
+                    $product->quantity = $roctech_array[$product->sku][1];
+                    $product->status = 1;                   
+
+                    Ex_product_stock::where('product_id', $product->product_id)->update([ 
+                    'branch_akl'=>$roctech_array[$product->sku][2],                    
+                    'branch_wlg'=>$roctech_array[$product->sku][3]
+                ]);                                       
+                }
+                $product->save();
+            } else {
+                $unsync[] = $product->sku;
+            }
+        }
+
+        self::checkEta($roctech_array);
+
+       // $total_enable = count(Ex_product::where('status', 1)->get());
+       // $total_disable = count(Ex_product::where('status', 0)->get());
+
+        $total_enable = 1;
+        $total_disable = 1;
+
+        $content = 'Last sync is at' . date(' jS \of F Y h:i:s A');
+        return view('self_sync', compact('content', 'unsync', 'disable', 'total_enable', 'total_disable'));
+        
     }
+
 
     private function checkEta($products){
         $etas = Eta::all();
@@ -1011,7 +1107,6 @@ class unilityController extends Controller
                     continue;
                 }
             }
-
 
             $date = Carbon::parse($eta->available_time);
             if($date->lte(Carbon::now())){
@@ -1030,12 +1125,10 @@ class unilityController extends Controller
                 $products = Ex_product::where('model',$eta->model)->get();
                 if(count($products)>0){
 
-
                     foreach($products as $product){
                         $product->stock_status_id = $stock_status->stock_status_id;
                         $product->save();
                     }
-
 
                     $eta->available_time = $date;
                     $eta->save();
@@ -1045,13 +1138,8 @@ class unilityController extends Controller
                         $m->bcc('tony@extremepc.co.nz', 'Tony Situ');
                         $m->to('sales@extremepc.co.nz', 'Roctech')->subject('ETA Reminder!');
                     });
-
-
                 }
-
             }
-
-
         }
     }
 
@@ -1066,21 +1154,22 @@ class unilityController extends Controller
         return $content;
     }
 
+
     public function createRoctechOrder($id)
     {
         $clientid = self::addNewClient($id);
+
         if (trim($clientid) == 'Error') {
             $clientid = 0;
         }
 
         $roctech_order_id = self::addOrder($id, $clientid);
-
         if (trim($roctech_order_id) == 'Error') {
             echo 'Error';
             return false;
         }
         self::insertOrderItem($id, $roctech_order_id);
-        return redirect("http://192.168.1.3/admin/olist.aspx?r=&id=$roctech_order_id");
+        return redirect(config('app.roctech_admin')."/olist.aspx?r=&id=$roctech_order_id");
 
 
     }
@@ -1117,8 +1206,6 @@ class unilityController extends Controller
 
         curl_close($ch);
 
-
-
         return $server_output;
 
     }
@@ -1129,22 +1216,20 @@ class unilityController extends Controller
         $url = config('app.roctech_endpoint') . "?action=createorder";
 
         $order = Ex_order::find($id);
-
-
         $phone = $order->telephone;
-        $company = isset($order->shipping_company)?addslashes($order->shipping_company):" ";
-        $address1 = addslashes($order->shipping_address_1);
-        $address2 = addslashes($order->shipping_address_2);
-        $city = addslashes($order->shipping_city) . ' ' . addslashes($order->shipping_zone);
+        $prefix = $order->shipping_address_1?'shipping':'payment';
+        $company = isset($order->{$prefix.'_company'})?addslashes($order->{$prefix.'_company'}):" ";
+        $address1 = addslashes($order->{$prefix.'_address_1'});
+        $address2 = addslashes($order->{$prefix.'_address_2'});
+        $city = addslashes($order->{$prefix.'_city'}) . ' ' . addslashes($order->{$prefix.'_zone'});
         $orderid = '#' . $id;
         $comment = str_replace("'","^",$order->comment);
         $ship_status = $order->shipping_method == 'Free Shipping' ? 1 : 0;
         $ship_fee = $order->shipfee();
-        $ship_postcode = $order->shipping_postcode;
-        $ship_name = addslashes($order->shipping_firstname.' '.$order->shipping_lastname);
+        $ship_postcode = $order->{$prefix.'_postcode'};
+        $ship_name = addslashes($order->{$prefix.'_firstname'}.' '.$order->{$prefix.'_lastname'});
         $data = compact('phone', 'company', 'address1', 'address2', 'city',
-            'orderid', 'ship_status', 'clientId', 'comment','ship_fee','ship_postcode','ship_name');
-//        dd($data);
+           'orderid', 'ship_status', 'clientId', 'comment','ship_fee','ship_postcode','ship_name');
         return self::sendData($url, $data);
     }
 
@@ -1158,10 +1243,10 @@ class unilityController extends Controller
         $order_id = $roctech_id;
         $items = $order->items;
         foreach ($items as $item) {
-            $model = $item->model;
+            $model = $item->sku;
             $quantity = $item->quantity;
             $name = addslashes($item->name);
-            $price_ex = $item->price;
+            $price_ex = round($item->price/1.15,4);
             $data = compact('order_id', 'model', 'quantity', 'name', 'price_ex', 'data');
             self::sendData($url, $data);
         }
@@ -1220,7 +1305,6 @@ class unilityController extends Controller
 
             $url = config('app.roctech_endpoint') . "?action=prosync&code=$code";
 
-
             try{
                 $data = self::getContent($url);
                     for ($i = 0; $i <= 31; ++$i) {
@@ -1261,8 +1345,6 @@ class unilityController extends Controller
                     'sort_order' => 1,
                     'status' => 1,
                     'date_added' => Carbon::now()
-
-
                 );
                 $product = Ex_product::create($tem);
                 self::imageCopy($data->code);
@@ -1282,9 +1364,9 @@ class unilityController extends Controller
                 Ex_product_stock::create([
                     'product_id'=>$product->product_id,
                     'branch_akl'=>0,
-                    'warning_akl'=>0,
+                    'warning_akl'=>1,
                     'branch_wlg'=>0,
-                    'warning_wlg'=>0,
+                    'warning_wlg'=>1,
                     'supplier'=>0
                 ]);
                 $label = Label::where('code',$product->sku)->first();
@@ -1304,13 +1386,11 @@ class unilityController extends Controller
 //                return $data->model . ' <font color="red">No Name</font>';
             }
         }
-
-
     }
 
     private function checkCodeEx($code)
     {
-        if (count(Ex_product::where('sku', $code)->get()) > 0) {
+        if (count(Ex_product::where('sku', $code)->orWhere('mpn', $code)->get()) > 0) {
             return true;
         } else {
             return false;

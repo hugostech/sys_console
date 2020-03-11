@@ -127,7 +127,15 @@
 
 @section('footer')
     <script>
+        var selected = '{!! json_encode($selected) !!}';
+        selected = JSON.parse(selected);
         function sysCategory(id){
+
+            $('input[name*="warranty_id"]').prop('checked', false);
+            selected[id].forEach((item, index)=>{
+                var cb = $(`input[name="warranty_id${item}"]`);
+               cb.prop('checked', true);
+            });
             $('#category_id').val(id);
         }
     </script>

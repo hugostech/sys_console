@@ -91,7 +91,7 @@ return [
     |
     */
 
-    'key' => env('APP_KEY'),
+    'key' => getenv('APP_KEY'),
 
     'cipher' => 'AES-256-CBC',
 
@@ -108,7 +108,7 @@ return [
     |
     */
 
-    'log' => env('APP_LOG', 'single'),
+    'log' => env('APP_LOG', 'daily'),
 
     /*
     |--------------------------------------------------------------------------
@@ -120,7 +120,8 @@ return [
     | this array to grant expanded functionality to your applications.
     |
     */
-    'roctech_endpoint' => 'http://roctech.co.nz/admin/snport.aspx',
+    'roctech_endpoint' => getenv('ROCTECH_REMOTE').'/admin/snport.aspx',
+    'roctech_admin' => getenv('ROCTECH_REMOTE').'/admin',
 
     'providers' => [
 

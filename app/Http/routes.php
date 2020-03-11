@@ -74,9 +74,9 @@ Route::get('addWarrantyGuide',function (){
     $suppliers = \App\Category::all();
     $category_warrantys = \App\Category_warranty::all();
     $selected = [];
-//    foreach ($suppliers as $i){
-//        $selected[$i->id] = $i->suppliers()->pluck('id');
-//    }
+    foreach ($suppliers as $i){
+        $selected[$i->id] = $i->suppliers()->pluck('category_warranty.id')->all();
+    }
     return view('category_warranty',compact('suppliers','category_warrantys','selected'));
 });
 Route::get('delWarrantyGuide/{id}',function ($id){
@@ -134,7 +134,7 @@ Route::get('showauckland','unilityController@showAucklandCustomer');
 Route::get('saveClient','unilityController@addNewClient');
 Route::get('createorder/{id}','unilityController@createRoctechOrder');
 
-Route::get('createneworder/{id}','unilityController@createNewRoctechOrder');
+Route::get('createneworder/{id}','unilityController@createRoctechOrder');
 
 
 Route::get('changeOrderStatus','unilityController@changeOrderStatus');
@@ -235,6 +235,7 @@ Route::group(['middleware' => ['web']], function () {
  Route::get('csv/import/{productID}/test','CsvController@testPrice');
  Route::get('csv/delSeo','CsvController@delSeo');
  Route::get('csv/selfcheck','CsvController@selfcheck');
+ Route::post('webhooks/email','CsvController@saveCsv');
  Route::get('exproduct/{id}/pricelock','LockPriceController@lockPrice');
  Route::get('exproduct/{id}/priceunlock','LockPriceController@unlockPrice');
  Route::get('category/shade','CategoryController@shade');

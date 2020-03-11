@@ -11,6 +11,13 @@ class Ex_product_description extends Model
     protected $table = 'oc_product_description';
     protected $primaryKey = 'product_id';
     public $timestamps = false;
+    protected $fillable = [
+        'product_id',
+        'language_id',
+        'name',
+        'description',
+        'meta_title',
+    ];
 
 
 }

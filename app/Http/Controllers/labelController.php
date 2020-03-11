@@ -23,7 +23,7 @@ class labelController extends Controller
 
         if($request->has('code')){
             $label = Label::where('code',$request->input('code'))->first();
-            $product = Ex_product::where('model',$request->input('code'))->first();
+            $product = Ex_product::where('sku',$request->input('code'))->first();
             $special = Ex_speceal::where('product_id', $product->product_id)->first();
             if(is_null($label)){
                 $ex_description = $product->description;
@@ -31,11 +31,11 @@ class labelController extends Controller
                 $label = new Label();
                 $label->code = $request->input('code');
                 $label->description = $ex_description->name;
-                $label->price = round($product->price*1.15,2);
+                $label->price = $product->price;
                 $label->save();
 
             }else{
-                $label->price = round($product->price*1.15,2);
+                $label->price = $product->price;
 
                 $label->save();
             }
@@ -70,7 +70,7 @@ class labelController extends Controller
         }
 
 
-        $product = Ex_product::where('model',$label->code)->first();
+        $product = Ex_product::where('sku',$label->code)->first();
         $special = Ex_speceal::where('product_id', $product->product_id)->first();
         return view('label.labelTemplate',compact('label','product','special'));
 
@@ -81,7 +81,7 @@ class labelController extends Controller
         $label = Label::find($id);
         $label->prepare2print = 1;
         $label->save();
-        $product = Ex_product::where('model',$label->code)->first();
+        $product = Ex_product::where('sku',$label->code)->first();
         $special = Ex_speceal::where('product_id', $product->product_id)->first();
 
         return view('label.labelTemplate',compact('label','product','special'));
@@ -91,6 +91,7 @@ class labelController extends Controller
 
     public function labelList(){
         $labels = Label::where('prepare2print',1)->paginate(16);
+
 
         if(Input::has('print')){
             if (Input::has('long')){
@@ -119,14 +120,14 @@ class labelController extends Controller
         }
 
 
-        $product = Ex_product::where('model',$label->code)->first();
+        $product = Ex_product::where('sku',$label->code)->first();
         $special = Ex_speceal::where('product_id', $product->product_id)->first();
         return view('label.labelTemplate',compact('label','product','special'));
     }
 
     public function editLabel2($id){
         $label = Label::find($id);
-        $product = Ex_product::where('model',$label->code)->first();
+        $product = Ex_product::where('sku',$label->code)->first();
         $special = Ex_speceal::where('product_id', $product->product_id)->first();
         return view('label.labelTemplate',compact('label','product','special'));
     }
@@ -148,12 +149,12 @@ class labelController extends Controller
         $categorySpecific = Ex_category::find($id);
         $products = $categorySpecific->products()->where('status',1)->where('quantity','>',0)->get();
         foreach ($products as $product){
-            $label = Label::where('code',$product->model)->first();
+            $label = Label::where('code',$product->sku)->first();
             if(!isset($label)){
                 $ex_description = $product->description;
 
                 $label = new Label();
-                $label->code = $product->model;
+                $label->code = $product->sku;
                 $label->description = $ex_description->name;
                 $label->price = round($product->price*1.15,2);
                 $label->prepare2print = 1;

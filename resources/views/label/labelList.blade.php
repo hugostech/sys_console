@@ -19,11 +19,16 @@
                         @if($label->type == 1)
                         {!! $label->description !!}
                         @else
-                            {{--{{dd(json_decode($label->description,true))}}--}}
-                            @foreach(json_decode($label->description,true) as $item)
+                            @php
+                             $desc = json_decode($label->description,true);
+                            @endphp
+                            @if($desc)
+                                @foreach(json_decode($label->description,true) as $item)
                                 {!! $item !!}
-                            @endforeach
-
+                                @endforeach
+                            @else
+                                {!! $label->description !!}
+                            @endif
                         @endif
                     </td>
                     <td>{{$label->price}}</td>
