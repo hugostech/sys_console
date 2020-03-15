@@ -1028,7 +1028,7 @@ class unilityController extends Controller
 
     public function syncQuantity()
     {
-        $products = Ex_product::all();
+        $products = Ex_product::rocLinked()->get();
        // $products_stock = Ex_product_stock::all();
         $roctech_array = self::syncqty();
         $unsync = array();
@@ -1037,18 +1037,21 @@ class unilityController extends Controller
         foreach ($products as $product) {
             if (isset($roctech_array[$product->sku])) {             
                 if ($roctech_array[$product->sku][0] == 'True') {
-                    $product->status = 0;
+                    $product->update([
+                        'status'=>0
+                    ]);
                     $disable[] = $product->sku;
-                } else {
-                    $product->quantity = $roctech_array[$product->sku][1];
-                    $product->status = 1;                   
 
-                    Ex_product_stock::where('product_id', $product->product_id)->update([ 
-                    'branch_akl'=>$roctech_array[$product->sku][2],                    
-                    'branch_wlg'=>$roctech_array[$product->sku][3]
-                ]);                                       
+                } else {
+                    $product->update([
+                        'quantity' => $roctech_array[$product->sku][1],
+                        'status' => 1,
+                        'ean' => $roctech_array[$product->sku][2],
+                        'jan' => $roctech_array[$product->sku][3],
+
+                    ]);
                 }
-                $product->save();
+
             } else {
                 $unsync[] = $product->sku;
             }

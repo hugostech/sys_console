@@ -12,7 +12,8 @@ class Ex_product extends Model
     protected $primaryKey = 'product_id';
     protected $fillable = array(
         'sku', 'quantity', 'stock_status_id', 'shipping', 'price',
-        'tax_class_id', 'weight', 'weight_class_id', 'subtract', 'sort_order', 'status','date_added','mpn', 'model'
+        'tax_class_id', 'weight', 'weight_class_id', 'subtract', 'sort_order',
+        'status','date_added','mpn', 'model', 'ean', 'jan'
     );
     public $timestamps = false;
 
@@ -60,6 +61,10 @@ class Ex_product extends Model
 
     public function brand(){
         return $this->belongsTo(Ex_product_brand::class, 'manufacturer_id', 'manufacturer_id');
+    }
+
+    public function scopeRocLinked($query){
+        $query->whereNotNull('sku');
     }
 
 
