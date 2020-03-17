@@ -61,8 +61,8 @@ class GenerateProductFeed extends Command
             'Condition' => 'New',
             'MPN' => $product->mpn,
             'Shipping' => 5,
-            'Stock status' => ($product->quantity > 0 || $product->stock->supplier>0)?'In stock':'Out of stock',
-            'Availability' => ($product->quantity > 0 || $product->stock->supplier>0)?'available':'Can not be ordered',
+            'Stock status' => $product->quantity > 0?'In stock':'Out of stock',
+            'Availability' => $product->quantity > 0?'available':'Can not be ordered',
         ];
     }
 }
