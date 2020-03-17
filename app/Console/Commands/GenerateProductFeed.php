@@ -40,7 +40,7 @@ class GenerateProductFeed extends Command
     {
         ini_set('memory_limit', -1);
         $data = [];
-        foreach (Ex_product::where('status', 1)->has('description')->has('stock')->cursor() as $ex_product){
+        foreach (Ex_product::where('status', 1)->has('description')->cursor() as $ex_product){
 
             $data[] = $this->transformer($ex_product);
 
@@ -50,13 +50,14 @@ class GenerateProductFeed extends Command
     }
 
     private function transformer(Ex_product $product){
+        $price = $product->special?$product->special->price:$product->price;
         return [
             'Product ID' => $product->product_id,
             'Category' => $product->categorys()->first()?$product->categorys()->first()->description->name:'more',
             'Brand' => $product->brand?$product->brand->name:'',
             'Product name' => $product->description->name,
             'URL' => 'https://www.extremepc.co.nz/index.php?route=product/product&product_id='.$product->product_id,
-            'Price' => $product->special?$product->special->price:$product->price,
+            'Price' => round($price*1.15,2),
             'Condition' => 'New',
             'MPN' => $product->mpn,
             'Shipping' => 5,
