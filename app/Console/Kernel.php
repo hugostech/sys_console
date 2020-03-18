@@ -31,7 +31,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-//        $schedule->command('email:luckydraw')
-//                 ->dailyAt('20:00');
+        //generate product feed for marketing
+        $schedule->command('csv:generate')->dailyAt('07:00');
+        $schedule->command('csv:generate')->dailyAt('19:00');
+
+        //delete product special if product out of stock
+        $schedule->command('special:clear-up')->dailyAt('18:30');
     }
 }
