@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Ex_category;
 use App\Ex_product;
+use App\Ex_product_csv;
 use backend\CSVReader;
 use backend\Product;
 use Illuminate\Console\Command;
@@ -47,7 +48,10 @@ class ImportCSV extends Command
 
         if (!$this->option('readonly')){
             ini_set('memory_limit', -1);
+            // perpare csv import
             Ex_category::find(Product::MORECATORY)->products()->update(['status'=>0]);
+            Ex_product_csv::truncate();
+
             foreach (glob(storage_path('csv').'/*.*') as $file){
                 $csv = CSVReader::loadCSVByFile(last(explode('/', $file)));
                 if ($csv){
@@ -58,7 +62,7 @@ class ImportCSV extends Command
 
             }
 
-            foreach (Ex_product::whereNotNull('mpn')->has('csvs')->has('stock')->cursor() as $ex_product){
+            foreach (Ex_product::whereNotNull('mpn')->where('quantity', '<=', 0)->has('csvs')->cursor() as $ex_product){
                 if ($ex_product->quantity<=0){
                     $data = [
                         'status' => 1,
@@ -68,7 +72,6 @@ class ImportCSV extends Command
                     }
                     $ex_product->update($data);
                 }
-                $ex_product->stock()->update(['supplier'=>$ex_product->csvs()->sum('stock')]);
             };
         }else{
             foreach (glob(storage_path('csv').'/*.*') as $file){

@@ -40,7 +40,7 @@ class CleanSpecialWithoutStock extends Command
     {
         $query = Ex_product::where('status',1)->has('special')->where('price_lock',0)->where('quantity','<=',0);
         foreach ($query->cursor() as $product){
-            $this->info("Process $product->product_id");
+            $this->info("Process $product->sku");
             $product->special()->delete();
         }
     }

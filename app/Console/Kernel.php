@@ -37,5 +37,6 @@ class Kernel extends ConsoleKernel
 
         //delete product special if product out of stock
         $schedule->command('special:clear-up')->dailyAt('18:30');
+
     }
 }

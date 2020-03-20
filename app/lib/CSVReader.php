@@ -166,12 +166,9 @@ class CSVReader
     public function process($leaveCsvCopy=true){
 
         if (isset($this->id)){
-            $this->clearOldRecords();
-
-            ini_set('memory_limit', -1);
+//            $this->clearOldRecords();
 
             $this->setProductRaw(Ex_product::whereNotNull('mpn')->pluck('mpn', 'product_id')->all());
-
 
             $reader = ReaderEntityFactory::createCSVReader();
 
@@ -289,6 +286,10 @@ class CSVReader
             return false;
         }
 
+        if ($row['price']<=0){
+            return false;
+        }
+
         return true;
     }
 
@@ -301,6 +302,7 @@ class CSVReader
             'model' => $rawData['model'],
             'price' => $rawData['price_to_sell'],
             'name' => $rawData['name'],
+            'upc' => $rawData['stock'],
         ];
     }
 
@@ -309,19 +311,17 @@ class CSVReader
         {
             default:
                 if ($price <= 20){
-                    $priceTransformed = ($price+5) * 1.2;
+                    $priceTransformed = $price * 1.25;
                 }elseif ($price <= 100){
                     $priceTransformed = $price * 1.15;
                 }elseif ($price <= 500){
                     $priceTransformed = $price * 1.1;
                 }elseif ($price <= 1000){
                     $priceTransformed = $price * 1.08;
-                }elseif ($price <= 2000){
-                    $priceTransformed = $price * 1.06;
                 }else{
-                    $priceTransformed = $price * 1.05;
+                    $priceTransformed = $price * 1.07;
                 }
-                return ceil($priceTransformed*1.15);
+                return $priceTransformed;
         }
 
     }

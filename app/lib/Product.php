@@ -53,7 +53,7 @@ class Product
                 'stock_status_id' => 9,
                 'shipping' => 1,
                 'price' => isset($data['price'])?round($data['price'],2):0,
-                'tax_class_id' => 0,
+                'tax_class_id' => 9,
                 'weight' => isset($data['weight'])?$data['weight']:0,
                 'weight_class_id' => 1,
                 'length_class_id' => 1,
@@ -62,6 +62,7 @@ class Product
                 'status' => 1,
                 'date_added' => Carbon::now(),
                 'date_modified' => Carbon::now(),
+                'upc' => isset($data['stock'])?$data['stock']:0,
             ]);
             $name = htmlspecialchars($data['name']);
             $product->description()->create([
@@ -69,14 +70,6 @@ class Product
                 'name'=> $name,
                 'description' => $name,
                 'meta_title' => $name
-            ]);
-
-            $product->stock()->create([
-                'branch_akl'=>0,
-                'warning_akl'=>0,
-                'branch_wlg'=>0,
-                'warning_wlg'=>0,
-                'supplier'=>0
             ]);
 
             $product->store()->create([
