@@ -6,6 +6,7 @@ use App\Ex_product;
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
+use Carbon\Carbon;
 
 class DailyStockSync extends Command
 {
