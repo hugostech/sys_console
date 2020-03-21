@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Console\Commands\CleanSpecialWithoutStock;
+use App\Console\Commands\DailyStockSync;
 use App\Console\Commands\GenerateProductFeed;
 use App\Console\Commands\ImportCSV;
 use Illuminate\Console\Scheduling\Schedule;
@@ -21,6 +22,7 @@ class Kernel extends ConsoleKernel
         ImportCSV::class,
         GenerateProductFeed::class,
         CleanSpecialWithoutStock::class,
+        DailyStockSync::class,
     ];
 
     /**
@@ -34,6 +36,9 @@ class Kernel extends ConsoleKernel
         //generate product feed for marketing
         $schedule->command('csv:generate')->dailyAt('07:00');
         $schedule->command('csv:generate')->dailyAt('19:00');
+
+        //daily sync stock
+        $schedule->command('stock:sync')->dailyAt('18:00');
 
         //delete product special if product out of stock
         $schedule->command('special:clear-up')->dailyAt('18:30');
