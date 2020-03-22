@@ -13,7 +13,7 @@ class Ex_product extends Model
     protected $fillable = array(
         'sku', 'quantity', 'stock_status_id', 'shipping', 'price',
         'tax_class_id', 'weight', 'weight_class_id', 'subtract', 'sort_order',
-        'status','date_added','mpn', 'model', 'ean', 'jan'
+        'status','date_added','mpn', 'model', 'ean', 'jan', 'upc'
     );
     public $timestamps = false;
 
