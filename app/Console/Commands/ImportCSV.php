@@ -50,6 +50,7 @@ class ImportCSV extends Command
             ini_set('memory_limit', -1);
             // perpare csv import
             Ex_category::find(Product::MORECATORY)->products()->update(['status'=>0]);
+            Ex_category::all()->update(['upc'=>0]);
             Ex_product_csv::truncate();
 
             foreach (glob(storage_path('csv').'/*.*') as $file){
@@ -66,6 +67,7 @@ class ImportCSV extends Command
                 if ($ex_product->quantity<=0){
                     $data = [
                         'status' => 1,
+                        'upc' => 1,
                     ];
                     if ($ex_product->price_lock==0){
                         $data['price']=$ex_product->csvs()->min('price_to_sell');
