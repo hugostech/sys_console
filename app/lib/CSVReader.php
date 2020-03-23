@@ -321,7 +321,7 @@ class CSVReader
                 }else{
                     $priceTransformed = $price * 1.07;
                 }
-                return $priceTransformed;
+                return round(ceil($priceTransformed*1.15)/1.15, 4);
         }
 
     }
