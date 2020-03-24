@@ -50,7 +50,7 @@ class ImportCSV extends Command
             ini_set('memory_limit', -1);
             // perpare csv import
             Ex_category::find(Product::MORECATORY)->products()->update(['status'=>0]);
-            Ex_category::all()->update(['upc'=>0]);
+            Ex_product::update(['upc'=>0]);
             Ex_product_csv::truncate();
 
             foreach (glob(storage_path('csv').'/*.*') as $file){
