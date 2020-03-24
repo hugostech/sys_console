@@ -63,17 +63,19 @@ class ImportCSV extends Command
 
             }
 
-            foreach (Ex_product::whereNotNull('mpn')->where('quantity', '<=', 0)->has('csvs')->cursor() as $ex_product){
+            foreach (Ex_product::whereNotNull('mpn')->has('csvs')->cursor() as $ex_product){
+                $data = [
+                    'status' => 1,
+                    'upc' => 1,
+                ];
                 if ($ex_product->quantity<=0){
-                    $data = [
-                        'status' => 1,
-                        'upc' => 1,
-                    ];
+
                     if ($ex_product->price_lock==0){
                         $data['price']=$ex_product->csvs()->min('price_to_sell');
                     }
-                    $ex_product->update($data);
+
                 }
+                $ex_product->update($data);
             };
         }else{
             foreach (glob(storage_path('csv').'/*.*') as $file){
