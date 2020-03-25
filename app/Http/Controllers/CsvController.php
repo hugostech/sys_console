@@ -613,11 +613,11 @@ class CsvController extends Controller
         $from = $request->get('FROM');
         $csv = [];
         foreach ($request->allFiles() as $file){
-            $filename = $file->getClientOriginalName();
+            $filename = str_replace(' ','',strtolower($file->getClientOriginalName()));
             Log::info('receive '.$filename);
             foreach (CSVReader::MAPPING as $supplier){
-                if ($filename == $supplier[1]){
-                    $file->move(storage_path("csv"), $filename);
+                if ($filename == str_replace(' ','',strtolower($supplier[1]))){
+                    $file->move(storage_path("csv"), $supplier[1]);
                     $csv[] = "$supplier[0] csv file received, file name: $filename";
                 }
             }

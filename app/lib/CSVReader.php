@@ -36,7 +36,7 @@ class CSVReader
             'name'=>2,
             'supplier_code' =>0
         ]],
-        'im' => ['Ingram micro', "141970.CSV", [
+        'im' => ['Ingram micro', "141970.csv", [
             'model'=>2,
             'stock'=>7,
             'price'=>5,
