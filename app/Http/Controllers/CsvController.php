@@ -614,6 +614,7 @@ class CsvController extends Controller
         $csv = [];
         foreach ($request->allFiles() as $file){
             $filename = $file->getClientOriginalName();
+            Log::info('receive '.$filename);
             foreach (CSVReader::MAPPING as $supplier){
                 if ($filename == $supplier[1]){
                     $file->move(storage_path("csv"), $filename);
