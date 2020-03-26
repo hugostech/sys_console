@@ -1316,7 +1316,7 @@ class unilityController extends Controller
                     'weight_class_id' => 1,
                     'length_class_id' => 1,
                     'subtract' => 1,
-                    'sort_order' => 1,
+                    'sort_order' => 1000,
                     'status' => 1,
                     'date_added' => Carbon::now()
                 );
@@ -1328,7 +1328,7 @@ class unilityController extends Controller
                 $store->product_id = $product->product_id;
                 $store->store_id = 0;
                 $store->save();
-                $description = New Ex_product_description();
+                $description = new Ex_product_description();
                 $description->product_id = $product->product_id;
                 $description->language_id = 1;
                 $description->name = htmlspecialchars(str_replace('{!@!}', '"', $data->name));
