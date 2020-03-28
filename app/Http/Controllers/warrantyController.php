@@ -16,30 +16,30 @@ use App\Http\Controllers\Controller;
 
 class warrantyController extends Controller
 {
-    private $ip;
-    public function __construct()
-    {
-
-        $safeIP = array(
-            '103.250.119.7',
-            '203.97.175.164',
-            '122.59.131.230',
-            '203.96.195.219',
-            '203.173.132.159',
-            '192.168.10.1',
-            '43.225.201.233',
-
-        );
-        $ips = adminLogin::all();
-        foreach($ips as $item){
-            $safeIP[] = $item->ip;
-        }
-        $ip = self::getIP();
-        if(!in_array($ip,$safeIP)){
-            echo view('adminLogin');
-            exit;
-        }
-    }
+//    private $ip;
+//    public function __construct()
+//    {
+//
+//        $safeIP = array(
+//            '103.250.119.7',
+//            '203.97.175.164',
+//            '122.59.131.230',
+//            '203.96.195.219',
+//            '203.173.132.159',
+//            '192.168.10.1',
+//            '43.225.201.233',
+//
+//        );
+//        $ips = adminLogin::all();
+//        foreach($ips as $item){
+//            $safeIP[] = $item->ip;
+//        }
+//        $ip = self::getIP();
+//        if(!in_array($ip,$safeIP)){
+//            echo view('adminLogin');
+//            exit;
+//        }
+//    }
 
     public function store(Request $request)
     {
@@ -339,18 +339,18 @@ class warrantyController extends Controller
     {
         switch ($methodNo) {
             case 1:
-                $url = env('SNPORT') . "?action=a&w=$warrantyId&code=$item_code&sn=$sn&q=$quantity";
+                $url = config('app.roctech_endpoint') . "?action=a&w=$warrantyId&code=$item_code&sn=$sn&q=$quantity";
                 $url = htmlspecialchars_decode($url, ENT_NOQUOTES);
                 self::getContent($url);
                 break;
             case 2:
-                $url = env('SNPORT') . "?action=f&w=$warrantyId";
+                $url = config('app.roctech_endpoint') . "?action=f&w=$warrantyId";
                 $url = htmlspecialchars_decode($url, ENT_NOQUOTES);
                 self::getContent($url);
 
                 break;
             case 3:
-                echo $url = env('SNPORT') . "?action=u&w=$warrantyId&q=$quantity";
+                echo $url = config('app.roctech_endpoint') . "?action=u&w=$warrantyId&q=$quantity";
                 $url = htmlspecialchars_decode($url, ENT_NOQUOTES);
                 self::getContent($url);
                 break;
@@ -368,7 +368,7 @@ class warrantyController extends Controller
 
         $final_sn = strtoupper($final_sn);
 
-        $url = env("SNPORT") . "?action=s&sn=$final_sn";
+        $url = config('app.roctech_endpoint') . "?action=s&sn=$final_sn";
 
         $output = self::getContent($url);
 
@@ -390,7 +390,7 @@ class warrantyController extends Controller
     //get product description by code
     public function getDesc($code)
     {
-        $url = env("SNPORT") . "?action=c&code=$code";
+        $url = config('app.roctech_endpoint') . "?action=c&code=$code";
         $output = self::getContent($url);
         $template = array(
             'desc' => $output
