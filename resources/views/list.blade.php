@@ -44,7 +44,7 @@ td:hover{ background-color: #A4E5DD; }
                     @if(empty($warranty->model_code))
                         <img src="{{url('/broken-image.gif')}}" width="80px" alt="{{$warranty->model_code}}">
                     @else
-                        <img src="{{$ip==env('LOCIALSERVER')?env('IMG').$warranty->model_code.".jpg":env('IMGREMOTE').$warranty->model_code.".jpg"}}" width="80px" alt="{{$warranty->model_code}}">
+                        <img src="{{config('app.roctech_image').$warranty->model_code.".jpg"}}" width="80px" alt="{{$warranty->model_code}}">
                     @endif
                 </td>
                 <td>{{$warranty->model_code }}</td>

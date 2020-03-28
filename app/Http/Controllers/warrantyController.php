@@ -218,11 +218,10 @@ class warrantyController extends Controller
 
     public function listOnGoing()
     {
-        $ip = self::getIP();
         $warrantys = Warranty::where('disable', 'n')->orderBy('id', 'desc')->simplePaginate(30);
         $rates = self::rateData(Warranty::where('disable', 'n')->get());
         $suppliers = self::supplierData(Warranty::where('disable', 'n')->get());
-        return view('list', compact('warrantys', 'rates', 'suppliers','ip'));
+        return view('list', compact('warrantys', 'rates', 'suppliers'));
     }
 
     public function listFinish()

@@ -122,6 +122,7 @@ return [
     */
     'roctech_endpoint' => getenv('ROCTECH_REMOTE').'/admin/snport.aspx',
     'roctech_admin' => getenv('ROCTECH_REMOTE').'/admin',
+    'roctech_image' => getenv('ROCTECH_REMOTE').'/pi/',
 
     'providers' => [
 
