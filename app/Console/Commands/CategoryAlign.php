@@ -38,7 +38,7 @@ class CategoryAlign extends Command
      */
     public function handle()
     {
-        foreach (Ex_category::available()->all() as $category){
+        foreach (Ex_category::where('status',1)->all() as $category){
             if ($category->hasParent()){
                 $products = $category->products()->pluck('oc_product.product_id')->toArray();
                 $parent = $category->parentCategory();
