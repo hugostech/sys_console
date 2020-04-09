@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\CategoryAlign;
 use App\Console\Commands\CleanSpecialWithoutStock;
 use App\Console\Commands\DailyStockSync;
 use App\Console\Commands\GenerateProductFeed;
@@ -23,6 +24,7 @@ class Kernel extends ConsoleKernel
         GenerateProductFeed::class,
         CleanSpecialWithoutStock::class,
         DailyStockSync::class,
+        CategoryAlign::class,
     ];
 
     /**
@@ -43,9 +45,11 @@ class Kernel extends ConsoleKernel
         //delete product special if product out of stock
         $schedule->command('special:clear-up')->dailyAt('18:30');
 
-
         //csv import
-        $schedule->command('csv:read')->dailyAt('01:30');
+        $schedule->command('csv:read')->weekdays()->at('01:30');
+
+        //align products
+        $schedule->command('category:align')->dailyAt('03:30');
 
     }
 }

@@ -26,6 +26,14 @@ class Ex_category extends Model
         return $this->belongsToMany('App\Ex_product','oc_product_to_category','category_id','product_id');
     }
 
+    public function scopeAvailable($query){
+        return $query->where('status', 1);
+    }
+
+    public function hasParent(){
+        return $this->parent_id<>0;
+    }
+
     public function equal(Ex_category $other){
 
        if($this->category_id == $other->category_id){
