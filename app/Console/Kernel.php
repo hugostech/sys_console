@@ -38,6 +38,7 @@ class Kernel extends ConsoleKernel
         //generate product feed for marketing
         $schedule->command('csv:generate')->dailyAt('07:00');
         $schedule->command('csv:generate')->dailyAt('19:00');
+        $schedule->command('csv:generate --pcpicker')->dailyAt('07:20');
 
         //daily sync stock
         $schedule->command('stock:sync')->dailyAt('18:00');
