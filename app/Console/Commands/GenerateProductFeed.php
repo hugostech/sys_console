@@ -12,7 +12,8 @@ class GenerateProductFeed extends Command
      *
      * @var string
      */
-    protected $signature = 'csv:generate';
+    protected $signature = 'csv:generate 
+                            {--pcpicker : pcpartspicker feed}';
 
     /**
      * The console command description.
@@ -40,15 +41,43 @@ class GenerateProductFeed extends Command
     {
         ini_set('memory_limit', -1);
         $data = [];
-        foreach (Ex_product::where('status', 1)->has('description')->cursor() as $ex_product){
 
-            $data[] = $this->transformer($ex_product);
+        if ($this->option('pcpicker')){
+            $query = Ex_product::where('status', 1)->where('quantity', '>', 0)->has('description');
+            $transformer = 'pcPickerTransformer';
+            $feedName = 'pcfeed.json';
+        }else{
+            $query = Ex_product::where('status', 1)->has('description');
+            $transformer = 'transformer';
+            $feedName = 'feed.json';
+        }
+
+        foreach ( $query->cursor() as $ex_product){
+
+            $data[] = $this->{$transformer}($ex_product);
 
         };
-        file_put_contents('/image/feed.json',\GuzzleHttp\json_encode($data));
+        file_put_contents('/image/'.$feedName,\GuzzleHttp\json_encode($data));
 
     }
 
+    private function pcPickerTransformer(Ex_product $product){
+        $price = $product->special?$product->special->price:$product->price;
+        return [
+            'ID' => $product->product_id,
+            'URL' => 'https://www.extremepc.co.nz/index.php?route=product/product&product_id='.$product->product_id,
+            'Price' => round($price*1.15,2),
+            'Brand' => $product->brand?$product->brand->name:'',
+            'GTIN' => '',
+            'MPN' => $product->mpn,
+            'Shipping' => 5,
+            'Availability' => $product->quantity > 0?'available':'Can not be ordered',
+            'Condition' => 'New',
+            'Title' => $product->description->name,
+        ];
+    }
+
+    //transformer for pricespy and priceme
     private function transformer(Ex_product $product){
         $price = $product->special?$product->special->price:$product->price;
         return [
