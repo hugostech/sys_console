@@ -53,6 +53,7 @@ class Kernel extends ConsoleKernel
 
         //align products
         $schedule->command('category:align')->dailyAt('03:30');
+        $schedule->command('feed:google')->dailyAt('02:30');
 
     }
 }
