@@ -5,6 +5,7 @@ namespace App\Console;
 use App\Console\Commands\CategoryAlign;
 use App\Console\Commands\CleanSpecialWithoutStock;
 use App\Console\Commands\DailyStockSync;
+use App\Console\Commands\GenerateGoogleFeed;
 use App\Console\Commands\GenerateProductFeed;
 use App\Console\Commands\ImportCSV;
 use Illuminate\Console\Scheduling\Schedule;
@@ -25,6 +26,7 @@ class Kernel extends ConsoleKernel
         CleanSpecialWithoutStock::class,
         DailyStockSync::class,
         CategoryAlign::class,
+        GenerateGoogleFeed::class,
     ];
 
     /**
@@ -47,7 +49,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('special:clear-up')->dailyAt('18:30');
 
         //csv import
-        $schedule->command('csv:read')->weekdays()->at('01:30');
+        $schedule->command('csv:read')->weekdays()->at('23:30');
 
         //align products
         $schedule->command('category:align')->dailyAt('03:30');
