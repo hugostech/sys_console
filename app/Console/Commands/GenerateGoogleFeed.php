@@ -44,6 +44,7 @@ class GenerateGoogleFeed extends Command
         $query = Ex_product::where('status', 1)->where('quantity', '>', 0)->has('description');
         $writer = WriterEntityFactory::createXLSXWriter();
         $writer->openToFile($fileName);
+        $writer->addRow(['id','title','description','link','image_link','price','availability','brand','gtin', 'MPN','shipping']);
         try{
             foreach ( $query->cursor() as $ex_product){
                 $row = WriterEntityFactory::createRowFromArray($this->transform($ex_product));
