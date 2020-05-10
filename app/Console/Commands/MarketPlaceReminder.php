@@ -73,9 +73,14 @@ class MarketPlaceReminder extends Command
     private function trigger(Ex_order $order){
         switch ($this->option('emailtype')){
             case 'pending-order':
-                $to = [];
+                $to = [$order->email, "$order->firstname $order->lastname", 'ExtremePC Pending Order '.$order->id];
+                $template = 'email.pending_order';
+                $this->send($to, $template, $order);
                 break;
             case 'review-order':
+                $to = [$order->email, "$order->firstname $order->lastname", 'How did we do?'];
+                $template = 'email.review_us';
+                $this->send($to, $template, $order);
                 break;
             default:
                 $this->error('Need email type');
@@ -89,17 +94,18 @@ class MarketPlaceReminder extends Command
      * @param $to array
      * format: ['info@email.com', 'user name', 'subject']
      * @param $template string
+     * @param $order Ex_order
      */
-    private function send($to, $template){
+    private function send($to, $template, Ex_order $order){
         if ($this->option('test')){
             $this->info("send email to $to[1]($to[0]) - $to[0]" );
-            $this->output->block();
+            $this->output->block(view($template, compact('order'))->render());
         }else{
-            Mail::send($template, compact('order'), function ($m) use ($to){
-                $m->from('akl.sales@extremepc.co.nz', 'ExtremePC');
-                $m->bcc('tony@extremepc.co.nz', 'Tony Situ');
-                $m->to($to[0],$to[1])->subject($to[2]);
-            });
+//            Mail::send($template, compact('order'), function ($m) use ($to){
+//                $m->from('akl.sales@extremepc.co.nz', 'ExtremePC');
+//                $m->bcc('tony@extremepc.co.nz', 'Tony Situ');
+//                $m->to($to[0],$to[1])->subject($to[2]);
+//            });
         }
     }
 }
