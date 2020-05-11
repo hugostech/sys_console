@@ -6,6 +6,7 @@ use App\Ex_order;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
+use function foo\func;
 
 class MarketPlaceReminder extends Command
 {
@@ -18,6 +19,7 @@ class MarketPlaceReminder extends Command
                             {order?}
                             {--emailtype= : email type, available: pending-order, review-order}
                             {--limit=-1 : limit email number }
+                            {--offday=3 : offday for review order only }
                             {--test : output email on screen}';
 
     /**
@@ -53,10 +55,11 @@ class MarketPlaceReminder extends Command
 
                     break;
                 case 'review-order':
-                    $query = Ex_order::whereHas('historys', function ($query){
-                        //order completed 3 days ago
-                        $offday = 3;
-                        $from = Carbon::today()->subDays($offday)->endOfDay();
+                    $query = Ex_order::whereHas('status', function ($query){
+                        $query->where('name','Complete');
+                    })->whereHas('historys', function ($query){
+
+                        $from = Carbon::today()->subDays($this->option('offday'))->startOfDay();
                         $to = $from->copy()->endOfDay();
                         $query->completeBetween($from, $to);
                     });
@@ -66,9 +69,13 @@ class MarketPlaceReminder extends Command
                     break;
             }
 
-
-            $bar = $this->output->createProgressBar($query->count());
-            foreach ($query->get() as $order){
+            if ($this->option('limit') == -1){
+                $count = $query->count();
+            }else{
+                $count = $this->option('limit');
+            }
+            $bar = $this->output->createProgressBar($count);
+            foreach ($query->cursor() as $order){
                 $this->info("Order ID $order->order_id");
                 $bar->advance();
             }
