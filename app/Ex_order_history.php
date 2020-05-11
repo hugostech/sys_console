@@ -15,4 +15,8 @@ class Ex_order_history extends Model
     public function order(){
         return $this->belongsTo('App\Ex_order','order_id');
     }
+
+    public function status(){
+        return $this->belongsTo(Ex_order_status::class, 'order_status_id', 'order_status_id');
+    }
 }
