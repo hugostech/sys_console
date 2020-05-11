@@ -623,6 +623,7 @@ class unilityController extends Controller
             "MX150"=>"MX150",
             "MX250"=>"MX250",
             "MX330"=>"MX330",
+            "MX350"=>"MX350",
             "NVIDIA Quadro"=>"NVIDIA Quadro",
             "Radeon R5 M230"=>"Radeon R5 M230",
             "Integrated"=>"Integrated"
