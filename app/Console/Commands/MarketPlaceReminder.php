@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Ex_order;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
 
@@ -52,8 +53,12 @@ class MarketPlaceReminder extends Command
 
                     break;
                 case 'review-order':
-                    $query = Ex_order::whereHas('status', function ($query){
-                        $query->where('name', 'Complete');
+                    $query = Ex_order::whereHas('historys', function ($query){
+                        //order completed 3 days ago
+                        $offday = 3;
+                        $from = Carbon::today()->subDays($offday)->endOfDay();
+                        $to = $from->copy()->endOfDay();
+                        $query->completeBetween($from, $to);
                     });
                     break;
                 default:
@@ -64,6 +69,7 @@ class MarketPlaceReminder extends Command
 
             $bar = $this->output->createProgressBar($query->count());
             foreach ($query->get() as $order){
+                $this->info("Order ID $order->order_id");
                 $bar->advance();
             }
             $bar->finish();

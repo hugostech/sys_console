@@ -19,4 +19,10 @@ class Ex_order_history extends Model
     public function status(){
         return $this->belongsTo(Ex_order_status::class, 'order_status_id', 'order_status_id');
     }
+
+    public function scopeCompleteBetween($query, $from, $to){
+        return $query->whereHas('status', function($query){
+                    $query->where('name','Complete');
+                })->whereBetween('date_added',[$from, $to]);
+    }
 }
