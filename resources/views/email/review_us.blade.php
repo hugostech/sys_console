@@ -46,7 +46,7 @@
     <span class="s1" style="font-size:18px;"><b>ExtremePC Team</b></span>
 </h3>
 <p class="p3">
-    <span class="s2"><span style="font-size:14px;">Email: </span><a href="mailto:sales@roctech.co.nz"><span class="s3" style="font-size:14px;">sales@roctech.co.nz</span></a></span>
+    <span class="s2"><span style="font-size:14px;">Email: </span><a href="mailto:akl.sales@extremepc.co.nz"><span class="s3" style="font-size:14px;">akl.sales@extremepc.co.nz</span></a></span>
 </p>
 <p class="p4">
     <span class="s4" style="font-size:14px;">Phone:&nbsp;</span><span class="s1" style="font-size:14px;">09 849 4888</span>

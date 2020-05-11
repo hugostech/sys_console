@@ -98,14 +98,14 @@ class MarketPlaceReminder extends Command
      */
     private function send($to, $template, Ex_order $order){
         if ($this->option('test')){
-            $this->info("send email to $to[1]($to[0]) - $to[0]" );
+            $this->info("send email to $to[1]($to[0]) - $to[2]" );
             $this->output->block(view($template, compact('order'))->render());
         }else{
-//            Mail::send($template, compact('order'), function ($m) use ($to){
-//                $m->from('akl.sales@extremepc.co.nz', 'ExtremePC');
-//                $m->bcc('tony@extremepc.co.nz', 'Tony Situ');
-//                $m->to($to[0],$to[1])->subject($to[2]);
-//            });
+            Mail::send($template, compact('order'), function ($m) use ($to){
+                $m->from('akl.sales@extremepc.co.nz', 'ExtremePC');
+                $m->bcc('tony@extremepc.co.nz', 'Tony Situ');
+                $m->to($to[0],$to[1])->subject($to[2]);
+            });
         }
     }
 }
