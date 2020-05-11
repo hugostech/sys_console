@@ -73,10 +73,11 @@ class MarketPlaceReminder extends Command
                 $count = $query->count();
             }else{
                 $count = $this->option('limit');
+                $query->limit($this->option('limit'));
             }
             $bar = $this->output->createProgressBar($count);
-            foreach ($query->cursor() as $order){
-                $this->info("Order ID $order->order_id");
+            foreach ($query->get() as $order){
+                $this->trigger($order);
                 $bar->advance();
             }
             $bar->finish();
