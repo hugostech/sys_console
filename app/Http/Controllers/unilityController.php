@@ -1308,7 +1308,7 @@ class unilityController extends Controller
                 $tem = array(
                     'sku' => $data->code,
                     'quantity' => 0,
-                    'stock_status_id' => 9,
+                    'stock_status_id' => 5,
                     'shipping' => 1,
                     'price' => round($data->price,2),
                     'tax_class_id' => 9,
