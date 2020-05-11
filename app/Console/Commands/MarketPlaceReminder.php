@@ -15,7 +15,7 @@ class MarketPlaceReminder extends Command
      * @var string
      */
     protected $signature = 'reminder:marketplace 
-                            {order}
+                            {order?}
                             {--emailtype= : email type, available: pending-order, review-order}
                             {--limit=-1 : limit email number }
                             {--test : output email on screen}';
