@@ -25,4 +25,10 @@ class Ex_order_history extends Model
                     $query->where('name','Complete');
                 })->whereBetween('date_added',[$from, $to]);
     }
+
+    public function scopeStatusBetween($query, $status, $from, $to){
+        return $query->whereHas('status', function($query) use ($status){
+            $query->where('name',$status);
+        })->whereBetween('date_added',[$from, $to]);
+    }
 }

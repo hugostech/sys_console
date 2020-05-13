@@ -17,7 +17,7 @@ class MarketPlaceReminder extends Command
      */
     protected $signature = 'reminder:marketplace 
                             {order?}
-                            {--emailtype= : email type, available: pending-order, review-order}
+                            {--emailtype= : email type, available: pending-order, review-order, pending-order-final}
                             {--limit=-1 : limit email number }
                             {--offday=3 : offday for review order only }
                             {--test : output email on screen}';
@@ -52,16 +52,22 @@ class MarketPlaceReminder extends Command
         }else{
             switch ($this->option('emailtype')){
                 case 'pending-order':
-
+                case 'pending-order-final':
+                    $query = Ex_order::whereHas('status', function ($query){
+                        $query->where('name','Payment Check');
+                    })->whereHas('historys', function ($query){
+                        $from = Carbon::today()->subDays($this->option('offday'))->startOfDay();
+                        $to = $from->copy()->endOfDay();
+                        $query->statusBetween('Payment Check', $from, $to);
+                    });
                     break;
                 case 'review-order':
                     $query = Ex_order::whereHas('status', function ($query){
                         $query->where('name','Complete');
                     })->whereHas('historys', function ($query){
-
                         $from = Carbon::today()->subDays($this->option('offday'))->startOfDay();
                         $to = $from->copy()->endOfDay();
-                        $query->completeBetween($from, $to);
+                        $query->statusBetween('Complete', $from, $to);
                     });
                     break;
                 default:
@@ -87,8 +93,13 @@ class MarketPlaceReminder extends Command
     private function trigger(Ex_order $order){
         switch ($this->option('emailtype')){
             case 'pending-order':
-                $to = [$order->email, "$order->firstname $order->lastname", 'ExtremePC Pending Order '.$order->id];
-                $template = 'email.pending_order';
+                $to = [$order->email, "$order->firstname $order->lastname", 'ExtremePC Order Payment Reminder! #'.$order->id];
+                $template = 'email.payment_check_first';
+                $this->send($to, $template, $order);
+                break;
+            case 'pending-order-final':
+                $to = [$order->email, "$order->firstname $order->lastname", 'ExtremePC Order final Payment Reminder! #'.$order->id];
+                $template = 'email.payment_check_final';
                 $this->send($to, $template, $order);
                 break;
             case 'review-order':
