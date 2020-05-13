@@ -9,35 +9,34 @@
     <br />
 </p>
 <h3>
-    <span class="s1"><b><span style="font-size:18px;">Hello {{$order->firstname}},</span></b><span style="font-size:18px;">&nbsp;</span></span>
+    <span class="s1"><b><span style="font-size:18px;">Kia Ora {{$order->firstname}},</span></b><span style="font-size:18px;">&nbsp;</span></span>
 </h3>
 
 <p class="p1">
     <span class="s1" style="font-size:16px;">&nbsp;</span>
 </p>
 <p class="p1">
-    <span class="s1" style="font-size:16px;">Thank you so much for choosing ExtremePC
-        for your recent purchase. We realize that you have a lot of choices these days so we really appreciate your support.</span>
+    <span class="s1" style="font-size:16px;">Thanks for ordering from ExtremePC.</span>
 </p>
 <p class="p1">
     <span class="s1" style="font-size:16px;">&nbsp;</span>
 </p>
 <p class="p1">
-    <span class="s1" style="font-size:16px;">We'd just like to ensure your order has arrived and you are happy with your purchase.
-        We pride ourselves on happy customers so please let us know if we can be of further assistance or there are additional items we can help you with.</span>
+    <span class="s1" style="font-size:16px;">This is just a follow up from a previous email to let you know that we still haven’t received payment for your order #{{$order->id}}.</span>
 </p>
 <p class="p1">
     <span class="s1" style="font-size:16px;">&nbsp;</span>
 </p>
 <p class="p1">
-    <span class="s1" style="font-size:16px;">We work very hard at what we do and have full-time dispatch staff ensuring you get your item as soon as possible.
-        If you enjoyed your shopping experience with ExtremePC, we'd be delighted if you would share the love and give us a positive <a href="https://promotion.extremepc.co.nz/review/">review</a>, it only takes a few seconds but means a lot to us.&nbsp;</span>
+    <span class="s1" style="font-size:16px;">Until we receive payment for your order, we are unable to guarantee stock.
+        If we haven’t received payment for this order within 24 hours from now, we’ll automatically cancel the order.
+</span>
 </p>
 <p class="p1">
     <span class="s1" style="font-size:16px;">&nbsp;</span>
 </p>
 <p class="p1">
-    <span class="s1" style="font-size:16px;">Please free to contact us for any further questions.</span>
+    <span class="s1" style="font-size:16px;">If you have any queries, please do not hesitate to get in touch. We’re always more than happy to help!</span>
 </p>
 <p class="p1">
     <span class="s1">&nbsp;</span>
