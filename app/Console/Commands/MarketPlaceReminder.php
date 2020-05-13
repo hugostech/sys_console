@@ -124,7 +124,7 @@ class MarketPlaceReminder extends Command
     private function send($to, $template, Ex_order $order){
         if ($this->option('test')){
             $this->info("send email to $to[1]($to[0]) - $to[2]" );
-            $this->output->block(view($template, compact('order'))->render());
+//            $this->output->block(view($template, compact('order'))->render());
         }else{
             Mail::send($template, compact('order'), function ($m) use ($to){
                 $m->from('akl.sales@extremepc.co.nz', 'ExtremePC');
