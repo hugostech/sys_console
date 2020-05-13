@@ -29,7 +29,7 @@ class CSVReader
     private $productRaw;
 
     const MAPPING = [
-        'pb' => ['PB', "PB Price List_ROS0179.csv", [
+        'pb' => ['PB', "PriceList - MICHELLE ZHU.csv", [
             'model'=>1,
             'stock'=>3,
             'price'=>4,
@@ -43,7 +43,7 @@ class CSVReader
             'name'=>1,
             'supplier_code' =>0
         ]],
-        'aw'=>['Anywhere', 'AnywareNZ price list  3.csv', [
+        'aw'=>['Anywhere', 'Anyware  price list 8.csv', [
             'model'=>6,
             'stock'=>3,
             'price'=>4,
