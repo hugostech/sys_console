@@ -22,7 +22,8 @@
     <span class="s1" style="font-size:16px;">&nbsp;</span>
 </p>
 <p class="p1">
-    <span class="s1" style="font-size:16px;">This is just a friendly email to let you know that we still haven’t received payment for your order #{{$order->id}}.</span>
+    <span class="s1" style="font-size:16px;">This is just a friendly email to let you know that we still haven’t received payment(${{round($order->total,2)}})
+        for your order #{{$order->order_id}}.</span>
 </p>
 <p class="p1">
     <span class="s1" style="font-size:16px;">&nbsp;</span>

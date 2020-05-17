@@ -93,12 +93,12 @@ class MarketPlaceReminder extends Command
     private function trigger(Ex_order $order){
         switch ($this->option('emailtype')){
             case 'pending-order':
-                $to = [$order->email, "$order->firstname $order->lastname", 'ExtremePC Order Payment Reminder! #'.$order->id];
+                $to = [$order->email, "$order->firstname $order->lastname", 'ExtremePC Order Payment Reminder! #'.$order->order_id];
                 $template = 'email.payment_check_first';
                 $this->send($to, $template, $order);
                 break;
             case 'pending-order-final':
-                $to = [$order->email, "$order->firstname $order->lastname", 'ExtremePC Order final Payment Reminder! #'.$order->id];
+                $to = [$order->email, "$order->firstname $order->lastname", 'ExtremePC Order final Payment Reminder! #'.$order->order_id];
                 $template = 'email.payment_check_final';
                 $this->send($to, $template, $order);
                 break;
