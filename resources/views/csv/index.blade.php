@@ -45,71 +45,16 @@
                 <div class="page-header">
                     <h3>CSV Import History</h3>
                 </div>
-                {{--{!! Form::open(['url'=>'csv/batchUpload','method'=>'post','files'=>true,'class'=>'form-inline']) !!}--}}
-                {{--<div class="form-group">--}}
-                    {{--{!! Form::file('csvs[]',['multiple']) !!}--}}
+                {!! Form::open(['url'=>'csv/batchUpload','method'=>'post','files'=>true,'class'=>'form-inline']) !!}
+                <div class="form-group">
+                    {!! Form::file('csvs[]',['multiple']) !!}
 
-                {{--</div>--}}
-                {{--<div class="form-group">--}}
-                    {{--{!! Form::submit('Upload',['class'=>'btn btn-primary']) !!}--}}
-                {{--</div>--}}
-                {{--{!! Form::close() !!}--}}
-                {{--<hr>--}}
-                {{--<div class="page-header">--}}
-                    {{--<h3>Single File Upload</h3>--}}
-                {{--</div>--}}
+                </div>
+                <div class="form-group">
+                    {!! Form::submit('Upload CSVs',['class'=>'btn btn-sm btn-primary']) !!}
+                </div>
+                {!! Form::close() !!}
 
-                {{--{!! Form::open(['url'=>'csv/import/run','method'=>'post','files'=>true]) !!}--}}
-                {{--<div class="form-group col-md-4">--}}
-                    {{--<label>Supplier</label>--}}
-                    {{--{!! Form::select('supply_code', $supplier_list, null, ['placeholder' => 'Pick supplier','class'=>'form-control','required']) !!}--}}
-                {{--</div>--}}
-                {{--<div class="form-group col-md-4">--}}
-                    {{--{!! Form::input('file','csv') !!}--}}
-                {{--</div>--}}
-                {{--<div class="form-group col-md-4">--}}
-                    {{--{!! Form::submit('Upload',['class'=>'btn btn-block btn-primary']) !!}--}}
-                {{--</div>--}}
-                {{--{!! Form::close() !!}--}}
-                @if(isset($firstsheet))
-
-                @if(is_array($firstsheet))
-                    <div class="form-group">
-                        <label>First Sheet</label>
-                        <table class="table table-bordered">
-                            <tr>
-                                <th class="text-capitalize">mpn</th>
-                                <th class="text-capitalize">stock</th>
-                                <th class="text-capitalize">price</th>
-                                <th class="text-capitalize">name</th>
-                                <th class="text-capitalize">supplier code</th>
-                            </tr>
-                            <tr>
-                                @foreach($firstsheet as $row)
-                                    <td>{{$row}}</td>
-                                @endforeach
-                            </tr>
-                        </table>
-                        @if(count($firstsheet)>0)
-                        <a href="{{url('csv/import',[$supply_code,'start'])}}" class="btn btn-primary text-capitalize" onclick="run()">Start Import!</a>
-                        <br>
-
-                        <div class="progress sr-only" id="progress_bar">
-                            <div class="progress-bar progress-bar-striped active" role="progressbar"
-                                 aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:40%">
-                                Importing...
-                            </div>
-                        </div>
-                        @endif
-                    </div>
-
-
-                @else
-                    <div class="alert alert-danger">
-                        <strong>Error!</strong> {{$firstsheet}}
-                    </div>
-                @endif
-                @endif
             </div>
             <table class="table table-striped">
                 <thead>
@@ -117,15 +62,25 @@
                     <th>#</th>
                     <th>Supplier</th>
                     <th>Last Import Date</th>
+                    <th>CSV Received?</th>
                 </tr>
                 </thead>
                 <tbody>
                 @foreach($csvRecords as $key=>$item)
+                    @if(isset($supplier_list[$item['supplier_code']]))
                     <tr>
                         <td>{{$key+1}}</td>
-                        <td>{{$supplier_list[$item['supplier_code']]}}</td>
+                        <td>{{$supplier_list[$item['supplier_code']][0]}} <small>[ {{$supplier_list[$item['supplier_code']][1]}} ]</small></td>
                         <td><label class="text-danger">{{$item['updated_at']}}</label></td>
+                        <td>
+                            @if($supplier_list[$item['supplier_code']][2])
+                                <button class="btn btn-xs btn-success">Yes</button>
+                            @else
+                                <button class="btn btn-xs btn-danger">No</button>
+                            @endif
+                        </td>
                     </tr>
+                    @endif
                 @endforeach
 
                 </tbody>

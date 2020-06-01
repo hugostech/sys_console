@@ -36,22 +36,12 @@ class CsvController extends Controller
         $this->category = Ex_category::find(NOCATEGORY);
 
         View::share('csvRecords',Csv::all()->toArray());
-//        View::share('csvRecords',[]);
-        View::share('supplier_list',[
-            'pb' => 'PB', 
-            'im' => 'Ingram micro',
-            'aw'=>'Anywhere',
-            'do'=>'Dove',
-            'sy'=>'Synnex', 
-            'cd'=>'Computer Dynamics',
-            'snap'=>'Snapper Network',
-            'dj'=>'DJI',
-            'ex'=>'RTEP',
-            'wc'=>'Westcom',
-            'gw'=>'Go Wireless NZ',
-            'dd'=>'Dicker DATA',
-            'ts'=>'TechStar',
-            'ag'=>'Atlas Gentech']);
+
+        $supplier_list = array_map(function ($v){
+            return [$v[0], $v[1],file_exists(storage_path("csv")."/$v[1]")];
+        }, CSVReader::MAPPING);
+
+        View::share('supplier_list', $supplier_list);
 
 
         $this->map = array(
@@ -162,27 +152,18 @@ class CsvController extends Controller
     }
 
     public function batchUpload(Request $request){
-        $lists = [
-            "141970.CSV" => "im",
-            "AnywareNZ price list 3.csv" => "aw",
-            "CDL daily Pricefile.csv" => "cd",
-            "snappernet2.csv" => "snap",
-            "dealerpricelist.csv" => "do",
-            "PB Price List_ROS0179.csv" => "pb",
-            "ROC_synnex_nz.csv" => "sy",
-            "RTEP.csv" => "ex",
-            "0001037946.csv"=>"wc",
-            "pricelist.csv"=>"gw",
-            "datafeed.csv"=>"dd",
-            "Item List (Summary).csv"=>"ts",
-            "09072019.csv"=>"ag"
-            
-        ];
+        $lists = array_map(function ($v){
+            return strtolower(str_replace(' ', '',$v[1]));
+        }, CSVReader::MAPPING);
+        $lists = array_flip($lists);
         $uploads = [];
         foreach($request->file('csvs') as $file){
-            if(isset($lists[$file->getClientOriginalName()])){
-                $file->move(storage_path('app/csv'),$lists[$file->getClientOriginalName()].'.csv');
-                $uploads[] = $lists[$file->getClientOriginalName()];
+            $fileName = strtolower(str_replace(' ', '',$file->getClientOriginalName()));
+
+            if(isset($lists[$fileName])){
+
+                $file->move(storage_path('csv'),CSVReader::MAPPING[$lists[$fileName]][1]);
+                $uploads[] = $lists[$fileName];
             }
         }
         $request->session()->flash('success',implode(' | ',$uploads).' '.count($uploads).' csv files upload successfully!');
