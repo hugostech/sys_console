@@ -58,7 +58,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('feed:google')->dailyAt('02:30');
 
         //ask for review
-//        $schedule->command('reminder:marketplace  --emailtype=review-order --offday=5')->dailyAt('11:00');
+        $schedule->command('reminder:marketplace  --emailtype=review-order --offday=5')->dailyAt('11:00');
         $schedule->command('reminder:marketplace  --emailtype=pending-order --offday=3')->dailyAt('11:00');
         $schedule->command('reminder:marketplace  --emailtype=pending-order-final --offday=6')->dailyAt('11:00');
 
