@@ -78,7 +78,7 @@ class CSVReader
             'name'=>4,
             'supplier_code' =>0
         ]],
-        'dj'=>['DJI', null, []],
+        'dj'=>['DJI', 'dji.csv', []],
         'ex'=>['RTEP', "RTEP.csv", [
             'model'=>1,
             'stock'=>6,
