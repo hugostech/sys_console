@@ -14,6 +14,7 @@ class VerifyCsrfToken extends BaseVerifier
     protected $except = [
         'luckyydraw/*',
         'weekendsale/create',
-        'webhooks/email'
+        'webhooks/email',
+        'csv/batchUpload'
     ];
 }
