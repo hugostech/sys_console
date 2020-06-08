@@ -71,7 +71,7 @@ class Ex_product extends Model
     }
 
     public function pushPriceToRoc(){
-        if (empty($this->sku)){
+        if (trim($this->sku)){
             $client = new Client();
             $url = config('app.roctech_admin')."/snyc_price_roc.aspx?pid={$this->sku}&price={$this->price}&sp=".($this->special?$this->special->price:0);
             $res = $client->request('GET', $url);
