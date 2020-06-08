@@ -75,7 +75,7 @@ class Ex_product extends Model
             $client = new Client();
             $url = config('app.roctech_admin')."/snyc_price_roc.aspx?pid={$this->sku}&price={$this->price}&sp=".($this->special?$this->special->price:0);
             $res = $client->request('GET', $url);
-            return \GuzzleHttp\json_decode($res->getBody()->getContents());
+            return $res->getBody()->getContents();
 
         }else{
             return false;
