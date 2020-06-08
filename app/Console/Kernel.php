@@ -9,6 +9,7 @@ use App\Console\Commands\GenerateGoogleFeed;
 use App\Console\Commands\GenerateProductFeed;
 use App\Console\Commands\ImportCSV;
 use App\Console\Commands\MarketPlaceReminder;
+use App\Console\Commands\SyncRocPrice;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -29,6 +30,7 @@ class Kernel extends ConsoleKernel
         CategoryAlign::class,
         GenerateGoogleFeed::class,
         MarketPlaceReminder::class,
+        SyncRocPrice::class,
     ];
 
     /**
