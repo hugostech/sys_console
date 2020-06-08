@@ -55,6 +55,9 @@ class Kernel extends ConsoleKernel
         //csv import
         $schedule->command('csv:read')->weekdays()->at('23:30');
 
+        //update roctech price
+        $schedule->command('price:update')->dailyAt('23:50');
+
         //align products
         $schedule->command('category:align')->dailyAt('03:30');
         $schedule->command('feed:google')->dailyAt('02:30');
@@ -63,6 +66,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('reminder:marketplace  --emailtype=review-order --offday=5')->dailyAt('11:00');
         $schedule->command('reminder:marketplace  --emailtype=pending-order --offday=3')->dailyAt('11:00');
         $schedule->command('reminder:marketplace  --emailtype=pending-order-final --offday=6')->dailyAt('11:00');
+
+
 
     }
 }
