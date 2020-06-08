@@ -3,6 +3,8 @@
 namespace App;
 
 use Carbon\Carbon;
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Request;
 use Illuminate\Database\Eloquent\Model;
 
 class Ex_product extends Model
@@ -39,6 +41,7 @@ class Ex_product extends Model
         return $this->belongsTo('App\Ex_stock_status','stock_status_id');
     }
 
+
     public function images(){
         return $this->hasMany('App\Ex_product_image','product_id');
     }
@@ -65,6 +68,19 @@ class Ex_product extends Model
 
     public function scopeRocLinked($query){
         $query->whereNotNull('sku');
+    }
+
+    public function pushPriceToRoc(){
+        if (empty($this->sku)){
+            $client = new Client();
+            $url = config('app.roctech_admin')."/snyc_price_roc.aspx?pid={$this->sku}&price={$this->price}&sp=".($this->special?$this->special->price:0);
+            $res = $client->request('GET', $url);
+            return \GuzzleHttp\json_decode($res->getBody()->getContents());
+
+        }else{
+            return false;
+        }
+
     }
 
 
