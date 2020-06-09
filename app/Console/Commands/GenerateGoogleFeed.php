@@ -65,6 +65,7 @@ class GenerateGoogleFeed extends Command
             foreach (Ex_product::where('status', 1)->where('quantity', '>', 0)->has('description')->limit(10)->get() as $product){
                 $node = $xml_data->addChild('item');
                 $row = $this->transform($product);
+                array_flip($row);
                 array_walk_recursive($row, array($node, 'addChild'));
             }
             $xml_data->asXML($fileName);
