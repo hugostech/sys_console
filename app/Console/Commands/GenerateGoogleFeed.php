@@ -84,7 +84,6 @@ class GenerateGoogleFeed extends Command
             'price' => round($price*1.15,2). ' NZD',
             'availability' => $product->quantity > 0?'in stock':'out of stock',
             'brand' => $product->brand?$product->brand->name:'',
-            'gtin' => '',
             'MPN' => $product->mpn,
             'shipping' => 5,
         ];
