@@ -62,7 +62,7 @@ class GenerateGoogleFeed extends Command
             $xml_data = new \SimpleXMLElement('<?xml version="1.0"?><channel></channel>');
             $xml_data->addChild('title', 'ExtremePC');
             $xml_data->addChild('link', 'https://www.extremepc.co.nz');
-            foreach (Ex_product::where('status', 1)->where('quantity', '>', 0)->has('description')->cursor() as $product){
+            foreach (Ex_product::where('status', 1)->where('quantity', '>', 0)->has('description')->limit(10)->get() as $product){
                 $node = $xml_data->addChild('item');
                 $row = $this->transform($product);
                 array_walk_recursive($row, array($node, 'addChild'));
