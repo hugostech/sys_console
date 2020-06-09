@@ -14,7 +14,8 @@ class GenerateGoogleFeed extends Command
      *
      * @var string
      */
-    protected $signature = 'feed:google';
+    protected $signature = 'feed:google 
+                            {--type=xml : feed type, xml or xls}';
 
     /**
      * The console command description.
@@ -40,21 +41,35 @@ class GenerateGoogleFeed extends Command
      */
     public function handle()
     {
-        $fileName = '/image/extremepcFeed.xls';
-        $query = Ex_product::where('status', 1)->where('quantity', '>', 0)->has('description');
-        $writer = WriterEntityFactory::createXLSXWriter();
-        $writer->openToFile($fileName);
-        $writer->addRow(WriterEntityFactory::createRowFromArray(['id','title','description','link','image_link','price','availability','brand','gtin', 'MPN','shipping']));
-        try{
-            foreach ( $query->cursor() as $ex_product){
-                $row = WriterEntityFactory::createRowFromArray($this->transform($ex_product));
-                $writer->addRow($row);
-            };
+        if ($this->option('type') == 'xls'){
+            $fileName = '/image/extremepcFeed.xls';
+            $query = Ex_product::where('status', 1)->where('quantity', '>', 0)->has('description');
+            $writer = WriterEntityFactory::createXLSXWriter();
+            $writer->openToFile($fileName);
+            $writer->addRow(WriterEntityFactory::createRowFromArray(['id','title','description','link','image_link','price','availability','brand','gtin', 'MPN','shipping']));
+            try{
+                foreach ( $query->cursor() as $ex_product){
+                    $row = WriterEntityFactory::createRowFromArray($this->transform($ex_product));
+                    $writer->addRow($row);
+                };
 
-        }catch (\Exception $exception){
-            Log::error($exception->getMessage());
+            }catch (\Exception $exception){
+                Log::error($exception->getMessage());
+            }
+            $writer->close();
+        }else{
+            $fileName = '/image/extremepcFeed.xml';
+            $xml_data = new \SimpleXMLElement('<?xml version="1.0"?><channel></channel>');
+            $xml_data->addChild('title', 'ExtremePC');
+            $xml_data->addChild('link', 'https://www.extremepc.co.nz');
+            foreach (Ex_product::where('status', 1)->where('quantity', '>', 0)->has('description')->cursor() as $product){
+                $node = $xml_data->addChild('item');
+                $row = $this->transform($product);
+                array_walk_recursive($row, array($node, 'addChild'));
+            }
+            $xml_data->asXML($fileName);
         }
-        $writer->close();
+
 
     }
 
