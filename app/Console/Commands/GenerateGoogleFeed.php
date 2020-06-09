@@ -77,14 +77,14 @@ class GenerateGoogleFeed extends Command
         $price = $product->special?$product->special->price:$product->price;
         return [
             'id' => $product->product_id,
-            'title' => $product->description->name,
-            'description' => $product->description->name,
-            'link' => 'https://www.extremepc.co.nz/index.php?route=product/product&product_id='.$product->product_id,
-            'image_link' => 'https://www.extremepc.co.nz/image/'.$product->image,
+            'title' => htmlspecialchars($product->description->name),
+            'description' => htmlspecialchars($product->description->name),
+            'link' => htmlspecialchars('https://www.extremepc.co.nz/index.php?route=product/product&product_id='.$product->product_id),
+            'image_link' => htmlspecialchars('https://www.extremepc.co.nz/image/'.$product->image),
             'price' => round($price*1.15,2). ' NZD',
             'availability' => $product->quantity > 0?'in stock':'out of stock',
-            'brand' => $product->brand?$product->brand->name:'',
-            'MPN' => $product->mpn,
+            'brand' => htmlspecialchars($product->brand?$product->brand->name:''),
+            'MPN' => htmlspecialchars($product->mpn),
             'shipping' => 5,
         ];
     }
