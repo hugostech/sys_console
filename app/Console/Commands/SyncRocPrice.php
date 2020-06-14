@@ -38,7 +38,7 @@ class SyncRocPrice extends Command
      */
     public function handle()
     {
-        foreach (Ex_product::whereNotNull('sku')->where('status', 1)->cursor() as $product){
+        foreach (Ex_product::whereNotNull('sku')->where('status', 1)->has('description')->cursor() as $product){
             $product->pushPriceToRoc();
         }
     }
