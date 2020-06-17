@@ -79,7 +79,7 @@ class GenerateGoogleFeed extends Command
         return [
             'id' => $product->product_id,
             'title' => htmlspecialchars($product->description->name),
-            'description' => htmlspecialchars($product->description->name.' '.$price->categorys()->first()->description->name),
+            'description' => htmlspecialchars($product->description->name.' '.$product->categorys()->first()->description->name),
             'link' => htmlspecialchars('https://www.extremepc.co.nz/index.php?route=product/product&product_id='.$product->product_id),
             'g:image_link' => htmlspecialchars('https://www.extremepc.co.nz/image/'.$product->image),
             'g:price' => round($price*1.15,2). ' NZD',
