@@ -59,7 +59,7 @@ class GenerateGoogleFeed extends Command
             $writer->close();
         }else{
             $fileName = '/image/extremepcFeed.xml';
-            $xml_data = new \SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:g="http://base.google.com/ns/1.0"><channel></channel>');
+            $xml_data = new \SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:g="http://base.google.com/ns/1.0"></rss>');
             $xml_data->addChild('title', 'ExtremePC');
             $xml_data->addChild('link', 'https://www.extremepc.co.nz');
             foreach (Ex_product::where('status', 1)->where('quantity', '>', 0)->has('description')->cursor() as $product){
