@@ -7,6 +7,11 @@
                 {{str_replace("%20", " ", $key)}}:<label style="color: red">{{$cat}}</label><br>
             @endforeach
         @endif
+        @if(Session::has('new_product'))
+        <div class="alert alert-success" role="alert">
+            This is a new product!
+        </div>
+        @endif
     </div>
 
     <div class="col-md-12" ng-app="myApp">

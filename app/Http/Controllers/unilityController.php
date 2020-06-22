@@ -34,6 +34,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 use Mockery\CountValidator\Exception;
 use PhpParser\Error;
 
@@ -104,6 +105,7 @@ class unilityController extends Controller
         if ($request->has('code')) {
             $code = trim($request->input('code'));
             if (!$this->checkCodeEx($code)){
+                $request->session()->flash('new_product', true);
                 self::addNewProduct($code);
             }
 
