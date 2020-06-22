@@ -616,7 +616,9 @@ class unilityController extends Controller
             "GTX1070"=>"GTX1070",
             "GTX1080"=>"GTX1080",
             "RTX2060"=>"RTX2060",
+            "RTX2060 SUPER"=>"RTX2060 SUPER",
             "RTX2070"=>"RTX2070",
+            "RTX2070 SUPER"=>"RTX2070 SUPER",
             "RTX2080"=>"RTX2080",
             "MX110"=>"MX110",
             "MX130"=>"MX130",
@@ -663,12 +665,13 @@ class unilityController extends Controller
             "AMD A8"=>'AMD A8',
             "AMD A9"=>'AMD A9',
             "AMD A10"=>'AMD A10',
-            "AMD A12"=>'AMD A12',
-            "AMD R5"=>'AMD R5',
+            "AMD A12"=>'AMD A12',            
             "AMD E1"=>'AMD E1',
             "AMD E2"=>'AMD E2',
+            "AMD Ryzen 3"=>'AMD Ryzen 3',
             "AMD Ryzen 5"=>'AMD Ryzen 5',
-            "AMD Ryzen 7"=>'AMD Ryzen 7'
+            "AMD Ryzen 7"=>'AMD Ryzen 7',
+            "AMD Ryzen 9"=>'AMD Ryzen 9'
         );
         $os = array(
             'Windows 10 home'=>'Windows 10 home',
