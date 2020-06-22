@@ -59,7 +59,7 @@ class GenerateGoogleFeed extends Command
             $writer->close();
         }else{
             $fileName = '/image/extremepcFeed.xml';
-            $xml_data = new \SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:g="http://base.google.com/ns/1.0"></rss>');
+            $xml_data = new \SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:g="http://base.google.com/ns/1.0"><channel></channel></rss>');
             $xml_data->addChild('title', 'ExtremePC');
             $xml_data->addChild('link', 'https://www.extremepc.co.nz');
             foreach (Ex_product::where('status', 1)->where('quantity', '>', 0)->has('description')->cursor() as $product){
@@ -77,16 +77,16 @@ class GenerateGoogleFeed extends Command
     private function transform(Ex_product $product){
         $price = $product->special?$product->special->price:$product->price;
         return [
-            'id' => $product->product_id,
+            'xmlns:g:id' => $product->product_id,
             'title' => htmlspecialchars($product->description->name),
             'description' => htmlspecialchars($product->description->name.' Model:'.$product->sku),
             'link' => htmlspecialchars('https://www.extremepc.co.nz/index.php?route=product/product&product_id='.$product->product_id),
             'xmlns:g:image_link' => htmlspecialchars('https://www.extremepc.co.nz/image/'.$product->image),
             'xmlns:g:price' => round($price*1.15,2). ' NZD',
             'xmlns:g:availability' => $product->quantity > 0?'in stock':'out of stock',
-            'brand' => htmlspecialchars($product->brand?$product->brand->name:''),
-            'MPN' => htmlspecialchars($product->mpn),
-            'shipping' => 5,
+            'xmlns:g:brand' => htmlspecialchars($product->brand?$product->brand->name:''),
+            'xmlns:g:MPN' => htmlspecialchars($product->mpn),
+            'xmlns:g:shipping' => 5,
         ];
     }
 }
