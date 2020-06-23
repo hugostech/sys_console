@@ -7,7 +7,7 @@
                 {{str_replace("%20", " ", $key)}}:<label style="color: red">{{$cat}}</label><br>
             @endforeach
         @endif
-        @if(Session::has('new_product'))
+        @if(\Illuminate\Support\Facades\Session::has('new_product'))
         <div class="alert alert-success" role="alert">
             This is a new product!
         </div>
