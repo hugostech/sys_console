@@ -68,6 +68,9 @@ class GenerateGoogleFeed extends Command
                 $row = $this->transform($product);
                 $row = array_flip($row);
                 array_walk_recursive($row, array($node, 'addChild'));
+                $shipping = $node->addChild('xmlns:g:shipping');
+                $shipping->addChild('xmlns:g:country', 'NZ');
+                $shipping->addChild('xmlns:g:price', '5 NZD');
             }
             $xml_data->asXML($fileName);
         }
@@ -87,7 +90,6 @@ class GenerateGoogleFeed extends Command
             'xmlns:g:availability' => $product->quantity > 0?'in stock':'out of stock',
             'xmlns:g:brand' => htmlspecialchars($product->brand?$product->brand->name:''),
             'xmlns:g:MPN' => htmlspecialchars($product->mpn),
-            'xmlns:g:shipping' => 5,
         ];
     }
 }
