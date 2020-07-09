@@ -114,6 +114,13 @@ class CSVReader
             'price'=>3,
             'name'=>2,
             'supplier_code' =>1
+        ]],
+        'vs'=>['VST (NZ) Ltd', 'extremePC.csv', [
+            'model'=>2,
+            'stock'=>10,
+            'price'=>6,
+            'name'=>4,
+            'supplier_code' =>3
         ]]
     ];
 
