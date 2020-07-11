@@ -15,6 +15,7 @@ class VerifyCsrfToken extends BaseVerifier
         'luckyydraw/*',
         'weekendsale/create',
         'webhooks/email',
-        'csv/batchUpload'
+        'csv/batchUpload',
+        'batchsale/report'
     ];
 }

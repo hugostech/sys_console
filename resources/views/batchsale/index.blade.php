@@ -30,7 +30,7 @@
                 <div class="form-group col-md-2">
                     <label>Margin Rate</label>
                     <div class="input-group">
-                        {!! Form::number('margin_rate',old('margin_rate', null),['class'=>'form-control','required','min'=>0,'max'=>100]) !!}
+                        {!! Form::number('margin_rate',old('margin_rate', null),['class'=>'form-control','required','min'=>-100,'max'=>100]) !!}
                         <span class="input-group-addon">%</span>
                     </div>
                 </div>
