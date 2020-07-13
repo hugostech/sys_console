@@ -50,7 +50,7 @@ class WeekendController extends Controller
     private function findProductData($id){
         $product = ExtremepcProduct::find($id);
         $item = [];
-        $item['model'] = $product->product->model;
+        $item['model'] = $product->product->sku;
         $item['name'] = $product->product->description->name;
         $item['price_current'] = round($product->product->price*1.15,2);
         $item['special_current'] = round($product->getSpecial()*1.15,2);

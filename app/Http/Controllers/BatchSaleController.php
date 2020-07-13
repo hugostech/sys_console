@@ -37,7 +37,7 @@ class BatchSaleController extends Controller
     }
 
     public function updateProduct(ExtremepcProduct $product, $target_percentage, $base_changeable, $margin_rate, $pretty_price, $test=1){
-        if (!is_numeric($product->product->model)){
+        if (!is_numeric($product->product->sku)){
             return;
         }
         $special = $product->getSpecial();
@@ -83,7 +83,7 @@ class BatchSaleController extends Controller
             }
             if ($test == 1){
                 $final = [$base, $special];
-                $model = $product->product->model;
+                $model = $product->product->sku;
                 dd(compact('model','target_percentage','base_changeable','margin_rate','pretty_price','init_base','final'));
             }else{
                 $product->setPrice($base);
@@ -97,7 +97,8 @@ class BatchSaleController extends Controller
 
     private function prettyPirce($price, $pretty){
         if ($pretty == 1){
-            return ceil($price*1.15)/1.15;
+            $real = intval($price*1.15/10)*10+9;
+            return $real/1.15;
         }else{
             return $price;
         }
@@ -109,7 +110,7 @@ class BatchSaleController extends Controller
         $list = [];
         foreach ($products as $id){
             $product = ExtremepcProduct::find($id);
-            $model = $product->product->model;
+            $model = $product->product->sku;
             if (is_numeric($model)){
                 $price = $product->getSpecial();
                 $base = $product->getBasePrice();
@@ -133,7 +134,7 @@ class BatchSaleController extends Controller
         $products = Ex_product::where('quantity','>',0)->pluck('product_id');
         foreach ($products as $id){
             $product = ExtremepcProduct::find($id);
-            if (!is_numeric($product->product->model)) {
+            if (!is_numeric($product->product->sku)) {
                 continue;
             }
             $info = $product->info();

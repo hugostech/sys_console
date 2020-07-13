@@ -118,7 +118,7 @@ class ExtremepcProduct
     "manualcost" => 500.0
      */
     public function info(){
-        $url = env('SNPORT') . "?action=test&code=".$this->product->model;
+        $url = env('SNPORT') . "?action=test&code=".$this->product->sku;
         $res = $this->client->get($url);
         if ($res->getReasonPhrase()=='OK'){
             $content = $res->getBody()->getContents();
@@ -145,11 +145,11 @@ class ExtremepcProduct
 
     public function record(){
         if ($this->recordExists()){
-            throw new \Exception('Product Model: '.$this->product->model.' record exists, please restore first');
+            throw new \Exception('Product Model: '.$this->product->sku.' record exists, please restore first');
         }else{
             ProductRecord::create([
                 'product_id'=>$this->product->product_id,
-                'model'=>$this->product->model,
+                'model'=>$this->product->sku,
                 'price'=>$this->product->price,
                 'special'=>$this->getSpecial(),
                 'lock'=>$this->product->price_lock
