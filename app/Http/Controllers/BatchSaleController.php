@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Ex_product;
+use App\Jobs\SetDiscountRatio;
 use backend\ExtremepcProduct;
 use Illuminate\Http\Request;
 
@@ -22,15 +23,18 @@ class BatchSaleController extends Controller
         $test = $request->get('test');
 
         if ($request->get('with_stock') == 1){
-            $products = Ex_product::where('quantity','>',0)->pluck('product_id');
+            $query = Ex_product::whereNotNull('sku')->where('status',1)->where('quantity','>',0);
         }else{
-            $products = Ex_product::pluck('product_id');
+            $query = Ex_product::whereNotNull('sku')->where('status',1);
         }
-        foreach ($products as $product_id){
-            $product = ExtremepcProduct::find($product_id);
-            $this->updateProduct($product, $target_percentage, $base_changeable, $margin_rate, $pretty_price, $test);
-
+        foreach ($query->cursor() as $product){
+            dispatch(new SetDiscountRatio($product, $target_percentage,$margin_rate,$base_changeable));
         }
+//        foreach ($products as $product_id){
+//            $product = ExtremepcProduct::find($product_id);
+//            $this->updateProduct($product, $target_percentage, $base_changeable, $margin_rate, $pretty_price, $test);
+//
+//        }
         $request->flash();
         $request->session()->flash('status', 'success');
         return view('batchsale.index');
