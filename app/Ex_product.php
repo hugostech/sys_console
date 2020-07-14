@@ -2,6 +2,7 @@
 
 namespace App;
 
+use backend\ExtremepcProduct;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
@@ -81,6 +82,50 @@ class Ex_product extends Model
             return false;
         }
 
+    }
+
+    public function setDiscountRatio($ratio, $margin_rate=0,$base_price_changable=false){
+        $product = ExtremepcProduct::find($this->product_id);
+        $info = $product->info();
+        if (isset($info['averagecost']) && $info['averagecost']>0){
+            $bottom_price = $info['averagecost'] * (1+$margin_rate);
+            $current_base_price = $product->getBasePrice();
+            $current_special_price = $product->getSpecial();
+            $final_base_price =$current_base_price;
+            $expected_special = $current_base_price*(1-$ratio);
+            if ($current_special_price>0){
+                $final_special = $current_special_price<$expected_special?$current_special_price:($bottom_price<$expected_special?$expected_special:$bottom_price);
+            }else{
+                $final_special = $bottom_price<$expected_special?$expected_special:$bottom_price;
+            }
+            $final_special = $this->prettyPrice($final_special, false);
+
+            $tem_ratio = 1-$final_special/$current_base_price;
+            if ($tem_ratio<0){
+                throw new \Exception('special price greater than base price error');
+            }
+
+            if ($tem_ratio<$ratio && $base_price_changable){
+                $final_base_price = $this->prettyPrice($final_special/(1-$ratio));
+            }
+            $product->setPrice($final_base_price, true);
+            $product->setSpecial($final_special, true);
+            return compact('final_special', 'final_base_price');
+
+
+
+        }else{
+            return false;
+        }
+    }
+
+    private function prettyPrice($price, $nineLeaf=true){
+        if ($nineLeaf){
+            $real = intval($price*1.15/10)*10+9;
+        }else{
+            $real = ceil($price*1.15);
+        }
+        return $real/1.15;
     }
 
 
