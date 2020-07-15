@@ -35,6 +35,6 @@ class SetDiscountRatio extends Job implements ShouldQueue
      */
     public function handle()
     {
-        $this->product->setDiscountRatio($this->ratio, $this->margin_rate, $this->base_price_changable);
+        $this->product->setDiscountRatio(0.15, -0.05, true);
     }
 }
