@@ -21,7 +21,7 @@ class BatchSaleController extends Controller
         $margin_rate = $request->get('margin_rate')/100;
         $base_changeable = $request->get('base_changeable');
         $test = $request->get('test');
-
+        dd([$target_percentage, $pretty_price, $margin_rate, $base_changeable]);
         if ($request->get('with_stock') == 1){
             $query = Ex_product::whereNotNull('sku')->where('status',1)->where('quantity','>',0);
         }else{
