@@ -123,7 +123,7 @@ class Ex_product extends Model
         if ($nineLeaf){
             $real = intval($price*1.15/10)*10+9;
         }else{
-            $real = ceil($price*1.15);
+            $real = floor($price*1.15);
         }
         return $real/1.15;
     }
