@@ -554,7 +554,6 @@ class unilityController extends Controller
     }
 
     public function insert_laptop_attribute(Request $request){
-//        dd($request);
         for($i = 3; $i <= 11; $i++){
 
             if(Ex_product_attribute::where('product_id',$request->input('product_id'))->where('attribute_id',$i)->count()>0){
