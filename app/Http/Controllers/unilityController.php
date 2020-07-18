@@ -564,6 +564,7 @@ class unilityController extends Controller
                 $attribute = new Ex_product_attribute();
                 $attribute->product_id = $request->input('product_id');
                 $attribute->attribute_id = $i;
+                $attribute->sku = $request->input('sku');;
                 $attribute->text = $request->input($i);
                 $attribute->language_id = 1;
                 $attribute->save();
