@@ -3,11 +3,12 @@
 @section('mainContent')
     {!! Form::open(['url'=>'laptop_attribute']) !!}
     <input type="hidden" name="product_id" value="{{$id}}">
+    <input type="hidden" name="product_sku" value="{{$product->sku}}">
     <div class="col-md-6 col-md-offset-3">
         <table class="table table-strip">
             <tr>
                 <td>
-                    <p>{{$product->name}}</p>
+                    <p>{{$product->description->name}}</p>
                 </td>
             </tr>
 

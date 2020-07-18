@@ -691,7 +691,8 @@ class unilityController extends Controller
             $attribute = Ex_product_attribute::where('product_id',$id)->where('attribute_id',$i)->first();
             $data[$i] = empty($attribute)?null:$attribute->text;
         }
-        $product = Ex_product_description::where('product_id',$id)->first();
+//        $product = Ex_product_description::where('product_id',$id)->first();
+        $product = Ex_product::find($id);
         return view('laptop',compact('cpus','resolution','graphics_card','id','product','data','os'));
     }
 
