@@ -13,7 +13,7 @@ class Ex_product_attribute extends Model
 
     public function setTextAttribute($value){
         switch ($this->attributes['attribute_id']){
-            case 3:
+
             case 5:
             case 4:
             case 9:
