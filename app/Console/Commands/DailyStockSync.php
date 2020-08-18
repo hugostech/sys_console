@@ -76,6 +76,7 @@ class DailyStockSync extends Command
                         'status' => 1,
                         'ean' => $roctech_array[$product->sku][2],
                         'jan' => $roctech_array[$product->sku][3],
+                        'isbn' => $roctech_array[$product->sku][4],
 
                     ]);
                 }
