@@ -115,7 +115,7 @@ class CSVReader
             'name'=>2,
             'supplier_code' =>1
         ]],
-        'vs'=>['VST (NZ) Ltd', 'extremePC.csv', [
+        'vs'=>['VST (NZ) Ltd', 'Extreme PC.csv', [
             'model'=>2,
             'stock'=>10,
             'price'=>6,
@@ -125,7 +125,8 @@ class CSVReader
     ];
 
     /**
-     * @param mixed $productRaw
+     * @param mixed $productRawdlochrome
+     *
      */
     public function setProductRaw($productRaw)
     {
