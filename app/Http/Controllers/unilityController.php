@@ -133,10 +133,12 @@ class unilityController extends Controller
         if (is_numeric($code)){
             $url = config('app.roctech_endpoint') . "?action=test&code=$code";
             $pricedetail = $this->getContent($url);
-            $url = config('app.roctech_endpoint') . "?action=c&code=$code";
-            $des = self::getContent($url);
-            $url = config('app.roctech_endpoint')  . "?action=sc&code=$code";
-            $supplier_code = self::getContent($url);
+//            $url = config('app.roctech_endpoint') . "?action=c&code=$code";
+//            $des = self::getContent($url);
+//            $url = config('app.roctech_endpoint')  . "?action=sc&code=$code";
+//            $supplier_code = self::getContent($url);
+            $des = '';
+            $supplier_code = '';
         }else{
             $pricedetail = '';
             $des = '';
@@ -197,7 +199,7 @@ class unilityController extends Controller
             'code' => $code,
             'price' => $pricedetail,
             'special' => round($special, 2),
-            'des' => $des,
+            'des' => $product->description->name,
             'extremepcprice' => $extremepc,
             'supplier_code' => $supplier_code,
             'status' => $status,
