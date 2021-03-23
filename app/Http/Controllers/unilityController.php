@@ -112,6 +112,7 @@ class unilityController extends Controller
             $data = self::getData($code);
             $categorys = \GuzzleHttp\json_encode(self::categorysFullPath());
         }
+        dd($data);
 
         return view('killprice', compact('data','categorys'));
     }
