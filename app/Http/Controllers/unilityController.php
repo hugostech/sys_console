@@ -108,6 +108,7 @@ class unilityController extends Controller
                 $request->session()->flash('new_product', true);
                 self::addNewProduct($code);
             }
+            dd($code);
 
             $data = self::getData($code);
             $categorys = \GuzzleHttp\json_encode(self::categorysFullPath());
