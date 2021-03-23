@@ -108,9 +108,9 @@ class unilityController extends Controller
                 $request->session()->flash('new_product', true);
                 self::addNewProduct($code);
             }
-            dd($code);
 
             $data = self::getData($code);
+            dd($data);
             $categorys = \GuzzleHttp\json_encode(self::categorysFullPath());
         }
         dd($data);
