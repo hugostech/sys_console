@@ -612,9 +612,11 @@ class unilityController extends Controller
             "GTX940M"=>"GTX940M",*/
             "GTX1050"=>"GTX1050",
             "GTX1050Ti"=>"GTX1050Ti",
-            "GTX1060"=>"GTX1060",
-            "GTX1660Ti"=>"GTX1660Ti",
+            "GTX1060"=>"GTX1060",            
             "GTX1650"=>"GTX1650",
+            "GTX1650Ti "=>"GTX1650Ti ",
+            "GTX1660"=>"GTX1660",
+            "GTX1660Ti"=>"GTX1660Ti",
             "GTX1070"=>"GTX1070",
             "GTX1080"=>"GTX1080",
             "RTX2060"=>"RTX2060",
@@ -622,6 +624,12 @@ class unilityController extends Controller
             "RTX2070"=>"RTX2070",
             "RTX2070 SUPER"=>"RTX2070 SUPER",
             "RTX2080"=>"RTX2080",
+            "RTX3050"=>"RTX3050",
+            "RTX3060"=>"RTX3060",
+            "RTX3060 Ti"=>"RTX3060 Ti",
+            "RTX3070"=>"RTX3070", 
+            "RTX3080"=>"RTX3080", 
+            "RTX3090"=>"RTX3090", 
             "MX110"=>"MX110",
             "MX130"=>"MX130",
             "MX150"=>"MX150",
@@ -630,6 +638,7 @@ class unilityController extends Controller
             "MX350"=>"MX350",
             "NVIDIA Quadro"=>"NVIDIA Quadro",
             "Radeon R5 M230"=>"Radeon R5 M230",
+            "AMD Radeon Pro 5500M"=>"AMD Radeon Pro 5500M",
             "Integrated"=>"Integrated"
         );
         $resolution = array(
@@ -649,6 +658,7 @@ class unilityController extends Controller
             "2880 X 1800"=>"2880 X 1800",
             "3000 X 2000"=>"3000 X 2000",
             "3200 X 1800"=>"3200 X 1800",
+            "3240 X 2160"=>"3240 X 2160",
             "3840 X 2160"=>"3840 X 2160"
         );
 
@@ -1056,7 +1066,8 @@ class unilityController extends Controller
                         'status' => 1,
                         'ean' => $roctech_array[$product->sku][2],
                         'jan' => $roctech_array[$product->sku][3],
-
+                        'lc_stock' => $roctech_array[$product->sku][4],
+                        'avg_cost' => $roctech_array[$product->sku][5],
                     ]);
                 }
 
@@ -1730,7 +1741,7 @@ class unilityController extends Controller
     private function dataFactory($type, $data)
     {
         $variableGroup = array(
-            'product' => array('model', 'sku', 'upc', 'ean', 'jan', 'isbn',
+            'product' => array('model', 'sku', 'upc', 'ean', 'jan', 'isbn','lc_stock', 'avg_cost',
                 'mpn', 'location', 'quantity', 'stock_status_id', 'image', 'manufacturer_id',
                 'shipping', 'price', 'points', 'tax_class_id', 'date_available', 'weight',
                 'weight_class_id', 'length', 'width', 'height', 'length_class_id', 'subtract',

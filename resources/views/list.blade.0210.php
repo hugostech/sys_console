@@ -8,7 +8,7 @@ td:hover{ background-color: #A4E5DD; }
 </style>
 
 
-        {{--<a href="/warranty"><button type="button" class="btn btn-default">New Warranty</button> </a>--}}
+            {{--<a href="/warranty"><button type="button" class="btn btn-default">New Warranty</button> </a>--}}
 
         {{--<div class="col-md-4 col-md-offset-8">--}}
             {{--{!! Form::open(['url'=>'/list','method'=>'put']) !!}--}}
@@ -28,12 +28,11 @@ td:hover{ background-color: #A4E5DD; }
             <th class="col-sm-1">#</th>
             <th class="col-sm-1"></th>
             <th class="col-sm-1">Code</th>
-            <th class="col-sm-1">Branch</th>
             <th class="col-sm-1">Client</th>
             <th class="col-sm-1">Operator</th>
             <th class="col-sm-1">Date</th>
             <th class="col-sm-1">Ref</th>
-            <th class="col-sm-2">Model detail</th>
+            <th class="col-sm-3">Model detail</th>
             <th class="col-sm-3">Status</th>
         </tr>
         @foreach($warrantys as $warranty)
@@ -49,7 +48,6 @@ td:hover{ background-color: #A4E5DD; }
                     @endif
                 </td>
                 <td>{{$warranty->model_code }}</td>
-                <td>{{$warranty->branch }}</td>
                 <td>{{$warranty->client_name }}</td>
                 <td>{{$warranty->staff }}</td>
 

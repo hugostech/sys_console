@@ -77,13 +77,20 @@
                         <label for="staff">Staff</label>
                         <select class="form-control" name="staff" id="staff">
                             <option value="kelvin">Kelvin</option>
-                            <option value="david">David</option>
+                            <option selected value="david">David</option>
                             <option value="piero">Piero</option>
                             <option value="tony">Tony</option>
-                            <option value="garry">Garry</option>
-                            <option selected value="Jack">Jack</option>
-                            <option value="james">James</option>
+                            <option value="garry">Garry</option>                            
                             <option value="John">John</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="branch">Branch</label>
+                        <select class="form-control" name="branch" id="branch">
+                            <option selected value="Auckland">Auckland</option>
+                            <option value="Wellington">Wellington</option>
+                            <option value="Logistic Centre">Logistic Centre</option>                           
                         </select>
                     </div>
                     {{--<input type="checkbox" onselect="selfStorage()" value="Roc">--}}

@@ -32,13 +32,16 @@
                         {!! Form::text('quantity',Null,['class'=>'form-control','placeholder'=>'quantity']) !!}
                     </div>
                     <div class="form-group">
-
                         {!! Form::label('staff','Operator') !!}
                         {!! Form::text('staff',null,['class'=>'form-control']) !!}
                     </div>
+                     <div class="form-group">
+                       <label for="branch" >Branch</label>
+                        {!! Form::text('branch',null, ['class'=>'form-control']) !!}
+                    </div>
                     <div class="form-group">
-                        <label for="supplier" class="sr-only">Supplier</label>
-
+                        <label for="supplier" >Supplier</label>
+                       
                         {!! Form::select('supplier_id', $suppliers, null, ['placeholder' => 'Pick a Suppiler...','class'=>'form-control']) !!}
                     </div>
                         <label>Status:&nbsp;&nbsp;&nbsp; <strong style="color:red;font-size: 18px">{{end($item['status'])->status_content}}</strong></label>

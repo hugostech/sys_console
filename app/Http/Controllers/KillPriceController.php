@@ -537,7 +537,8 @@ class KillPriceController extends Controller
     }
 
     public function testIf(){
-        $url = 'https://pricespy.co.nz/product.php?p=4903177';
+        //$url = 'https://pricespy.co.nz/product.php?p=4903177';https://www.priceme.co.nz/search.aspx?q=MAX-F12A-3
+        $url = 'https://www.priceme.co.nz/search.aspx?q=MAX-F12A-3';
         $client = new Client();
         $response = $client->get($url);
         if ($response->getStatusCode()==200){

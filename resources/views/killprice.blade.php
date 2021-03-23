@@ -162,7 +162,7 @@
 
                 <tr>
                     <td colspan="4">
-                        <iframe id="if_pricespy" src="https://pricespy.co.nz/search?search={{urlencode(substr($data['des'],0,25)) }}" width="100%"
+                        <iframe id="if_pricespy" src="https://www.priceme.co.nz/search.aspx?q={{urlencode(substr($data['des'],0,25)) }}" width="100%"
                                 height="600px;" frameborder="0"></iframe>
 
                     </td>

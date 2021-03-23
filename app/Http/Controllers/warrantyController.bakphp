@@ -53,7 +53,6 @@ class warrantyController extends Controller
         self::submitStatus(1, $warranty->id);
         if ($request->has('storage')) {
             $warranty->client_name = "roctech";
-            $warranty->branch = $request->branch;
             $warranty->save();
             if ($request->has('sn')) {
                 $sn = $request->input('sn');
@@ -63,8 +62,7 @@ class warrantyController extends Controller
 
             if ($request->has('model_code')) {
 
-                //self::connectSnport(1, $warranty->id, trim($request->input('model_code')), $sn, $request->input('quantity'));
-                self::connectSnport(1, $warranty->id, trim($request->input('model_code')), $sn, $request->input('quantity'),$request->input('branch'));
+                self::connectSnport(1, $warranty->id, trim($request->input('model_code')), $sn, $request->input('quantity'));
             }
 
         }
@@ -155,19 +153,16 @@ class warrantyController extends Controller
         $warranty = Warranty::find($id);
         $content = "Finish Warranty";
         self::submitNote($warranty->id, $content);
-        self::submitStatus(5, $warranty->id);       
+        self::submitStatus(5, $warranty->id);
         $warranty->disable = 'y';
         $warranty->save();
         if ($warranty->storage == 'y') {
             if (!empty($warranty->model_code)) {
-                //self::connectSnport(2, $warranty->id);
-                self::connectSnport(2, $warranty->id, $warranty->model_code, '', $warranty->quantity, $warranty->branch);
+                self::connectSnport(2, $warranty->id);
             }
         }
         return redirect('list');
     }
-
-    
 
 
     /*
@@ -190,7 +185,7 @@ class warrantyController extends Controller
 //        var_dump($request->input("quantity") != $warranty->quantity);
         if ($request->input("quantity") != $warranty->quantity) {
 //        var_dump($request->input("quantity") != $warranty->quantity);
-            self::connectSnport(4, $warranty->id, $warranty->model_code, "", $request->input("quantity"), $request->input("branch"));
+            self::connectSnport(3, $warranty->id, $warranty->model_code, "", $request->input("quantity"));
         }
         $warranty->update($request->all());
 
@@ -339,16 +334,16 @@ class warrantyController extends Controller
      *          $sn: optional serial number
      * */
 
-    private function connectSnport($methodNo, $warrantyId, $item_code = "", $sn = '', $quantity = 1, $branch)
+    private function connectSnport($methodNo, $warrantyId, $item_code = "", $sn = '', $quantity = 1)
     {
         switch ($methodNo) {
             case 1:
-                echo $url = config('app.roctech_endpoint') . "?action=a&w=$warrantyId&code=$item_code&sn=$sn&q=$quantity&b=$branch";
+                $url = config('app.roctech_endpoint') . "?action=a&w=$warrantyId&code=$item_code&sn=$sn&q=$quantity";
                 $url = htmlspecialchars_decode($url, ENT_NOQUOTES);
                 self::getContent($url);
                 break;
             case 2:
-                echo $url = config('app.roctech_endpoint') . "?action=f&w=$warrantyId&code=$item_code&q=$quantity&b=$branch";
+                $url = config('app.roctech_endpoint') . "?action=f&w=$warrantyId";
                 $url = htmlspecialchars_decode($url, ENT_NOQUOTES);
                 self::getContent($url);
 
@@ -358,12 +353,6 @@ class warrantyController extends Controller
                 $url = htmlspecialchars_decode($url, ENT_NOQUOTES);
                 self::getContent($url);
                 break;
-            case 4:
-                echo $url = config('app.roctech_endpoint') . "?action=u&w=$warrantyId&code=$item_code&q=$quantity&b=$branch";
-                $url = htmlspecialchars_decode($url, ENT_NOQUOTES);
-                self::getContent($url);
-                break;
-
             default:
                 break;
         }

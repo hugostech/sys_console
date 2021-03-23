@@ -9,7 +9,7 @@ class Warranty extends Model
     protected $table = 'warrantys';
 
     protected $fillable = array(
-        'model_name','model_code','staff','client_name','client_phone','supplier_id','sn','storage','quantity'
+        'model_name','model_code','staff','client_name','client_phone','supplier_id','sn','storage','quantity','branch'
     );
 
     public function delivery(){
