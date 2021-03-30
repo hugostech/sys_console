@@ -103,7 +103,7 @@ class MarketPlaceReminder extends Command
                 $this->send($to, $template, $order);
                 break;
             case 'review-order':
-                $to = [$order->email, "$order->firstname $order->lastname", 'How did we do?'];
+                $to = [$order->email, "$order->firstname $order->lastname", 'How did we do? Order #'.$order->order_id];
                 $template = 'email.review_us';
                 $this->send($to, $template, $order);
                 break;
